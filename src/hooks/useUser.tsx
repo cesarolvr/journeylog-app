@@ -8,9 +8,9 @@ import {
 type UserContextType = {
 	accessToken: string | null;
 	user: User | null;
-	userDetails: UserDetails | null;
+	userDetails: null;
 	isLoading: boolean;
-	subscription: Subscription | null;
+	subscription: null;
 };
 
 export const UserContext = createContext<UserContextType | undefined>(

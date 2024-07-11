@@ -1,4 +1,4 @@
-import { Price } from "../../types";
+
 
 export const getURL = () => {
     let url =
@@ -10,29 +10,6 @@ export const getURL = () => {
     // Make sure to including trailing `/`.
     url = url.charAt(url.length - 1) === '/' ? url : `${url}/`;
     return url;
-};
-
-export const postData = async ({
-    url,
-    data
-}: {
-    url: string;
-    data?: { price: Price };
-}) => {
-    const res: Response = await fetch(url, {
-        method: 'POST',
-        headers: new Headers({ 'Content-Type': 'application/json' }),
-        credentials: 'same-origin',
-        body: JSON.stringify(data)
-    });
-
-    if (!res.ok) {
-        console.log('Error in postData', { url, data, res });
-
-        throw Error(res.statusText);
-    }
-
-    return res.json();
 };
 
 export const toDateTime = (secs: number) => {
