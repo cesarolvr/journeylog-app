@@ -9,8 +9,8 @@ import "./globals.css";
 const font = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AI2SaaS",
-  description: "Create your own AI SaaS",
+  title: "journeylog",
+  description: "log everything",
 };
 
 export default async function RootLayout({

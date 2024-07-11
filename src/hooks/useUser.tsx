@@ -4,7 +4,6 @@ import {
 	useSessionContext,
 	User,
 } from "@supabase/auth-helpers-react";
-import { Subscription, UserDetails } from "../../types";
 
 type UserContextType = {
 	accessToken: string | null;
@@ -31,8 +30,8 @@ export const MyUserContextProvider = (props: Props) => {
 	const user = useSupaUser();
 	const accessToken = session?.access_token ?? null;
 	const [isLoadingData, setIsloadingData] = useState(false);
-	const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
-	const [subscription, setSubscription] = useState<Subscription | null>(null);
+	const [userDetails, setUserDetails] = useState(null);
+	const [subscription, setSubscription] = useState(null);
 
 	const getUserDetails = () => supabase.from("users").select("*").single();
 
@@ -44,7 +43,7 @@ export const MyUserContextProvider = (props: Props) => {
 					const userDetailsPromise = results[0];
 
 					if (userDetailsPromise.status === "fulfilled")
-						setUserDetails(userDetailsPromise.value.data as UserDetails);
+						setUserDetails(userDetailsPromise.value.data);
 
 					setIsloadingData(false);
 				}
