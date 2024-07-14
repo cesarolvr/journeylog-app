@@ -3,14 +3,8 @@
 	"style": "new-york",
 	"rsc": true,
 	"tsx": true,
-	"tailwind": {
-		"config": "tailwind.config.js",
-		"css": "app/globals.css",
-		"baseColor": "slate",
-		"cssVariables": true
-	},
 	"aliases": {
 		"components": "@/components",
-		"utils": "@/lib/utils"
+		"utils": "@/utils"
 	}
 }

@@ -1,5 +1,16 @@
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+"use client";
+
 import { useEffect } from "react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+
+import React from "react";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Button,
+} from "@nextui-org/react";
 
 const App = () => {
   const supabaseClient = useSupabaseClient();
@@ -24,13 +35,27 @@ const App = () => {
   };
 
   useEffect(() => {
-    supabaseClient.from("journey").select();
+    // supabaseClient.from("journey").select();
   }, []);
+
   return (
-    <div className="w-full h-[93vh] flex items-center justify-center flex-col text-center relative overflow-hidden gap-6 pt-[500px]">
-      <button onClick={handleCreateJourney}>create a journey</button>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+    <Navbar>
+      <NavbarBrand>
+        <p className="font-bold text-inherit underline">ACME</p>
+      </NavbarBrand>
+      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarItem>
+          <Button onClick={handleCreateJourney} color="primary">
+            create a journey
+          </Button>
+        </NavbarItem>
+      </NavbarContent>
+      <NavbarContent justify="end">
+        <NavbarItem className="hidden lg:flex">
+          <Button onClick={handleLogout}>Logout</Button>
+        </NavbarItem>
+      </NavbarContent>
+    </Navbar>
   );
 };
 

@@ -12,11 +12,7 @@ const Home = () => {
 
   const isAuthenticated = !!user;
 
-  return (
-    <main>
-        {isAuthenticated ? <App /> : <Landing />}
-    </main>
-  );
+  return <main>{isAuthenticated ? <App /> : <Landing />}</main>;
 };
 
 export default Home;

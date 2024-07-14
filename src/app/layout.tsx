@@ -1,17 +1,10 @@
-import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+// Providers
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import UserProvider from "@/providers/UserProvider";
+import NextUIProvider from "@/providers/NextUIProvider";
 
 // Styles
 import "./globals.css";
-
-const font = Plus_Jakarta_Sans({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "journeylog",
-  description: "log everything",
-};
 
 export default async function RootLayout({
   children,
@@ -20,9 +13,11 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body>
         <SupabaseProvider>
-          <UserProvider>{children}</UserProvider>
+          <UserProvider>
+            <NextUIProvider>{children}</NextUIProvider>
+          </UserProvider>
         </SupabaseProvider>
       </body>
     </html>
