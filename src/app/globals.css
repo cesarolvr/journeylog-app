@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* @layer base {
+@layer base {
   :root {
   }
 
@@ -12,15 +11,8 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-} */
+}
 
 html {
   scroll-behavior: smooth;
-  background-color: red;
 }

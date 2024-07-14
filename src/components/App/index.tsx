@@ -43,7 +43,7 @@ const App = () => {
       <NavbarBrand>
         <p className="font-bold text-inherit underline">ACME</p>
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <NavbarContent className="" justify="center">
         <NavbarItem>
           <Button onClick={handleCreateJourney} color="primary">
             create a journey
@@ -51,7 +51,7 @@ const App = () => {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
+        <NavbarItem className="">
           <Button onClick={handleLogout}>Logout</Button>
         </NavbarItem>
       </NavbarContent>
