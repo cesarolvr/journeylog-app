@@ -1,15 +1,22 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import Header from "@/components/Header";
+// Hooks
+import { useUser } from "@/hooks/useUser";
 
-export default function Home() {
-	return (
-		<main>
-			<div className="bg-[#0D121F] px-[100px] text-white">
-				<Navbar />
-				<Header />
-			</div>
-		</main>
-	);
-}
+// Components
+import Landing from "@/components/Landing";
+import App from "@/components/App";
+
+const Home = () => {
+  const { user } = useUser();
+
+  const isAuthenticated = !!user;
+
+  return (
+    <main>
+        {isAuthenticated ? <App /> : <Landing />}
+    </main>
+  );
+};
+
+export default Home;
