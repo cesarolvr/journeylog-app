@@ -13,6 +13,13 @@
 @layer base {
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
+  /* width: 100vw;
+  height: 100vh;
+  overflow: hidden; */
   scroll-behavior: smooth;
 }

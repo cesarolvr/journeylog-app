@@ -1,19 +1,42 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useInView } from "react-intersection-observer";
 
 import React from "react";
 import {
   Navbar,
-  NavbarBrand,
+  DatePicker,
   NavbarContent,
   NavbarItem,
   Button,
+  Tabs,
+  Tab,
+  User,
+  Dropdown,
+  DropdownItem,
+  DropdownTrigger,
+  DropdownMenu,
+  CircularProgress,
 } from "@nextui-org/react";
+import { Bolt, Plus } from "lucide-react";
 
-const App = () => {
+import { getDaysDetailsInMonth } from "@/utils";
+
+const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
+  const [days, setDays] = useState([]);
+
+  const today = new Date();
+  const [lastMonthLoaded, setLastMonthLoaded] = useState(today.getMonth() + 1);
+  const [lastYearLoaded, setLastYearLoaded] = useState(today.getFullYear());
+
+  const { ref, inView, entry } = useInView({
+    /* Optional options */
+    threshold: 0.5,
+  });
+
   const handleCreateJourney = async (e: any) => {
     const { error } = await supabaseClient.from("journey").insert({
       name: "Testing",
@@ -23,8 +46,29 @@ const App = () => {
       isPublic: false,
       seasonality: 24,
     });
+  };
 
-    console.log(error);
+  const username = user.user_metadata.full_name
+    .split(" ")
+    .slice(0, -1)
+    .join(" ");
+
+  const handleLoadMore = () => {
+    const newLastMonthLoaded = lastMonthLoaded === 1 ? 12 : lastMonthLoaded - 1;
+    const newLastYearLoaded =
+      lastMonthLoaded === 1 ? lastYearLoaded - 1 : lastYearLoaded;
+
+    const newDays: any = getDaysDetailsInMonth(
+      newLastMonthLoaded,
+      lastYearLoaded
+    );
+
+    setLastMonthLoaded(newLastMonthLoaded);
+    setLastYearLoaded(newLastYearLoaded);
+
+    setTimeout(() => {
+      setDays([...days, ...newDays]);
+    }, 1000);
   };
 
   const handleLogout = async () => {
@@ -34,28 +78,102 @@ const App = () => {
     }
   };
 
+  let tabs = [
+    {
+      id: "english-learning",
+      label: "🇺🇸 English learning",
+    },
+    {
+      id: "to-learn-golang",
+      label: "📚 To learn Golang",
+    },
+    {
+      id: "gym",
+      label: "🏋🏾 Gym",
+    },
+    {
+      id: "good-habits",
+      label: "🥦 Good habits",
+    },
+    {
+      id: "to-drink-water",
+      label: "💦 To drink water",
+    }
+  ];
+
   useEffect(() => {
-    // supabaseClient.from("journey").select();
+    const currentMonth: any = getDaysDetailsInMonth(
+      today.getMonth() + 1,
+      today.getFullYear()
+    );
+    setDays(currentMonth);
   }, []);
 
+  useEffect(() => {
+    if (inView) {
+      handleLoadMore();
+    }
+  }, [inView]);
+
   return (
-    <Navbar>
-      <NavbarBrand>
-        <p className="font-bold text-inherit underline">ACME</p>
-      </NavbarBrand>
-      <NavbarContent className="" justify="center">
-        <NavbarItem>
-          <Button onClick={handleCreateJourney} color="primary">
-            create a journey
-          </Button>
-        </NavbarItem>
-      </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem className="">
-          <Button onClick={handleLogout}>Logout</Button>
-        </NavbarItem>
-      </NavbarContent>
-    </Navbar>
+    <div className="flex bg-[#171717]">
+      <div className="w-[286px] flex-shrink-0 bg-black h-screen px-6 py-4 relative rounded-r-3xl overflow-scroll justify-start">
+        <div className="w-full sticky top-0 mb-5 mt-2 bg-black">
+          <DatePicker variant={"bordered"} className="rounded-xl text-white outline-none" />
+        </div>
+        <div className="flex flex-col">
+          {days.map(({ dayNumber, type, monthName, dayName }, index) => {
+            return type === "day" ? (
+              <div
+                key={index}
+                className="p-4 flex justify-between cursor-pointer hover:text-white hover:bg-[#212121] bg-[#161616] mb-4 text-[24px] rounded-2xl text-[#424242] h-[130px]"
+              >
+                <span className="leading-7">{dayNumber}</span>
+                <small className="text-sm">{dayName}</small>
+              </div>
+            ) : (
+              <p key={index} className="text-[#4d4d4d] mb-4">
+                {monthName}
+              </p>
+            );
+          })}
+          <div ref={ref} className="flex p-3 justify-center rounded-xl">
+            <CircularProgress aria-label="Loading..." />
+          </div>
+        </div>
+      </div>
+      <div className="items-start py-3 w-full">
+        <Navbar className="bg-transparent" maxWidth="full">
+          <NavbarContent justify="center">
+            <NavbarItem className="justify-center flex">
+              <Tabs aria-label="Journeys" items={tabs} variant="bordered" className="bg-[#171717] relative z-10 rounded-xl">
+                {(item) => <Tab key={item.id} title={item.label}></Tab>}
+              </Tabs>
+              <Button onClick={handleCreateJourney} className="bg-transparent py-5 rounded-l-none ml-[-10px] pl-4 border-dashed" variant="bordered">
+                <Plus className="stroke-white" /> New journey
+              </Button>
+            </NavbarItem>
+          </NavbarContent>
+          <NavbarContent justify="end">
+            <Button isIconOnly className="bg-[#424242]" aria-label="Like">
+              <Bolt className="stroke-white" />
+            </Button>
+            <NavbarItem className="flex justify-center">
+              <Dropdown>
+                <DropdownTrigger>
+                  <User className="text-white cursor-pointer" name={username} />
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Static Actions">
+                  <DropdownItem key="new" onClick={handleLogout}>
+                    Logout
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </NavbarItem>
+          </NavbarContent>
+        </Navbar>
+      </div>
+    </div>
   );
 };
 
