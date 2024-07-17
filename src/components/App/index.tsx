@@ -79,8 +79,29 @@ const App = ({ user }: any) => {
   });
 
   const handleGoToToday = (now: any) => {
-    setDateSelected(now)
-  }
+    const getId = (divider: string) =>
+      `${now?.month}${divider}${now?.day}${divider}${now?.year}`;
+
+    if (lastMonthLoaded !== now.month || lastYearLoaded !== now.year) {
+      const newDays: any = getDaysDetailsInMonth(now.month, now.year);
+
+      setLastMonthLoaded(now.month);
+      setLastYearLoaded(now.year);
+
+      setDays(newDays);
+    }
+
+    setDateSelected(now);
+    setSelectedDay(getId("-"));
+    setTimeout(() => {
+      const element = document.querySelector(`#day-${getId("-")}`);
+      console.log(element);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 0);
+    
+  };
 
   const handleCreateJourney = async (e: any) => {
     const { error } = await supabaseClient.from("journey").insert({
@@ -134,7 +155,7 @@ const App = ({ user }: any) => {
 
   const handleDateSelection = (e: any) => {
     setDateSelected(e);
-    
+
     const getId = (divider: string) =>
       `${e?.month}${divider}${e?.day}${divider}${e?.year}`;
     const isValidDateSelected = isValidDate(getId("/"));
