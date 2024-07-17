@@ -19,7 +19,8 @@ import {
   Button,
   Tabs,
   Tab,
-  User,
+  Avatar,
+  DropdownSection,
   Dropdown,
   DropdownItem,
   DropdownTrigger,
@@ -73,9 +74,13 @@ const App = ({ user }: any) => {
     },
   ];
 
-  const { ref, inView, entry } = useInView({
+  const { ref, inView } = useInView({
     threshold: 0.5,
   });
+
+  const handleGoToToday = (now: any) => {
+    setDateSelected(now)
+  }
 
   const handleCreateJourney = async (e: any) => {
     const { error } = await supabaseClient.from("journey").insert({
@@ -129,14 +134,15 @@ const App = ({ user }: any) => {
 
   const handleDateSelection = (e: any) => {
     setDateSelected(e);
-
+    
     const getId = (divider: string) =>
-      `${e.month}${divider}${e.day}${divider}${e.year}`;
+      `${e?.month}${divider}${e?.day}${divider}${e?.year}`;
     const isValidDateSelected = isValidDate(getId("/"));
 
     if (isValidDateSelected) {
-      const isTheSameMonthSelected = e.month === lastMonthLoaded
-      if (!isTheSameMonthSelected) {
+      const isTheSameMonthSelected = e.month === lastMonthLoaded;
+      const isTheSameYearSelected = e.year === lastYearLoaded;
+      if (!isTheSameMonthSelected || !isTheSameYearSelected) {
         const newDateSelected: any = getDaysDetailsInMonth(e.month, e.year);
 
         setLastMonthLoaded(e.month);
@@ -146,17 +152,18 @@ const App = ({ user }: any) => {
 
         setTimeout(() => {
           setDays(newDateSelected);
-        }, 500);
-
-        
+        }, 100);
       }
-      
-      setTimeout(() => {
-        const element = document.querySelector(`#day-${getId("-")}`);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-      }, isTheSameMonthSelected ? 0 : 800);
+
+      setTimeout(
+        () => {
+          const element = document.querySelector(`#day-${getId("-")}`);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        },
+        isTheSameMonthSelected && isTheSameYearSelected ? 0 : 150
+      );
 
       setSelectedDay(getId("-"));
     }
@@ -194,7 +201,7 @@ const App = ({ user }: any) => {
                 size="sm"
                 variant="bordered"
               >
-                <Button onPress={() => setDateSelected(now)}>Today</Button>
+                <Button onPress={() => handleGoToToday(now)}>Today</Button>
               </ButtonGroup>
             }
             calendarProps={{
@@ -282,14 +289,43 @@ const App = ({ user }: any) => {
             </NavbarItem>
           </NavbarContent>
           <NavbarContent justify="end">
-            <Button isIconOnly className="bg-[#424242]" aria-label="Like">
-              <Bolt className="stroke-white" />
-            </Button>
             <NavbarItem className="flex justify-center">
               <Dropdown>
                 <DropdownTrigger>
-                  <User
-                    className="text-white cursor-pointer rounded-none"
+                  <Bolt className="stroke-white" />
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Static Actions">
+                  <DropdownSection title="Journey's settings" showDivider>
+                    <DropdownItem key="new" onClick={handleLogout}>
+                      Options
+                    </DropdownItem>
+                  </DropdownSection>
+                  <DropdownSection>
+                    <DropdownItem
+                      key="finish"
+                      className="text-success"
+                      color="success"
+                      description="Complete this Journey"
+                    >
+                      Finish Journey
+                    </DropdownItem>
+                    <DropdownItem
+                      key="delete"
+                      className="text-danger"
+                      color="danger"
+                      description="Permanently delete"
+                    >
+                      Delete Journey
+                    </DropdownItem>
+                  </DropdownSection>
+                </DropdownMenu>
+              </Dropdown>
+            </NavbarItem>
+            <NavbarItem className="flex justify-center">
+              <Dropdown>
+                <DropdownTrigger>
+                  <Avatar
+                    className="text-white cursor-pointer"
                     name={username}
                   />
                 </DropdownTrigger>
