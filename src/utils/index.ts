@@ -69,7 +69,6 @@ export const getDaysDetailsInMonth = (month: any, year: any) => {
 };
 
 export const isValidDate = (dateString: string) => {
-  console.log(dateString)
   // First check for the pattern
   if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
     return false;

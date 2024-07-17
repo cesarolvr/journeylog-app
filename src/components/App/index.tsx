@@ -120,15 +120,23 @@ const App = ({ user }: any) => {
     const newDate = new CalendarDate(year, monthNumber, dayNumber);
     setDateSelected(newDate);
     setSelectedDay(id);
+
+    const element = document.querySelector(`#day-${id}`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   };
 
   const handleDateSelection = (e: any) => {
     setDateSelected(e);
 
-    const isValidDateSelected = isValidDate(`${e.month}/${e.day}/${e.year}`);
+    const getId = (divider: string) =>
+      `${e.month}${divider}${e.day}${divider}${e.year}`;
+    const isValidDateSelected = isValidDate(getId("/"));
 
     if (isValidDateSelected) {
-      if (e.month !== lastMonthLoaded) {
+      const isTheSameMonthSelected = e.month === lastMonthLoaded
+      if (!isTheSameMonthSelected) {
         const newDateSelected: any = getDaysDetailsInMonth(e.month, e.year);
 
         setLastMonthLoaded(e.month);
@@ -138,9 +146,19 @@ const App = ({ user }: any) => {
 
         setTimeout(() => {
           setDays(newDateSelected);
-        }, 1000);
+        }, 500);
+
+        
       }
-      setSelectedDay(`${e.month}-${e.day}-${e.year}`);
+      
+      setTimeout(() => {
+        const element = document.querySelector(`#day-${getId("-")}`);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, isTheSameMonthSelected ? 0 : 800);
+
+      setSelectedDay(getId("-"));
     }
   };
 
@@ -200,7 +218,7 @@ const App = ({ user }: any) => {
               return type === "day" ? (
                 <div
                   key={index}
-                  id={id}
+                  id={`day-${id}`}
                   onClick={(e) =>
                     handleDaySelection(e, {
                       id,
