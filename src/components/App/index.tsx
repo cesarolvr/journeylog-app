@@ -139,7 +139,7 @@ const App = ({ user }: any) => {
       `${e?.month}${divider}${e?.day}${divider}${e?.year}`;
     const isValidDateSelected = isValidDate(getId("/"));
 
-    if (isValidDateSelected) {
+    if (isValidDateSelected && e?.year <= today.getFullYear()) {
       const isTheSameMonthSelected = e.month === lastMonthLoaded;
       const isTheSameYearSelected = e.year === lastYearLoaded;
       if (!isTheSameMonthSelected || !isTheSameYearSelected) {
