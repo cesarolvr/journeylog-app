@@ -37,7 +37,8 @@ export const getDaysDetailsInMonth = (month: any, year: any) => {
     if (date.getMonth() !== previousMonth) {
       daysDetails.push({
         type: 'monthChange',
-        monthName: `${monthNames[date.getMonth()]}, ${date.getFullYear()}`,
+        monthName: monthNames[date.getMonth()],
+        year: date.getFullYear(),
       });
       previousMonth = date.getMonth();
     }
@@ -45,9 +46,12 @@ export const getDaysDetailsInMonth = (month: any, year: any) => {
     // Adiciona os detalhes do dia ao array
     daysDetails.push({
       type: 'day',
+      id: `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`,
+      monthNumber: month,
       monthName: monthNames[month - 1],
       dayNumber: date.getDate(),
-      dayName: dayNames[date.getDay()]
+      dayName: dayNames[date.getDay()],
+      year: date.getFullYear(),
     });
     // Incrementa o dia
     date.setDate(date.getDate() + 1);
@@ -62,4 +66,30 @@ export const getDaysDetailsInMonth = (month: any, year: any) => {
 
   return daysDetails;
 
+};
+
+export const isValidDate = (dateString: string) => {
+  console.log(dateString)
+  // First check for the pattern
+  if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+    return false;
+
+  // Parse the date parts to integers
+  var parts = dateString.split("/");
+  var day = parseInt(parts[1], 10);
+  var month = parseInt(parts[0], 10);
+  var year = parseInt(parts[2], 10);
+
+  // Check the ranges of month and year
+  if (year < 1000 || year > 3000 || month == 0 || month > 12)
+    return false;
+
+  var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+  // Adjust for leap years
+  if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+    monthLength[1] = 29;
+
+  // Check the range of the day
+  return day > 0 && day <= monthLength[month - 1];
 };
