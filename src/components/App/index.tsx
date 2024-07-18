@@ -57,22 +57,22 @@ const App = ({ user }: any) => {
       id: "english-learning",
       label: "🇺🇸 English learning",
     },
-    {
-      id: "to-learn-golang",
-      label: "📚 To learn Golang",
-    },
-    {
-      id: "gym",
-      label: "🏋🏾 Gym",
-    },
-    {
-      id: "good-habits",
-      label: "🥦 Good habits",
-    },
-    {
-      id: "to-drink-water",
-      label: "💦 To drink water",
-    },
+    // {
+    //   id: "to-learn-golang",
+    //   label: "📚 To learn Golang",
+    // },
+    // {
+    //   id: "gym",
+    //   label: "🏋🏾 Gym",
+    // },
+    // {
+    //   id: "good-habits",
+    //   label: "🥦 Good habits",
+    // },
+    // {
+    //   id: "to-drink-water",
+    //   label: "💦 To drink water",
+    // },
   ];
 
   const { ref, inView } = useInView({

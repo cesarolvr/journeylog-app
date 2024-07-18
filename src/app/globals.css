@@ -98,19 +98,20 @@ h1 {
 
 .editor-container ul {
   width: 100%;
-  padding-left: 30px;
+  padding-left: 0px;
 }
 
 .editor-container ul li {
-  padding-left: 40px;
+  padding-left: 60px;
   position: relative;
+  margin-bottom: 10px;
 }
 
 .editor-container ul li:before {
   content: "-> ";
   font-family: var(--font-reenie);
   position: absolute;
-  left: -25px;
+  left: -2px;
 }
 
 .editor-container ol {
@@ -123,6 +124,7 @@ h1 {
 .editor-container ol li {
   padding-left: 30px;
   counter-increment: item;
+  margin-bottom: 10px;
 }
 .editor-container ol li:before {
   content: attr(value)". ";
@@ -131,8 +133,62 @@ h1 {
   left: 15px;
 }
 
+.editor-listitem-checked,
+.editor-listitem-unchecked {
+  position: relative;
+  list-style-type: none;
+  outline: none;
+  padding-left: 60px !important;
+}
+.editor-listitem-checked {
+  text-decoration: line-through;
+  color: #585858;
+}
+
+.editor-listitem-checked:before,
+.editor-listitem-unchecked:before {
+  content: "O" !important;
+  left: -0px !important;
+  transform: scale(1.6, 1.2);
+  cursor: pointer;
+  display: block;
+  position: absolute;
+}
+.editor-listitem-checked[dir="rtl"]:before,
+.editor-listitem-unchecked[dir="rtl"]:before {
+  left: auto;
+  right: 0;
+}
+.editor-listitem-unchecked:focus:before,
+.editor-listitem-checked:focus:before {
+  /* box-shadow: 0 0 0 2px #a6cdfe; */
+  border: none !important;
+  outline: none !important;
+}
+.editor-listitem-unchecked:before {
+  color: white;
+}
+.editor-listitem-checked:before {
+  color: rgb(75, 75, 75) !important;
+  background-repeat: no-repeat;
+}
+.editor-listitem-checked:after {
+  content: "L";
+  cursor: pointer;
+  color: white;
+  font-size: 70px;
+  transform: scale(-1, 1) rotate(-40deg);
+  transform-origin: center center;
+  position: absolute;
+  display: block;
+  left: 2px;
+  top: -15px;
+  bottom: 0;
+  margin: auto;
+}
+
 .editor-inner {
-  padding: 0px 0 20px 0;
+  padding: 10px 0 20px 0;
   background: #171717;
   position: relative;
   height: 100%;
@@ -274,7 +330,7 @@ h1 {
   margin: 0;
   margin-bottom: 8px;
   position: relative;
-  line-height: 110%;
+  line-height: 100%;
 }
 
 .editor-paragraph:last-child {
@@ -314,13 +370,13 @@ h1 {
 .editor-list-ol {
   padding: 0;
   margin: 0;
-  line-height: 110%;
+  line-height: 100%;
 }
 
 .editor-list-ul {
   padding: 0;
   margin: 0;
-  line-height: 110%;
+  line-height: 100%;
 }
 
 .editor-listitem {
