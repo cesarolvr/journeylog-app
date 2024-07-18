@@ -3,14 +3,14 @@
 export const getDaysDetailsInMonth = (month: any, year: any) => {
   // Array com os nomes dos meses
   const monthNames = [
-    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
   // Array com os nomes dos dias da semana
   const dayNames = [
-    'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira',
-    'Quinta-feira', 'Sexta-feira', 'Sábado'
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+    'Thursday', 'Friday', 'Saturday'
   ];
 
   // Cria um array para armazenar os detalhes dos dias

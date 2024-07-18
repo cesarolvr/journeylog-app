@@ -291,8 +291,8 @@ const App = ({ user }: any) => {
           ) : null}
         </div>
       </div>
-      <div className="items-start py-3 w-full flex flex-col h-full">
-        <Navbar className="bg-transparent" maxWidth="full">
+      <div className="items-start py-3 w-full flex flex-col h-full overflow-scroll justify-start">
+        <Navbar className="bg-transparent h-[64px] nav" maxWidth="full">
           <NavbarContent justify="center">
             <NavbarItem className="justify-center flex">
               <Tabs
@@ -362,9 +362,10 @@ const App = ({ user }: any) => {
             </NavbarItem>
           </NavbarContent>
         </Navbar>
-        <div className="p-10 w-full h-full flex">
+        <div className="px-5 w-full h-full flex artboard">
           <Artboard />
         </div>
+        <div className="h-[50px] shrink-0"></div>
       </div>
     </div>
   );

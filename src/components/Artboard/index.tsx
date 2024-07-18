@@ -8,6 +8,9 @@ import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
+import { ListItemNode, ListNode } from "@lexical/list";
 
 import ExampleTheme from "./components/ExampleTheme";
 import ToolbarPlugin from "./components/ToolbarPlugin";
@@ -16,7 +19,7 @@ const placeholder = "Enter some rich text...";
 
 const editorConfig = {
   namespace: "React.js Demo",
-  nodes: [],
+  nodes: [ListNode, ListItemNode],
   // Handling of errors during update
   onError(error: Error) {
     throw error;
@@ -28,9 +31,9 @@ const editorConfig = {
 export default function App() {
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className={`editor-container ${reenie.className}`}>
+      <div className={`editor-container`}>
         <ToolbarPlugin />
-        <div className="editor-inner">
+        <div className={`editor-inner ${reenie.className}`}>
           <RichTextPlugin
             contentEditable={
               <ContentEditable
@@ -43,6 +46,8 @@ export default function App() {
             }
             ErrorBoundary={LexicalErrorBoundary}
           />
+          <ListPlugin />
+          <CheckListPlugin />
           <HistoryPlugin />
           <AutoFocusPlugin />
         </div>
