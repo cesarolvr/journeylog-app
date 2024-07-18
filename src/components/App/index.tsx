@@ -31,6 +31,7 @@ import {
 import { Bolt, Plus } from "lucide-react";
 
 import { getDaysDetailsInMonth, isValidDate } from "@/utils";
+import Artboard from "../Artboard";
 
 const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
@@ -95,7 +96,7 @@ const App = ({ user }: any) => {
     setSelectedDay(getId("-"));
     setTimeout(() => {
       const element = document.querySelector(`#day-${getId("-")}`);
-      console.log(element);
+      
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "center" });
       }
@@ -207,8 +208,8 @@ const App = ({ user }: any) => {
   }, [inView]);
 
   return (
-    <div className="flex bg-[#171717]">
-      <div className="w-[286px] flex-shrink-0 bg-black h-screen px-6 py-4 relative rounded-r-3xl overflow-scroll justify-start">
+    <div className="flex bg-[#171717] w-full h-full">
+      <div className="w-[260px] flex-shrink-0 bg-black h-screen px-6 py-4 relative rounded-r-3xl overflow-scroll justify-start">
         <div className="w-full sticky top-0 mb-5 mt-2 bg-black">
           <DatePicker
             variant={"bordered"}
@@ -290,7 +291,7 @@ const App = ({ user }: any) => {
           ) : null}
         </div>
       </div>
-      <div className="items-start py-3 w-full">
+      <div className="items-start py-3 w-full flex flex-col h-full">
         <Navbar className="bg-transparent" maxWidth="full">
           <NavbarContent justify="center">
             <NavbarItem className="justify-center flex">
@@ -361,6 +362,9 @@ const App = ({ user }: any) => {
             </NavbarItem>
           </NavbarContent>
         </Navbar>
+        <div className="p-10 w-full h-full flex">
+          <Artboard />
+        </div>
       </div>
     </div>
   );
