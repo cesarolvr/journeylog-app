@@ -32,12 +32,13 @@ import { Bolt, Plus } from "lucide-react";
 
 import { getDaysDetailsInMonth, isValidDate } from "@/utils";
 import Artboard from "../Artboard";
-import { getJourneys, getLogFromADay } from "@/services";
+import { getLogFromADay } from "@/services";
 
 const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
   const [days, setDays] = useState([]);
   const [journeyTabs, setJourneyTabs] = useState([]);
+  const [activeTab, setActiveTab] = useState({});
   const [contentInArtboard, setContentInArtboard] = useState(null);
 
   const today = new Date();
@@ -58,6 +59,30 @@ const App = ({ user }: any) => {
   const { ref, inView } = useInView({
     threshold: 0.5,
   });
+
+  const handleJourneyDeletion = async ({ id }) => {
+    const { error, data } = await supabaseClient
+      .from("journey")
+      .delete()
+      .eq("id", id)
+      .select();
+
+    if (data) {
+      const itemDeleted = data[0];
+      const newTabsToBeRendered = journeyTabs.filter((item) => {
+        return item.id !== itemDeleted.id;
+      });
+
+      setJourneyTabs(newTabsToBeRendered);
+    }
+  };
+
+  const handleTabSelection = (idSelected) => {
+    const activeTab = journeyTabs.find((item) => {
+      return item.id === idSelected;
+    });
+    setActiveTab(activeTab);
+  };
 
   const handleGoToToday = (now: any) => {
     const getId = (divider: string) =>
@@ -84,14 +109,16 @@ const App = ({ user }: any) => {
   };
 
   const handleCreateJourney = async (e: any) => {
-    const { error } = await supabaseClient.from("journey").insert({
-      name: "Testing",
-      status: "IN PROGRESS",
-      icon: "",
-      type: "",
-      isPublic: false,
-      seasonality: 24,
-    });
+    const { error, data } = await supabaseClient
+      .from("journey")
+      .insert({
+        name: "🇺🇸 To learn english",
+      })
+      .select();
+
+    if (data) {
+      setJourneyTabs([...journeyTabs, ...data]);
+    }
   };
 
   const handleLoadMore = () => {
@@ -205,8 +232,8 @@ const App = ({ user }: any) => {
     getLog();
 
     const getTabs = async () => {
-      const tabs = await getJourneys(123);
-      setJourneyTabs(tabs);
+      const { error, data } = await supabaseClient.from("journey").select();
+      setJourneyTabs(data);
     };
 
     getTabs();
@@ -311,6 +338,7 @@ const App = ({ user }: any) => {
                 items={journeyTabs}
                 variant="bordered"
                 className="relative rounded-xl"
+                onSelectionChange={handleTabSelection}
               >
                 {(item) => <Tab key={item.id} title={item.name}></Tab>}
               </Tabs>
@@ -332,26 +360,17 @@ const App = ({ user }: any) => {
                 <DropdownTrigger>
                   <Bolt className="stroke-white" />
                 </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions">
-                  <DropdownSection title="Journey's settings" showDivider>
-                    <DropdownItem key="new" onClick={handleLogout}>
-                      Options
-                    </DropdownItem>
+                <DropdownMenu>
+                  <DropdownSection showDivider>
+                    <DropdownItem key="title">{activeTab.name}</DropdownItem>
+                    <DropdownItem key="settings">Settings</DropdownItem>
                   </DropdownSection>
                   <DropdownSection>
-                    <DropdownItem
-                      key="finish"
-                      className="text-success"
-                      color="success"
-                      description="Complete this Journey"
-                    >
-                      Finish Journey
-                    </DropdownItem>
                     <DropdownItem
                       key="delete"
                       className="text-danger"
                       color="danger"
-                      description="Permanently delete"
+                      onClick={() => handleJourneyDeletion(activeTab)}
                     >
                       Delete Journey
                     </DropdownItem>
