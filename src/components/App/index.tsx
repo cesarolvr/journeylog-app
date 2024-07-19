@@ -32,11 +32,12 @@ import { Bolt, Plus } from "lucide-react";
 
 import { getDaysDetailsInMonth, isValidDate } from "@/utils";
 import Artboard from "../Artboard";
-import { getLogFromADay } from "@/services";
+import { getJourneys, getLogFromADay } from "@/services";
 
 const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
   const [days, setDays] = useState([]);
+  const [journeyTabs, setJourneyTabs] = useState([]);
   const [contentInArtboard, setContentInArtboard] = useState(null);
 
   const today = new Date();
@@ -53,29 +54,6 @@ const App = ({ user }: any) => {
     .split(" ")
     .slice(0, -1)
     .join(" ");
-
-  let tabs = [
-    {
-      id: "english-learning",
-      label: "🇺🇸 English learning",
-    },
-    {
-      id: "to-learn-golang",
-      label: "📚 To learn Golang",
-    },
-    {
-      id: "gym",
-      label: "🏋🏾 Gym",
-    },
-    // {
-    //   id: "good-habits",
-    //   label: "🥦 Good habits",
-    // },
-    // {
-    //   id: "to-drink-water",
-    //   label: "💦 To drink water",
-    // },
-  ];
 
   const { ref, inView } = useInView({
     threshold: 0.5,
@@ -145,6 +123,7 @@ const App = ({ user }: any) => {
     e: any,
     { id, monthNumber, dayNumber, year }: any
   ) => {
+    setContentInArtboard(null);
     const newDate = new CalendarDate(year, monthNumber, dayNumber);
     setDateSelected(newDate);
     setSelectedDay(id);
@@ -154,11 +133,10 @@ const App = ({ user }: any) => {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
-    const a = new Date(year, monthNumber - 1, dayNumber)
-    
+    const a = new Date(year, monthNumber - 1, dayNumber);
+
     const log = await getLogFromADay(a);
 
-    setContentInArtboard(null);
     setContentInArtboard(log?.content);
   };
 
@@ -217,11 +195,21 @@ const App = ({ user }: any) => {
 
   useEffect(() => {
     const getLog = async () => {
-      const log = await getLogFromADay(new Date(2024, 6, 18));
+      const today = new Date();
+      const log = await getLogFromADay(
+        new Date(today.getFullYear(), today.getMonth(), today.getDate())
+      );
 
       setContentInArtboard(log?.content);
     };
     getLog();
+
+    const getTabs = async () => {
+      const tabs = await getJourneys(123);
+      setJourneyTabs(tabs);
+    };
+
+    getTabs();
   }, []);
 
   return (
@@ -320,11 +308,11 @@ const App = ({ user }: any) => {
             <NavbarItem className="justify-center flex">
               <Tabs
                 aria-label="Journeys"
-                items={tabs}
+                items={journeyTabs}
                 variant="bordered"
                 className="relative rounded-xl"
               >
-                {(item) => <Tab key={item.id} title={item.label}></Tab>}
+                {(item) => <Tab key={item.id} title={item.name}></Tab>}
               </Tabs>
               <Button
                 onClick={handleCreateJourney}
@@ -390,6 +378,7 @@ const App = ({ user }: any) => {
         </Navbar>
         <div className="px-5 w-full h-full flex artboard">
           {contentInArtboard ? <Artboard content={contentInArtboard} /> : null}
+          <Artboard content={contentInArtboard} />
         </div>
         <div className="h-[50px] shrink-0"></div>
       </div>

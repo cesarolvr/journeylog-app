@@ -37,3 +37,57 @@ export const getLogFromADay = (dateToBeSearched) => {
     );
   });
 };
+
+export const getJourneys = (userId: Number) => {
+
+  const database = [
+    {
+      ownerId: 123,
+      journey_id: 3,
+      dateCreated: new Date(2023, 6, 15),
+      id: "english-learning",
+      name: "🇺🇸 English learning",
+    },
+    {
+      ownerId: 123,
+      journey_id: 3,
+      dateCreated: new Date(2023, 6, 15),
+      id: "to-learn-golang",
+      name: "📚 To learn Golang",
+    },
+    {
+      ownerId: 123,
+      journey_id: 3,
+      dateCreated: new Date(2023, 6, 15),
+      id: "gym",
+      name: "🏋🏾 Gym",
+    },
+    {
+      ownerId: 126,
+      journey_id: 3,
+      dateCreated: new Date(2023, 6, 15),
+      id: "good-habits",
+      name: "🥦 Good habits",
+    },
+    {
+      ownerId: 127,
+      journey_id: 3,
+      dateCreated: new Date(2023, 6, 15),
+      id: "to-drink-water",
+      name: "💦 To drink water",
+    },
+  ]
+
+
+  const query = database.filter((item) => {
+    return item.ownerId === userId
+  })
+
+
+  return new Promise((resolve, reject) => {
+    setTimeout(
+      resolve(query),
+      Math.random() * 1000
+    );
+  });
+};
