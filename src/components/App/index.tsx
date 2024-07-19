@@ -20,13 +20,17 @@ import {
   Tabs,
   Tab,
   Avatar,
-  DropdownSection,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
   Dropdown,
   DropdownItem,
   DropdownTrigger,
   DropdownMenu,
   CircularProgress,
   ButtonGroup,
+  Input,
+  Switch,
 } from "@nextui-org/react";
 import { Bolt, Plus } from "lucide-react";
 
@@ -39,6 +43,7 @@ const App = ({ user }: any) => {
   const [days, setDays] = useState([]);
   const [journeyTabs, setJourneyTabs] = useState([]);
   const [activeTab, setActiveTab] = useState({});
+  const [journeySettings, setJourneySettings] = useState({});
   const [contentInArtboard, setContentInArtboard] = useState(null);
 
   const today = new Date();
@@ -59,6 +64,24 @@ const App = ({ user }: any) => {
   const { ref, inView } = useInView({
     threshold: 0.5,
   });
+
+  const handleJourneySettingsUpdate = (e) => {
+    const inputValue = e.target.value;
+    setJourneySettings({ name: inputValue });
+  };
+
+  const handleJourneySave = async (updatedJourney) => {
+    const { error, data } = await supabaseClient
+      .from("journey")
+      .update(journeySettings)
+      .eq("id", updatedJourney.id)
+      .select();
+
+    if (data) {
+
+      setJourneyTabs([...journeyTabs, ...data]);
+    }
+  };
 
   const handleJourneyDeletion = async ({ id }) => {
     const { error, data } = await supabaseClient
@@ -355,29 +378,47 @@ const App = ({ user }: any) => {
             justify="end"
             className="rounded-2xl nav-logout px-3 bg-[#1e1e1e]"
           >
-            <NavbarItem className="flex justify-center">
-              <Dropdown>
-                <DropdownTrigger>
-                  <Bolt className="stroke-white" />
-                </DropdownTrigger>
-                <DropdownMenu>
-                  <DropdownSection showDivider>
-                    <DropdownItem key="title">{activeTab.name}</DropdownItem>
-                    <DropdownItem key="settings">Settings</DropdownItem>
-                  </DropdownSection>
-                  <DropdownSection>
-                    <DropdownItem
-                      key="delete"
-                      className="text-danger"
-                      color="danger"
+            <Popover className="flex justify-center">
+              <PopoverTrigger>
+                <Button color="primary" className="bg-[#3f3f46] w-auto min-w-0">
+                  <Bolt />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[240px]">
+                {(titleProps) => (
+                  <div className="px-1 py-2 w-full">
+                    <p
+                      className="text-small font-bold text-foreground"
+                      {...titleProps}
+                    >
+                      Journey's settings
+                    </p>
+                    <div className="mt-2 flex flex-col gap-2 w-full mb-3">
+                      <Input
+                        defaultValue={activeTab.name}
+                        onChange={handleJourneySettingsUpdate}
+                        label="Name"
+                        size="sm"
+                        variant="bordered"
+                        className="mb-2"
+                      />
+                      <Button
+                        className="bg-success text-white w-full"
+                        onClick={() => handleJourneySave(activeTab)}
+                      >
+                        Save
+                      </Button>
+                    </div>
+                    <Button
+                      className="bg-danger-300 text-white w-full"
                       onClick={() => handleJourneyDeletion(activeTab)}
                     >
                       Delete Journey
-                    </DropdownItem>
-                  </DropdownSection>
-                </DropdownMenu>
-              </Dropdown>
-            </NavbarItem>
+                    </Button>
+                  </div>
+                )}
+              </PopoverContent>
+            </Popover>
             <NavbarItem className="flex justify-center">
               <Dropdown>
                 <DropdownTrigger>
@@ -400,6 +441,7 @@ const App = ({ user }: any) => {
           <Artboard content={contentInArtboard} />
         </div>
         <div className="h-[50px] shrink-0"></div>
+        {/* <div className="absolute right-0 bg-black top-0 w-[260px] h-svh rounded-l-3xl p-4">aaa</div> */}
       </div>
     </div>
   );
