@@ -141,7 +141,7 @@ const App = ({ user }: any) => {
     }
   };
 
-  const handleDaySelection = (
+  const handleDaySelection = async (
     e: any,
     { id, monthNumber, dayNumber, year }: any
   ) => {
@@ -153,6 +153,13 @@ const App = ({ user }: any) => {
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
     }
+
+    const a = new Date(year, monthNumber - 1, dayNumber)
+    
+    const log = await getLogFromADay(a);
+
+    setContentInArtboard(null);
+    setContentInArtboard(log?.content);
   };
 
   const handleDateSelection = (e: any) => {
@@ -210,9 +217,9 @@ const App = ({ user }: any) => {
 
   useEffect(() => {
     const getLog = async () => {
-      const { content } = await getLogFromADay(new Date());
+      const log = await getLogFromADay(new Date(2024, 6, 18));
 
-      setContentInArtboard(content);
+      setContentInArtboard(log?.content);
     };
     getLog();
   }, []);
@@ -383,7 +390,6 @@ const App = ({ user }: any) => {
         </Navbar>
         <div className="px-5 w-full h-full flex artboard">
           {contentInArtboard ? <Artboard content={contentInArtboard} /> : null}
-          
         </div>
         <div className="h-[50px] shrink-0"></div>
       </div>

@@ -35,8 +35,6 @@ const Artboard = ({ content }: any) => {
     setEditorState(JSON.stringify(editorStateJSON));
   }
 
-  console.log(editorState)
-
   return (
     <LexicalComposer
       initialConfig={{
