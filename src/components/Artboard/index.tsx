@@ -12,46 +12,61 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import { ListItemNode, ListNode } from "@lexical/list";
 
-import ExampleTheme from "./components/ExampleTheme";
-import ToolbarPlugin from "./components/ToolbarPlugin";
+import ExampleTheme from "./plugins/ArtboardTheme";
+import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import { useEffect, useRef, useState } from "react";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-const placeholder = "Enter some rich text...";
+function MyOnChangePlugin({ onChange }) {
+  const [editor] = useLexicalComposerContext();
 
-const editorConfig = {
-  namespace: "React.js Demo",
-  nodes: [ListNode, ListItemNode],
-  // Handling of errors during update
-  onError(error: Error) {
-    throw error;
-  },
-  // The editor theme
-  theme: ExampleTheme,
-};
+  useEffect(() => {
+    return editor.registerUpdateListener(({ editorState }) => {
+      onChange(editorState);
+    });
+  }, [editor, onChange]);
+  return null;
+}
 
-export default function App() {
+const Artboard = ({ content }: any) => {
+  const [editorState, setEditorState] = useState();
+  function onChange(editorState) {
+    const editorStateJSON = editorState.toJSON();
+    setEditorState(JSON.stringify(editorStateJSON));
+  }
+
+  console.log(editorState)
+
   return (
-    <LexicalComposer initialConfig={editorConfig}>
+    <LexicalComposer
+      initialConfig={{
+        editorState: content,
+        namespace: "myeditor",
+        nodes: [ListNode, ListItemNode],
+        onError(error: Error) {
+          throw error;
+        },
+        theme: ExampleTheme,
+      }}
+    >
       <div className={`editor-container`}>
         <ToolbarPlugin />
         <div className={`editor-inner ${reenie.className}`}>
           <RichTextPlugin
-            contentEditable={
-              <ContentEditable
-                className="editor-input"
-                aria-placeholder={placeholder}
-                placeholder={
-                  <div className="editor-placeholder">{placeholder}</div>
-                }
-              />
-            }
+            placeholder={<></>}
+            contentEditable={<ContentEditable className="editor-input" />}
             ErrorBoundary={LexicalErrorBoundary}
           />
+
           <ListPlugin />
           <CheckListPlugin />
           <HistoryPlugin />
+          <MyOnChangePlugin onChange={onChange} />
           <AutoFocusPlugin />
         </div>
       </div>
     </LexicalComposer>
   );
-}
+};
+
+export default Artboard;

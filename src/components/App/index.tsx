@@ -32,10 +32,12 @@ import { Bolt, Plus } from "lucide-react";
 
 import { getDaysDetailsInMonth, isValidDate } from "@/utils";
 import Artboard from "../Artboard";
+import { getLogFromADay } from "@/services";
 
 const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
   const [days, setDays] = useState([]);
+  const [contentInArtboard, setContentInArtboard] = useState(null);
 
   const today = new Date();
   const [selectedDay, setSelectedDay] = useState(
@@ -57,14 +59,14 @@ const App = ({ user }: any) => {
       id: "english-learning",
       label: "🇺🇸 English learning",
     },
-    // {
-    //   id: "to-learn-golang",
-    //   label: "📚 To learn Golang",
-    // },
-    // {
-    //   id: "gym",
-    //   label: "🏋🏾 Gym",
-    // },
+    {
+      id: "to-learn-golang",
+      label: "📚 To learn Golang",
+    },
+    {
+      id: "gym",
+      label: "🏋🏾 Gym",
+    },
     // {
     //   id: "good-habits",
     //   label: "🥦 Good habits",
@@ -96,12 +98,11 @@ const App = ({ user }: any) => {
     setSelectedDay(getId("-"));
     setTimeout(() => {
       const element = document.querySelector(`#day-${getId("-")}`);
-      
+
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }, 0);
-    
   };
 
   const handleCreateJourney = async (e: any) => {
@@ -161,7 +162,7 @@ const App = ({ user }: any) => {
       `${e?.month}${divider}${e?.day}${divider}${e?.year}`;
     const isValidDateSelected = isValidDate(getId("/"));
 
-    const syntheticDate = new Date(`${e?.year}-${e?.month}-${e?.day}`)
+    const syntheticDate = new Date(`${e?.year}-${e?.month}-${e?.day}`);
 
     if (isValidDateSelected && syntheticDate < today) {
       const isTheSameMonthSelected = e.month === lastMonthLoaded;
@@ -207,9 +208,18 @@ const App = ({ user }: any) => {
     }
   }, [inView]);
 
+  useEffect(() => {
+    const getLog = async () => {
+      const { content } = await getLogFromADay(new Date());
+
+      setContentInArtboard(content);
+    };
+    getLog();
+  }, []);
+
   return (
     <div className="flex bg-[#171717] w-full h-full">
-      <div className="w-[260px] flex-shrink-0 bg-black h-screen px-6 py-4 relative rounded-r-3xl overflow-scroll justify-start">
+      <div className="w-[260px] flex-shrink-0 bg-black h-screen px-6 py-6 relative rounded-r-3xl overflow-scroll justify-start">
         <div className="w-full sticky top-0 mb-5 mt-2 bg-black">
           <DatePicker
             variant={"bordered"}
@@ -291,28 +301,37 @@ const App = ({ user }: any) => {
           ) : null}
         </div>
       </div>
-      <div className="items-start py-3 w-full flex flex-col h-full overflow-scroll justify-start">
-        <Navbar className="bg-transparent h-[64px] nav" maxWidth="full">
-          <NavbarContent justify="center">
+      <div className="items-start py-6 w-full flex flex-col h-full overflow-scroll justify-start artboard-parent">
+        <Navbar
+          className="h-[64px] bg-transparent nav backdrop-filter-none"
+          maxWidth="full"
+        >
+          <NavbarContent
+            justify="center"
+            className="bg-[#1e1e1e] rounded-2xl px-3"
+          >
             <NavbarItem className="justify-center flex">
               <Tabs
                 aria-label="Journeys"
                 items={tabs}
                 variant="bordered"
-                className="bg-[#171717] relative z-10 rounded-xl"
+                className="relative rounded-xl"
               >
                 {(item) => <Tab key={item.id} title={item.label}></Tab>}
               </Tabs>
               <Button
                 onClick={handleCreateJourney}
-                className="bg-transparent py-5 rounded-l-none ml-[-10px] pl-4 border-dashed"
+                className="bg-transparent pl-4 border-none"
                 variant="bordered"
               >
                 <Plus className="stroke-white" /> New journey
               </Button>
             </NavbarItem>
           </NavbarContent>
-          <NavbarContent justify="end">
+          <NavbarContent
+            justify="end"
+            className="rounded-2xl nav-logout px-3 bg-[#1e1e1e]"
+          >
             <NavbarItem className="flex justify-center">
               <Dropdown>
                 <DropdownTrigger>
@@ -363,7 +382,8 @@ const App = ({ user }: any) => {
           </NavbarContent>
         </Navbar>
         <div className="px-5 w-full h-full flex artboard">
-          <Artboard />
+          {contentInArtboard ? <Artboard content={contentInArtboard} /> : null}
+          
         </div>
         <div className="h-[50px] shrink-0"></div>
       </div>
