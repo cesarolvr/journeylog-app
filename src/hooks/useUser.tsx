@@ -10,7 +10,6 @@ type UserContextType = {
 	user: User | null;
 	userDetails: null;
 	isLoading: boolean;
-	subscription: null;
 };
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -31,35 +30,32 @@ export const MyUserContextProvider = (props: Props) => {
 	const accessToken = session?.access_token ?? null;
 	const [isLoadingData, setIsloadingData] = useState(false);
 	const [userDetails, setUserDetails] = useState(null);
-	const [subscription, setSubscription] = useState(null);
 
-	const getUserDetails = () => supabase.from("users").select("*").single();
+	// const getUserDetails = () => supabase.from("users").select("*").single();
 
-	useEffect(() => {
-		if (user && !isLoadingData && !userDetails && !subscription) {
-			setIsloadingData(true);
-			Promise.allSettled([getUserDetails()]).then(
-				(results) => {
-					const userDetailsPromise = results[0];
+	// useEffect(() => {
+	// 	if (user && !isLoadingData && !userDetails) {
+	// 		setIsloadingData(true);
+	// 		Promise.allSettled([getUserDetails()]).then(
+	// 			(results) => {
+	// 				const userDetailsPromise = results[0];
 
-					if (userDetailsPromise.status === "fulfilled")
-						setUserDetails(userDetailsPromise.value.data);
+	// 				if (userDetailsPromise.status === "fulfilled")
+	// 					setUserDetails(userDetailsPromise.value.data);
 
-					setIsloadingData(false);
-				}
-			);
-		} else if (!user && !isLoadingUser && !isLoadingData) {
-			setUserDetails(null);
-			setSubscription(null);
-		}
-	}, [user, isLoadingUser]);
+	// 				setIsloadingData(false);
+	// 			}
+	// 		);
+	// 	} else if (!user && !isLoadingUser && !isLoadingData) {
+	// 		setUserDetails(null);
+	// 	}
+	// }, [user, isLoadingUser]);
 
 	const value = {
 		accessToken,
 		user,
 		userDetails,
 		isLoading: isLoadingUser || isLoadingData,
-		subscription,
 	};
 
 	return <UserContext.Provider value={value} {...props} />;

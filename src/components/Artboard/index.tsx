@@ -28,11 +28,10 @@ function MyOnChangePlugin({ onChange }) {
   return null;
 }
 
-const Artboard = ({ content }: any) => {
-  const [editorState, setEditorState] = useState();
-  function onChange(editorState) {
+const Artboard = ({ content, setContent }: any) => {
+  function onChange(editorState: any) {
     const editorStateJSON = editorState.toJSON();
-    setEditorState(JSON.stringify(editorStateJSON));
+    setContent(JSON.stringify(editorStateJSON));
   }
 
   return (
