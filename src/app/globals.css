@@ -79,8 +79,8 @@ h1 {
 .editor-container {
   border-radius: 2px;
   padding-right: 40px;
-  padding-top: 25px;
-  padding-left: 30px;
+  padding-top: 0px;
+  padding-left: 10px;
   width: 100%;
   height: 100%;
   color: white;
@@ -94,12 +94,11 @@ h1 {
   align-items: flex-start;
   justify-content: flex-start;
   font-family: var(--font-reenie);
-  /* list-style: initial; */
 }
 
-.editor-container:hover .toolbar {
+/* .editor-container:hover .toolbar {
   opacity: 1;
-}
+} */
 
 .editor-container ul {
   width: 100%;
@@ -195,7 +194,7 @@ h1 {
 }
 
 .editor-inner {
-  padding: 10px 0 20px 0;
+  padding: 10px 0 20px 0px;
   /* background: #171717; */
   position: relative;
   height: 100%;
@@ -447,11 +446,10 @@ pre::-webkit-scrollbar-thumb {
   display: flex;
   margin-bottom: 1px;
   background: #171717;
-  padding: 4px;
+  padding: 0px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   vertical-align: middle;
-  opacity: 0;
 }
 
 .toolbar button.toolbar-item {

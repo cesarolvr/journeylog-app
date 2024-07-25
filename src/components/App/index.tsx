@@ -42,8 +42,8 @@ const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
   const [days, setDays] = useState([]);
   const [journeyTabs, setJourneyTabs] = useState([]);
-  const [activeTab, setActiveTab] = useState({});
-  const [journeySettings, setJourneySettings] = useState({});
+  const [activeTab, setActiveTab] = useState(null);
+  // const [journeySettings, setJourneySettings] = useState({});
   const [contentInArtboard, setContentInArtboard] = useState(null);
 
   const today = new Date();
@@ -70,16 +70,41 @@ const App = ({ user }: any) => {
     setJourneySettings({ name: inputValue });
   };
 
-  const handleJourneySave = async (updatedJourney) => {
-    const { error, data } = await supabaseClient
+  // const handleJourneySave = async (updatedJourney) => {
+  //   const { error, data } = await supabaseClient
+  //     .from("journey")
+  //     .update(journeySettings)
+  //     .eq("id", updatedJourney.id);
+
+  //   if (data) {
+  //     setJourneyTabs([...journeyTabs, ...data]);
+  //   }
+  // };
+
+  const handleJourneyNameEdit = async (e) => {
+    const value = e?.target?.textContent;
+    const { error, data: updatedJourney } = await supabaseClient
       .from("journey")
-      .update(journeySettings)
-      .eq("id", updatedJourney.id)
-      .select();
+      .update({name: value, updated_at: new Date()})
+      .eq("id", activeTab?.id)
+      .select()
+      // .order('updated_at', { ascending: false });
 
-    if (data) {
+      
+      if (updatedJourney) {
+        const updatedTabList = journeyTabs.map((item, index) => {
+        // console.log(updatedJourney[0], item)
+        if (item.id === updatedJourney[0].id) {
+          return {
+            ...item,
+            ...updatedJourney[0]
+          }
+        }
 
-      setJourneyTabs([...journeyTabs, ...data]);
+        return item
+      })
+      setActiveTab(updatedJourney[0])
+      setJourneyTabs([...updatedTabList]);
     }
   };
 
@@ -88,7 +113,8 @@ const App = ({ user }: any) => {
       .from("journey")
       .delete()
       .eq("id", id)
-      .select();
+      .select()
+      .order('updated_at', { ascending: false });
 
     if (data) {
       const itemDeleted = data[0];
@@ -137,7 +163,8 @@ const App = ({ user }: any) => {
       .insert({
         name: "🇺🇸 To learn english",
       })
-      .select();
+      .select()
+      .order('updated_at', { ascending: false });
 
     if (data) {
       setJourneyTabs([...journeyTabs, ...data]);
@@ -255,7 +282,7 @@ const App = ({ user }: any) => {
     getLog();
 
     const getTabs = async () => {
-      const { error, data } = await supabaseClient.from("journey").select();
+      const { error, data } = await supabaseClient.from("journey").select().order('updated_at', { ascending: false });
       setJourneyTabs(data);
     };
 
@@ -356,15 +383,18 @@ const App = ({ user }: any) => {
             className="bg-[#1e1e1e] rounded-2xl px-3"
           >
             <NavbarItem className="justify-center flex">
-              <Tabs
-                aria-label="Journeys"
-                items={journeyTabs}
-                variant="bordered"
-                className="relative rounded-xl"
-                onSelectionChange={handleTabSelection}
-              >
-                {(item) => <Tab key={item.id} title={item.name}></Tab>}
-              </Tabs>
+              {journeyTabs.length > 0 ? (
+                <Tabs
+                  aria-label="Journeys"
+                  items={journeyTabs}
+                  variant="bordered"
+                  className="relative rounded-xl"
+                  onSelectionChange={handleTabSelection}
+                >
+                  {(item) => <Tab key={item.id} title={item.name}></Tab>}
+                </Tabs>
+              ) : null}
+
               <Button
                 onClick={handleCreateJourney}
                 className="bg-transparent pl-4 border-none"
@@ -378,47 +408,52 @@ const App = ({ user }: any) => {
             justify="end"
             className="rounded-2xl nav-logout px-3 bg-[#1e1e1e]"
           >
-            <Popover className="flex justify-center">
-              <PopoverTrigger>
-                <Button color="primary" className="bg-[#3f3f46] w-auto min-w-0">
-                  <Bolt />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[240px]">
-                {(titleProps) => (
-                  <div className="px-1 py-2 w-full">
-                    <p
-                      className="text-small font-bold text-foreground"
-                      {...titleProps}
-                    >
-                      Journey's settings
-                    </p>
-                    <div className="mt-2 flex flex-col gap-2 w-full mb-3">
-                      <Input
-                        defaultValue={activeTab.name}
-                        onChange={handleJourneySettingsUpdate}
-                        label="Name"
-                        size="sm"
-                        variant="bordered"
-                        className="mb-2"
-                      />
-                      <Button
-                        className="bg-success text-white w-full"
-                        onClick={() => handleJourneySave(activeTab)}
+            {activeTab ? (
+              <Popover className="flex justify-center">
+                <PopoverTrigger>
+                  <Button
+                    color="primary"
+                    className="bg-[#3f3f46] w-auto min-w-0"
+                  >
+                    <Bolt />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[240px]">
+                  {(titleProps) => (
+                    <div className="px-1 py-2 w-full">
+                      <p
+                        className="text-small font-bold text-foreground"
+                        {...titleProps}
                       >
-                        Save
+                        Journey's settings
+                      </p>
+                      <div className="mt-2 flex flex-col gap-2 w-full mb-3">
+                        <Input
+                          defaultValue={activeTab.name}
+                          onChange={handleJourneySettingsUpdate}
+                          label="Name"
+                          size="sm"
+                          variant="bordered"
+                          className="mb-2"
+                        />
+                        {/* <Button
+                          className="bg-success text-white w-full"
+                          onClick={() => handleJourneySave(activeTab)}
+                        >
+                          Save
+                        </Button> */}
+                      </div>
+                      <Button
+                        className="bg-danger-300 text-white w-full"
+                        onClick={() => handleJourneyDeletion(activeTab)}
+                      >
+                        Delete Journey
                       </Button>
                     </div>
-                    <Button
-                      className="bg-danger-300 text-white w-full"
-                      onClick={() => handleJourneyDeletion(activeTab)}
-                    >
-                      Delete Journey
-                    </Button>
-                  </div>
-                )}
-              </PopoverContent>
-            </Popover>
+                  )}
+                </PopoverContent>
+              </Popover>
+            ) : null}
             <NavbarItem className="flex justify-center">
               <Dropdown>
                 <DropdownTrigger>
@@ -436,9 +471,15 @@ const App = ({ user }: any) => {
             </NavbarItem>
           </NavbarContent>
         </Navbar>
-        <div className="px-5 w-full h-full flex artboard">
-          {contentInArtboard ? <Artboard content={contentInArtboard} /> : null}
-          <Artboard content={contentInArtboard} />
+        <div className="px-6 w-full h-full flex artboard flex-col">
+          <p
+            className="px-4 py-2 text-3xl mt-3 mb-5"
+            contentEditable="true"
+            onInput={handleJourneyNameEdit}
+          >
+            {activeTab?.name}
+          </p>
+          {activeTab ? <Artboard content={contentInArtboard} /> : null}
         </div>
         <div className="h-[50px] shrink-0"></div>
         {/* <div className="absolute right-0 bg-black top-0 w-[260px] h-svh rounded-l-3xl p-4">aaa</div> */}
