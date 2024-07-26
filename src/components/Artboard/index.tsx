@@ -21,21 +21,27 @@ function MyOnChangePlugin({ onChange }) {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
-    return editor.registerUpdateListener(({ editorState }) => {
-      onChange(editorState);
+    return editor.registerUpdateListener(({ editorState, prevEditorState }) => {
+      onChange(editorState, prevEditorState);
     });
   }, [editor, onChange]);
   return null;
 }
 
 const Artboard = ({ content, setContent }: any) => {
-  function onChange(editorState: any) {
+  function onChange(editorState: any, prevEditorState: any) {
     const editorStateJSON = editorState.toJSON();
-    setContent(JSON.stringify(editorStateJSON));
+    const currentStateString = JSON.stringify(prevEditorState.toJSON());
+    const newStateString = JSON.stringify(editorStateJSON);
+
+    if (currentStateString != newStateString) {
+      setContent(newStateString);
+    }
   }
 
   return (
     <LexicalComposer
+      key={Math.random().toString(16).slice(2)}
       initialConfig={{
         editorState: content,
         namespace: "myeditor",

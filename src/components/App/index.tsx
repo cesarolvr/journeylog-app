@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import classnames from "classnames";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { DateTime } from "luxon";
 import { useInView } from "react-intersection-observer";
 import {
   CalendarDate,
@@ -95,6 +96,7 @@ const App = ({ user }: any) => {
 
     const logRegistered = data[0];
     setActiveLog(logRegistered);
+    setContentInArtboard(logRegistered.content)
   };
 
   const handleJourneyNameEdit = async (e: any) => {
@@ -296,12 +298,27 @@ const App = ({ user }: any) => {
     };
     getLog();
 
-    const getLogs = async (journeyId: any) => {
+    const getLogs = async (journeyId: any, dateString: any) => {
+      const start = DateTime.now()
+        .set({ hour: 0, minute: 0, second: 0 })
+        .toUTC()
+        .toISO();
+      const end = new DateTime(dateString)
+        .set({
+          hour: 23,
+          minute: 59,
+          second: 59,
+        })
+        .toUTC()
+        .toISO();
+
       const { data, error } = await supabaseClient
         .from("log")
         .select()
         .eq("journey_id", journeyId)
-        .order("created_at", { ascending: true });
+        .gt("created_at", start)
+        .lt("created_at", end)
+        .order("created_at", { ascending: false });
 
       return data[0];
     };
@@ -314,17 +331,21 @@ const App = ({ user }: any) => {
       setActiveTab(data[0]);
       setJourneyTabs(data);
 
-      const res = await getLogs(data[0].id);
+      const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
+
+      const res = await getLogs(
+        data[0].id,
+        `${today.getFullYear()}-${monthWithPad}-${today.getDate()}`
+      );
+      console.log(res);
       if (res) {
-        setActiveLog(res)
-        setContentInArtboard(res.content)
-      };
+        setActiveLog(res);
+        setContentInArtboard(res.content);
+      }
     };
 
     getTabs();
   }, []);
-
-  console.log(contentInArtboard)
 
   return (
     <div className="flex bg-[#171717] w-full h-full">
@@ -492,7 +513,7 @@ const App = ({ user }: any) => {
               </Popover>
             ) : null}
           </div>
-          {activeTab && contentInArtboard ? (
+          {activeTab ?  (
             <Artboard
               content={contentInArtboard}
               setContent={handleContentEdit}
