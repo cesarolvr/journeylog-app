@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import classnames from "classnames";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DateTime } from "luxon";
@@ -35,7 +35,7 @@ import { Plus, Ellipsis } from "lucide-react";
 
 import { getDaysDetailsInMonth, isValidDate } from "@/utils";
 import Artboard from "../Artboard";
-import { getLogFromADay } from "@/services";
+import { debounce } from "lodash";
 
 const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
@@ -65,12 +65,12 @@ const App = ({ user }: any) => {
     threshold: 0.5,
   });
 
-  const handleContentEdit = async (content: any) => {
+  const handleContentEdit = debounce(async (content: any) => {
     const customDate = new Date();
     customDate.setDate(dateSelected.day);
     customDate.setMonth(dateSelected.month - 1);
     customDate.setFullYear(dateSelected.year);
-    
+
     await supabaseClient.from("log").upsert({
       ...(activeLog && { id: activeLog.id }),
       created_at: customDate,
@@ -80,7 +80,7 @@ const App = ({ user }: any) => {
       content,
       user_id: user.id,
     });
-  };
+  }, 500);
 
   const handleJourneyNameEdit = async (e: any) => {
     const value = e?.target?.textContent;
@@ -298,8 +298,6 @@ const App = ({ user }: any) => {
       .gt("created_at", start)
       .lt("created_at", end)
       .order("created_at", { ascending: false });
-
-      console.log(start, end)
 
     return data[0];
   };
