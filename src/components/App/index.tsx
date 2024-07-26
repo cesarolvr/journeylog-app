@@ -66,40 +66,20 @@ const App = ({ user }: any) => {
   });
 
   const handleContentEdit = async (content: any) => {
-    console.log(activeLog);
-    // if (!logRetrieved) return;
-    // if (activeLog) {
-    //   debugger;
-    //   const { data, error } = await supabaseClient
-    //     .from("log")
-    //     .update({
-    //       id: activeLog?.id,
-    //       type: "",
-    //       journey_id: activeTab?.id,
-    //       content,
-    //       user_id: user.id,
-    //     })
-    //     .select();
-
-    //   const logRegistered = data[0];
-    //   setActiveLog(logRegistered);
-    // } else {
-
-    const { data, error } = await supabaseClient
-      .from("log")
-      .upsert({
-        ...(activeLog && { id: activeLog.id }),
-        type: "",
-        journey_id: activeTab?.id,
-        content,
-        user_id: user.id,
-      })
-      .select();
-
-    const logRegistered = data[0];
-
-    // setContentInArtboard(logRegistered.content)
-    // setActiveLog(logRegistered);
+    const customDate = new Date();
+    customDate.setDate(dateSelected.day);
+    customDate.setMonth(dateSelected.month - 1);
+    customDate.setFullYear(dateSelected.year);
+    
+    await supabaseClient.from("log").upsert({
+      ...(activeLog && { id: activeLog.id }),
+      created_at: customDate,
+      updated_at: customDate,
+      type: "",
+      journey_id: activeTab?.id,
+      content,
+      user_id: user.id,
+    });
   };
 
   const handleJourneyNameEdit = async (e: any) => {
@@ -220,6 +200,7 @@ const App = ({ user }: any) => {
     e: any,
     { id, monthNumber, dayNumber, year }: any
   ) => {
+    setActiveLog(null);
     setContentInArtboard(null);
     const newDate = new CalendarDate(year, monthNumber, dayNumber);
     setDateSelected(newDate);
@@ -230,11 +211,17 @@ const App = ({ user }: any) => {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
-    const a = new Date(year, monthNumber - 1, dayNumber);
+    const monthWithPad = `0${monthNumber}`.slice(-2);
 
-    const log = await getLogFromADay(a);
+    const res = await getLogs(
+      activeTab.id,
+      `${year}-${monthWithPad}-${dayNumber}`
+    );
 
-    setContentInArtboard(log?.content);
+    if (res) {
+      setActiveLog(res);
+      setContentInArtboard(res.content);
+    }
   };
 
   const handleDateSelection = (e: any) => {
@@ -290,42 +277,34 @@ const App = ({ user }: any) => {
     }
   }, [inView]);
 
+  const getLogs = async (journeyId: any, dateString: any) => {
+    const start = DateTime.fromISO(dateString)
+      .set({ hour: 0, minute: 0, second: 0 })
+      .toUTC()
+      .toISO();
+    const end = DateTime.fromISO(dateString)
+      .set({
+        hour: 23,
+        minute: 59,
+        second: 59,
+      })
+      .toUTC()
+      .toISO();
+
+    const { data, error } = await supabaseClient
+      .from("log")
+      .select()
+      .eq("journey_id", journeyId)
+      .gt("created_at", start)
+      .lt("created_at", end)
+      .order("created_at", { ascending: false });
+
+      console.log(start, end)
+
+    return data[0];
+  };
+
   useEffect(() => {
-    const getLog = async () => {
-      const today = new Date();
-      const log = await getLogFromADay(
-        new Date(today.getFullYear(), today.getMonth(), today.getDate())
-      );
-
-      setContentInArtboard(log?.content);
-    };
-    getLog();
-
-    const getLogs = async (journeyId: any, dateString: any) => {
-      const start = DateTime.now()
-        .set({ hour: 0, minute: 0, second: 0 })
-        .toUTC()
-        .toISO();
-      const end = new DateTime(dateString)
-        .set({
-          hour: 23,
-          minute: 59,
-          second: 59,
-        })
-        .toUTC()
-        .toISO();
-
-      const { data, error } = await supabaseClient
-        .from("log")
-        .select()
-        .eq("journey_id", journeyId)
-        .gt("created_at", start)
-        .lt("created_at", end)
-        .order("created_at", { ascending: false });
-
-      return data[0];
-    };
-
     const getTabs = async () => {
       const { error, data } = await supabaseClient
         .from("journey")
