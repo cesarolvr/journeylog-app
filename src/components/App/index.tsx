@@ -71,15 +71,22 @@ const App = ({ user }: any) => {
     customDate.setMonth(dateSelected.month - 1);
     customDate.setFullYear(dateSelected.year);
 
-    await supabaseClient.from("log").upsert({
-      ...(activeLog && { id: activeLog.id }),
-      created_at: customDate,
-      updated_at: customDate,
-      type: "",
-      journey_id: activeTab?.id,
-      content,
-      user_id: user.id,
-    });
+    const { data, error } = await supabaseClient
+      .from("log")
+      .upsert({
+        ...(activeLog && { id: activeLog.id }),
+        created_at: customDate,
+        updated_at: customDate,
+        type: "",
+        journey_id: activeTab?.id,
+        content,
+        user_id: user.id,
+      })
+      .select();
+
+    if (data[0]) {
+      setActiveLog(data[0]);
+    }
   }, 500);
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
@@ -283,10 +290,9 @@ const App = ({ user }: any) => {
       setActiveLog(null);
       setContentInArtboard(null);
 
-      
       const monthWithPad = `0${e?.month}`.slice(-2);
       const filter = `${e?.year}-${monthWithPad}-${e?.day}`;
-      
+
       const res = await getLogs(activeTab.id, filter);
       if (res) {
         setActiveLog(res);
@@ -525,13 +531,11 @@ const App = ({ user }: any) => {
               </Popover>
             ) : null}
           </div>
-          {activeTab ? (
-            <Artboard
-              content={contentInArtboard}
-              setContent={handleContentEdit}
-              activeTab={activeTab}
-            />
-          ) : null}
+          <Artboard
+            content={contentInArtboard}
+            setContent={handleContentEdit}
+            activeTab={activeTab}
+          />
         </div>
         <div className="h-[50px] shrink-0"></div>
         {/* <div className="absolute right-0 bg-black top-0 w-[260px] h-svh rounded-l-3xl p-4">aaa</div> */}
