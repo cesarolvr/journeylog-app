@@ -82,7 +82,7 @@ const App = ({ user }: any) => {
     });
   }, 500);
 
-  const handleJourneyNameEdit = async (e: any) => {
+  const handleJourneyNameEdit = debounce(async (e: any) => {
     const value = e?.target?.textContent;
     const { error, data: updatedJourney } = await supabaseClient
       .from("journey")
@@ -104,9 +104,9 @@ const App = ({ user }: any) => {
       setActiveTab(updatedJourney[0]);
       setJourneyTabs([...updatedTabList]);
     }
-  };
+  }, 500);
 
-  const handleJourneyDeletion = async ({ id }: any) => {
+  const handleJourneyDeletion = debounce(async ({ id }: any) => {
     const { error, data } = await supabaseClient
       .from("journey")
       .delete()
@@ -122,13 +122,28 @@ const App = ({ user }: any) => {
 
       setJourneyTabs(newTabsToBeRendered);
     }
-  };
+  }, 500);
 
-  const handleTabSelection = (idSelected: any) => {
+  const handleTabSelection = async (idSelected: any) => {
     const activeTab = journeyTabs.find((item) => {
       return item.id === idSelected;
     });
+
     setActiveTab(activeTab);
+    setContentInArtboard(null);
+    setActiveLog(null);
+
+    const monthWithPad = `0${dateSelected.month}`.slice(-2);
+
+    const res = await getLogs(
+      activeTab.id,
+      `${dateSelected.year}-${monthWithPad}-${dateSelected.day}`
+    );
+
+    if (res) {
+      setActiveLog(res);
+      setContentInArtboard(res.content);
+    }
   };
 
   const handleGoToToday = (now: any) => {
@@ -155,7 +170,7 @@ const App = ({ user }: any) => {
     }, 0);
   };
 
-  const handleCreateJourney = async (e: any) => {
+  const handleCreateJourney = debounce(async (e: any) => {
     await supabaseClient.from("journey").insert({
       name: "🏆 New journey",
     });
@@ -166,10 +181,14 @@ const App = ({ user }: any) => {
       .order("updated_at", { ascending: false });
 
     if (data) {
+      setJourneyTabs([]);
       setActiveTab(data[0]);
-      setJourneyTabs([...journeyTabs, ...data]);
+      setTimeout(() => {
+        setJourneyTabs([...data]);
+      }, 100);
+      setContentInArtboard(null);
     }
-  };
+  }, 500);
 
   const handleLoadMore = () => {
     const newLastMonthLoaded = lastMonthLoaded === 1 ? 12 : lastMonthLoaded - 1;
@@ -189,12 +208,12 @@ const App = ({ user }: any) => {
     }, 1000);
   };
 
-  const handleLogout = async () => {
+  const handleLogout = debounce(async () => {
     const { error } = await supabaseClient.auth.signOut();
     if (error) {
       console.log(error);
     }
-  };
+  }, 500);
 
   const handleDaySelection = async (
     e: any,
@@ -224,7 +243,7 @@ const App = ({ user }: any) => {
     }
   };
 
-  const handleDateSelection = (e: any) => {
+  const handleDateSelection = async (e: any) => {
     setDateSelected(e);
 
     const getId = (divider: string) =>
@@ -260,6 +279,19 @@ const App = ({ user }: any) => {
       );
 
       setSelectedDay(getId("-"));
+
+      setActiveLog(null);
+      setContentInArtboard(null);
+
+      
+      const monthWithPad = `0${e?.month}`.slice(-2);
+      const filter = `${e?.year}-${monthWithPad}-${e?.day}`;
+      
+      const res = await getLogs(activeTab.id, filter);
+      if (res) {
+        setActiveLog(res);
+        setContentInArtboard(res.content);
+      }
     }
   };
 
@@ -331,6 +363,7 @@ const App = ({ user }: any) => {
       <div className="w-[260px] flex-shrink-0 bg-black h-screen px-6 py-6 relative rounded-r-3xl overflow-scroll justify-start">
         <div className="w-full sticky top-0 mb-5 mt-2 bg-black">
           <DatePicker
+            aria-label="teste"
             variant={"bordered"}
             value={dateSelected}
             maxValue={todayDate(getLocalTimeZone())}
