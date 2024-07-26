@@ -43,7 +43,6 @@ const App = ({ user }: any) => {
   const [journeyTabs, setJourneyTabs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [activeLog, setActiveLog] = useState(null);
-  const [logRetrieved, setLogRetrieved] = useState(false);
 
   const [contentInArtboard, setContentInArtboard] = useState(null);
 
@@ -67,6 +66,7 @@ const App = ({ user }: any) => {
   });
 
   const handleContentEdit = async (content: any) => {
+    console.log(activeLog);
     // if (!logRetrieved) return;
     // if (activeLog) {
     //   debugger;
@@ -84,9 +84,11 @@ const App = ({ user }: any) => {
     //   const logRegistered = data[0];
     //   setActiveLog(logRegistered);
     // } else {
+
     const { data, error } = await supabaseClient
       .from("log")
-      .insert({
+      .upsert({
+        ...(activeLog && { id: activeLog.id }),
         type: "",
         journey_id: activeTab?.id,
         content,
@@ -95,8 +97,9 @@ const App = ({ user }: any) => {
       .select();
 
     const logRegistered = data[0];
-    setActiveLog(logRegistered);
-    setContentInArtboard(logRegistered.content)
+
+    // setContentInArtboard(logRegistered.content)
+    // setActiveLog(logRegistered);
   };
 
   const handleJourneyNameEdit = async (e: any) => {
@@ -337,7 +340,6 @@ const App = ({ user }: any) => {
         data[0].id,
         `${today.getFullYear()}-${monthWithPad}-${today.getDate()}`
       );
-      console.log(res);
       if (res) {
         setActiveLog(res);
         setContentInArtboard(res.content);
@@ -513,7 +515,7 @@ const App = ({ user }: any) => {
               </Popover>
             ) : null}
           </div>
-          {activeTab ?  (
+          {activeTab ? (
             <Artboard
               content={contentInArtboard}
               setContent={handleContentEdit}
