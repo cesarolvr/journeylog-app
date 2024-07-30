@@ -43,6 +43,7 @@ const App = ({ user }: any) => {
   const [journeyTabs, setJourneyTabs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [activeLog, setActiveLog] = useState(null);
+  const [isTyping, setIsTyping] = useState(false);
   const [contentInArtboard, setContentInArtboard] = useState(null);
 
   const today = new Date();
@@ -78,7 +79,6 @@ const App = ({ user }: any) => {
         ...(activeLog
           ? { updated_at: new Date() }
           : { updated_at: customDate }),
-        // updated_at: customDate,
         type: "",
         journey_id: activeTab?.id,
         content,
@@ -87,7 +87,7 @@ const App = ({ user }: any) => {
       .select();
 
     if (data[0]) {
-      // setActiveLog(data[0])
+      setIsTyping(true);
     }
   }, 500);
 
@@ -143,10 +143,11 @@ const App = ({ user }: any) => {
     setActiveLog(null);
 
     const monthWithPad = `0${dateSelected.month}`.slice(-2);
+    const dayWithPad = `0${dateSelected.day}`.slice(-2);
 
     const res = await getLogs(
       activeTab.id,
-      `${dateSelected.year}-${monthWithPad}-${dateSelected.day}`
+      `${dateSelected.year}-${monthWithPad}-${dayWithPad}`
     );
 
     if (res) {
@@ -170,11 +171,24 @@ const App = ({ user }: any) => {
 
     setDateSelected(now);
     setSelectedDay(getId("-"));
-    setTimeout(() => {
+    setTimeout(async () => {
       const element = document.querySelector(`#day-${getId("-")}`);
 
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      const monthWithPad = `0${now.month}`.slice(-2);
+      const dayWithPad = `0${now.day}`.slice(-2);
+
+      const res = await getLogs(
+        activeTab.id,
+        `${now.year}-${monthWithPad}-${dayWithPad}`
+      );
+
+      if (res) {
+        setActiveLog(res);
+        setContentInArtboard(res.content);
       }
     }, 0);
   };
@@ -240,10 +254,11 @@ const App = ({ user }: any) => {
     }
 
     const monthWithPad = `0${monthNumber}`.slice(-2);
+    const dayWithPad = `0${dayNumber}`.slice(-2);
 
     const res = await getLogs(
       activeTab.id,
-      `${year}-${monthWithPad}-${dayNumber}`
+      `${year}-${monthWithPad}-${dayWithPad}`
     );
 
     if (res) {
@@ -293,7 +308,9 @@ const App = ({ user }: any) => {
       setContentInArtboard(null);
 
       const monthWithPad = `0${e?.month}`.slice(-2);
-      const filter = `${e?.year}-${monthWithPad}-${e?.day}`;
+      const dayWithPad = `0${e?.day}`.slice(-2);
+
+      const filter = `${e?.year}-${monthWithPad}-${dayWithPad}`;
 
       const res = await getLogs(activeTab.id, filter);
       if (res) {
@@ -339,7 +356,7 @@ const App = ({ user }: any) => {
       .lt("created_at", end)
       .order("created_at", { ascending: false });
 
-    return data[0];
+    return data ? data[0] : null;
   };
 
   useEffect(() => {
@@ -352,10 +369,11 @@ const App = ({ user }: any) => {
       setJourneyTabs(data);
 
       const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
+      const dayWithPad = `0${today?.getDate()}`.slice(-2);
 
       const res = await getLogs(
         data[0].id,
-        `${today.getFullYear()}-${monthWithPad}-${today.getDate()}`
+        `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`
       );
       if (res) {
         setActiveLog(res);
@@ -389,8 +407,6 @@ const App = ({ user }: any) => {
               </ButtonGroup>
             }
             calendarProps={{
-              focusedValue: dateSelected,
-              onFocusChange: setDateSelected,
               nextButtonProps: {
                 variant: "bordered",
               },
