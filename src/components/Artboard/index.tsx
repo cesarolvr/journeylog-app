@@ -56,7 +56,9 @@ const Artboard = ({ content, setContent }: any) => {
         <ToolbarPlugin />
         <div className={`editor-inner ${reenie.className}`}>
           <RichTextPlugin
-            placeholder={<></>}
+            placeholder={
+              <div className="editor-placeholder">> start to log this day...</div>
+            }
             contentEditable={<ContentEditable className="editor-input" />}
             ErrorBoundary={LexicalErrorBoundary}
           />

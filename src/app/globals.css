@@ -195,7 +195,6 @@ h1 {
 
 .editor-inner {
   padding: 10px 0 20px 0px;
-  /* background: #171717; */
   position: relative;
   height: 100%;
   width: 100%;
@@ -211,16 +210,14 @@ h1 {
   position: relative;
   tab-size: 1;
   outline: 0;
-  padding: 0px 10px;
+  padding: 10px 10px;
   caret-color: #444;
 }
 
 .editor-placeholder {
-  color: #999;
-  overflow: hidden;
+  color: #353535;
   position: absolute;
-  text-overflow: ellipsis;
-  top: 15px;
+  top: 45px;
   left: 10px;
   font-size: 60px;
   user-select: none;

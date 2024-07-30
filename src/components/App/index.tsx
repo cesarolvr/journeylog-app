@@ -43,7 +43,6 @@ const App = ({ user }: any) => {
   const [journeyTabs, setJourneyTabs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [activeLog, setActiveLog] = useState(null);
-
   const [contentInArtboard, setContentInArtboard] = useState(null);
 
   const today = new Date();
@@ -76,7 +75,10 @@ const App = ({ user }: any) => {
       .upsert({
         ...(activeLog && { id: activeLog.id }),
         created_at: customDate,
-        updated_at: customDate,
+        ...(activeLog
+          ? { updated_at: new Date() }
+          : { updated_at: customDate }),
+        // updated_at: customDate,
         type: "",
         journey_id: activeTab?.id,
         content,
@@ -85,7 +87,7 @@ const App = ({ user }: any) => {
       .select();
 
     if (data[0]) {
-      setActiveLog(data[0]);
+      // setActiveLog(data[0])
     }
   }, 500);
 
@@ -408,14 +410,15 @@ const App = ({ user }: any) => {
                 <div
                   key={index}
                   id={`day-${id}`}
-                  onClick={(e) =>
+                  onClick={(e) => {
+                    if (selectedDay === id) return;
                     handleDaySelection(e, {
                       id,
                       monthNumber,
                       dayNumber,
                       year,
-                    })
-                  }
+                    });
+                  }}
                   className={classnames(
                     "p-4 flex justify-between cursor-pointer hover:text-white hover:bg-[#212121] bg-[#161616] mb-4 text-[24px] rounded-2xl text-[#424242] h-[130px]",
                     {
