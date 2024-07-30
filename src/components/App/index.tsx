@@ -33,9 +33,9 @@ import {
 } from "@nextui-org/react";
 import { Plus, Ellipsis } from "lucide-react";
 
+import { debounce } from "lodash";
 import { getDaysDetailsInMonth, isValidDate } from "@/utils";
 import Artboard from "../Artboard";
-import { debounce } from "lodash";
 
 const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
@@ -43,7 +43,6 @@ const App = ({ user }: any) => {
   const [journeyTabs, setJourneyTabs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [activeLog, setActiveLog] = useState(null);
-  const [isTyping, setIsTyping] = useState(false);
   const [contentInArtboard, setContentInArtboard] = useState(null);
 
   const today = new Date();
@@ -87,9 +86,12 @@ const App = ({ user }: any) => {
       .select();
 
     if (data[0]) {
-      setIsTyping(true);
+      setActiveLog(data[0]);
+      setContentInArtboard(data[0]?.content)
     }
   }, 500);
+
+  console.log(activeLog);
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
     const value = e?.target?.textContent;
@@ -552,7 +554,7 @@ const App = ({ user }: any) => {
           </div>
           <Artboard
             content={contentInArtboard}
-            setContent={handleContentEdit}
+            setContent={(handleContentEdit)}
             activeTab={activeTab}
           />
         </div>
