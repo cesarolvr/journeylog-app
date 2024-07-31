@@ -5,6 +5,8 @@ import classnames from "classnames";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DateTime } from "luxon";
 import { useInView } from "react-intersection-observer";
+import { v4 as uuidv4 } from "uuid";
+
 import {
   CalendarDate,
   getLocalTimeZone,
@@ -43,6 +45,7 @@ const App = ({ user }: any) => {
   const [journeyTabs, setJourneyTabs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [activeLog, setActiveLog] = useState(null);
+  const [test, setTest] = useState(false);
   const [contentInArtboard, setContentInArtboard] = useState(null);
 
   const today = new Date();
@@ -70,6 +73,9 @@ const App = ({ user }: any) => {
     customDate.setMonth(dateSelected.month - 1);
     customDate.setFullYear(dateSelected.year);
 
+    // const a = uuidv4();
+    // console.log(a)
+
     const { data, error } = await supabaseClient
       .from("log")
       .upsert({
@@ -85,13 +91,11 @@ const App = ({ user }: any) => {
       })
       .select();
 
-    if (data[0]) {
-      setActiveLog(data[0]);
-      setContentInArtboard(data[0]?.content)
-    }
+    // if (data[0]) {
+    //   setActiveLog(data[0]);
+    //   // setContentInArtboard(data[0]?.content);
+    // }
   }, 500);
-
-  console.log(activeLog);
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
     const value = e?.target?.textContent;
@@ -554,8 +558,8 @@ const App = ({ user }: any) => {
           </div>
           <Artboard
             content={contentInArtboard}
-            setContent={(handleContentEdit)}
-            activeTab={activeTab}
+            setContent={handleContentEdit}
+            // activeTab={activeTab}
           />
         </div>
         <div className="h-[50px] shrink-0"></div>
