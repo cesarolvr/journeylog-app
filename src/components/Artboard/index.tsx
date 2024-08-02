@@ -17,7 +17,7 @@ import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import { useEffect, useRef, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-function MyOnChangePlugin({ onChange }) {
+function MyOnChangePlugin({ onChange }: any) {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
@@ -43,7 +43,9 @@ const Artboard = ({ content, setContent }: any) => {
     <LexicalComposer
       key={Math.random().toString(16).slice(2)}
       initialConfig={{
-        editorState: content,
+        editorState:
+          content ||
+          `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`,
         namespace: "myeditor",
         nodes: [ListNode, ListItemNode],
         onError(error: Error) {
@@ -57,7 +59,9 @@ const Artboard = ({ content, setContent }: any) => {
         <div className={`editor-inner ${reenie.className}`}>
           <RichTextPlugin
             placeholder={
-              <div className="editor-placeholder">what did you do this day?</div>
+              <div className="editor-placeholder">
+                what did you do this day?
+              </div>
             }
             contentEditable={<ContentEditable className="editor-input" />}
             ErrorBoundary={LexicalErrorBoundary}

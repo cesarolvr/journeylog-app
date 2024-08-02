@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classnames from "classnames";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DateTime } from "luxon";
 import { useInView } from "react-intersection-observer";
-import { v4 as uuidv4 } from "uuid";
 
 import {
   CalendarDate,
@@ -45,8 +44,7 @@ const App = ({ user }: any) => {
   const [journeyTabs, setJourneyTabs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [activeLog, setActiveLog] = useState(null);
-  const [test, setTest] = useState(false);
-  const [contentInArtboard, setContentInArtboard] = useState(null);
+  const [initialArtboard, setInitialArtboard] = useState(null);
 
   const today = new Date();
   const [selectedDay, setSelectedDay] = useState(
@@ -67,21 +65,23 @@ const App = ({ user }: any) => {
     threshold: 0.5,
   });
 
+  const newActiveLog = useRef(null);
+  const newActiveTab = useRef(null);
+
   const handleContentEdit = debounce(async (content: any) => {
     const customDate = new Date();
     customDate.setDate(dateSelected.day);
     customDate.setMonth(dateSelected.month - 1);
     customDate.setFullYear(dateSelected.year);
 
-    // const a = uuidv4();
-    // console.log(a)
+    console.log(newActiveLog);
 
     const { data, error } = await supabaseClient
       .from("log")
       .upsert({
-        ...(activeLog && { id: activeLog.id }),
+        ...(newActiveLog?.current && { id: newActiveLog?.current?.id }),
         created_at: customDate,
-        ...(activeLog
+        ...(newActiveLog?.current
           ? { updated_at: new Date() }
           : { updated_at: customDate }),
         type: "",
@@ -91,10 +91,9 @@ const App = ({ user }: any) => {
       })
       .select();
 
-    // if (data[0]) {
-    //   setActiveLog(data[0]);
-    //   // setContentInArtboard(data[0]?.content);
-    // }
+    if (data && data[0]) {
+      newActiveLog.current = data[0];
+    }
   }, 500);
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
@@ -117,6 +116,7 @@ const App = ({ user }: any) => {
         return item;
       });
       setActiveTab(updatedJourney[0]);
+      newActiveTab.current = updatedJourney[0];
       setJourneyTabs([...updatedTabList]);
     }
   }, 500);
@@ -145,8 +145,10 @@ const App = ({ user }: any) => {
     });
 
     setActiveTab(activeTab);
-    setContentInArtboard(null);
+    newActiveTab.current = activeTab;
+    setInitialArtboard(null);
     setActiveLog(null);
+    newActiveLog.current = null;
 
     const monthWithPad = `0${dateSelected.month}`.slice(-2);
     const dayWithPad = `0${dateSelected.day}`.slice(-2);
@@ -158,7 +160,8 @@ const App = ({ user }: any) => {
 
     if (res) {
       setActiveLog(res);
-      setContentInArtboard(res.content);
+      newActiveLog.current = res;
+      setInitialArtboard(res.content);
     }
   };
 
@@ -194,7 +197,8 @@ const App = ({ user }: any) => {
 
       if (res) {
         setActiveLog(res);
-        setContentInArtboard(res.content);
+        newActiveLog.current = res;
+        setInitialArtboard(res.content);
       }
     }, 0);
   };
@@ -212,10 +216,11 @@ const App = ({ user }: any) => {
     if (data) {
       setJourneyTabs([]);
       setActiveTab(data[0]);
+      newActiveTab.current = data[0];
       setTimeout(() => {
         setJourneyTabs([...data]);
       }, 100);
-      setContentInArtboard(null);
+      setInitialArtboard(null);
     }
   }, 500);
 
@@ -249,7 +254,8 @@ const App = ({ user }: any) => {
     { id, monthNumber, dayNumber, year }: any
   ) => {
     setActiveLog(null);
-    setContentInArtboard(null);
+    newActiveLog.current = null;
+    setInitialArtboard(null);
     const newDate = new CalendarDate(year, monthNumber, dayNumber);
     setDateSelected(newDate);
     setSelectedDay(id);
@@ -269,7 +275,8 @@ const App = ({ user }: any) => {
 
     if (res) {
       setActiveLog(res);
-      setContentInArtboard(res.content);
+      newActiveLog.current = res;
+      setInitialArtboard(res.content);
     }
   };
 
@@ -311,7 +318,8 @@ const App = ({ user }: any) => {
       setSelectedDay(getId("-"));
 
       setActiveLog(null);
-      setContentInArtboard(null);
+      newActiveLog.current = null;
+      setInitialArtboard(null);
 
       const monthWithPad = `0${e?.month}`.slice(-2);
       const dayWithPad = `0${e?.day}`.slice(-2);
@@ -321,7 +329,8 @@ const App = ({ user }: any) => {
       const res = await getLogs(activeTab.id, filter);
       if (res) {
         setActiveLog(res);
-        setContentInArtboard(res.content);
+        newActiveLog.current = res;
+        setInitialArtboard(res.content);
       }
     }
   };
@@ -371,19 +380,25 @@ const App = ({ user }: any) => {
         .from("journey")
         .select()
         .order("updated_at", { ascending: false });
-      setActiveTab(data[0]);
-      setJourneyTabs(data);
 
-      const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
-      const dayWithPad = `0${today?.getDate()}`.slice(-2);
+      if (data[0]) {
+        setActiveTab(data[0]);
+        newActiveTab.current = data[0];
+        setJourneyTabs(data);
 
-      const res = await getLogs(
-        data[0].id,
-        `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`
-      );
-      if (res) {
-        setActiveLog(res);
-        setContentInArtboard(res.content);
+        const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
+        const dayWithPad = `0${today?.getDate()}`.slice(-2);
+
+        const res = await getLogs(
+          data[0]?.id,
+          `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`
+        );
+
+        if (res) {
+          setActiveLog(res);
+          newActiveLog.current = res;
+          setInitialArtboard(res.content);
+        }
       }
     };
 
@@ -556,11 +571,12 @@ const App = ({ user }: any) => {
               </Popover>
             ) : null}
           </div>
-          <Artboard
-            content={contentInArtboard}
-            setContent={handleContentEdit}
-            // activeTab={activeTab}
-          />
+          {activeTab && activeTab?.id && (
+            <Artboard
+              content={initialArtboard}
+              setContent={handleContentEdit}
+            />
+          )}
         </div>
         <div className="h-[50px] shrink-0"></div>
         {/* <div className="absolute right-0 bg-black top-0 w-[260px] h-svh rounded-l-3xl p-4">aaa</div> */}
