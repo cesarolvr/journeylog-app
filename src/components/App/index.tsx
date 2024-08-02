@@ -44,6 +44,7 @@ const App = ({ user }: any) => {
   const [journeyTabs, setJourneyTabs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [activeLog, setActiveLog] = useState(null);
+  const [isOpened, setIsOpened] = useState(true);
   const [initialArtboard, setInitialArtboard] = useState(null);
 
   const today = new Date();
@@ -74,8 +75,6 @@ const App = ({ user }: any) => {
     customDate.setMonth(dateSelected.month - 1);
     customDate.setFullYear(dateSelected.year);
 
-    console.log(newActiveLog);
-
     const { data, error } = await supabaseClient
       .from("log")
       .upsert({
@@ -94,7 +93,7 @@ const App = ({ user }: any) => {
     if (data && data[0]) {
       newActiveLog.current = data[0];
     }
-  }, 500);
+  }, 2000);
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
     const value = e?.target?.textContent;
@@ -106,7 +105,7 @@ const App = ({ user }: any) => {
 
     if (updatedJourney) {
       const updatedTabList = journeyTabs.map((item) => {
-        if (item.id === updatedJourney[0].id) {
+        if (item?.id === updatedJourney[0].id) {
           return {
             ...item,
             ...updatedJourney[0],
@@ -335,20 +334,6 @@ const App = ({ user }: any) => {
     }
   };
 
-  useEffect(() => {
-    const currentMonth: any = getDaysDetailsInMonth(
-      today.getMonth() + 1,
-      today.getFullYear()
-    );
-    setDays(currentMonth);
-  }, []);
-
-  useEffect(() => {
-    if (inView) {
-      handleLoadMore();
-    }
-  }, [inView]);
-
   const getLogs = async (journeyId: any, dateString: any) => {
     const start = DateTime.fromISO(dateString)
       .set({ hour: 0, minute: 0, second: 0 })
@@ -373,6 +358,20 @@ const App = ({ user }: any) => {
 
     return data ? data[0] : null;
   };
+
+  useEffect(() => {
+    const currentMonth: any = getDaysDetailsInMonth(
+      today.getMonth() + 1,
+      today.getFullYear()
+    );
+    setDays(currentMonth);
+  }, []);
+
+  useEffect(() => {
+    if (inView) {
+      handleLoadMore();
+    }
+  }, [inView]);
 
   useEffect(() => {
     const getTabs = async () => {
@@ -407,7 +406,30 @@ const App = ({ user }: any) => {
 
   return (
     <div className="flex bg-[#171717] w-full h-full">
-      <div className="w-[260px] flex-shrink-0 bg-black h-screen px-6 py-6 relative rounded-r-3xl overflow-scroll justify-start">
+      <div
+        className={classnames(
+          "w-[260px] flex-shrink-0 bg-black h-screen px-6 py-6 absolute z-50 md:relative rounded-r-3xl justify-start",
+          {
+            "translate-x-[-260px] overflow-visible": isOpened,
+            "overflow-scroll": !isOpened,
+          }
+        )}
+      >
+        {isOpened ? (
+          <div
+            className="absolute left-[100%] h-[100%] cursor-pointer top-0 bg-red"
+            onClick={() => setIsOpened(!isOpened)}
+          >
+            Open
+          </div>
+        ) : (
+          <div
+            className="absolute left-[100%] h-[100%] cursor-pointer top-0 bg-red"
+            onClick={() => setIsOpened(!isOpened)}
+          >
+            Close
+          </div>
+        )}
         <div className="w-full sticky top-0 mb-5 mt-2 bg-black">
           <DatePicker
             aria-label="teste"
