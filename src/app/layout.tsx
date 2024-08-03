@@ -5,6 +5,7 @@ import NextUIProvider from "@/providers/NextUIProvider";
 
 // Styles
 import "./globals.css";
+import "./editor.css";
 
 export default async function RootLayout({
   children,

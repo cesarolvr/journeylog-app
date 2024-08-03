@@ -118,7 +118,7 @@ const App = ({ user }: any) => {
       newActiveTab.current = updatedJourney[0];
       setJourneyTabs([...updatedTabList]);
     }
-  }, 500);
+  }, 1000);
 
   const handleJourneyDeletion = debounce(async ({ id }: any) => {
     const { error, data } = await supabaseClient
@@ -408,7 +408,7 @@ const App = ({ user }: any) => {
     <div className="flex bg-[#171717] w-full h-full relative">
       <div
         className={classnames(
-          "absolute cursor-pointer bg-black left-0 top-0 bg-opacity-20 z-50",
+          "absolute cursor-pointer bg-[#393939] backdrop-blur-sm left-0 top-0 bg-opacity-20 z-[100]",
           {
             "w-[100vw] h-[100vh]": !isOpened,
             "w-[0px] h-[0px] flex items-center justify-center": isOpened,
@@ -416,15 +416,15 @@ const App = ({ user }: any) => {
         )}
         onClick={() => setIsOpened(!isOpened)}
       >
-        <div className={classnames("hover:bg-[#2c2c2c] w-[40px] h-[40px] p-2 rounded-xl left-8 top-14 relative", {
-          'left-[270px] bg-[#2c2c2c] top-7': !isOpened
+        <div className={classnames("hover:bg-[#2c2c2c] w-[40px] h-[40px] p-2 rounded-xl left-8 top-[50px] relative", {
+          'left-[270px] bg-black top-7': !isOpened
         })}>
           {isOpened ? <ChevronsRight /> : <ChevronsLeft />}
         </div>
       </div>
       <div
         className={classnames(
-          "w-[260px] flex-shrink-0 bg-black h-screen px-6 py-6 absolute z-50 md:relative rounded-r-3xl justify-start",
+          "w-[260px] h-[95vh] top-0 bottom-0 flex-shrink-0 bg-black md:h-screen px-6 py-6 fixed m-auto z-[500] md:relative rounded-r-3xl justify-start",
           {
             "md:translate-x-0 translate-x-[-260px] overflow-visible": isOpened,
             "overflow-scroll": !isOpened,
@@ -512,14 +512,14 @@ const App = ({ user }: any) => {
           ) : null}
         </div>
       </div>
-      <div className="items-start py-6 w-full flex flex-col h-full overflow-scroll justify-start artboard-parent">
+      <div className="items-start py-5 md:py-6 w-full flex flex-col h-full overflow-scroll justify-start artboard-parent">
         <Navbar
-          className="h-[64px] bg-transparent nav backdrop-filter-none"
+          className="nav_header h-[64px] bg-transparent nav backdrop-filter-none"
           maxWidth="full"
         >
           <NavbarContent
             justify="center"
-            className="bg-[#1e1e1e] rounded-2xl px-3 ml-10 md:ml-0"
+            className="rounded-2xl md:px-3 ml-10 md:ml-0"
           >
             <NavbarItem className="justify-center flex">
               {journeyTabs.length > 0 ? (
@@ -536,16 +536,16 @@ const App = ({ user }: any) => {
 
               <Button
                 onClick={handleCreateJourney}
-                className="bg-transparent pl-4 border-none"
+                className="bg-transparent px-3 md:pl-4 border-none min-w-0"
                 variant="bordered"
               >
-                <Plus className="stroke-white" /> New journey
+                <Plus className="stroke-white" /> <div className="hidden md:block">New journey</div>
               </Button>
             </NavbarItem>
           </NavbarContent>
           <NavbarContent
             justify="end"
-            className="rounded-2xl nav-logout px-3 bg-[#1e1e1e]"
+            className="rounded-2xl nav-logout px-1"
           >
             <NavbarItem className="flex justify-center">
               <Dropdown>
@@ -564,7 +564,7 @@ const App = ({ user }: any) => {
             </NavbarItem>
           </NavbarContent>
         </Navbar>
-        <div className="px-6 pl-6 md:pl-6 pt-3 md:pt-0 w-full h-full flex artboard flex-col">
+        <div className="px-2 md:p-6 pt-3 md:pt-0 w-full h-full flex artboard flex-col">
           <div className="flex items-center justify-between">
             <p
               className="px-4 py-2 text-3xl mt-3 mb-5"
