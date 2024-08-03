@@ -32,7 +32,7 @@ import {
   CircularProgress,
   ButtonGroup,
 } from "@nextui-org/react";
-import { Plus, Ellipsis } from "lucide-react";
+import { Plus, Ellipsis, ChevronsRight, ChevronsLeft } from "lucide-react";
 
 import { debounce } from "lodash";
 import { getDaysDetailsInMonth, isValidDate } from "@/utils";
@@ -405,32 +405,33 @@ const App = ({ user }: any) => {
   }, []);
 
   return (
-    <div className="flex bg-[#171717] w-full h-full">
+    <div className="flex bg-[#171717] w-full h-full relative">
+      <div
+        className={classnames(
+          "absolute cursor-pointer bg-black left-0 top-0 bg-opacity-20 z-50",
+          {
+            "w-[100vw] h-[100vh]": !isOpened,
+            "w-[0px] h-[0px] flex items-center justify-center": isOpened,
+          }
+        )}
+        onClick={() => setIsOpened(!isOpened)}
+      >
+        <div className={classnames("hover:bg-[#2c2c2c] w-[40px] h-[40px] p-2 rounded-xl left-8 top-14 relative", {
+          'left-[270px] bg-[#2c2c2c] top-7': !isOpened
+        })}>
+          {isOpened ? <ChevronsRight /> : <ChevronsLeft />}
+        </div>
+      </div>
       <div
         className={classnames(
           "w-[260px] flex-shrink-0 bg-black h-screen px-6 py-6 absolute z-50 md:relative rounded-r-3xl justify-start",
           {
-            "translate-x-[-260px] overflow-visible": isOpened,
+            "md:translate-x-0 translate-x-[-260px] overflow-visible": isOpened,
             "overflow-scroll": !isOpened,
           }
         )}
       >
-        {isOpened ? (
-          <div
-            className="absolute left-[100%] h-[100%] cursor-pointer top-0 bg-red"
-            onClick={() => setIsOpened(!isOpened)}
-          >
-            Open
-          </div>
-        ) : (
-          <div
-            className="absolute left-[100%] h-[100%] cursor-pointer top-0 bg-red"
-            onClick={() => setIsOpened(!isOpened)}
-          >
-            Close
-          </div>
-        )}
-        <div className="w-full sticky top-0 mb-5 mt-2 bg-black">
+        <div className="w-full sticky top-0 mb-5 mt-1 md:mt-2 bg-black">
           <DatePicker
             aria-label="teste"
             variant={"bordered"}
@@ -518,7 +519,7 @@ const App = ({ user }: any) => {
         >
           <NavbarContent
             justify="center"
-            className="bg-[#1e1e1e] rounded-2xl px-3"
+            className="bg-[#1e1e1e] rounded-2xl px-3 ml-10 md:ml-0"
           >
             <NavbarItem className="justify-center flex">
               {journeyTabs.length > 0 ? (
@@ -563,7 +564,7 @@ const App = ({ user }: any) => {
             </NavbarItem>
           </NavbarContent>
         </Navbar>
-        <div className="px-6 w-full h-full flex artboard flex-col">
+        <div className="px-6 pl-6 md:pl-6 pt-3 md:pt-0 w-full h-full flex artboard flex-col">
           <div className="flex items-center justify-between">
             <p
               className="px-4 py-2 text-3xl mt-3 mb-5"
