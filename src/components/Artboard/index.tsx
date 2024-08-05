@@ -1,6 +1,4 @@
-import { Reenie_Beanie } from "next/font/google";
 
-const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
@@ -14,7 +12,7 @@ import { ListItemNode, ListNode } from "@lexical/list";
 
 import ExampleTheme from "./plugins/ArtboardTheme";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
 function MyOnChangePlugin({ onChange }: any) {
@@ -28,7 +26,7 @@ function MyOnChangePlugin({ onChange }: any) {
   return null;
 }
 
-const Artboard = ({ content, setContent }: any) => {
+const Artboard = ({ content, setContent, fontClassname }: any) => {
   function onChange(editorState: any, prevEditorState: any) {
     const editorStateJSON = editorState.toJSON();
     const currentStateString = JSON.stringify(prevEditorState.toJSON());
@@ -54,9 +52,9 @@ const Artboard = ({ content, setContent }: any) => {
         theme: ExampleTheme,
       }}
     >
-      <div className={`editor-container`}>
+      <div className={`editor-container ${fontClassname}`}>
         <ToolbarPlugin />
-        <div className={`editor-inner ${reenie.className}`}>
+        <div className={`editor-inner`}>
           <RichTextPlugin
             placeholder={
               <div className="editor-placeholder">

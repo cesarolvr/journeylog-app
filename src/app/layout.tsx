@@ -1,6 +1,5 @@
 // Providers
 import SupabaseProvider from "@/providers/SupabaseProvider";
-import UserProvider from "@/providers/UserProvider";
 import NextUIProvider from "@/providers/NextUIProvider";
 
 // Styles
@@ -17,9 +16,7 @@ export default async function RootLayout({
       <title>Journeylog</title>
       <body>
         <SupabaseProvider>
-          <UserProvider>
-            <NextUIProvider>{children}</NextUIProvider>
-          </UserProvider>
+          <NextUIProvider>{children}</NextUIProvider>
         </SupabaseProvider>
       </body>
     </html>

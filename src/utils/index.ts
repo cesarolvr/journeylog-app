@@ -43,10 +43,13 @@ export const getDaysDetailsInMonth = (month: any, year: any) => {
       previousMonth = date.getMonth();
     }
 
+    const monthWithPad = `0${date.getMonth() + 1}`.slice(-2);
+    const dayWithPad = `0${date.getDate()}`.slice(-2);
+
     // Adiciona os detalhes do dia ao array
     daysDetails.push({
       type: 'day',
-      id: `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`,
+      id: `${date.getFullYear()}-${monthWithPad}-${dayWithPad}`,
       monthNumber: month,
       monthName: monthNames[month - 1],
       dayNumber: date.getDate(),

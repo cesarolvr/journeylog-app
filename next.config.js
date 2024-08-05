@@ -1,4 +1,5 @@
 module.exports = {
+  reactStrictMode: false,
   // webpack: (
   //   config,
   //   { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }

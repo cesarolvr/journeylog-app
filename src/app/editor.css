@@ -406,6 +406,7 @@ pre::-webkit-scrollbar-thumb {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   vertical-align: middle;
+  font-family: sans-serif !important;
 }
 
 .toolbar button.toolbar-item {
@@ -534,4 +535,8 @@ i.right-align {
 
 i.justify-align {
   background-image: url(../icons/justify.svg);
+}
+
+.preview-list li {
+  font-family: var(--font-reenie);
 }

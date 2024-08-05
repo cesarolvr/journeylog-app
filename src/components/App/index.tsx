@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import classnames from "classnames";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DateTime } from "luxon";
+import { Reenie_Beanie } from "next/font/google";
+
+const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 import { useInView } from "react-intersection-observer";
 
 import {
@@ -44,6 +47,7 @@ const App = ({ user }: any) => {
   const [journeyTabs, setJourneyTabs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [activeLog, setActiveLog] = useState(null);
+  const [previewList, setPreviewList] = useState(null);
   const [isOpened, setIsOpened] = useState(true);
   const [initialArtboard, setInitialArtboard] = useState(null);
 
@@ -57,7 +61,7 @@ const App = ({ user }: any) => {
   let now = todayDate(getLocalTimeZone());
   const [dateSelected, setDateSelected] = useState(now);
 
-  const username = user.user_metadata.full_name
+  const username = user?.user_metadata?.full_name
     .split(" ")
     .slice(0, -1)
     .join(" ");
@@ -223,7 +227,7 @@ const App = ({ user }: any) => {
     }
   }, 500);
 
-  const handleLoadMore = () => {
+  const handleLoadMore = async () => {
     const newLastMonthLoaded = lastMonthLoaded === 1 ? 12 : lastMonthLoaded - 1;
     const newLastYearLoaded =
       lastMonthLoaded === 1 ? lastYearLoaded - 1 : lastYearLoaded;
@@ -359,13 +363,33 @@ const App = ({ user }: any) => {
     return data ? data[0] : null;
   };
 
-  useEffect(() => {
-    const currentMonth: any = getDaysDetailsInMonth(
-      today.getMonth() + 1,
-      today.getFullYear()
-    );
-    setDays(currentMonth);
-  }, []);
+  const getPreviews = async (dateStringStart: any, dateStringEnd: any) => {
+    const start = DateTime.fromISO(dateStringStart)
+      .minus({ month: 1 })
+      .set({ hour: 0, minute: 0, second: 0 })
+      .toUTC()
+      .toISO();
+
+    const end = DateTime.fromISO(dateStringEnd)
+      .set({
+        hour: 23,
+        minute: 59,
+        second: 59,
+      })
+      .toUTC()
+      .toISO();
+
+    const { error, data } = await supabaseClient
+      .from("log")
+      .select()
+      .gt("created_at", start)
+      .lt("created_at", end)
+      .order("created_at", { ascending: false });
+
+    if (data) {
+      setPreviewList(data);
+    }
+  };
 
   useEffect(() => {
     if (inView) {
@@ -380,7 +404,7 @@ const App = ({ user }: any) => {
         .select()
         .order("updated_at", { ascending: false });
 
-      if (data[0]) {
+      if (data && data[0]) {
         setActiveTab(data[0]);
         newActiveTab.current = data[0];
         setJourneyTabs(data);
@@ -402,6 +426,24 @@ const App = ({ user }: any) => {
     };
 
     getTabs();
+
+    const startCalendar = async () => {
+      const currentMonth: any = getDaysDetailsInMonth(
+        today.getMonth() + 1,
+        today.getFullYear()
+      );
+      setDays(currentMonth);
+
+      const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
+      const dayWithPad = `0${today?.getDate()}`.slice(-2);
+
+      const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+      const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+
+      getPreviews(dateStringStart, dateStringEnd);
+    };
+
+    startCalendar();
   }, []);
 
   return (
@@ -416,9 +458,14 @@ const App = ({ user }: any) => {
         )}
         onClick={() => setIsOpened(!isOpened)}
       >
-        <div className={classnames("hover:bg-[#2c2c2c] w-[40px] h-[40px] p-2 rounded-xl left-8 top-[50px] relative", {
-          'left-[270px] bg-black top-7': !isOpened
-        })}>
+        <div
+          className={classnames(
+            "hover:bg-[#2c2c2c] w-[40px] h-[40px] p-2 rounded-xl left-8 top-[50px] relative",
+            {
+              "left-[270px] bg-black top-7": !isOpened,
+            }
+          )}
+        >
           {isOpened ? <ChevronsRight /> : <ChevronsLeft />}
         </div>
       </div>
@@ -426,8 +473,9 @@ const App = ({ user }: any) => {
         className={classnames(
           "w-[260px] h-[95vh] top-0 bottom-0 flex-shrink-0 bg-black md:h-screen px-6 py-6 fixed m-auto z-[500] md:relative rounded-r-3xl justify-start",
           {
-            "md:translate-x-0 translate-x-[-260px] overflow-visible": isOpened,
-            "overflow-scroll": !isOpened,
+            "md:translate-x-0 translate-x-[-260px] overflow-visible md:overflow-scroll":
+              isOpened,
+            "overflow-scroll md:overflow-scroll": !isOpened,
           }
         )}
       >
@@ -466,6 +514,25 @@ const App = ({ user }: any) => {
               { dayNumber, type, monthName, monthNumber, dayName, year, id },
               index
             ) => {
+              const previewLink = DateTime.fromJSDate(new Date(id))
+                .toUTC()
+                .toISODate();
+              const logToPreview = previewList?.find((item) => {
+                const dateToBeCompared = DateTime.fromJSDate(
+                  new Date(item?.created_at)
+                )
+                  .toUTC()
+                  .toISODate();
+                return dateToBeCompared === previewLink;
+              });
+              const parsedEditorState = logToPreview?.content
+                ? JSON.parse(`${logToPreview?.content}`)
+                : {};
+              // const editorStateTextString = parsedEditorState.read(() => $getRoot().getTextContent())
+
+              const previewItem = parsedEditorState?.root?.children;
+              console.log(previewItem);
+
               return type === "day" ? (
                 <div
                   key={index}
@@ -480,14 +547,22 @@ const App = ({ user }: any) => {
                     });
                   }}
                   className={classnames(
-                    "p-4 flex justify-between cursor-pointer hover:text-white hover:bg-[#212121] bg-[#161616] mb-4 text-[24px] rounded-2xl text-[#424242] h-[130px]",
+                    "p-4 flex flex-col justify-start cursor-pointer hover:text-white hover:bg-[#212121] bg-[#161616] mb-4 text-[24px] rounded-2xl text-[#424242] h-[130px]",
                     {
                       "bg-[#212121] text-white": selectedDay === id,
                     }
                   )}
                 >
-                  <span className="leading-7">{dayNumber}</span>
-                  <small className="text-sm">{dayName}</small>
+                  <div className="flex w-full justify-between">
+                    <span className="leading-7">{dayNumber}</span>
+                    <small className="text-sm">{dayName}</small>
+                  </div>
+                  <ul className={`text-sm w-full list-disc px-3 pl-10 preview-list ${reenie.className}`}>
+                    {previewItem?.map((item) => {
+                      console.log("aa", item);
+                      return <li>opa</li>;
+                    })}
+                  </ul>
                 </div>
               ) : (
                 <p
@@ -539,14 +614,12 @@ const App = ({ user }: any) => {
                 className="bg-transparent px-3 md:pl-4 border-none min-w-0"
                 variant="bordered"
               >
-                <Plus className="stroke-white" /> <div className="hidden md:block">New journey</div>
+                <Plus className="stroke-white" />{" "}
+                <div className="hidden md:block">New journey</div>
               </Button>
             </NavbarItem>
           </NavbarContent>
-          <NavbarContent
-            justify="end"
-            className="rounded-2xl nav-logout px-1"
-          >
+          <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">
             <NavbarItem className="flex justify-center">
               <Dropdown>
                 <DropdownTrigger>
@@ -598,6 +671,7 @@ const App = ({ user }: any) => {
             <Artboard
               content={initialArtboard}
               setContent={handleContentEdit}
+              fontClassname={reenie.className}
             />
           )}
         </div>
