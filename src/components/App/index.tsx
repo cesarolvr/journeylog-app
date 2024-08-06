@@ -531,7 +531,6 @@ const App = ({ user }: any) => {
               // const editorStateTextString = parsedEditorState.read(() => $getRoot().getTextContent())
 
               const previewItem = parsedEditorState?.root?.children;
-              console.log(previewItem);
 
               return type === "day" ? (
                 <div
@@ -557,10 +556,12 @@ const App = ({ user }: any) => {
                     <span className="leading-7">{dayNumber}</span>
                     <small className="text-sm">{dayName}</small>
                   </div>
-                  <ul className={`text-sm w-full list-disc px-3 pl-10 preview-list ${reenie.className}`}>
-                    {previewItem?.map((item) => {
-                      console.log("aa", item);
-                      return <li>opa</li>;
+                  <ul
+                    className={`text-sm w-full list-disc px-3 pl-10 preview-list ${reenie.className}`}
+                  >
+                    {previewItem?.map(({children}, key) => {
+                      const textContent = children[0]?.text
+                      return <li key={key}>{textContent}</li>;
                     })}
                   </ul>
                 </div>
