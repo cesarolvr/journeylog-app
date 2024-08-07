@@ -51,7 +51,7 @@ const App = ({ user }: any) => {
   const [isOpened, setIsOpened] = useState(true);
   const [initialArtboard, setInitialArtboard] = useState(null);
 
-  const today = new Date();
+  const today = DateTime.now().toUTC().toJSDate();
   const [selectedDay, setSelectedDay] = useState(
     `${today.getMonth() + 1}-${today.getDate()}-${today.getFullYear()}`
   );
@@ -74,19 +74,24 @@ const App = ({ user }: any) => {
   const newActiveTab = useRef(null);
 
   const handleContentEdit = debounce(async (content: any) => {
-    const customDate = new Date();
-    customDate.setDate(dateSelected.day);
-    customDate.setMonth(dateSelected.month - 1);
-    customDate.setFullYear(dateSelected.year);
+    const now = DateTime.now().toUTC().toISO();
+    const customDate = DateTime.fromJSDate(new Date())
+      .set({
+        day: dateSelected.day,
+        month: dateSelected.month,
+        year: dateSelected.year,
+      })
+      .toUTC()
+      .toISO();
+
+    const isToCreate = !newActiveLog?.current;
 
     const { data, error } = await supabaseClient
       .from("log")
       .upsert({
-        ...(newActiveLog?.current && { id: newActiveLog?.current?.id }),
-        created_at: customDate,
-        ...(newActiveLog?.current
-          ? { updated_at: new Date() }
-          : { updated_at: customDate }),
+        ...(isToCreate ? {} : { id: newActiveLog?.current?.id }),
+        created_at: isToCreate ? customDate : newActiveLog?.current?.created_at,
+        updated_at: now,
         type: "",
         journey_id: activeTab?.id,
         content,
@@ -97,13 +102,13 @@ const App = ({ user }: any) => {
     if (data && data[0]) {
       newActiveLog.current = data[0];
     }
-  }, 2000);
+  }, 1000);
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
     const value = e?.target?.textContent;
     const { error, data: updatedJourney } = await supabaseClient
       .from("journey")
-      .update({ name: value, updated_at: new Date() })
+      .update({ name: value, updated_at: DateTime.now().toUTC().toISO() })
       .eq("id", activeTab?.id)
       .select();
 
@@ -259,6 +264,7 @@ const App = ({ user }: any) => {
     setActiveLog(null);
     newActiveLog.current = null;
     setInitialArtboard(null);
+
     const newDate = new CalendarDate(year, monthNumber, dayNumber);
     setDateSelected(newDate);
     setSelectedDay(id);
@@ -290,7 +296,14 @@ const App = ({ user }: any) => {
       `${e?.month}${divider}${e?.day}${divider}${e?.year}`;
     const isValidDateSelected = isValidDate(getId("/"));
 
-    const syntheticDate = new Date(`${e?.year}-${e?.month}-${e?.day}`);
+    const syntheticDate = DateTime.fromJSDate(new Date())
+      .set({
+        day: e?.day,
+        month: e?.month,
+        year: e?.year,
+      })
+      .toUTC()
+      .toJSDate();
 
     if (isValidDateSelected && syntheticDate < today) {
       const isTheSameMonthSelected = e.month === lastMonthLoaded;
@@ -528,7 +541,6 @@ const App = ({ user }: any) => {
               const parsedEditorState = logToPreview?.content
                 ? JSON.parse(`${logToPreview?.content}`)
                 : {};
-              // const editorStateTextString = parsedEditorState.read(() => $getRoot().getTextContent())
 
               const previewItem = parsedEditorState?.root?.children;
 
@@ -559,8 +571,11 @@ const App = ({ user }: any) => {
                   <ul
                     className={`text-sm w-full list-disc px-3 pl-10 preview-list ${reenie.className}`}
                   >
-                    {previewItem?.map(({children}, key) => {
-                      const textContent = children[0]?.text
+                    {previewItem?.map(({ children }: any, key) => {
+                      const isList = children[0]?.type === "listitem";
+                      const textContent = isList
+                        ? children[0]?.children[0].text
+                        : children[0]?.text;
                       return <li key={key}>{textContent}</li>;
                     })}
                   </ul>

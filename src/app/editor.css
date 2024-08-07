@@ -417,14 +417,14 @@ pre::-webkit-scrollbar-thumb {
   padding: 8px;
   cursor: pointer;
   vertical-align: middle;
-  text-align: center;
+  text-align: center !important;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .toolbar button.toolbar-item span {
-  text-align: center;
+  text-align: center !important;
   width: 100% !important;
 }
 
