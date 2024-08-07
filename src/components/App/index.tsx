@@ -101,6 +101,15 @@ const App = ({ user }: any) => {
 
     if (data && data[0]) {
       newActiveLog.current = data[0];
+
+      const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
+      const dayWithPad = `0${today?.getDate()}`.slice(-2);
+
+      const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+      const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+
+      const res = await getPreviews(dateStringStart, dateStringEnd);
+      setPreviewList(res);
     }
   }, 1000);
 
@@ -400,7 +409,7 @@ const App = ({ user }: any) => {
       .order("created_at", { ascending: false });
 
     if (data) {
-      setPreviewList(data);
+      return data;
     }
   };
 
@@ -453,7 +462,8 @@ const App = ({ user }: any) => {
       const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
       const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
 
-      getPreviews(dateStringStart, dateStringEnd);
+      const res = await getPreviews(dateStringStart, dateStringEnd);
+      setPreviewList(res);
     };
 
     startCalendar();
