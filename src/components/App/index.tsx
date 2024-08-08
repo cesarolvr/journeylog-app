@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import classnames from "classnames";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DateTime } from "luxon";
 import { Reenie_Beanie } from "next/font/google";
@@ -15,23 +14,19 @@ import {
   Navbar,
   NavbarContent,
   NavbarItem,
-  Button,
-  Tabs,
-  Tab,
   Avatar,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
   Dropdown,
   DropdownItem,
   DropdownTrigger,
   DropdownMenu,
 } from "@nextui-org/react";
-import { Plus, Ellipsis, ChevronsRight, ChevronsLeft } from "lucide-react";
 
 import { debounce } from "lodash";
 import Artboard from "../Artboard";
 import Sidebar from "../Sidebar";
+import SidebarCloseLayer from "../SidebarCloseLayer";
+import ArtboardHeader from "../ArtboardHeader";
+import ArtboardTabs from "../Tabs";
 
 const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
@@ -39,6 +34,7 @@ const App = ({ user }: any) => {
   const [activeTab, setActiveTab] = useState(null);
   const [activeLog, setActiveLog] = useState(null);
   const [isOpened, setIsOpened] = useState(true);
+  const [previewList, setPreviewList] = useState(null);
   const [initialArtboard, setInitialArtboard] = useState(null);
 
   const today = DateTime.now().toUTC().toJSDate();
@@ -254,7 +250,7 @@ const App = ({ user }: any) => {
       .order("created_at", { ascending: false });
 
     if (data) {
-      setPreviewList(data);
+      // setPreviewList(data);
     }
   };
 
@@ -291,27 +287,7 @@ const App = ({ user }: any) => {
 
   return (
     <div className="flex bg-[#171717] w-full h-full relative">
-      <div
-        className={classnames(
-          "absolute cursor-pointer bg-[#393939] backdrop-blur-sm left-0 top-0 bg-opacity-20 z-[100]",
-          {
-            "w-[100vw] h-[100vh]": !isOpened,
-            "w-[0px] h-[0px] flex items-center justify-center": isOpened,
-          }
-        )}
-        onClick={() => setIsOpened(!isOpened)}
-      >
-        <div
-          className={classnames(
-            "hover:bg-[#2c2c2c] w-[40px] h-[40px] p-2 rounded-xl left-8 top-[50px] relative",
-            {
-              "left-[270px] bg-black top-7": !isOpened,
-            }
-          )}
-        >
-          {isOpened ? <ChevronsRight /> : <ChevronsLeft />}
-        </div>
-      </div>
+      <SidebarCloseLayer isOpened={isOpened} />
       <Sidebar
         isOpened={isOpened}
         setIsOpened={setIsOpened}
@@ -324,6 +300,8 @@ const App = ({ user }: any) => {
         activeTab={activeTab}
         newActiveLog={newActiveLog}
         newActiveTab={newActiveTab}
+        previewList={previewList}
+        setPreviewList={setPreviewList}
       />
       <div className="items-start py-5 md:py-6 w-full flex flex-col h-full overflow-scroll justify-start artboard-parent">
         <Navbar
@@ -334,28 +312,11 @@ const App = ({ user }: any) => {
             justify="center"
             className="rounded-2xl md:px-3 ml-10 md:ml-0"
           >
-            <NavbarItem className="justify-center flex">
-              {journeyTabs.length > 0 ? (
-                <Tabs
-                  aria-label="Journeys"
-                  items={journeyTabs}
-                  variant="bordered"
-                  className="relative rounded-xl"
-                  onSelectionChange={handleTabSelection}
-                >
-                  {(item) => <Tab key={item.id} title={item.name}></Tab>}
-                </Tabs>
-              ) : null}
-
-              <Button
-                onClick={handleCreateJourney}
-                className="bg-transparent px-3 md:pl-4 border-none min-w-0"
-                variant="bordered"
-              >
-                <Plus className="stroke-white" />{" "}
-                <div className="hidden md:block">New journey</div>
-              </Button>
-            </NavbarItem>
+            <ArtboardTabs
+              journeyTabs={journeyTabs}
+              handleTabSelection={handleTabSelection}
+              handleCreateJourney={handleCreateJourney}
+            />
           </NavbarContent>
           <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">
             <NavbarItem className="flex justify-center">
@@ -376,36 +337,12 @@ const App = ({ user }: any) => {
           </NavbarContent>
         </Navbar>
         <div className="px-2 md:p-6 pt-3 md:pt-0 w-full h-full flex artboard flex-col">
-          <div className="flex items-center justify-between">
-            <p
-              className="px-4 py-2 text-3xl mt-3 mb-5"
-              contentEditable="true"
-              onInput={handleJourneyNameEdit}
-              suppressContentEditableWarning={true}
-            >
-              {activeTab?.name}
-            </p>
-            {activeTab ? (
-              <Popover className="flex justify-center">
-                <PopoverTrigger>
-                  <Ellipsis className="mr-3" />
-                </PopoverTrigger>
-                <PopoverContent className="w-[240px]">
-                  {(titleProps) => (
-                    <div className="px-1 py-2 w-full">
-                      <Button
-                        className="bg-danger-300 text-white w-full"
-                        onClick={() => handleJourneyDeletion(activeTab)}
-                      >
-                        Delete Journey
-                      </Button>
-                    </div>
-                  )}
-                </PopoverContent>
-              </Popover>
-            ) : null}
-          </div>
-          {activeTab && activeTab?.id && (
+          <ArtboardHeader
+            handleJourneyDeletion={handleJourneyDeletion}
+            handleJourneyNameEdit={handleJourneyNameEdit}
+            activeTab={activeTab}
+          />
+          {activeTab?.id && (
             <Artboard
               content={initialArtboard}
               setContent={handleContentEdit}

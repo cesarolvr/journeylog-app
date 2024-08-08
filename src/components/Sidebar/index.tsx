@@ -33,10 +33,10 @@ const Sidebar = ({
   getLogs,
   dateSelected,
   setInitialArtboard,
+  previewList, setPreviewList
 }: any) => {
   const supabaseClient = useSupabaseClient();
   const [days, setDays] = useState([]);
-  const [previewList, setPreviewList] = useState(null);
 
   const today = DateTime.now().toUTC().toJSDate();
 
