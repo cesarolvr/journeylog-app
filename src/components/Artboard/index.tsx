@@ -1,5 +1,3 @@
-
-
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -27,7 +25,7 @@ function MyOnChangePlugin({ onChange }: any) {
 }
 
 const Artboard = ({ content, setContent, fontClassname }: any) => {
-  function onChange(editorState: any, prevEditorState: any) {
+  const onChange = (editorState: any, prevEditorState: any) => {
     const editorStateJSON = editorState.toJSON();
     const currentStateString = JSON.stringify(prevEditorState.toJSON());
     const newStateString = JSON.stringify(editorStateJSON);
@@ -35,11 +33,13 @@ const Artboard = ({ content, setContent, fontClassname }: any) => {
     if (currentStateString != newStateString) {
       setContent(newStateString);
     }
-  }
+  };
+
+  const key = Math.random().toString(16).slice(2);
 
   return (
     <LexicalComposer
-      key={Math.random().toString(16).slice(2)}
+      key={key}
       initialConfig={{
         editorState:
           content ||
