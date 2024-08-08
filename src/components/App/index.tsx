@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DateTime } from "luxon";
 import { Reenie_Beanie } from "next/font/google";
@@ -26,33 +26,38 @@ import Artboard from "../Artboard";
 import Sidebar from "../Sidebar";
 import SidebarCloseLayer from "../SidebarCloseLayer";
 import ArtboardHeader from "../ArtboardHeader";
-import ArtboardTabs from "../Tabs";
+import ArtboardTabs from "../ArtboardTabs";
+
+// const MemoizedArtboard = memo(({ content, setContent }: any) => (
+//   <Artboard content={content} setContent={setContent} />
+// ));
 
 const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
-  const [journeyTabs, setJourneyTabs] = useState([]);
-  const [activeTab, setActiveTab] = useState(null);
-  const [activeLog, setActiveLog] = useState(null);
-  const [isOpened, setIsOpened] = useState(true);
-  const [previewList, setPreviewList] = useState(null);
-  const [initialArtboard, setInitialArtboard] = useState(null);
+  const [journeyTabs, setJourneyTabs]: any = useState([]);
+  const [activeTab, setActiveTab]: any = useState(null);
+  const [activeLog, setActiveLog]: any = useState(null);
+  const [isOpened, setIsOpened]: any = useState(true);
+  const [test, setTest]: any = useState(true);
+  const [previewList, setPreviewList]: any = useState(null);
+  const [initialArtboard, setInitialArtboard]: any = useState(null);
 
   const today = DateTime.now().toUTC().toJSDate();
 
   let now = todayDate(getLocalTimeZone());
-  const [dateSelected, setDateSelected] = useState(now);
+  const [dateSelected, setDateSelected]: any = useState(now);
 
   const username = user?.user_metadata?.full_name
     .split(" ")
     .slice(0, -1)
     .join(" ");
 
-  const newActiveLog = useRef(null);
-  const newActiveTab = useRef(null);
+  const newActiveLog: any = useRef(null);
+  const newActiveTab: any = useRef(null);
 
-  const handleContentEdit = debounce(async (content: any) => {
-    const now = DateTime.now().toUTC().toISO();
-    const customDate = DateTime.fromJSDate(new Date())
+  const getNow = () => DateTime.now().toUTC().toISO();
+  const getCustomDate = () =>
+    DateTime.fromJSDate(new Date())
       .set({
         day: dateSelected.day,
         month: dateSelected.month,
@@ -60,6 +65,12 @@ const App = ({ user }: any) => {
       })
       .toUTC()
       .toISO();
+
+  const getUser = () => user;
+
+  const handleContentEdit = debounce(async (content: any) => {
+    const now = getNow();
+    const customDate = getCustomDate();
 
     const isToCreate = !newActiveLog?.current;
 
@@ -71,7 +82,7 @@ const App = ({ user }: any) => {
           type: "",
           journey_id: newActiveTab?.current?.id,
           content,
-          user_id: user.id,
+          user_id: getUser()?.id,
         };
       } else {
         return {
@@ -81,7 +92,7 @@ const App = ({ user }: any) => {
           type: "",
           journey_id: newActiveTab?.current?.id,
           content,
-          user_id: user.id,
+          user_id: getUser()?.id,
         };
       }
     };
@@ -113,7 +124,7 @@ const App = ({ user }: any) => {
       .select();
 
     if (updatedJourney) {
-      const updatedTabList = journeyTabs.map((item) => {
+      const updatedTabList = journeyTabs.map((item: any) => {
         if (item?.id === updatedJourney[0].id) {
           return {
             ...item,
@@ -139,7 +150,7 @@ const App = ({ user }: any) => {
 
     if (data) {
       const itemDeleted = data[0];
-      const newTabsToBeRendered = journeyTabs.filter((item) => {
+      const newTabsToBeRendered = journeyTabs.filter((item: any) => {
         return item.id !== itemDeleted.id;
       });
 
@@ -148,7 +159,7 @@ const App = ({ user }: any) => {
   }, 500);
 
   const handleTabSelection = async (idSelected: any) => {
-    const activeTab = journeyTabs.find((item) => {
+    const activeTab: any = journeyTabs.find((item: any) => {
       return item.id === idSelected;
     });
 
@@ -158,8 +169,8 @@ const App = ({ user }: any) => {
     setActiveLog(null);
     newActiveLog.current = null;
 
-    const monthWithPad = `0${dateSelected.month}`.slice(-2);
-    const dayWithPad = `0${dateSelected.day}`.slice(-2);
+    const monthWithPad: string = `0${dateSelected.month}`.slice(-2);
+    const dayWithPad: string = `0${dateSelected.day}`.slice(-2);
 
     const res = await getLogs(
       activeTab.id,
@@ -250,7 +261,7 @@ const App = ({ user }: any) => {
       .order("created_at", { ascending: false });
 
     if (data) {
-      // setPreviewList(data);
+      setPreviewList(data);
     }
   };
 
@@ -283,7 +294,12 @@ const App = ({ user }: any) => {
     };
 
     getTabs();
+    
+    // setTimeout(() => {
+    //   setTest(!test)
+    // }, 5000)
   }, []);
+
 
   return (
     <div className="flex bg-[#171717] w-full h-full relative">
@@ -342,13 +358,11 @@ const App = ({ user }: any) => {
             handleJourneyNameEdit={handleJourneyNameEdit}
             activeTab={activeTab}
           />
-          {activeTab?.id && (
-            <Artboard
-              content={initialArtboard}
-              setContent={handleContentEdit}
-              fontClassname={reenie.className}
-            />
-          )}
+          <Artboard
+            content={initialArtboard}
+            setContent={handleContentEdit}
+            // setContent={f => f}
+          />
         </div>
         <div className="h-[50px] shrink-0"></div>
       </div>

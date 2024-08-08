@@ -1,45 +1,62 @@
-import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+// import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import { ListItemNode, ListNode } from "@lexical/list";
 
+import { Reenie_Beanie } from "next/font/google";
+
+const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
+
 import ExampleTheme from "./plugins/ArtboardTheme";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-function MyOnChangePlugin({ onChange }: any) {
+const onChange = (
+  editorState: any,
+  prevEditorState: any,
+  setters: any,
+  setContent: Function = (f: any) => f
+) => {
+  editorState.read(() => {
+    const newStateString = JSON.stringify(editorState.toJSON());
+    const currentState = JSON.stringify(prevEditorState.toJSON());
+
+    if (newStateString != currentState) {
+      setContent(newStateString);
+    }
+  });
+};
+
+const InitialStatePlugin = ({ content }) => {
+  // const key = Math.random().toString(16).slice(2);
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
-    return editor.registerUpdateListener(({ editorState, prevEditorState }) => {
-      onChange(editorState, prevEditorState);
-    });
-  }, [editor, onChange]);
-  return null;
-}
-
-const Artboard = ({ content, setContent, fontClassname }: any) => {
-  const onChange = (editorState: any, prevEditorState: any) => {
-    const editorStateJSON = editorState.toJSON();
-    const currentStateString = JSON.stringify(prevEditorState.toJSON());
-    const newStateString = JSON.stringify(editorStateJSON);
-
-    if (currentStateString != newStateString) {
-      setContent(newStateString);
+    if (content) {
+      const initialEditorState = editor.parseEditorState(JSON.parse(content));
+      // console.log(initialEditorState);
+      editor.setEditorState(initialEditorState)
     }
-  };
+  }, [content]);
 
-  const key = Math.random().toString(16).slice(2);
+  return null;
+};
+
+const Artboard = ({ content, setContent }: any) => {
+  // useEffect(() => {
+  //   debugger
+  // }, [setContent])
 
   return (
     <LexicalComposer
-      key={key}
+      // key={key}
       initialConfig={{
         editorState:
           content ||
@@ -52,7 +69,7 @@ const Artboard = ({ content, setContent, fontClassname }: any) => {
         theme: ExampleTheme,
       }}
     >
-      <div className={`editor-container ${fontClassname}`}>
+      <div className={`editor-container ${reenie.className}`}>
         <ToolbarPlugin />
         <div className={`editor-inner`}>
           <RichTextPlugin
@@ -68,8 +85,13 @@ const Artboard = ({ content, setContent, fontClassname }: any) => {
           <ListPlugin />
           <CheckListPlugin />
           <HistoryPlugin />
-          <MyOnChangePlugin onChange={onChange} />
-          <AutoFocusPlugin />
+          <InitialStatePlugin content={content} />
+          <OnChangePlugin
+            onChange={(newState, prevState, setters) => {
+              onChange(newState, prevState, setters, setContent);
+            }}
+          />
+          {/* <AutoFocusPlugin /> */}
         </div>
       </div>
     </LexicalComposer>

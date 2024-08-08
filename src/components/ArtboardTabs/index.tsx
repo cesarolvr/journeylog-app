@@ -11,7 +11,7 @@ const ArtboardTabs = ({
 }: any) => {
   return (
     <NavbarItem className="justify-center flex">
-      {journeyTabs.length > 0 ? (
+      {journeyTabs.length > 0 && (
         <Tabs
           aria-label="Journeys"
           items={journeyTabs}
@@ -21,8 +21,7 @@ const ArtboardTabs = ({
         >
           {(item: any) => <Tab key={item.id} title={item.name}></Tab>}
         </Tabs>
-      ) : null}
-
+      )}
       <Button
         onClick={handleCreateJourney}
         className="bg-transparent px-3 md:pl-4 border-none min-w-0"
