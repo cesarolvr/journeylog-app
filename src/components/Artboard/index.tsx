@@ -1,4 +1,4 @@
-// import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
@@ -17,6 +17,9 @@ import ExampleTheme from "./plugins/ArtboardTheme";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import React, { useEffect } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $getRoot } from "lexical";
+
+const INITIAL_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
 const onChange = (
   editorState: any,
@@ -28,39 +31,44 @@ const onChange = (
     const newStateString = JSON.stringify(editorState.toJSON());
     const currentState = JSON.stringify(prevEditorState.toJSON());
 
-    if (newStateString != currentState) {
+    const root = $getRoot();
+    const isEmpty =
+      root?.getFirstChild()?.isEmpty() && root?.getChildrenSize() === 1;
+
+    if (newStateString != currentState && !isEmpty) {
       setContent(newStateString);
     }
   });
 };
 
-const InitialStatePlugin = ({ content }) => {
-  // const key = Math.random().toString(16).slice(2);
+const InitialStatePlugin = ({ content, selectedDay }: any) => {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
     if (content) {
       const initialEditorState = editor.parseEditorState(JSON.parse(content));
-      // console.log(initialEditorState);
-      editor.setEditorState(initialEditorState)
+      editor.setEditorState(initialEditorState);
+    } else {
     }
   }, [content]);
+
+  useEffect(() => {
+    if (true) {
+      const initialEditorState = editor.parseEditorState(
+        JSON.parse(INITIAL_STATE)
+      );
+      editor.setEditorState(initialEditorState);
+    }
+  }, [selectedDay]);
 
   return null;
 };
 
-const Artboard = ({ content, setContent }: any) => {
-  // useEffect(() => {
-  //   debugger
-  // }, [setContent])
-
+const Artboard = ({ content, setContent, selectedDay }: any) => {
   return (
     <LexicalComposer
-      // key={key}
       initialConfig={{
-        editorState:
-          content ||
-          `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`,
+        editorState: content || INITIAL_STATE,
         namespace: "myeditor",
         nodes: [ListNode, ListItemNode],
         onError(error: Error) {
@@ -85,7 +93,7 @@ const Artboard = ({ content, setContent }: any) => {
           <ListPlugin />
           <CheckListPlugin />
           <HistoryPlugin />
-          <InitialStatePlugin content={content} />
+          <InitialStatePlugin content={content} selectedDay={selectedDay} />
           <OnChangePlugin
             onChange={(newState, prevState, setters) => {
               onChange(newState, prevState, setters, setContent);

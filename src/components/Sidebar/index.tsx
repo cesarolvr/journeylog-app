@@ -33,18 +33,15 @@ const Sidebar = ({
   getLogs,
   dateSelected,
   setInitialArtboard,
-  previewList, setPreviewList
+  previewList,
+  getPreviews,
+  selectedDay,
+  setSelectedDay
 }: any) => {
-  const supabaseClient = useSupabaseClient();
   const [days, setDays] = useState([]);
 
   const today = DateTime.now().toUTC().toJSDate();
 
-  const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
-  const dayWithPad = `0${today.getDate()}`.slice(-2);
-  const initialDateSelected = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
-
-  const [selectedDay, setSelectedDay] = useState(initialDateSelected);
   const [lastMonthLoaded, setLastMonthLoaded] = useState(today.getMonth() + 1);
   const [lastYearLoaded, setLastYearLoaded] = useState(today.getFullYear());
 
@@ -53,8 +50,6 @@ const Sidebar = ({
   const { ref, inView } = useInView({
     threshold: 0.5,
   });
-
-  const newActiveLog = useRef(null);
 
   const handleGoToToday = (now: any) => {
     if (lastMonthLoaded !== now.month || lastYearLoaded !== now.year) {
@@ -86,7 +81,6 @@ const Sidebar = ({
 
       if (res) {
         setActiveLog(res);
-        newActiveLog.current = res;
         setInitialArtboard(res.content);
       }
     }, 0);
@@ -115,7 +109,6 @@ const Sidebar = ({
     { id, monthNumber, dayNumber, year }: any
   ) => {
     setActiveLog(null);
-    newActiveLog.current = null;
     setInitialArtboard(null);
 
     const newDate = new CalendarDate(year, monthNumber, dayNumber);
@@ -137,8 +130,10 @@ const Sidebar = ({
 
     if (res) {
       setActiveLog(res);
-      newActiveLog.current = res;
       setInitialArtboard(res.content);
+    } else {
+      setActiveLog(null);
+      setInitialArtboard(null);
     }
   };
 
@@ -193,7 +188,6 @@ const Sidebar = ({
       setSelectedDay(id);
 
       setActiveLog(null);
-      newActiveLog.current = null;
       setInitialArtboard(null);
 
       const filter = `${e?.year}-${monthWithPad}-${dayWithPad}`;
@@ -201,37 +195,8 @@ const Sidebar = ({
       const res = await getLogs(activeTab.id, filter);
       if (res) {
         setActiveLog(res);
-        newActiveLog.current = res;
         setInitialArtboard(res.content);
       }
-    }
-  };
-
-  const getPreviews = async (dateStringStart: any, dateStringEnd: any) => {
-    const start = DateTime.fromISO(dateStringStart)
-      .minus({ month: 1 })
-      .set({ hour: 0, minute: 0, second: 0 })
-      .toUTC()
-      .toISO();
-
-    const end = DateTime.fromISO(dateStringEnd)
-      .set({
-        hour: 23,
-        minute: 59,
-        second: 59,
-      })
-      .toUTC()
-      .toISO();
-
-    const { error, data } = await supabaseClient
-      .from("log")
-      .select()
-      .gt("created_at", start)
-      .lt("created_at", end)
-      .order("created_at", { ascending: false });
-
-    if (data) {
-      setPreviewList(data);
     }
   };
 
@@ -354,12 +319,17 @@ const Sidebar = ({
                   {previewItem?.map(({ children }: any, key) => {
                     const isList = children[0]?.type === "listitem";
                     const textContent = isList
-                      ? children[0]?.children[0].text
+                      ? children[0]?.children[0]?.text
                       : children[0]?.text;
                     return (
-                      <li key={key} className="max-w-full break-all leading-3">
-                        {textContent}
-                      </li>
+                      textContent && (
+                        <li
+                          key={key}
+                          className="max-w-full break-all leading-3"
+                        >
+                          {textContent}
+                        </li>
+                      )
                     );
                   })}
                 </ul>

@@ -28,21 +28,21 @@ import SidebarCloseLayer from "../SidebarCloseLayer";
 import ArtboardHeader from "../ArtboardHeader";
 import ArtboardTabs from "../ArtboardTabs";
 
-// const MemoizedArtboard = memo(({ content, setContent }: any) => (
-//   <Artboard content={content} setContent={setContent} />
-// ));
-
 const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
   const [journeyTabs, setJourneyTabs]: any = useState([]);
   const [activeTab, setActiveTab]: any = useState(null);
   const [activeLog, setActiveLog]: any = useState(null);
   const [isOpened, setIsOpened]: any = useState(true);
-  const [test, setTest]: any = useState(true);
   const [previewList, setPreviewList]: any = useState(null);
   const [initialArtboard, setInitialArtboard]: any = useState(null);
 
   const today = DateTime.now().toUTC().toJSDate();
+
+  const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
+  const dayWithPad = `0${today.getDate()}`.slice(-2);
+  const initialDateSelected = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+  const [selectedDay, setSelectedDay] = useState(initialDateSelected);
 
   let now = todayDate(getLocalTimeZone());
   const [dateSelected, setDateSelected]: any = useState(now);
@@ -51,9 +51,6 @@ const App = ({ user }: any) => {
     .split(" ")
     .slice(0, -1)
     .join(" ");
-
-  const newActiveLog: any = useRef(null);
-  const newActiveTab: any = useRef(null);
 
   const getNow = () => DateTime.now().toUTC().toISO();
   const getCustomDate = () =>
@@ -72,7 +69,7 @@ const App = ({ user }: any) => {
     const now = getNow();
     const customDate = getCustomDate();
 
-    const isToCreate = !newActiveLog?.current;
+    const isToCreate = !activeLog;
 
     const payloadToSend = (condition: boolean) => {
       if (condition) {
@@ -80,17 +77,17 @@ const App = ({ user }: any) => {
           created_at: customDate,
           updated_at: now,
           type: "",
-          journey_id: newActiveTab?.current?.id,
+          journey_id: activeTab?.id,
           content,
           user_id: getUser()?.id,
         };
       } else {
         return {
-          id: newActiveLog?.current?.id,
-          created_at: newActiveLog?.current?.created_at,
+          id: activeLog?.id,
+          created_at: activeLog?.created_at,
           updated_at: now,
           type: "",
-          journey_id: newActiveTab?.current?.id,
+          journey_id: activeTab?.id,
           content,
           user_id: getUser()?.id,
         };
@@ -103,7 +100,7 @@ const App = ({ user }: any) => {
       .select();
 
     if (data && data[0]) {
-      newActiveLog.current = data[0];
+      setActiveLog(data[0]);
 
       const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
       const dayWithPad = `0${today?.getDate()}`.slice(-2);
@@ -135,7 +132,7 @@ const App = ({ user }: any) => {
         return item;
       });
       setActiveTab(updatedJourney[0]);
-      newActiveTab.current = updatedJourney[0];
+      // newActiveTab.current = updatedJourney[0];
       setJourneyTabs([...updatedTabList]);
     }
   }, 1000);
@@ -164,10 +161,10 @@ const App = ({ user }: any) => {
     });
 
     setActiveTab(activeTab);
-    newActiveTab.current = activeTab;
+    // newActiveTab.current = activeTab;
     setInitialArtboard(null);
     setActiveLog(null);
-    newActiveLog.current = null;
+    // newActiveLog.current = null;
 
     const monthWithPad: string = `0${dateSelected.month}`.slice(-2);
     const dayWithPad: string = `0${dateSelected.day}`.slice(-2);
@@ -179,7 +176,7 @@ const App = ({ user }: any) => {
 
     if (res) {
       setActiveLog(res);
-      newActiveLog.current = res;
+      // newActiveLog.current = res;
       setInitialArtboard(res.content);
     }
   };
@@ -197,7 +194,7 @@ const App = ({ user }: any) => {
     if (data) {
       setJourneyTabs([]);
       setActiveTab(data[0]);
-      newActiveTab.current = data[0];
+      // newActiveTab.current = data[0];
       setTimeout(() => {
         setJourneyTabs([...data]);
       }, 100);
@@ -274,7 +271,7 @@ const App = ({ user }: any) => {
 
       if (data && data[0]) {
         setActiveTab(data[0]);
-        newActiveTab.current = data[0];
+        // newActiveTab.current = data[0];
         setJourneyTabs(data);
 
         const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
@@ -287,37 +284,32 @@ const App = ({ user }: any) => {
 
         if (res) {
           setActiveLog(res);
-          newActiveLog.current = res;
+          // newActiveLog.current = res;
           setInitialArtboard(res.content);
         }
       }
     };
 
     getTabs();
-    
-    // setTimeout(() => {
-    //   setTest(!test)
-    // }, 5000)
   }, []);
-
 
   return (
     <div className="flex bg-[#171717] w-full h-full relative">
-      <SidebarCloseLayer isOpened={isOpened} />
+      <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
         isOpened={isOpened}
         setIsOpened={setIsOpened}
-        activeLog={activeLog}
         setActiveLog={setActiveLog}
         setDateSelected={setDateSelected}
         dateSelected={dateSelected}
         setInitialArtboard={setInitialArtboard}
         getLogs={getLogs}
         activeTab={activeTab}
-        newActiveLog={newActiveLog}
-        newActiveTab={newActiveTab}
         previewList={previewList}
         setPreviewList={setPreviewList}
+        getPreviews={getPreviews}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
       />
       <div className="items-start py-5 md:py-6 w-full flex flex-col h-full overflow-scroll justify-start artboard-parent">
         <Navbar
@@ -359,9 +351,10 @@ const App = ({ user }: any) => {
             activeTab={activeTab}
           />
           <Artboard
-            content={initialArtboard}
+            content={activeLog?.content ? activeLog?.content : initialArtboard}
+            activeLog={activeLog}
             setContent={handleContentEdit}
-            // setContent={f => f}
+            selectedDay={selectedDay}
           />
         </div>
         <div className="h-[50px] shrink-0"></div>
