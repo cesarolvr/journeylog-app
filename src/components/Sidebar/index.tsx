@@ -36,7 +36,8 @@ const Sidebar = ({
   previewList,
   getPreviews,
   selectedDay,
-  setSelectedDay
+  setSelectedDay,
+  setIsToRenderArtboard,
 }: any) => {
   const [days, setDays] = useState([]);
 
@@ -65,6 +66,7 @@ const Sidebar = ({
     const dayWithPad = `0${now.day}`.slice(-2);
     const id = `${now?.year}-${monthWithPad}-${dayWithPad}`;
 
+    setIsToRenderArtboard(false);
     setDateSelected(now);
     setSelectedDay(id);
     setTimeout(async () => {
@@ -82,6 +84,7 @@ const Sidebar = ({
       if (res) {
         setActiveLog(res);
         setInitialArtboard(res.content);
+        setIsToRenderArtboard(true);
       }
     }, 0);
   };
@@ -108,6 +111,7 @@ const Sidebar = ({
     e: any,
     { id, monthNumber, dayNumber, year }: any
   ) => {
+    setIsToRenderArtboard(false);
     setActiveLog(null);
     setInitialArtboard(null);
 
@@ -131,9 +135,11 @@ const Sidebar = ({
     if (res) {
       setActiveLog(res);
       setInitialArtboard(res.content);
+      setIsToRenderArtboard(true);
     } else {
       setActiveLog(null);
       setInitialArtboard(null);
+      setIsToRenderArtboard(true);
     }
   };
 
@@ -186,7 +192,7 @@ const Sidebar = ({
       );
 
       setSelectedDay(id);
-
+      setIsToRenderArtboard(false);
       setActiveLog(null);
       setInitialArtboard(null);
 
@@ -196,6 +202,7 @@ const Sidebar = ({
       if (res) {
         setActiveLog(res);
         setInitialArtboard(res.content);
+        setIsToRenderArtboard(true);
       }
     }
   };

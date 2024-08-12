@@ -28,6 +28,8 @@ import SidebarCloseLayer from "../SidebarCloseLayer";
 import ArtboardHeader from "../ArtboardHeader";
 import ArtboardTabs from "../ArtboardTabs";
 
+const INITIAL_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
+
 const App = ({ user }: any) => {
   const supabaseClient = useSupabaseClient();
   const [journeyTabs, setJourneyTabs]: any = useState([]);
@@ -35,7 +37,8 @@ const App = ({ user }: any) => {
   const [activeLog, setActiveLog]: any = useState(null);
   const [isOpened, setIsOpened]: any = useState(true);
   const [previewList, setPreviewList]: any = useState(null);
-  const [initialArtboard, setInitialArtboard]: any = useState(null);
+  const [initialArtboard, setInitialArtboard]: any = useState(INITIAL_STATE);
+  const [isToRenderArtboard, setIsToRenderArtboard]: any = useState(false);
 
   const today = DateTime.now().toUTC().toJSDate();
 
@@ -65,7 +68,7 @@ const App = ({ user }: any) => {
 
   const getUser = () => user;
 
-  const handleContentEdit = debounce(async (content: any) => {
+  const handleContentEdit = debounce(async (content: any, options) => {
     const now = getNow();
     const customDate = getCustomDate();
 
@@ -138,6 +141,7 @@ const App = ({ user }: any) => {
   }, 1000);
 
   const handleJourneyDeletion = debounce(async ({ id }: any) => {
+    setIsToRenderArtboard(false);
     const { error, data } = await supabaseClient
       .from("journey")
       .delete()
@@ -152,6 +156,7 @@ const App = ({ user }: any) => {
       });
 
       setJourneyTabs(newTabsToBeRendered);
+      setIsToRenderArtboard(true);
     }
   }, 500);
 
@@ -160,9 +165,11 @@ const App = ({ user }: any) => {
       return item.id === idSelected;
     });
 
+    setIsToRenderArtboard(false);
     setActiveTab(activeTab);
     // newActiveTab.current = activeTab;
     setInitialArtboard(null);
+    setActiveTab(activeTab);
     setActiveLog(null);
     // newActiveLog.current = null;
 
@@ -179,6 +186,7 @@ const App = ({ user }: any) => {
       // newActiveLog.current = res;
       setInitialArtboard(res.content);
     }
+    setIsToRenderArtboard(true);
   };
 
   const handleCreateJourney = debounce(async (e: any) => {
@@ -271,6 +279,7 @@ const App = ({ user }: any) => {
 
       if (data && data[0]) {
         setActiveTab(data[0]);
+        setIsToRenderArtboard(false);
         // newActiveTab.current = data[0];
         setJourneyTabs(data);
 
@@ -287,6 +296,7 @@ const App = ({ user }: any) => {
           // newActiveLog.current = res;
           setInitialArtboard(res.content);
         }
+        setIsToRenderArtboard(true);
       }
     };
 
@@ -310,6 +320,7 @@ const App = ({ user }: any) => {
         getPreviews={getPreviews}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
+        setIsToRenderArtboard={setIsToRenderArtboard}
       />
       <div className="items-start py-5 md:py-6 w-full flex flex-col h-full overflow-scroll justify-start artboard-parent">
         <Navbar
@@ -350,12 +361,15 @@ const App = ({ user }: any) => {
             handleJourneyNameEdit={handleJourneyNameEdit}
             activeTab={activeTab}
           />
-          <Artboard
-            content={activeLog?.content ? activeLog?.content : initialArtboard}
-            activeLog={activeLog}
-            setContent={handleContentEdit}
-            selectedDay={selectedDay}
-          />
+          {isToRenderArtboard && (
+            <Artboard
+              content={
+                !!activeLog?.content ? activeLog?.content : INITIAL_STATE
+              }
+              activeLog={activeLog}
+              setContent={handleContentEdit}
+            />
+          )}
         </div>
         <div className="h-[50px] shrink-0"></div>
       </div>
