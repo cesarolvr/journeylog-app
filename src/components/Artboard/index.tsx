@@ -16,9 +16,8 @@ const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 
 import ExampleTheme from "./plugins/ArtboardTheme";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
-import React, { useEffect } from "react";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $getRoot, CLEAR_EDITOR_COMMAND } from "lexical";
+import React from "react";
+import { $getRoot } from "lexical";
 
 const onChange = (
   editorState: any,
@@ -34,45 +33,18 @@ const onChange = (
     const isEmpty =
       root?.getFirstChild()?.isEmpty() && root?.getChildrenSize() === 1;
 
-    if (newStateString != currentState) {
+    if (newStateString != currentState && !isEmpty) {
       setContent(newStateString, { isEmpty });
     }
   });
 };
 
-const InitialStatePlugin = ({ content, setInitialState }: any) => {
-  const [editor] = useLexicalComposerContext();
-
-  useEffect(() => {
-    if (content) {
-      const initialEditorState = editor.parseEditorState(JSON.parse(content));
-      editor?.setEditorState(initialEditorState);
-    }
-  }, [content]);
-
-  return null;
-};
-
-// const RefreshStatePlugin = ({ selectedDay }: any) => {
-//   const [editor] = useLexicalComposerContext();
-
-//   useEffect(() => {
-//     // const initialEditorState = editor.parseEditorState(
-//     //   JSON.parse(INITIAL_STATE)
-//     // );
-//     editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined);
-//     // editor.setEditorState(null);
-//   }, [selectedDay]);
-
-//   return null;
-// };
-
-const Artboard = ({ content, setContent }: any) => {
-  console.log(content)
+const Artboard = ({ setContent, initialState, id }: any) => {
   return (
     <LexicalComposer
+      key={id}
       initialConfig={{
-        editorState: content,
+        editorState: initialState,
         namespace: "myeditor",
         nodes: [ListNode, ListItemNode],
         onError(error: Error) {
@@ -97,8 +69,6 @@ const Artboard = ({ content, setContent }: any) => {
           <ListPlugin />
           <CheckListPlugin />
           <HistoryPlugin />
-          <InitialStatePlugin content={content} />
-          {/* <RefreshStatePlugin selectedDay={selectedDay} /> */}
           <ClearEditorPlugin />
 
           <OnChangePlugin
@@ -106,7 +76,7 @@ const Artboard = ({ content, setContent }: any) => {
               onChange(newState, prevState, setters, setContent);
             }}
           />
-          <AutoFocusPlugin />
+          {/* <AutoFocusPlugin /> */}
         </div>
       </div>
     </LexicalComposer>

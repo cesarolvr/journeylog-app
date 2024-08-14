@@ -76,12 +76,12 @@ export const isValidDate = (dateString: string) => {
   if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
     return false;
 
+
   // Parse the date parts to integers
   var parts = dateString.split("/");
   var day = parseInt(parts[1], 10);
   var month = parseInt(parts[0], 10);
   var year = parseInt(parts[2], 10);
-
   // Check the ranges of month and year
   if (year < 1000 || year > 3000 || month == 0 || month > 12)
     return false;

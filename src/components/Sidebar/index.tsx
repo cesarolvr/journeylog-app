@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import classnames from "classnames";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DateTime } from "luxon";
 import { Reenie_Beanie } from "next/font/google";
 
@@ -32,12 +31,11 @@ const Sidebar = ({
   setDateSelected,
   getLogs,
   dateSelected,
-  setInitialArtboard,
   previewList,
   getPreviews,
   selectedDay,
   setSelectedDay,
-  setIsToRenderArtboard,
+  setIsReadyToRenderArtboard,
 }: any) => {
   const [days, setDays] = useState([]);
 
@@ -53,6 +51,7 @@ const Sidebar = ({
   });
 
   const handleGoToToday = (now: any) => {
+    setIsReadyToRenderArtboard(false);
     if (lastMonthLoaded !== now.month || lastYearLoaded !== now.year) {
       const newDays: any = getDaysDetailsInMonth(now.month, now.year);
 
@@ -66,7 +65,6 @@ const Sidebar = ({
     const dayWithPad = `0${now.day}`.slice(-2);
     const id = `${now?.year}-${monthWithPad}-${dayWithPad}`;
 
-    setIsToRenderArtboard(false);
     setDateSelected(now);
     setSelectedDay(id);
     setTimeout(async () => {
@@ -83,9 +81,9 @@ const Sidebar = ({
 
       if (res) {
         setActiveLog(res);
-        setInitialArtboard(res.content);
-        setIsToRenderArtboard(true);
       }
+
+      setIsReadyToRenderArtboard(true);
     }, 0);
   };
 
@@ -111,9 +109,8 @@ const Sidebar = ({
     e: any,
     { id, monthNumber, dayNumber, year }: any
   ) => {
-    setIsToRenderArtboard(false);
+    setIsReadyToRenderArtboard(false);
     setActiveLog(null);
-    setInitialArtboard(null);
 
     const newDate = new CalendarDate(year, monthNumber, dayNumber);
     setDateSelected(newDate);
@@ -134,20 +131,22 @@ const Sidebar = ({
 
     if (res) {
       setActiveLog(res);
-      setInitialArtboard(res.content);
-      setIsToRenderArtboard(true);
     } else {
       setActiveLog(null);
-      setInitialArtboard(null);
-      setIsToRenderArtboard(true);
     }
+
+    setIsReadyToRenderArtboard(true);
   };
 
   const handleDateSelection = async (e: any) => {
+    setIsReadyToRenderArtboard(false);
     setDateSelected(e);
 
+    const monthWithPad = `0${e?.month}`.slice(-2);
+    const dayWithPad = `0${e?.day}`.slice(-2);
+
     const getId = (divider: string) =>
-      `${e?.day}${divider}${e?.month}${divider}${e?.year}`;
+      `${monthWithPad}${divider}${dayWithPad}${divider}${e?.year}`;
     const isValidDateSelected = isValidDate(getId("/"));
 
     const syntheticDate = DateTime.fromJSDate(new Date())
@@ -192,18 +191,15 @@ const Sidebar = ({
       );
 
       setSelectedDay(id);
-      setIsToRenderArtboard(false);
       setActiveLog(null);
-      setInitialArtboard(null);
 
       const filter = `${e?.year}-${monthWithPad}-${dayWithPad}`;
 
       const res = await getLogs(activeTab.id, filter);
       if (res) {
         setActiveLog(res);
-        setInitialArtboard(res.content);
-        setIsToRenderArtboard(true);
       }
+      setIsReadyToRenderArtboard(true);
     }
   };
 
