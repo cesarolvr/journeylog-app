@@ -216,18 +216,21 @@ const Sidebar = ({
         today.getFullYear()
       );
       setDays(currentMonth);
-
-      const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
-      const dayWithPad = `0${today?.getDate()}`.slice(-2);
-
-      const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
-      const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
-
-      getPreviews(dateStringStart, dateStringEnd);
     };
 
     startCalendar();
   }, []);
+
+  useEffect(() => {
+    const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
+    const dayWithPad = `0${today?.getDate()}`.slice(-2);
+    const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+    const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+
+    if (activeTab) {
+      getPreviews(dateStringStart, dateStringEnd, activeTab);
+    }
+  }, [activeTab]);
 
   return (
     <div

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DateTime } from "luxon";
-import { Reenie_Beanie } from "next/font/google";
 
 import { getLocalTimeZone, today as todayDate } from "@internationalized/date";
 
@@ -249,8 +248,6 @@ const App = ({ user }: any) => {
         })
         .toUTC()
         .toISO();
-
-      console.log(activeTab?.id);
       const { error, data } = await supabaseClient
         .from("log")
         .select()
@@ -258,8 +255,6 @@ const App = ({ user }: any) => {
         .gt("created_at", start)
         .lt("created_at", end)
         .order("created_at", { ascending: false });
-
-      console.log(data);
 
       if (data) {
         setPreviewList(data);
