@@ -38,6 +38,7 @@
     "@supabase/auth-helpers-react": "^0.4.2",
     "@supabase/auth-ui-react": "^0.4.5",
     "@supabase/supabase-js": "^2.43.5",
+    "@types/luxon": "^3.4.2",
     "@types/node": "20.6.3",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
