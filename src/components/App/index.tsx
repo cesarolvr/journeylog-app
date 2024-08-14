@@ -110,7 +110,7 @@ const App = ({ user }: any) => {
       const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
       const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
 
-      getPreviews(dateStringStart, dateStringEnd);
+      getPreviews(dateStringStart, dateStringEnd, activeTab);
     }
   }, 500);
 
@@ -134,7 +134,6 @@ const App = ({ user }: any) => {
         return item;
       });
       setActiveTab(updatedJourney[0]);
-      // newActiveTab.current = updatedJourney[0];
       setJourneyTabs([...updatedTabList]);
     }
   }, 1000);
@@ -176,6 +175,11 @@ const App = ({ user }: any) => {
     if (res) {
       setActiveLog(res);
     }
+
+    const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+    const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+
+    getPreviews(dateStringStart, dateStringEnd, activeTab);
   };
 
   const handleCreateJourney = debounce(async (e: any) => {
@@ -230,7 +234,7 @@ const App = ({ user }: any) => {
   };
 
   const getPreviews = debounce(
-    async (dateStringStart: any, dateStringEnd: any) => {
+    async (dateStringStart: any, dateStringEnd: any, activeTab: any) => {
       const start = DateTime.fromISO(dateStringStart)
         .minus({ month: 1 })
         .set({ hour: 0, minute: 0, second: 0 })
@@ -246,12 +250,16 @@ const App = ({ user }: any) => {
         .toUTC()
         .toISO();
 
+      console.log(activeTab?.id);
       const { error, data } = await supabaseClient
         .from("log")
         .select()
+        .eq("journey_id", activeTab?.id)
         .gt("created_at", start)
         .lt("created_at", end)
         .order("created_at", { ascending: false });
+
+      console.log(data);
 
       if (data) {
         setPreviewList(data);
