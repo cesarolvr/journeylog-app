@@ -14,19 +14,19 @@ const ArtboardHeader = ({
   handleJourneyNameEdit,
   activeTab,
 }: any) => {
-  const [journeyName, setJourneyName] = useState(activeTab?.name);
+  const [journeyName, setJourneyName] = useState("");
 
   useEffect(() => {
     if (activeTab?.name) {
-      setJourneyName(activeTab?.name)
+      setJourneyName(activeTab?.name);
     }
-  }, [activeTab?.name])
+  }, [activeTab?.name]);
 
   return (
     <div className="flex items-center justify-between">
       <input
         className="px-4 py-2 text-3xl mt-3 mb-5"
-        value={journeyName || activeTab?.name}
+        value={journeyName || activeTab?.name || ""}
         onChange={(e) => {
           setJourneyName(e?.target?.value);
           handleJourneyNameEdit(e);

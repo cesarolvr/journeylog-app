@@ -282,8 +282,8 @@ const Sidebar = ({
               .plus({ day: 1 })
               .toLocal()
               .toISODate();
-            
-              const logToPreview = previewList?.find((item: any) => {
+
+            const logToPreview = previewList?.find((item: any) => {
               const dateToBeCompared = DateTime.fromJSDate(
                 new Date(item?.created_at)
               )
@@ -327,19 +327,22 @@ const Sidebar = ({
                   className={`text-sm w-full list-disc px-3 pl-10 preview-list ${reenie.className}`}
                 >
                   {previewItem?.map(({ children }: any, key: any) => {
-                    const isList = children[0]?.type === "listitem";
-                    const textContent = isList
-                      ? children[0]?.children[0]?.text
-                      : children[0]?.text;
                     return (
-                      textContent && (
-                        <li
-                          key={key}
-                          className="max-w-full break-all leading-3"
-                        >
-                          {textContent}
-                        </li>
-                      )
+                      <div key={key}>
+                        {children.map((item: any, keyChildren: any) => {
+                          const textContent = item?.children
+                            ? item.children[0]?.text
+                            : item?.text;
+                          return (
+                            <li
+                              key={keyChildren}
+                              className="max-w-full break-all leading-3"
+                            >
+                              {textContent}
+                            </li>
+                          );
+                        })}
+                      </div>
                     );
                   })}
                 </ul>
