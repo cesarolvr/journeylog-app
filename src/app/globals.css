@@ -15,7 +15,6 @@
 
 * {
   box-sizing: border-box;
-  
 }
 
 html {
@@ -33,4 +32,20 @@ html {
 
 .nav_header header {
   padding-right: 1rem;
+}
+
+#tabs {
+  z-index: 90;
+  position: relative;
+  background-color: #171717;
+}
+
+#tabsButton {
+  height: 100%;
+  margin: 0;
+  border: none !important;
+}
+
+#tabsPlus {
+  height: 100%;
 }
