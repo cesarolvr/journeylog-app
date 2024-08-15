@@ -40,7 +40,7 @@ h1 {
 
 .editor-container {
   border-radius: 2px;
-  padding-right: 40px;
+  padding-right: 10px;
   padding-top: 0px;
   padding-left: 10px;
   width: 100%;
@@ -97,6 +97,11 @@ h1 {
   left: 15px;
 }
 
+.editor-listitem span {
+  width: 100%;
+  display: block;
+}
+
 .editor-listitem-checked,
 .editor-listitem-unchecked {
   position: relative;
@@ -145,10 +150,12 @@ h1 {
   transform-origin: center center;
   position: absolute;
   display: block;
-  left: 2px;
-  top: -15px;
+  height: 30px;
+  width: 30px;
+  left: 15px;
+  top: -8px;
   bottom: 0;
-  margin: auto;
+  margin: 0;
 }
 
 .editor-inner {
@@ -400,9 +407,11 @@ pre::-webkit-scrollbar-thumb {
 
 .toolbar {
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 1px;
   background: #171717;
   padding: 0px;
+  padding-right: 30px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   vertical-align: middle;
