@@ -30,11 +30,10 @@ const onChange = (
     const currentState = JSON.stringify(prevEditorState.toJSON());
 
     const root = $getRoot();
-    const isEmpty =
-      root?.getFirstChild()?.isEmpty() && root?.getChildrenSize() === 1;
+    const isEmpty = root?.isEmpty() && root?.getChildrenSize() === 1;
 
     if (newStateString != currentState && !isEmpty) {
-      setContent(newStateString, { isEmpty });
+      setContent(newStateString);
     }
   });
 };
