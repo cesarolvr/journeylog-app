@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Popover,
@@ -14,23 +14,31 @@ const ArtboardHeader = ({
   handleJourneyNameEdit,
   activeTab,
 }: any) => {
+  const [journeyName, setJourneyName] = useState(activeTab?.name);
+
   return (
     <div className="flex items-center justify-between">
-      <p
+      <input
         className="px-4 py-2 text-3xl mt-3 mb-5"
-        contentEditable="true"
-        onInput={handleJourneyNameEdit}
-        suppressContentEditableWarning={true}
-      >
-        {activeTab?.name}
-      </p>
+        value={journeyName || activeTab?.name}
+        onChange={(e) => {
+          setJourneyName(e?.target?.value);
+          handleJourneyNameEdit(e);
+        }}
+        onFocus={(e) => {
+          e?.currentTarget?.setSelectionRange(
+            e?.currentTarget?.value?.length,
+            e?.currentTarget?.value?.length
+          );
+        }}
+      />
       {activeTab ? (
         <Popover className="flex justify-center">
           <PopoverTrigger>
             <Ellipsis className="mr-3" />
           </PopoverTrigger>
           <PopoverContent className="w-[240px]">
-            {(titleProps) => (
+            {() => (
               <div className="px-1 py-2 w-full">
                 <Button
                   className="bg-danger-300 text-white w-full"

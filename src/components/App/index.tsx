@@ -114,7 +114,7 @@ const App = ({ user }: any) => {
   }, 500);
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
-    const value = e?.target?.textContent;
+    const value = e?.target?.value;
     const { error, data: updatedJourney } = await supabaseClient
       .from("journey")
       .update({ name: value, updated_at: DateTime.now().toUTC().toISO() })
