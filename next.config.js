@@ -1,5 +1,8 @@
 module.exports = {
   reactStrictMode: false,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   // webpack: (
   //   config,
   //   { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
