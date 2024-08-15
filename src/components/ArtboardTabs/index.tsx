@@ -41,7 +41,7 @@ const ArtboardTabs = ({
             <Tab key={item.id} id="tabsButton" title={item.name} className="flex items-center align-middle">
               <Dropdown className="p-0 h-full">
                 <DropdownTrigger className="p-0 h-full" id="tabsPlus">
-                  <div className="border-0 rounded-lg p-0 px-3 py-2 pl-6 left-[-20px] flex align-middle items-center border-[#373737] bg-[#373737] cursor-pointer	 relative z-10 rounded-l-none border-l-0 h-full">+{lastTabs.length}</div>
+                  <div className="border-0 rounded-lg p-0 px-3 py-2 pl-6 ml-[-20px] flex align-middle items-center border-[#373737] bg-[#373737] cursor-pointer	 relative z-10 rounded-l-none border-l-0 h-full">+{lastTabs.length}</div>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Static Actions">
                   {lastTabs.map(({ name, id }: any) => {
@@ -59,7 +59,7 @@ const ArtboardTabs = ({
       )}
       <Button
         onClick={handleCreateJourney}
-        className="bg-transparent px-0 md:pl-1 border-none min-w-0 h-full"
+        className="bg-transparent px-0 pl-1 md:pl-2 border-none min-w-0 h-full"
         variant="bordered"
       >
         <Plus className="stroke-white" />{" "}
