@@ -279,16 +279,20 @@ const Sidebar = ({
             index
           ) => {
             const previewLink = DateTime.fromJSDate(new Date(id))
-              .toUTC()
+              .plus({ day: 1 })
+              .toLocal()
               .toISODate();
-            const logToPreview = previewList?.find((item) => {
+            
+              const logToPreview = previewList?.find((item: any) => {
               const dateToBeCompared = DateTime.fromJSDate(
                 new Date(item?.created_at)
               )
-                .toUTC()
+                .toLocal()
                 .toISODate();
+
               return dateToBeCompared === previewLink;
             });
+
             const parsedEditorState = logToPreview?.content
               ? JSON.parse(`${logToPreview?.content}`)
               : {};
@@ -322,7 +326,7 @@ const Sidebar = ({
                 <ul
                   className={`text-sm w-full list-disc px-3 pl-10 preview-list ${reenie.className}`}
                 >
-                  {previewItem?.map(({ children }: any, key) => {
+                  {previewItem?.map(({ children }: any, key: any) => {
                     const isList = children[0]?.type === "listitem";
                     const textContent = isList
                       ? children[0]?.children[0]?.text

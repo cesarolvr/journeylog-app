@@ -241,6 +241,7 @@ const App = ({ user }: any) => {
         .toISO();
 
       const end = DateTime.fromISO(dateStringEnd)
+        .plus({ day: 1 })
         .set({
           hour: 23,
           minute: 59,

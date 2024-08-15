@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Popover,
@@ -15,6 +15,12 @@ const ArtboardHeader = ({
   activeTab,
 }: any) => {
   const [journeyName, setJourneyName] = useState(activeTab?.name);
+
+  useEffect(() => {
+    if (activeTab?.name) {
+      setJourneyName(activeTab?.name)
+    }
+  }, [activeTab?.name])
 
   return (
     <div className="flex items-center justify-between">
