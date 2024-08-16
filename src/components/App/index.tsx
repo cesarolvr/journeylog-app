@@ -160,6 +160,21 @@ const App = ({ user }: any) => {
       return item.id === idSelected;
     });
 
+    // const indexToBeFirst = journeyTabs.findIndex(
+    //   (item: any) => item.id === idSelected
+    // );
+
+    // if (indexToBeFirst > 0) {
+    //   setJourneyTabs([]);
+    //   let rawList = [...journeyTabs];
+    //   const itemToBeFirst = rawList.splice(indexToBeFirst);
+    //   rawList.unshift(itemToBeFirst[0]);
+    //   console.log(rawList, activeTab);
+    //   setTimeout(() => {
+    //     setJourneyTabs(rawList);
+    //   }, 10);
+    // }
+
     setActiveTab(activeTab);
     setActiveLog(null);
 
@@ -312,7 +327,7 @@ const App = ({ user }: any) => {
         setSelectedDay={setSelectedDay}
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
       />
-      <div className="items-start py-5 md:py-6 w-full flex flex-col h-full overflow-scroll justify-start artboard-parent">
+      <div className="items-start py-5 md:py-6 w-full flex flex-col h-full overflow-y-scroll overflow-x-hidden justify-start artboard-parent">
         <Navbar
           className="nav_header h-[64px] bg-transparent nav backdrop-filter-none"
           maxWidth="full"

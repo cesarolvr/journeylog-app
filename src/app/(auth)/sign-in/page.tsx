@@ -25,14 +25,13 @@ const SignIn = () => {
     <Auth
       supabaseClient={supabaseClient}
       providers={["google"]}
-      magicLink={true}
+      // magicLink={true}
       appearance={{
         theme: ThemeSupa,
         variables: {
           default: {
             colors: {
               brand: "#0D121F",
-              brandAccent: "#8057f0",
             },
           },
         },
