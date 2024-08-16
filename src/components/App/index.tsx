@@ -35,6 +35,8 @@ const App = ({ user }: any) => {
   const [activeLog, setActiveLog]: any = useState(null);
   const [isOpened, setIsOpened]: any = useState(true);
   const [previewList, setPreviewList]: any = useState(null);
+  const [forcedActiveTab, setForcedActiveTab]: any = useState(1);
+
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
     useState(false);
 
@@ -155,10 +157,22 @@ const App = ({ user }: any) => {
     }
   }, 500);
 
-  const handleTabSelection = async (idSelected: any) => {
-    const activeTab: any = journeyTabs.find((item: any) => {
-      return item.id === idSelected;
-    });
+  const handleTabSelection = async (
+    idSelected: any,
+    isToReorderList: boolean
+  ) => {
+    const index = idSelected - 1
+    const activeTab: any = journeyTabs[index];
+
+    const { data: updatedJourney } = await supabaseClient
+      .from("journey")
+      .update({ selected_at: DateTime.now().toUTC().toISO() })
+      .eq("id", activeTab?.id)
+      .select();
+
+    if (isToReorderList && updatedJourney) {
+      getTabs({ isToReorderList });
+    }
 
     // const indexToBeFirst = journeyTabs.findIndex(
     //   (item: any) => item.id === idSelected
@@ -279,33 +293,38 @@ const App = ({ user }: any) => {
     100
   );
 
-  useEffect(() => {
-    const getTabs = async () => {
-      const { error, data } = await supabaseClient
-        .from("journey")
-        .select()
-        .order("updated_at", { ascending: false });
+  const getTabs = async (options: any = {}) => {
+    const { isToReorderList } = options;
+    const { error, data } = await supabaseClient
+      .from("journey")
+      .select()
+      .order("selected_at", { ascending: false });
 
-      if (data && data[0]) {
-        setActiveTab(data[0]);
-        setJourneyTabs(data);
+    if (data && data[0]) {
+      setJourneyTabs(data);
+      setActiveTab(data[0]);
 
-        const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
-        const dayWithPad = `0${today?.getDate()}`.slice(-2);
-
-        const res = await getLogs(
-          data[0]?.id,
-          `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`
-        );
-
-        if (res) {
-          setActiveLog(res);
-        }
-
-        setIsReadyToRenderArtboard(true);
+      if (isToReorderList) {
+        setForcedActiveTab(1);
       }
-    };
 
+      const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
+      const dayWithPad = `0${today?.getDate()}`.slice(-2);
+
+      const res = await getLogs(
+        data[0]?.id,
+        `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`
+      );
+
+      if (res) {
+        setActiveLog(res);
+      }
+
+      setIsReadyToRenderArtboard(true);
+    }
+  };
+
+  useEffect(() => {
     getTabs();
   }, []);
 
@@ -340,6 +359,7 @@ const App = ({ user }: any) => {
               journeyTabs={journeyTabs}
               handleTabSelection={handleTabSelection}
               handleCreateJourney={handleCreateJourney}
+              forcedActiveTab={forcedActiveTab}
             />
           </NavbarContent>
           <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">

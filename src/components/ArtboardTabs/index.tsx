@@ -16,12 +16,15 @@ import { Plus } from "lucide-react";
 
 const ArtboardTabs = ({
   journeyTabs,
+  forcedActiveTab,
   handleTabSelection,
   handleCreateJourney,
 }: any) => {
   const isMobile = useMediaQuery("only screen and (max-width: 820px)");
 
-  const firsTabs = isMobile ? journeyTabs?.slice(0, 2) : journeyTabs?.slice(0, 3);
+  const firsTabs = isMobile
+    ? journeyTabs?.slice(0, 2)
+    : journeyTabs?.slice(0, 3);
   const lastTabs = isMobile ? journeyTabs?.slice(2) : journeyTabs?.slice(3);
 
   return (
@@ -31,38 +34,48 @@ const ArtboardTabs = ({
           aria-label="Journeys"
           items={firsTabs}
           variant="bordered"
+          // selectedKey={forcedActiveTab}
           className="relative rounded-xl"
-          onSelectionChange={handleTabSelection}
+          onSelectionChange={(e) => handleTabSelection(e, false)}
           id="tabs"
         >
-          {(item: any) => (
-            <Tab
-              key={item.id}
-              id="tabsButton"
-              title={item.name}
-              className="flex items-center align-middle"
-            >
-              <Dropdown className="p-0 h-full">
-                <DropdownTrigger className="p-0 h-full" id="tabsPlus">
-                  <div className="border-0 rounded-lg p-0 px-3 py-2 pl-6 ml-[-20px] flex align-middle items-center border-[#222222] bg-[#222222] cursor-pointer	 relative z-10 rounded-l-none border-l-0 h-full">
-                    +{lastTabs.length}
-                  </div>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions">
-                  {lastTabs.map((item: any) => {
-                    return (
-                      <DropdownItem
-                        key={item.id}
-                        onClick={(e) => handleTabSelection(item.id)}
-                      >
-                        {item.name}
-                      </DropdownItem>
-                    );
-                  })}
-                </DropdownMenu>
-              </Dropdown>
-            </Tab>
-          )}
+          {(item: any) => {
+            const key = journeyTabs.findIndex((i: any) => i?.id === item.id);
+            console.log(key + 1);
+            return (
+              <Tab
+                key={key + 1}
+                id="tabsButton"
+                title={item.name}
+                className="flex items-center align-middle"
+              >
+                {journeyTabs.length > 3 ? (
+                  <Dropdown className="p-0 h-full">
+                    <DropdownTrigger className="p-0 h-full" id="tabsPlus">
+                      <div className="border-0 rounded-lg p-0 px-3 py-2 pl-6 ml-[-20px] flex align-middle items-center border-[#222222] bg-[#222222] cursor-pointer	 relative z-10 rounded-l-none border-l-0 h-full">
+                        +{lastTabs.length}
+                      </div>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Static Actions">
+                      {lastTabs.map((subitem: any) => {
+                        const subKey = journeyTabs.findIndex(
+                          (i: any) => i?.id === subitem.id
+                        );
+                        return (
+                          <DropdownItem
+                            key={subKey}
+                            onClick={(e) => handleTabSelection(subKey, true)}
+                          >
+                            {subitem.name}
+                          </DropdownItem>
+                        );
+                      })}
+                    </DropdownMenu>
+                  </Dropdown>
+                ) : null}
+              </Tab>
+            );
+          }}
         </Tabs>
       )}
       <Button
