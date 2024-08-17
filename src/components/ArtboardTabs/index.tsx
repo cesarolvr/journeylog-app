@@ -16,7 +16,6 @@ import { Plus } from "lucide-react";
 
 const ArtboardTabs = ({
   journeyTabs,
-  forcedActiveTab,
   handleTabSelection,
   handleCreateJourney,
 }: any) => {
@@ -35,13 +34,12 @@ const ArtboardTabs = ({
           items={firsTabs}
           variant="bordered"
           // selectedKey={forcedActiveTab}
-          className="relative rounded-xl"
+          className="relative rounded-xl md:pr-2 md:pl-3"
           onSelectionChange={(e) => handleTabSelection(e, false)}
           id="tabs"
         >
           {(item: any) => {
             const key = journeyTabs.findIndex((i: any) => i?.id === item.id);
-            console.log(key + 1);
             return (
               <Tab
                 key={key + 1}
@@ -78,14 +76,16 @@ const ArtboardTabs = ({
           }}
         </Tabs>
       )}
-      <Button
-        onClick={handleCreateJourney}
-        className="bg-transparent px-0 pl-1 md:pl-2 border-none min-w-0 h-full"
-        variant="bordered"
-      >
-        <Plus className="stroke-white" />{" "}
-        <div className="hidden md:block">New journey</div>
-      </Button>
+      {journeyTabs.length > 0 && (
+        <Button
+          onClick={() => handleCreateJourney()}
+          className="bg-transparent px-0 border-none min-w-0 h-full"
+          variant="bordered"
+        >
+          <Plus className="stroke-white" />{" "}
+          <div className="hidden md:block">New journey</div>
+        </Button>
+      )}
     </NavbarItem>
   );
 };

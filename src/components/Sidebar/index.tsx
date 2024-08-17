@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import classnames from "classnames";
 import { DateTime } from "luxon";
 import { Reenie_Beanie } from "next/font/google";
-
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
+
 import { useInView } from "react-intersection-observer";
 
 import {
@@ -26,6 +26,7 @@ import { getDaysDetailsInMonth, isValidDate } from "@/utils";
 
 const Sidebar = ({
   setActiveLog,
+  isBlocked,
   isOpened,
   activeTab,
   setDateSelected,
@@ -235,15 +236,23 @@ const Sidebar = ({
   return (
     <div
       className={classnames(
-        "w-[260px] h-[95svh] top-0 bottom-0 flex-shrink-0 bg-black md:h-screen px-6 py-6 fixed m-auto z-[500] md:relative rounded-r-3xl justify-start",
+        "w-[260px] h-[95svh] top-0 bottom-0 flex-shrink-0 bg-black md:h-[99svh] px-6 py-6 fixed m-auto z-[500] md:relative rounded-r-3xl justify-start",
         {
           "md:translate-x-0 translate-x-[-260px] overflow-visible md:overflow-scroll":
             isOpened,
           "overflow-scroll md:overflow-scroll": !isOpened,
+          "cursor-not-allowed": isBlocked,
         }
       )}
     >
-      <div className="w-full sticky top-0 mb-5 mt-1 md:mt-2 bg-black">
+      <div
+        className={classnames(
+          "w-full sticky top-0 mb-5 mt-1 md:mt-2 bg-black",
+          {
+            "pointer-events-none": isBlocked,
+          }
+        )}
+      >
         <DatePicker
           aria-label="teste"
           variant={"bordered"}
@@ -272,7 +281,11 @@ const Sidebar = ({
           }}
         />
       </div>
-      <div className="flex flex-col">
+      <div
+        className={classnames("flex flex-col", {
+          "pointer-events-none": isBlocked,
+        })}
+      >
         {days.map(
           (
             { dayNumber, type, monthName, monthNumber, dayName, year, id },

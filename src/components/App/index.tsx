@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DateTime } from "luxon";
 
+import { Reenie_Beanie } from "next/font/google";
+const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
+
 import { getLocalTimeZone, today as todayDate } from "@internationalized/date";
 
 import React from "react";
@@ -17,6 +20,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   CircularProgress,
+  Button,
 } from "@nextui-org/react";
 
 import { debounce } from "lodash";
@@ -36,6 +40,7 @@ const App = ({ user }: any) => {
   const [isOpened, setIsOpened]: any = useState(true);
   const [previewList, setPreviewList]: any = useState(null);
   const [forcedActiveTab, setForcedActiveTab]: any = useState(1);
+  const [newJourneyTitle, setNewJourneyTitle]: any = useState("");
 
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
     useState(false);
@@ -161,8 +166,8 @@ const App = ({ user }: any) => {
     idSelected: any,
     isToReorderList: boolean
   ) => {
-    const index = idSelected - 1
-    const activeTab: any = journeyTabs[index];
+    const index = idSelected - 1;
+    const activeTab: any = journeyTabs.length === 1 ? journeyTabs[0] : journeyTabs[index];
 
     const { data: updatedJourney } = await supabaseClient
       .from("journey")
@@ -173,21 +178,6 @@ const App = ({ user }: any) => {
     if (isToReorderList && updatedJourney) {
       getTabs({ isToReorderList });
     }
-
-    // const indexToBeFirst = journeyTabs.findIndex(
-    //   (item: any) => item.id === idSelected
-    // );
-
-    // if (indexToBeFirst > 0) {
-    //   setJourneyTabs([]);
-    //   let rawList = [...journeyTabs];
-    //   const itemToBeFirst = rawList.splice(indexToBeFirst);
-    //   rawList.unshift(itemToBeFirst[0]);
-    //   console.log(rawList, activeTab);
-    //   setTimeout(() => {
-    //     setJourneyTabs(rawList);
-    //   }, 10);
-    // }
 
     setActiveTab(activeTab);
     setActiveLog(null);
@@ -211,8 +201,9 @@ const App = ({ user }: any) => {
   };
 
   const handleCreateJourney = debounce(async (e: any) => {
+    const journeyTitle = e?.target?.textContent;
     await supabaseClient.from("journey").insert({
-      name: "🏆 New journey",
+      name: journeyTitle || "🏆 New journey",
     });
 
     const { error, data } = await supabaseClient
@@ -223,6 +214,7 @@ const App = ({ user }: any) => {
     if (data) {
       setJourneyTabs([]);
       setActiveTab(data[0]);
+      setIsReadyToRenderArtboard(true);
       setTimeout(() => {
         setJourneyTabs([...data]);
       }, 100);
@@ -333,6 +325,7 @@ const App = ({ user }: any) => {
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
         isOpened={isOpened}
+        isBlocked={journeyTabs && journeyTabs?.length < 1}
         setIsOpened={setIsOpened}
         setActiveLog={setActiveLog}
         setDateSelected={setDateSelected}
@@ -353,7 +346,7 @@ const App = ({ user }: any) => {
         >
           <NavbarContent
             justify="center"
-            className="rounded-2xl md:px-3 ml-10 md:ml-0"
+            className="rounded-2xl md:pr-3 ml-10 md:ml-0"
           >
             <ArtboardTabs
               journeyTabs={journeyTabs}
@@ -380,13 +373,17 @@ const App = ({ user }: any) => {
             </NavbarItem>
           </NavbarContent>
         </Navbar>
-        <div className="px-2 md:p-6 pt-3 md:pt-0 w-full h-full flex artboard flex-col">
-          <ArtboardHeader
-            handleJourneyDeletion={handleJourneyDeletion}
-            handleJourneyNameEdit={handleJourneyNameEdit}
-            activeTab={activeTab}
-          />
-          {isReadyToRenderArtboard ? (
+        <div className="px-2 md:p-6 pt-3 md:pt-0 w-full h-full artboard flex-col">
+          {isReadyToRenderArtboard &&
+            journeyTabs &&
+            journeyTabs?.length > 0 && (
+              <ArtboardHeader
+                handleJourneyDeletion={handleJourneyDeletion}
+                handleJourneyNameEdit={handleJourneyNameEdit}
+                activeTab={activeTab}
+              />
+            )}
+          {isReadyToRenderArtboard && journeyTabs && journeyTabs?.length > 0 ? (
             <>
               {activeLog?.content ? (
                 <Artboard
@@ -403,7 +400,87 @@ const App = ({ user }: any) => {
               )}
             </>
           ) : (
-            <CircularProgress aria-label="Loading..." />
+            <div className="w-full h-full flex justify-center items-start">
+              {journeyTabs && journeyTabs?.length > 0 ? (
+                <CircularProgress aria-label="Loading..." />
+              ) : (
+                <div className="flex flex-col w-full h-full justify-center md:pl-16">
+                  <h1
+                    className={`${reenie.className} text-[60px] text-[#969696] mb-[40px] leading-[60px] w-[460px] max-w-full`}
+                  >
+                    Start by creating your new habit journey
+                  </h1>
+                  <p className={`text-[16px] text-[#454545] mb-[10px]`}>
+                    Something like:
+                  </p>
+                  <div className="w-full flex flex-wrap justify-start items-start max-w-[470px]">
+                    <Button
+                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
+                      variant="bordered"
+                      onClick={(e) => handleCreateJourney(e)}
+                    >
+                      🏋🏽 Workout on weekdays
+                    </Button>
+                    <Button
+                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
+                      variant="bordered"
+                      onClick={(e) => handleCreateJourney(e)}
+                    >
+                      👩🏽‍🦳 Call mom everyday
+                    </Button>
+                    <Button
+                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
+                      variant="bordered"
+                      onClick={(e) => handleCreateJourney(e)}
+                    >
+                      🚰 Drink water
+                    </Button>
+                    <Button
+                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
+                      variant="bordered"
+                      onClick={(e) => handleCreateJourney(e)}
+                    >
+                      🗣️ To learn a new language
+                    </Button>
+                    <Button
+                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
+                      variant="bordered"
+                      onClick={(e) => handleCreateJourney(e)}
+                    >
+                      🧘🏽 Daily meditation
+                    </Button>
+                    <Button
+                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
+                      variant="bordered"
+                      onClick={(e) => handleCreateJourney(e)}
+                    >
+                      🍏 Eat fruits
+                    </Button>
+                    <Button
+                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
+                      variant="bordered"
+                      onClick={(e) => handleCreateJourney(e)}
+                    >
+                      📚 To read consistently
+                    </Button>
+                  </div>
+                  <p className={`text-[16px] text-[#454545] my-[30px] mb-5`}>
+                    Or create yours:
+                  </p>
+                  <div>
+                    <input
+                      disabled={true}
+                      className="px-4 py-2 text-lg bg-[#1f1f1f] rounded-l-lg h-[50px] outline-none"
+                      value={newJourneyTitle}
+                      onChange={(e) => setNewJourneyTitle(e?.target?.value)}
+                    />
+                    <Button disabled={true} className="rounded-l-none bg-[#343434] h-[50px] text-lg px-6">
+                      Start
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
         </div>
         <div className="h-[50px] shrink-0"></div>
