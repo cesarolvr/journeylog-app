@@ -22,9 +22,11 @@ const ArtboardTabs = ({
   const isMobile = useMediaQuery("only screen and (max-width: 820px)");
 
   const firsTabs = isMobile
-    ? journeyTabs?.slice(0, 2)
+    ? journeyTabs?.slice(0, 1)
     : journeyTabs?.slice(0, 3);
   const lastTabs = isMobile ? journeyTabs?.slice(2) : journeyTabs?.slice(3);
+
+  const tabLimit = isMobile ? 1 : 3
 
   return (
     <NavbarItem className="justify-center flex items-center">
@@ -47,7 +49,7 @@ const ArtboardTabs = ({
                 title={item.name}
                 className="flex items-center align-middle"
               >
-                {journeyTabs.length > 3 ? (
+                {journeyTabs.length > tabLimit ? (
                   <Dropdown className="p-0 h-full">
                     <DropdownTrigger className="p-0 h-full" id="tabsPlus">
                       <div className="border-0 rounded-lg p-0 px-3 py-2 pl-6 ml-[-20px] flex align-middle items-center border-[#222222] bg-[#222222] cursor-pointer	 relative z-10 rounded-l-none border-l-0 h-full">
