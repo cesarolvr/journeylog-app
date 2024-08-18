@@ -36,7 +36,7 @@ const SignIn = () => {
           },
         },
       }}
-      theme="light"
+      theme="dark"
     />
   );
 };

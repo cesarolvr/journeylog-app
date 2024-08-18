@@ -1,0 +1,9 @@
+{
+  "name": "Journeylog",
+  "short_name": "Journeylog",
+  "description": "Start to build to good habits through daily logs",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1f1f1f",
+  "theme_color": "#fff"
+}
