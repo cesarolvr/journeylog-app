@@ -74,6 +74,7 @@ const App = ({ user }: any) => {
   const getUser = () => user;
 
   const handleContentEdit = debounce(async (content: any, options) => {
+    if (content === EMPTY_STATE) return null;
     const now = getNow();
     const customDate = getCustomDate();
 
@@ -101,7 +102,6 @@ const App = ({ user }: any) => {
         };
       }
     };
-
     const { data, error } = await supabaseClient
       .from("log")
       .upsert(payloadToSend(isToCreate))
@@ -167,7 +167,8 @@ const App = ({ user }: any) => {
     isToReorderList: boolean
   ) => {
     const index = idSelected - 1;
-    const activeTab: any = journeyTabs.length === 1 ? journeyTabs[0] : journeyTabs[index];
+    const activeTab: any =
+      journeyTabs.length === 1 ? journeyTabs[0] : journeyTabs[index];
 
     const { data: updatedJourney } = await supabaseClient
       .from("journey")
@@ -321,7 +322,7 @@ const App = ({ user }: any) => {
   }, []);
 
   return (
-    <div className="flex bg-[#171717] w-full h-full relative">
+    <div className="flex bg-[#171717] w-full h-[100svh] relative">
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
         isOpened={isOpened}
@@ -383,7 +384,10 @@ const App = ({ user }: any) => {
                 activeTab={activeTab}
               />
             )}
-          {isReadyToRenderArtboard && journeyTabs && journeyTabs?.length > 0 ? (
+          {isReadyToRenderArtboard &&
+          // activeLog?.content &&
+          journeyTabs &&
+          journeyTabs?.length > 0 ? (
             <>
               {activeLog?.content ? (
                 <Artboard
@@ -474,7 +478,10 @@ const App = ({ user }: any) => {
                       value={newJourneyTitle}
                       onChange={(e) => setNewJourneyTitle(e?.target?.value)}
                     />
-                    <Button disabled={true} className="rounded-l-none bg-[#343434] h-[50px] text-lg px-6">
+                    <Button
+                      disabled={true}
+                      className="rounded-l-none bg-[#343434] h-[50px] text-lg px-6"
+                    >
                       Start
                     </Button>
                   </div>

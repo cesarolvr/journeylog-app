@@ -15,9 +15,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${nunito.className}`}>
+    <html lang="en" className={`${nunito.className} overflow-hidden fixed bg-[#1f1f1f]`}>
       <title>Journeylog</title>
-      <body>
+      <body className="overflow-hidden">
         <SupabaseProvider>
           <NextUIProvider>{children}</NextUIProvider>
         </SupabaseProvider>

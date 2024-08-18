@@ -34,7 +34,7 @@ const ArtboardTabs = ({
           items={firsTabs}
           variant="bordered"
           // selectedKey={forcedActiveTab}
-          className="relative rounded-xl md:pr-2 md:pl-3"
+          className="relative rounded-xl md:pl-3"
           onSelectionChange={(e) => handleTabSelection(e, false)}
           id="tabs"
         >
@@ -79,10 +79,10 @@ const ArtboardTabs = ({
       {journeyTabs.length > 0 && (
         <Button
           onClick={() => handleCreateJourney()}
-          className="bg-transparent px-0 border-none min-w-0 h-full"
+          className="bg-transparent px-0 border-none min-w-0 h-full pl-2"
           variant="bordered"
         >
-          <Plus className="stroke-white" />{" "}
+          <Plus className="stroke-white" />
           <div className="hidden md:block">New journey</div>
         </Button>
       )}
