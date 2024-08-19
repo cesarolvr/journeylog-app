@@ -49,3 +49,10 @@ html {
 #tabsPlus {
   height: 100%;
 }
+
+button.tabJourney > div {
+  text-align: left;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

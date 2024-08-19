@@ -21,12 +21,10 @@ const ArtboardTabs = ({
 }: any) => {
   const isMobile = useMediaQuery("only screen and (max-width: 820px)");
 
-  const firsTabs = isMobile
-    ? journeyTabs?.slice(0, 1)
-    : journeyTabs?.slice(0, 3);
-  const lastTabs = isMobile ? journeyTabs?.slice(2) : journeyTabs?.slice(3);
+  const tabLimit = isMobile ? 1 : 3;
 
-  const tabLimit = isMobile ? 1 : 3
+  const firsTabs = journeyTabs?.slice(0, tabLimit);
+  const lastTabs = journeyTabs?.slice(tabLimit);
 
   return (
     <NavbarItem className="justify-center flex items-center">
@@ -47,7 +45,7 @@ const ArtboardTabs = ({
                 key={key + 1}
                 id="tabsButton"
                 title={item.name}
-                className="flex items-center align-middle"
+                className="flex items-center align-middle max-w-[120px] text-left tabJourney text-ellipsis overflow-hidden"
               >
                 {journeyTabs.length > tabLimit ? (
                   <Dropdown className="p-0 h-full">
@@ -61,10 +59,13 @@ const ArtboardTabs = ({
                         const subKey = journeyTabs.findIndex(
                           (i: any) => i?.id === subitem.id
                         );
+
                         return (
                           <DropdownItem
                             key={subKey}
-                            onClick={(e) => handleTabSelection(subKey, true)}
+                            onClick={(e) => {
+                              return handleTabSelection(subKey + 1, true);
+                            }}
                           >
                             {subitem.name}
                           </DropdownItem>
