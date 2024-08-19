@@ -342,9 +342,9 @@ const App = ({ user }: any) => {
         setSelectedDay={setSelectedDay}
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
       />
-      <div className="items-start py-5 md:py-6 w-full flex flex-col h-full overflow-y-scroll overflow-x-hidden justify-start artboard-parent">
+      <div className="items-start py-5 px-3 md:py-6 w-full flex flex-col h-full overflow-y-scroll overflow-x-hidden justify-start artboard-parent">
         <Navbar
-          className="nav_header h-[64px] bg-transparent nav backdrop-filter-none"
+          className="nav_header h-[64px] bg-[#171717] rounded-xl nav backdrop-filter-none"
           maxWidth="full"
         >
           <NavbarContent

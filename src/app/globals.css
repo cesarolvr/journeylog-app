@@ -2,20 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-  }
-
-  .dark {
-  }
-}
-
-@layer base {
-}
-
 * {
   box-sizing: border-box;
 }
+
+::selection {
+  color: white;
+  background-color: rgb(43, 43, 43);
+}
+
+a span::selection {
+  color: #39d353;
+  background-color: rgb(43, 43, 43);
+}
+
 
 html {
   width: 100vw;

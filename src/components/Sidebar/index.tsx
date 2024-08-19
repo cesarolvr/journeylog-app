@@ -340,7 +340,7 @@ const Sidebar = ({
                   <small className="text-sm">{dayName}</small>
                 </div>
                 <ul
-                  className={`text-sm w-full list-disc px-3 pl-10 preview-list ${reenie.className}`}
+                  className={`text-sm w-full list-disc px-3 pl-10 preview-list overflow-hidden h-[70px] ${reenie.className}`}
                 >
                   {previewItem?.map(({ children }: any, key: any) => {
                     return (
