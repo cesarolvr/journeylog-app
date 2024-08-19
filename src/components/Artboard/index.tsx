@@ -1,4 +1,4 @@
-import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+// import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
@@ -9,6 +9,9 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import { ListItemNode, ListNode } from "@lexical/list";
+import { AutoLinkNode, LinkNode } from "@lexical/link";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { AutoLinkPlugin } from "@lexical/react/LexicalAutoLinkPlugin";
 
 import { Reenie_Beanie } from "next/font/google";
 
@@ -18,6 +21,37 @@ import ExampleTheme from "./plugins/ArtboardTheme";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import React from "react";
 import { $getRoot } from "lexical";
+
+const URL_MATCHER =
+  /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+
+const EMAIL_MATCHER =
+  /(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
+
+export const MATCHERS = [
+  (text) => {
+    const match = URL_MATCHER.exec(text);
+    return (
+      match && {
+        index: match.index,
+        length: match[0].length,
+        text: match[0],
+        url: match[0],
+      }
+    );
+  },
+  (text) => {
+    const match = EMAIL_MATCHER.exec(text);
+    return (
+      match && {
+        index: match.index,
+        length: match[0].length,
+        text: match[0],
+        url: `mailto:${match[0]}`,
+      }
+    );
+  },
+];
 
 const onChange = (
   editorState: any,
@@ -45,7 +79,7 @@ const Artboard = ({ setContent, initialState, id }: any) => {
       initialConfig={{
         editorState: initialState,
         namespace: "myeditor",
-        nodes: [ListNode, ListItemNode],
+        nodes: [ListNode, ListItemNode, AutoLinkNode, LinkNode],
         onError(error: Error) {
           throw error;
         },
@@ -75,6 +109,8 @@ const Artboard = ({ setContent, initialState, id }: any) => {
               onChange(newState, prevState, setters, setContent);
             }}
           />
+          <AutoLinkPlugin matchers={MATCHERS} />
+          <LinkPlugin />
           {/* <AutoFocusPlugin /> */}
         </div>
       </div>

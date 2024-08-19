@@ -13,6 +13,7 @@ import {
   Tabs,
 } from "@nextui-org/react";
 import { Plus } from "lucide-react";
+import classNames from "classnames";
 
 const ArtboardTabs = ({
   journeyTabs,
@@ -45,7 +46,12 @@ const ArtboardTabs = ({
                 key={key + 1}
                 id="tabsButton"
                 title={item.name}
-                className="flex items-center align-middle max-w-[120px] text-left tabJourney text-ellipsis overflow-hidden"
+                className={classNames(
+                  `flex items-center align-middle max-w-[120px] text-left tabJourney text-ellipsis`,
+                  {
+                    "overflow-hidden": journeyTabs.length === tabLimit,
+                  }
+                )}
               >
                 {journeyTabs.length > tabLimit ? (
                   <Dropdown className="p-0 h-full">

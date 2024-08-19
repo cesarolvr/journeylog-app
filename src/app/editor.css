@@ -64,7 +64,7 @@ h1 {
 }
 
 .editor-container ul li {
-  padding-left: 60px;
+  padding-left: 50px;
   position: relative;
   margin-bottom: 10px;
 }
@@ -74,7 +74,8 @@ h1 {
   color: #555555;
   font-family: var(--font-reenie);
   position: absolute;
-  left: -2px;
+  left: -8px;
+  font-size: 58px;
 }
 
 .editor-container ol {
@@ -107,17 +108,25 @@ h1 {
   position: relative;
   list-style-type: none;
   outline: none;
-  padding-left: 60px !important;
+  padding-left: 50px !important;
 }
-.editor-listitem-checked {
+.editor-listitem-checked span {
   text-decoration: line-through;
   color: #585858;
+}
+
+.editor-listitem-checked a {
+  
+}
+
+.editor-listitem-checked a, .editor-listitem-checked a span {
+  color: #39d353 !important;
 }
 
 .editor-listitem-checked:before,
 .editor-listitem-unchecked:before {
   content: "O" !important;
-  left: -0px !important;
+  left: 3px !important;
   transform: scale(1.6, 1.2);
   cursor: pointer;
   display: block;
@@ -548,4 +557,8 @@ i.justify-align {
 
 .preview-list li {
   font-family: var(--font-reenie);
+}
+
+.editor-link {
+  color: #39d353;
 }
