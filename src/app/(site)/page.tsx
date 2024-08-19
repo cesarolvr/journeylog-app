@@ -11,6 +11,8 @@ import {
 import Landing from "@/components/Landing";
 import App from "@/components/App";
 
+<meta name="theme-color" content="#39ff14"/>
+
 const Home = () => {
   const user = useSupaUser();
   const { session, isLoading } = useSessionContext();

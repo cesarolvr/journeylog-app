@@ -15,9 +15,18 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${nunito.className} overflow-hidden fixed bg-[#1f1f1f]`}>
+    <html
+      lang="en"
+      className={`${nunito.className} overflow-hidden fixed bg-[#1f1f1f]`}
+    >
       <title>Journeylog</title>
-      <body className="overflow-hidden">
+      <meta name="theme-color" content="#171717"/>
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+      />
+      <body className="overflow-hidden bg-[#171717]">
         <SupabaseProvider>
           <NextUIProvider>{children}</NextUIProvider>
         </SupabaseProvider>

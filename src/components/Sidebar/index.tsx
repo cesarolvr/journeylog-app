@@ -27,6 +27,7 @@ import { getDaysDetailsInMonth, isValidDate } from "@/utils";
 const Sidebar = ({
   setActiveLog,
   isBlocked,
+  setIsOpened,
   isOpened,
   activeTab,
   setDateSelected,
@@ -137,6 +138,7 @@ const Sidebar = ({
     }
 
     setIsReadyToRenderArtboard(true);
+    setIsOpened(true);
   };
 
   const handleDateSelection = async (e: any) => {
@@ -201,6 +203,7 @@ const Sidebar = ({
         setActiveLog(res);
       }
       setIsReadyToRenderArtboard(true);
+      setIsOpened(true);
     }
   };
 

@@ -321,13 +321,15 @@ const App = ({ user }: any) => {
     getTabs();
   }, []);
 
+  const todayNote = new Date(dateSelected?.year, dateSelected?.month - 1, dateSelected?.day)
+
   return (
     <div className="flex bg-[#171717] w-full h-[100svh] relative">
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
         isOpened={isOpened}
-        isBlocked={journeyTabs && journeyTabs?.length < 1}
         setIsOpened={setIsOpened}
+        isBlocked={journeyTabs && journeyTabs?.length < 1}
         setActiveLog={setActiveLog}
         setDateSelected={setDateSelected}
         dateSelected={dateSelected}
@@ -384,10 +386,7 @@ const App = ({ user }: any) => {
                 activeTab={activeTab}
               />
             )}
-          {isReadyToRenderArtboard &&
-          // activeLog?.content &&
-          journeyTabs &&
-          journeyTabs?.length > 0 ? (
+          {isReadyToRenderArtboard && journeyTabs && journeyTabs?.length > 0 ? (
             <>
               {activeLog?.content ? (
                 <Artboard
@@ -402,6 +401,7 @@ const App = ({ user }: any) => {
                   setContent={handleContentEdit}
                 />
               )}
+              <div className={`${reenie.className} fixed z-50 text-[50px] bottom-[10px] right-[20px] text-[#3b3b3b]`}>{todayNote.toLocaleString('default', { month: 'short' })}, {dateSelected?.day}</div>
             </>
           ) : (
             <div className="w-full h-full flex justify-center items-start">
