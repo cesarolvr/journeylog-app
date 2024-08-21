@@ -17,7 +17,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${nunito.className} overflow-hidden fixed bg-[#1f1f1f]`}
+      className={`${nunito.className} bg-[#171717] min-h-[100svh]`}
     >
       <title>Journeylog</title>
       <meta name="theme-color" content="#171717"/>
@@ -26,7 +26,7 @@ export default async function RootLayout({
         name="apple-mobile-web-app-status-bar-style"
         content="black-translucent"
       />
-      <body className="overflow-hidden bg-[#171717]">
+      <body className="min-h-[100svh]">
         <SupabaseProvider>
           <NextUIProvider>{children}</NextUIProvider>
         </SupabaseProvider>

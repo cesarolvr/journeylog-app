@@ -23,9 +23,9 @@ const ArtboardHeader = ({
   }, [activeTab?.name]);
 
   return (
-    <div className="flex items-center justify-between bg-[#171717] rounded-xl">
+    <div className="flex items-center justify-between bg-[#171717] rounded-xl z-[50] sticky top-[53px]">
       <input
-        className="px-1 w-full py-2 text-3xl text-ellipsis mt-3 mb-3 bg-transparent outline-none"
+        className="px-1 w-full py-2 text-2xl text-ellipsis mt-3 mb-3 bg-transparent outline-none"
         value={journeyName || activeTab?.name || ""}
         onChange={(e) => {
           setJourneyName(e?.target?.value);

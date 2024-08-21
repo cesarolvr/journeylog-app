@@ -9,9 +9,9 @@ const SidebarCloseLayer = ({ isOpened, setIsOpened }: any) => {
   return (
     <div
       className={classnames(
-        "absolute cursor-pointer bg-[#393939] backdrop-blur-sm left-0 top-0 bg-opacity-20 z-[100]",
+        "absolute cursor-pointer backdrop-blur-sm left-0 top-0 bg-opacity-20 z-[100]",
         {
-          "w-[100vw] h-[100vh]": !isOpened,
+          "w-[100vw] h-[100svh]": !isOpened,
           "w-[0px] h-[0px] flex items-center justify-center": isOpened,
         }
       )}

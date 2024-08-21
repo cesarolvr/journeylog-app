@@ -1,5 +1,7 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { mergeRegister } from "@lexical/utils";
+import { Nunito_Sans } from "next/font/google";
+
 import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
@@ -18,6 +20,8 @@ import {
 } from "lexical";
 import { useCallback, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
+
+const nunito = Nunito_Sans({ subsets: ["latin"], weight: "400" });
 
 const LowPriority = 1;
 
@@ -85,7 +89,7 @@ export default function ToolbarPlugin() {
   }, [editor, $updateToolbar]);
 
   return (
-    <div className="toolbar" ref={toolbarRef}>
+    <div className={`toolbar ${nunito.className} flex flex-wrap mb-[1px] pb-1 bg-[#171717] w-full pr-[30px] align-middle sticky top-[115px] z-[90]`} ref={toolbarRef}>
       <button
         disabled={!canUndo}
         onClick={() => {

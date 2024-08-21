@@ -324,7 +324,7 @@ const App = ({ user }: any) => {
   const todayNote = new Date(dateSelected?.year, dateSelected?.month - 1, dateSelected?.day)
 
   return (
-    <div className="flex bg-[#171717] w-full h-[100svh] relative">
+    <div className="flex w-full relative">
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
         isOpened={isOpened}
@@ -342,14 +342,14 @@ const App = ({ user }: any) => {
         setSelectedDay={setSelectedDay}
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
       />
-      <div className="items-start py-5 px-3 md:py-6 w-full flex flex-col h-full overflow-y-scroll overflow-x-hidden justify-start artboard-parent">
+      <div className="items-start py-5 px-3 md:py-6 w-full flex flex-col overflow-x-hidden justify-start artboard-parent">
         <Navbar
-          className="nav_header h-[64px] bg-[#171717] rounded-xl nav backdrop-filter-none"
+          className="nav_header h-[64px] bg-[#171717] rounded-2xl nav backdrop-filter-none"
           maxWidth="full"
         >
           <NavbarContent
             justify="center"
-            className="rounded-2xl md:pr-3 ml-10 md:ml-0"
+            className="rounded-2xl md:pr-3 ml-6 md:ml-0"
           >
             <ArtboardTabs
               journeyTabs={journeyTabs}
@@ -376,7 +376,7 @@ const App = ({ user }: any) => {
             </NavbarItem>
           </NavbarContent>
         </Navbar>
-        <div className="px-2 md:p-6 pt-3 md:pt-0 w-full h-full artboard flex-col">
+        <div className="px-2 md:p-6 pt-3 md:pt-0 w-full artboard flex-col">
           {isReadyToRenderArtboard &&
             journeyTabs &&
             journeyTabs?.length > 0 && (
@@ -401,10 +401,10 @@ const App = ({ user }: any) => {
                   setContent={handleContentEdit}
                 />
               )}
-              <div className={`${reenie.className} fixed z-50 text-[50px] bottom-[10px] right-[20px] text-[#3b3b3b]`}>{todayNote.toLocaleString('default', { month: 'short' })}, {dateSelected?.day}</div>
+              <div className={`${reenie.className} fixed z-50 text-[50px] bottom-[30px] right-[30px] bg-[#171717] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}>{todayNote.toLocaleString('default', { month: 'short' })}, {dateSelected?.day}</div>
             </>
           ) : (
-            <div className="w-full h-full flex justify-center items-start">
+            <div className="w-full flex justify-center items-start">
               {journeyTabs && journeyTabs?.length > 0 ? (
                 <CircularProgress aria-label="Loading..." />
               ) : (
@@ -490,7 +490,7 @@ const App = ({ user }: any) => {
             </div>
           )}
         </div>
-        <div className="h-[50px] shrink-0"></div>
+       
       </div>
     </div>
   );

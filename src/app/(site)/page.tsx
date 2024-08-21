@@ -25,7 +25,7 @@ const Home = () => {
   };
 
   return (
-    <main className="dark text-foreground bg-background w-[100vw] h-[100vh] overflow-hidden">
+    <main className="dark text-foreground w-[100vw]">
       {!!user ? <App {...value} /> : <Landing />}
     </main>
   );
