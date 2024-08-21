@@ -1,4 +1,4 @@
-// import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
@@ -111,7 +111,7 @@ const Artboard = ({ setContent, initialState, id }: any) => {
           />
           <AutoLinkPlugin matchers={MATCHERS} />
           <LinkPlugin />
-          {/* <AutoFocusPlugin /> */}
+          <AutoFocusPlugin />
           <br />
           <br />
           <br />

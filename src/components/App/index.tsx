@@ -41,7 +41,7 @@ const App = ({ user }: any) => {
   const [previewList, setPreviewList]: any = useState(null);
   const [forcedActiveTab, setForcedActiveTab]: any = useState(1);
   const [newJourneyTitle, setNewJourneyTitle]: any = useState("");
-  const [isLoading, setIsLoading]: any = useState("");
+  const [isLoading, setIsLoading]: any = useState(false);
 
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
     useState(false);
@@ -73,39 +73,12 @@ const App = ({ user }: any) => {
       .toISO();
 
   const getUser = () => user;
+  const getActiveLog = () => activeLog;
 
-  const handleContentEdit = debounce(async (content: any, options) => {
-    if (content === EMPTY_STATE) return null;
-    const now = getNow();
-    const customDate = getCustomDate();
-
-    const isToCreate = !activeLog;
-
-    const payloadToSend = (condition: boolean) => {
-      if (condition) {
-        return {
-          created_at: customDate,
-          updated_at: now,
-          type: "",
-          journey_id: activeTab?.id,
-          content,
-          user_id: getUser()?.id,
-        };
-      } else {
-        return {
-          id: activeLog?.id,
-          created_at: activeLog?.created_at,
-          updated_at: now,
-          type: "",
-          journey_id: activeTab?.id,
-          content,
-          user_id: getUser()?.id,
-        };
-      }
-    };
+  const updateOrCreateLog = debounce(async (payload: any) => {
     const { data, error } = await supabaseClient
       .from("log")
-      .upsert(payloadToSend(isToCreate))
+      .upsert(payload)
       .select();
 
     if (data && data[0]) {
@@ -120,6 +93,41 @@ const App = ({ user }: any) => {
       getPreviews(dateStringStart, dateStringEnd, activeTab);
     }
   }, 500);
+
+  const handleContentEdit = async (content: any) => {
+    // if (content === EMPTY_STATE) return null;
+    const now = getNow();
+    const customDate = getCustomDate();
+
+    const isToCreate = !getActiveLog();
+
+    const payloadToSend = (condition: boolean) => {
+      if (condition) {
+        return {
+          created_at: customDate,
+          updated_at: now,
+          type: "",
+          journey_id: activeTab?.id,
+          content,
+          user_id: getUser()?.id,
+        };
+      } else {
+        return {
+          id: getActiveLog()?.id,
+          created_at: getActiveLog()?.created_at,
+          updated_at: now,
+          type: "",
+          journey_id: activeTab?.id,
+          content,
+          user_id: getUser()?.id,
+        };
+      }
+    };
+    setIsLoading(true);
+    updateOrCreateLog(payloadToSend(isToCreate));
+
+    setIsLoading(false);
+  };
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
     const value = e?.target?.value;
@@ -175,6 +183,8 @@ const App = ({ user }: any) => {
     const activeTab: any =
       journeyTabs.length === 1 ? journeyTabs[0] : journeyTabs[index];
 
+    setIsLoading(true);
+
     const { data: updatedJourney } = await supabaseClient
       .from("journey")
       .update({ selected_at: DateTime.now().toUTC().toISO() })
@@ -202,6 +212,8 @@ const App = ({ user }: any) => {
 
     const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
     const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+
+    setIsLoading(false);
 
     getPreviews(dateStringStart, dateStringEnd, activeTab);
   };
@@ -276,6 +288,8 @@ const App = ({ user }: any) => {
         })
         .toUTC()
         .toISO();
+
+      setIsLoading(true);
       const { error, data } = await supabaseClient
         .from("log")
         .select()
@@ -287,16 +301,21 @@ const App = ({ user }: any) => {
       if (data) {
         setPreviewList(data);
       }
+
+      setIsLoading(false);
     },
     100
   );
 
   const getTabs = async (options: any = {}) => {
+    setIsLoading(true);
     const { isToReorderList } = options;
     const { error, data } = await supabaseClient
       .from("journey")
       .select()
       .order("selected_at", { ascending: false });
+
+    setIsLoading(false);
 
     if (data && data[0]) {
       setJourneyTabs(data);
@@ -309,6 +328,8 @@ const App = ({ user }: any) => {
       const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
       const dayWithPad = `0${today?.getDate()}`.slice(-2);
 
+      setIsLoading(true);
+
       const res = await getLogs(
         data[0]?.id,
         `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`
@@ -319,6 +340,7 @@ const App = ({ user }: any) => {
       }
 
       setIsReadyToRenderArtboard(true);
+      setIsLoading(false);
     }
   };
 
@@ -348,9 +370,16 @@ const App = ({ user }: any) => {
         setPreviewList={setPreviewList}
         getPreviews={getPreviews}
         selectedDay={selectedDay}
+        setIsLoading={setIsLoading}
         setSelectedDay={setSelectedDay}
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
       />
+      <div
+        className={`${reenie.className} fixed z-50 text-[50px] bottom-[30px] right-[30px] bg-[#171717] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
+      >
+        {todayNote.toLocaleString("default", { month: "short" })},{" "}
+        {dateSelected?.day}
+      </div>
       <div className="items-start py-5 px-3 md:py-6 w-full flex flex-col overflow-x-hidden justify-start artboard-parent">
         <Navbar
           className="nav_header h-[64px] bg-[#171717] rounded-2xl nav backdrop-filter-none"
@@ -368,9 +397,15 @@ const App = ({ user }: any) => {
             />
           </NavbarContent>
           <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">
-            <CircularProgress classNames={{
-              indicator: 'stroke-[#39D353]'
-            }} aria-label="Loading..." />
+            {isLoading && (
+              <CircularProgress
+                size="sm"
+                classNames={{
+                  indicator: "stroke-[#39D353]",
+                }}
+                aria-label="Loading..."
+              />
+            )}
             <NavbarItem className="flex justify-center">
               <Dropdown>
                 <DropdownTrigger>
@@ -407,24 +442,18 @@ const App = ({ user }: any) => {
                   setContent={handleContentEdit}
                 />
               ) : (
-                <Artboard
-                  id={2}
-                  initialState={EMPTY_STATE}
-                  setContent={handleContentEdit}
-                />
+                <>
+                  <Artboard
+                    id={2}
+                    initialState={EMPTY_STATE}
+                    setContent={handleContentEdit}
+                  />
+                </>
               )}
-              <div
-                className={`${reenie.className} fixed z-50 text-[50px] bottom-[30px] right-[30px] bg-[#171717] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
-              >
-                {todayNote.toLocaleString("default", { month: "short" })},{" "}
-                {dateSelected?.day}
-              </div>
             </>
           ) : (
             <div className="w-full flex justify-center items-start">
-              {journeyTabs && journeyTabs?.length > 0 ? (
-                <CircularProgress aria-label="Loading..." />
-              ) : (
+              {!isLoading && (
                 <div className="flex flex-col w-full h-full justify-center md:pl-16">
                   <h1
                     className={`${reenie.className} text-[60px] text-[#969696] mb-[40px] leading-[60px] w-[460px] max-w-full`}

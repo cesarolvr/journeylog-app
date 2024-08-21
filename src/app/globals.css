@@ -11,6 +11,10 @@
   --nextui-content1: 0 0 11%;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 ::selection {
   color: white;
   background-color: rgb(43, 43, 43);

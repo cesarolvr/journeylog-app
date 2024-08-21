@@ -36,6 +36,7 @@ const Sidebar = ({
   previewList,
   getPreviews,
   selectedDay,
+  setIsLoading,
   setSelectedDay,
   setIsReadyToRenderArtboard,
 }: any) => {
@@ -83,6 +84,7 @@ const Sidebar = ({
 
       if (res) {
         setActiveLog(res);
+        
       }
 
       setIsReadyToRenderArtboard(true);
@@ -102,6 +104,14 @@ const Sidebar = ({
     setLastMonthLoaded(newLastMonthLoaded);
     setLastYearLoaded(newLastYearLoaded);
 
+    const monthWithPad = `0${newLastMonthLoaded + 1}`.slice(-2);
+    const dayWithPad = `0${1}`.slice(-2);
+
+    const dateStringStart = `${newLastYearLoaded}-${monthWithPad}-${dayWithPad}`;
+    const dateStringEnd = `${newLastYearLoaded}-${monthWithPad}-${dayWithPad}`;
+
+    getPreviews(dateStringStart, dateStringEnd, activeTab);
+
     setTimeout(() => {
       setDays([...days, ...newDays]);
     }, 1000);
@@ -112,7 +122,9 @@ const Sidebar = ({
     { id, monthNumber, dayNumber, year }: any
   ) => {
     setIsReadyToRenderArtboard(false);
+    setIsLoading(true);
     setActiveLog(null);
+    
 
     const newDate = new CalendarDate(year, monthNumber, dayNumber);
     setDateSelected(newDate);
@@ -133,16 +145,20 @@ const Sidebar = ({
 
     if (res) {
       setActiveLog(res);
+      
     } else {
       setActiveLog(null);
+      
     }
 
     setIsReadyToRenderArtboard(true);
     setIsOpened(true);
+    setIsLoading(false);
   };
 
   const handleDateSelection = async (e: any) => {
     setIsReadyToRenderArtboard(false);
+    setIsLoading(true);
     setDateSelected(e);
 
     const monthWithPad = `0${e?.month}`.slice(-2);
@@ -195,16 +211,19 @@ const Sidebar = ({
 
       setSelectedDay(id);
       setActiveLog(null);
+      
 
       const filter = `${e?.year}-${monthWithPad}-${dayWithPad}`;
 
       const res = await getLogs(activeTab.id, filter);
       if (res) {
         setActiveLog(res);
+        
       }
       setIsReadyToRenderArtboard(true);
       setIsOpened(true);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -260,9 +279,6 @@ const Sidebar = ({
           aria-label="teste"
           variant={"bordered"}
           value={dateSelected}
-          classNames={{
-            
-          }}
           maxValue={todayDate(getLocalTimeZone())}
           onChange={handleDateSelection}
           className="rounded-xl text-white outline-none"

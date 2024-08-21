@@ -19,24 +19,6 @@ module.exports = {
     nextui({
       defaultTheme: "dark",
       defaultExtendTheme: "dark",
-      // themes: {
-      //   light: {
-      //     background: "#171717",
-      //     foreground: "#ffffff",
-      //     primary: {
-      //       foreground: "130, 64%, 53%",
-      //       DEFAULT: "#39D353",
-      //     },
-      //   },
-      //   dark: {
-      //     background: "#171717",
-      //     foreground: "#ffffff",
-      //     primary: {
-      //       foreground: "#39D353",
-      //       DEFAULT: "#39D353",
-      //     },
-      //   },
-      // },
     }),
   ],
 };
