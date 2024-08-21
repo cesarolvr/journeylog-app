@@ -1,9 +1,5 @@
 /* EDITOR */
 
-.artboard-parent {
-  
-}
-
 .other h2 {
   font-size: 18px;
   color: #444;
@@ -149,7 +145,7 @@ h1 {
 .editor-listitem-checked:after {
   content: "L";
   cursor: pointer;
-  color: #39d353;
+  color: #39D353;
   font-size: 70px;
   transform: scale(-1, 1) rotate(-40deg);
   transform-origin: center center;

@@ -6,6 +6,7 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
+  CircularProgress,
 } from "@nextui-org/react";
 import { Ellipsis } from "lucide-react";
 
@@ -47,7 +48,8 @@ const ArtboardHeader = ({
             {() => (
               <div className="px-1 py-2 w-full">
                 <Button
-                  className="bg-danger-300 text-white w-full"
+                  className="text-white w-full text-danger-500"
+                  variant="bordered"
                   onClick={() => handleJourneyDeletion(activeTab)}
                 >
                   Delete Journey

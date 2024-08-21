@@ -41,6 +41,7 @@ const App = ({ user }: any) => {
   const [previewList, setPreviewList]: any = useState(null);
   const [forcedActiveTab, setForcedActiveTab]: any = useState(1);
   const [newJourneyTitle, setNewJourneyTitle]: any = useState("");
+  const [isLoading, setIsLoading]: any = useState("");
 
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
     useState(false);
@@ -159,6 +160,10 @@ const App = ({ user }: any) => {
       });
 
       setJourneyTabs(newTabsToBeRendered);
+
+      if (newTabsToBeRendered && newTabsToBeRendered?.length === 0) {
+        setPreviewList([]);
+      }
     }
   }, 500);
 
@@ -321,7 +326,11 @@ const App = ({ user }: any) => {
     getTabs();
   }, []);
 
-  const todayNote = new Date(dateSelected?.year, dateSelected?.month - 1, dateSelected?.day)
+  const todayNote = new Date(
+    dateSelected?.year,
+    dateSelected?.month - 1,
+    dateSelected?.day
+  );
 
   return (
     <div className="flex w-full relative">
@@ -359,6 +368,9 @@ const App = ({ user }: any) => {
             />
           </NavbarContent>
           <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">
+            <CircularProgress classNames={{
+              indicator: 'stroke-[#39D353]'
+            }} aria-label="Loading..." />
             <NavbarItem className="flex justify-center">
               <Dropdown>
                 <DropdownTrigger>
@@ -401,7 +413,12 @@ const App = ({ user }: any) => {
                   setContent={handleContentEdit}
                 />
               )}
-              <div className={`${reenie.className} fixed z-50 text-[50px] bottom-[30px] right-[30px] bg-[#171717] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}>{todayNote.toLocaleString('default', { month: 'short' })}, {dateSelected?.day}</div>
+              <div
+                className={`${reenie.className} fixed z-50 text-[50px] bottom-[30px] right-[30px] bg-[#171717] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
+              >
+                {todayNote.toLocaleString("default", { month: "short" })},{" "}
+                {dateSelected?.day}
+              </div>
             </>
           ) : (
             <div className="w-full flex justify-center items-start">
@@ -490,7 +507,6 @@ const App = ({ user }: any) => {
             </div>
           )}
         </div>
-       
       </div>
     </div>
   );

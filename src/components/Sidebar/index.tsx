@@ -260,6 +260,9 @@ const Sidebar = ({
           aria-label="teste"
           variant={"bordered"}
           value={dateSelected}
+          classNames={{
+            
+          }}
           maxValue={todayDate(getLocalTimeZone())}
           onChange={handleDateSelection}
           className="rounded-xl text-white outline-none"
