@@ -1,0 +1,20 @@
+.auth {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth {
+  .supabase-auth-ui_ui-divider {
+    display: none;
+  }
+
+  .supabase-auth-ui_ui-button {
+    border: none;
+    background-color: white;
+    color: #0D1117;
+    border-radius: 12px;
+  }
+  .supabase-auth-ui_ui-anchor:first-child {
+    display: none;
+  }
+}

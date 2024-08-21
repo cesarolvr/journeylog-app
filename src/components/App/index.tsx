@@ -299,7 +299,10 @@ const App = ({ user }: any) => {
         .order("created_at", { ascending: false });
 
       if (data) {
-        setPreviewList(data);
+        const formattedPreviewList = previewList
+          ? [...previewList, ...data]
+          : [...data];
+        setPreviewList(formattedPreviewList);
       }
 
       setIsLoading(false);
