@@ -272,7 +272,7 @@ const App = ({ user }: any) => {
   };
 
   const getPreviews = debounce(
-    async (dateStringStart: any, dateStringEnd: any, activeTab: any) => {
+    async (dateStringStart: any, dateStringEnd: any, newTab: any) => {
       const start = DateTime.fromISO(dateStringStart)
         .minus({ month: 1 })
         .set({ hour: 0, minute: 0, second: 0 })
@@ -293,10 +293,12 @@ const App = ({ user }: any) => {
       const { error, data } = await supabaseClient
         .from("log")
         .select()
-        .eq("journey_id", activeTab?.id)
+        .eq("journey_id", newTab?.id)
         .gt("created_at", start)
         .lt("created_at", end)
         .order("created_at", { ascending: false });
+
+      console.log(activeTab, newTab);
 
       if (data) {
         const formattedPreviewList = previewList

@@ -4,17 +4,91 @@
 }
 
 .auth {
-  .supabase-auth-ui_ui-divider {
-    display: none;
+  > div {
+    display: grid;
+    flex-direction: column;
+    justify-content: center;
   }
 
-  .supabase-auth-ui_ui-button {
+  .input {
+    margin-bottom: 5px;
+    &::placeholder {
+      opacity: 0.5;
+      color: red;
+    }
+  }
+
+  .label {
+    font-size: 14px;
+    font-weight: bolder;
+    margin-bottom: 10px;
+  }
+
+  .divider {
+    background-color: rgba(255, 255, 255, 0.3);
+    position: relative;
+    order: 2;
+
+    &:after {
+      content: "or";
+      position: absolute;
+      margin: auto;
+      width: 30px;
+      height: 20px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      inset: 0;
+      text-align: center;
+      background-color: #171717;
+    }
+  }
+
+  .link {
+    text-decoration: none;
+    order: 5;
+
+    &:first-child {
+      display: none;
+    }
+  }
+
+  .container {
+    order: 3;
+
+    .button {
+      background-color: #39d353;
+    }
+  }
+
+  form {
+    order: 1;
+  }
+
+  .button {
     border: none;
     background-color: white;
-    color: #0D1117;
-    border-radius: 12px;
+    color: white;
+    border-radius: 20px;
+    padding: 14px;
+
+    &[type="submit"] {
+      background-color: white;
+      color: #171717;
+      order: 4;
+    }
+
+    svg {
+      path {
+        fill: white;
+      }
+    }
   }
-  .supabase-auth-ui_ui-anchor:first-child {
-    display: none;
+
+  .input {
+    background-color: #2d2d2d;
+    border-radius: 20px;
+    padding: 14px;
+    border: none;
   }
 }
