@@ -7,7 +7,7 @@ import {
 } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Link from "next/Link";
+import Link from "next/link";
 
 import { Reenie_Beanie } from "next/font/google";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
