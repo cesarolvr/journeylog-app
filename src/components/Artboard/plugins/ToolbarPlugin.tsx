@@ -89,7 +89,7 @@ export default function ToolbarPlugin() {
   }, [editor, $updateToolbar]);
 
   return (
-    <div className={`toolbar ${nunito.className} flex flex-wrap mb-[1px] pb-1 bg-[#171717] w-full pr-[30px] align-middle sticky top-[115px] z-[90]`} ref={toolbarRef}>
+    <div className={`toolbar ${nunito.className} flex mb-[1px] pb-1 bg-[#171717] w-full pr-[30px] align-middle sticky md:top-[115px] top-[100px] z-[90]`} ref={toolbarRef}>
       <button
         disabled={!canUndo}
         onClick={() => {

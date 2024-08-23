@@ -111,7 +111,7 @@ const Artboard = ({ setContent, initialState, id }: any) => {
           />
           <AutoLinkPlugin matchers={MATCHERS} />
           <LinkPlugin />
-          <AutoFocusPlugin />
+          {/* <AutoFocusPlugin /> */}
           <br />
         </div>
       </div>

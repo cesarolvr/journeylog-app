@@ -108,10 +108,10 @@ h1 {
 }
 
 .editor-listitem-checked a {
-  
 }
 
-.editor-listitem-checked a, .editor-listitem-checked a span {
+.editor-listitem-checked a,
+.editor-listitem-checked a span {
   color: #39d353 !important;
 }
 
@@ -145,7 +145,7 @@ h1 {
 .editor-listitem-checked:after {
   content: "L";
   cursor: pointer;
-  color: #39D353;
+  color: #39d353;
   font-size: 70px;
   transform: scale(-1, 1) rotate(-40deg);
   transform-origin: center center;
@@ -169,13 +169,17 @@ h1 {
 .editor-input {
   height: 100%;
   resize: none;
-  font-size: 60px;
+  font-size: 40px;
   caret-color: rgb(5, 5, 5);
   position: relative;
   tab-size: 1;
   outline: 0;
   padding: 10px 10px;
   caret-color: #444;
+
+  @media screen and (min-width: 500px) {
+    font-size: 60px;
+  }
 }
 
 .editor-placeholder {
@@ -405,11 +409,11 @@ pre::-webkit-scrollbar-thumb {
 }
 
 .toolbar {
-  /* display: flex;
-  flex-wrap: wrap;
+  /* display: flex; */
+  /* flex-wrap: wrap;
   margin-bottom: 1px;
-  background: #171717; */
-  /* padding: 0px;
+  background: #171717;
+  padding: 0px;
   padding-right: 30px;
   vertical-align: middle; */
 }
