@@ -90,8 +90,11 @@ const App = ({ user }: any) => {
       const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
       const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
 
-      getPreviews(dateStringStart, dateStringEnd, activeTab);
+      getPreviews(dateStringStart, dateStringEnd, activeTab, {
+        forceUpdate: true,
+      });
     }
+    setIsLoading(false);
   }, 500);
 
   const handleContentEdit = async (content: any) => {
@@ -125,8 +128,6 @@ const App = ({ user }: any) => {
     };
     setIsLoading(true);
     updateOrCreateLog(payloadToSend(isToCreate));
-
-    setIsLoading(false);
   };
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
@@ -215,7 +216,9 @@ const App = ({ user }: any) => {
 
     setIsLoading(false);
 
-    getPreviews(dateStringStart, dateStringEnd, activeTab);
+    getPreviews(dateStringStart, dateStringEnd, activeTab, {
+      forceUpdate: true,
+    });
   };
 
   const handleCreateJourney = debounce(async (e: any) => {
@@ -272,7 +275,12 @@ const App = ({ user }: any) => {
   };
 
   const getPreviews = debounce(
-    async (dateStringStart: any, dateStringEnd: any, newTab: any) => {
+    async (
+      dateStringStart: any,
+      dateStringEnd: any,
+      newTab: any,
+      options: any
+    ) => {
       const start = DateTime.fromISO(dateStringStart)
         .minus({ month: 1 })
         .set({ hour: 0, minute: 0, second: 0 })
@@ -298,13 +306,12 @@ const App = ({ user }: any) => {
         .lt("created_at", end)
         .order("created_at", { ascending: false });
 
-      console.log(activeTab, newTab);
-
       if (data) {
+        const isToForcePreviewList = options.forceUpdate;
         const formattedPreviewList = previewList
           ? [...previewList, ...data]
           : [...data];
-        setPreviewList(formattedPreviewList);
+        setPreviewList(isToForcePreviewList ? [...data] : formattedPreviewList);
       }
 
       setIsLoading(false);

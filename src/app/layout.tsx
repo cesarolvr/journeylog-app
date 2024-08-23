@@ -17,7 +17,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${nunito.className} bg-[#171717] min-h-[100svh]`}
+      className={`${nunito.className} bg-[#171717] min-h-[100svh] fixed sm:relative`}
     >
       <title>Journeylog</title>
       <meta name="theme-color" content="#171717"/>
