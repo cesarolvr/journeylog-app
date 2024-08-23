@@ -8,12 +8,14 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import LOGO from "../../../icons/logo.svg";
 
 import { Reenie_Beanie } from "next/font/google";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 
 // Styles
-import "./auth.css";
+import "./auth.scss";
 import { ChevronLeft } from "lucide-react";
 
 const SignIn = () => {
@@ -34,9 +36,10 @@ const SignIn = () => {
         <ChevronLeft />
         Home
       </Link>
-      <div className="w-[320px] auth flex items-center">
-        <h1 className={`text-white ${reenie.className} text-[60px] mb-5`}>
+      <div className="w-[300px] max-w-[80%] auth flex items-center">
+        <h1 className={`text-white ${reenie.className} text-[45px] md:text-[60px] mb-2 md:mb-3 flex`}>
           Journeylog
+          <Image src={LOGO} alt="" className="mt-[-30px] md:mt-[-40px] w-[30px] md:w-[60px] ml-3" />
         </h1>
         <Auth
           supabaseClient={supabaseClient}
@@ -50,11 +53,11 @@ const SignIn = () => {
                 loading_button_label: "Signing in",
                 password_label: "Password",
                 password_input_placeholder: "••••••••••••",
-                link_text: `DDon't have an account? <span>Sign Up<span>`,
+                link_text: "Don't have an account? <span>Sign Up<span>",
+                social_provider_text: "Or try with Google",
               },
             },
           }}
-          
           theme="default"
           appearance={{
             className: {

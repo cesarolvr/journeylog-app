@@ -1,20 +1,24 @@
 .auth {
   display: flex;
   flex-direction: column;
-}
 
-.auth {
   > div {
     display: grid;
     flex-direction: column;
     justify-content: center;
+    grid-template-columns: 1fr;
+    width: 100%;
   }
 
   .input {
-    margin-bottom: 5px;
+    margin-bottom: 2px;
+    background-color: #2d2d2d;
+    border-radius: 20px;
+    padding: 14px;
+    border: none;
+
     &::placeholder {
-      opacity: 0.5;
-      color: red;
+      opacity: 0.3;
     }
   }
 
@@ -54,7 +58,7 @@
   }
 
   .container {
-    order: 3;
+    order: 4;
 
     .button {
       background-color: #39d353;
@@ -72,10 +76,18 @@
     border-radius: 20px;
     padding: 14px;
 
+    &:hover {
+      background-color: #2fb245 !important;
+    }
+
     &[type="submit"] {
       background-color: white;
       color: #171717;
       order: 4;
+
+      &:hover {
+        background-color: #e8e8e8 !important;
+      }
     }
 
     svg {
@@ -83,12 +95,5 @@
         fill: white;
       }
     }
-  }
-
-  .input {
-    background-color: #2d2d2d;
-    border-radius: 20px;
-    padding: 14px;
-    border: none;
   }
 }
