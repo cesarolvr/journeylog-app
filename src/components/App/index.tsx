@@ -393,7 +393,7 @@ const App = ({ user }: any) => {
         {todayNote.toLocaleString("default", { month: "short" })},{" "}
         {dateSelected?.day}
       </div>
-      <div className="items-start py-5 px-3 md:py-6 w-full flex flex-col overflow-x-hidden justify-start artboard-parent">
+      <div className="items-start py-5 px-3 md:pl-[260px] md:py-6 w-full flex flex-col overflow-x-hidden justify-start artboard-parent">
         <Navbar
           className="nav_header h-[64px] bg-[#171717] rounded-2xl nav backdrop-filter-none"
           maxWidth="full"

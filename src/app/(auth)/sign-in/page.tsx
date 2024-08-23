@@ -37,7 +37,7 @@ const SignIn = () => {
         Home
       </Link>
       <div className="w-[300px] max-w-[80%] auth flex items-center">
-        <h1 className={`text-white ${reenie.className} text-[45px] md:text-[60px] mb-2 md:mb-3 flex`}>
+        <h1 className={`text-white ${reenie.className} text-[45px] md:text-[60px] md:mb-3 flex`}>
           Journeylog
           <Image src={LOGO} alt="" className="mt-[-30px] md:mt-[-40px] w-[30px] md:w-[60px] ml-3" />
         </h1>

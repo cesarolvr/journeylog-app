@@ -113,24 +113,6 @@ const Artboard = ({ setContent, initialState, id }: any) => {
           <LinkPlugin />
           <AutoFocusPlugin />
           <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
         </div>
       </div>
     </LexicalComposer>
