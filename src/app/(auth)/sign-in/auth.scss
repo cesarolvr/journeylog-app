@@ -51,10 +51,29 @@
   .link {
     text-decoration: none;
     order: 5;
+  }
 
-    &:first-child {
-      display: none;
-    }
+  a[href*="auth-forgot-password"] {
+    color: #626262;
+    order: 2;
+    margin-bottom: 20px;
+  }
+
+  a[href*="auth-sign-up"], a[href*="auth-sign-in"] {
+    // color:#39d353;
+  }
+
+  .message {
+    position: fixed;
+    background-color: #f31260;
+    top: 20px;
+    right: 0px;
+    left: 0px;
+    margin: 0 auto;
+    width: 250px;
+    max-width: 90%;
+    padding: 16px 12px;
+    border-radius: 15px;
   }
 
   .container {
