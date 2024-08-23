@@ -74,13 +74,18 @@ h1 {
   width: 100%;
   counter-reset: item;
   font-family: var(--font-reenie);
-  padding-left: 30px;
+  padding-left: 20px;
+
+  @media screen and (min-width: 500px) {
+    padding-left: 30px;
+  }
 }
 
 .editor-container ol li {
   padding-left: 30px;
   counter-increment: item;
   margin-bottom: 10px;
+
 }
 .editor-container ol li:before {
   content: attr(value) ". ";
@@ -169,7 +174,7 @@ h1 {
 .editor-input {
   height: 100%;
   resize: none;
-  font-size: 40px;
+  font-size: 45px;
   caret-color: rgb(5, 5, 5);
   position: relative;
   tab-size: 1;
