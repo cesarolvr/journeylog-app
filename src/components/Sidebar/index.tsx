@@ -25,6 +25,7 @@ import {
 import { getDaysDetailsInMonth, isValidDate } from "@/utils";
 
 const Sidebar = ({
+  isLoading,
   setActiveLog,
   isBlocked,
   setIsOpened,
@@ -339,7 +340,7 @@ const Sidebar = ({
                 key={index}
                 id={`day-${id}`}
                 onClick={(e) => {
-                  if (selectedDay === id) return;
+                  if (selectedDay === id || isLoading) return;
                   handleDaySelection(e, {
                     id,
                     monthNumber,

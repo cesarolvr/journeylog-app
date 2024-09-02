@@ -68,3 +68,8 @@ button.tabJourney > div {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.syncer svg {
+  width: 25px;
+  height: 25px;
+}

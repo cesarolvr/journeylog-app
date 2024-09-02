@@ -29,6 +29,7 @@ import Sidebar from "../Sidebar";
 import SidebarCloseLayer from "../SidebarCloseLayer";
 import ArtboardHeader from "../ArtboardHeader";
 import ArtboardTabs from "../ArtboardTabs";
+import classNames from "classnames";
 
 const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
@@ -75,29 +76,7 @@ const App = ({ user }: any) => {
   const getUser = () => user;
   const getActiveLog = () => activeLog;
 
-  const updateOrCreateLog = debounce(async (payload: any) => {
-    const { data, error } = await supabaseClient
-      .from("log")
-      .upsert(payload)
-      .select();
-
-    if (data && data[0]) {
-      setActiveLog(data[0]);
-
-      const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
-      const dayWithPad = `0${today?.getDate()}`.slice(-2);
-
-      const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
-      const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
-
-      getPreviews(dateStringStart, dateStringEnd, activeTab, {
-        forceUpdate: true,
-      });
-    }
-    setIsLoading(false);
-  }, 500);
-
-  const handleContentEdit = async (content: any) => {
+  const handleContentEdit = debounce(async (content: any) => {
     // if (content === EMPTY_STATE) return null;
     const now = getNow();
     const customDate = getCustomDate();
@@ -127,8 +106,27 @@ const App = ({ user }: any) => {
       }
     };
     setIsLoading(true);
-    updateOrCreateLog(payloadToSend(isToCreate));
-  };
+
+    const { data, error } = await supabaseClient
+      .from("log")
+      .upsert(payloadToSend(isToCreate))
+      .select();
+
+    if (data && data[0]) {
+      setActiveLog(data[0]);
+
+      const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
+      const dayWithPad = `0${today?.getDate()}`.slice(-2);
+
+      const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+      const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+
+      getPreviews(dateStringStart, dateStringEnd, activeTab, {
+        forceUpdate: true,
+      });
+    }
+    setIsLoading(false);
+  }, 1500);
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
     const value = e?.target?.value;
@@ -382,6 +380,7 @@ const App = ({ user }: any) => {
         setPreviewList={setPreviewList}
         getPreviews={getPreviews}
         selectedDay={selectedDay}
+        isLoading={isLoading}
         setIsLoading={setIsLoading}
         setSelectedDay={setSelectedDay}
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
@@ -393,7 +392,7 @@ const App = ({ user }: any) => {
         {todayNote.toLocaleString("default", { month: "short" })},{" "}
         {dateSelected?.day}
       </div>
-      <div className="items-start py-5 px-3 md:pl-[260px] md:py-6 w-full justify-start artboard-parent">
+      <div className="items-start py-5 px-3 md:pl-[270px] md:py-6 w-full justify-start artboard-parent">
         <Navbar
           className="nav_header h-[64px] bg-[#171717] rounded-2xl nav backdrop-filter-none"
           maxWidth="full"
@@ -410,7 +409,14 @@ const App = ({ user }: any) => {
             />
           </NavbarContent>
           <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">
-            {isLoading && (
+            <div
+              className={classNames(
+                "syncer fixed md:relative translate-y-[-80px] transition-transform left-0 right-0 m-auto bg-[#171717] w-[40px] h-[40px] z-[150] flex justify-center rounded-full",
+                {
+                  "active translate-y-[0px]": isLoading,
+                }
+              )}
+            >
               <CircularProgress
                 size="sm"
                 classNames={{
@@ -418,7 +424,7 @@ const App = ({ user }: any) => {
                 }}
                 aria-label="Loading..."
               />
-            )}
+            </div>
             <NavbarItem className="flex justify-center">
               <Dropdown>
                 <DropdownTrigger>
