@@ -1,9 +1,11 @@
 "use client";
 
-const Quote = ({ quality }: any) => {
+import { EMPTY_STATE } from "../App";
+
+const Quote = ({ quality, content }: any) => {
   // return null;
 
-  if (quality === 0) {
+  if (quality === 0 || content === EMPTY_STATE) {
     return null;
   } else if (quality > 10) {
     return (

@@ -360,7 +360,7 @@ const Sidebar = ({
               >
                 <div className="w-[10px] h-[80%] absolute right-[100%] items-end m-auto top-0 bottom-0">
                   <ul className="flex flex-col w-[100%] h-full justify-end">
-                    <Quote quality={qualityLog} />
+                    <Quote quality={qualityLog} content={logToPreview?.content} />
                   </ul>
                 </div>
                 <div className="flex w-full justify-between">
