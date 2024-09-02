@@ -269,7 +269,7 @@ const Sidebar = ({
     >
       <div
         className={classnames(
-          "w-full sticky top-0 mb-5 mt-1 md:mt-2 bg-black",
+          "w-full sticky top-0 mb-5 mt-1 md:mt-2 bg-black z-[1000]",
           {
             "pointer-events-none": isBlocked,
           }
@@ -281,7 +281,7 @@ const Sidebar = ({
           value={dateSelected}
           maxValue={todayDate(getLocalTimeZone())}
           onChange={handleDateSelection}
-          className="rounded-xl text-white outline-none"
+          className="rounded-xl text-white outline-none z-[1000] relative"
           CalendarTopContent={
             <ButtonGroup
               fullWidth
@@ -360,7 +360,10 @@ const Sidebar = ({
               >
                 <div className="w-[10px] h-[80%] absolute right-[100%] items-end m-auto top-0 bottom-0">
                   <ul className="flex flex-col w-[100%] h-full justify-end">
-                    <Quote quality={qualityLog} content={logToPreview?.content} />
+                    <Quote
+                      quality={qualityLog}
+                      content={logToPreview?.content}
+                    />
                   </ul>
                 </div>
                 <div className="flex w-full justify-between">
@@ -394,7 +397,7 @@ const Sidebar = ({
             ) : (
               <p
                 key={index}
-                className="text-[#4d4d4d] mb-4 flex justify-between px-1 sticky top-[40px] bg-black pb-1 pt-2"
+                className="text-[#4d4d4d] z-[1000] mb-4 flex justify-between px-1 sticky top-[40px] bg-black pb-1 pt-2"
               >
                 <span>{monthName}</span>
                 <span>{year}</span>
