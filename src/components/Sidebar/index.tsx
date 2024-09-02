@@ -23,6 +23,7 @@ import {
 } from "@nextui-org/react";
 
 import { getDaysDetailsInMonth, isValidDate } from "@/utils";
+import Quote from "../Quote";
 
 const Sidebar = ({
   isLoading,
@@ -85,7 +86,6 @@ const Sidebar = ({
 
       if (res) {
         setActiveLog(res);
-        
       }
 
       setIsReadyToRenderArtboard(true);
@@ -111,7 +111,9 @@ const Sidebar = ({
     const dateStringStart = `${newLastYearLoaded}-${monthWithPad}-${dayWithPad}`;
     const dateStringEnd = `${newLastYearLoaded}-${monthWithPad}-${dayWithPad}`;
 
-    getPreviews(dateStringStart, dateStringEnd, activeTab, { forceUpdate: false });
+    getPreviews(dateStringStart, dateStringEnd, activeTab, {
+      forceUpdate: false,
+    });
 
     setTimeout(() => {
       setDays([...days, ...newDays]);
@@ -125,7 +127,6 @@ const Sidebar = ({
     setIsReadyToRenderArtboard(false);
     setIsLoading(true);
     setActiveLog(null);
-    
 
     const newDate = new CalendarDate(year, monthNumber, dayNumber);
     setDateSelected(newDate);
@@ -146,10 +147,8 @@ const Sidebar = ({
 
     if (res) {
       setActiveLog(res);
-      
     } else {
       setActiveLog(null);
-      
     }
 
     setIsReadyToRenderArtboard(true);
@@ -212,14 +211,12 @@ const Sidebar = ({
 
       setSelectedDay(id);
       setActiveLog(null);
-      
 
       const filter = `${e?.year}-${monthWithPad}-${dayWithPad}`;
 
       const res = await getLogs(activeTab.id, filter);
       if (res) {
         setActiveLog(res);
-        
       }
       setIsReadyToRenderArtboard(true);
       setIsOpened(true);
@@ -252,7 +249,9 @@ const Sidebar = ({
     const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
 
     if (activeTab) {
-      getPreviews(dateStringStart, dateStringEnd, activeTab, { forceUpdate: true });
+      getPreviews(dateStringStart, dateStringEnd, activeTab, {
+        forceUpdate: true,
+      });
     }
   }, [activeTab]);
 
@@ -335,6 +334,10 @@ const Sidebar = ({
 
             const previewItem = parsedEditorState?.root?.children;
 
+            const qualityLog = Math.round(
+              (logToPreview?.content?.length || 0) / 100
+            );
+
             return type === "day" ? (
               <div
                 key={index}
@@ -349,12 +352,17 @@ const Sidebar = ({
                   });
                 }}
                 className={classnames(
-                  "p-4 flex flex-col justify-start cursor-pointer hover:text-white hover:bg-[#212121] bg-[#161616] mb-4 text-[24px] rounded-2xl text-[#424242] h-[130px]",
+                  "p-4 flex flex-col relative justify-start cursor-pointer hover:text-white hover:bg-[#212121] bg-[#161616] mb-4 text-[24px] rounded-2xl text-[#424242] h-[130px]",
                   {
                     "bg-[#212121] text-white": selectedDay === id,
                   }
                 )}
               >
+                <div className="w-[10px] h-[80%] absolute right-[100%] items-end m-auto top-0 bottom-0">
+                  <ul className="flex flex-col w-[100%] h-full justify-end">
+                    <Quote quality={qualityLog} />
+                  </ul>
+                </div>
                 <div className="flex w-full justify-between">
                   <span className="leading-7">{dayNumber}</span>
                   <small className="text-sm">{dayName}</small>
