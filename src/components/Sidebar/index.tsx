@@ -258,7 +258,7 @@ const Sidebar = ({
   return (
     <div
       className={classnames(
-        "w-[260px] h-[100svh] bottom-0 flex-shrink-0 bg-black md:h-[100svh] top-0 px-6 py-6 fixed z-[500] border-r-1 border-[#303030] justify-start",
+        "w-[260px] h-[100svh] rounded-r-3xl bottom-0 flex-shrink-0 bg-black md:h-[100svh] top-0 px-6 py-6 fixed z-[500] border-r-1 border-[#303030] justify-start",
         {
           "md:translate-x-0 translate-x-[-260px] overflow-visible md:overflow-scroll":
             isOpened,
