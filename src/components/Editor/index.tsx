@@ -372,7 +372,7 @@ const App = ({ user }: any) => {
   );
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full editor">
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
         isOpened={isOpened}

@@ -31,10 +31,6 @@ html {
   overflow: hidden;
   scroll-behavior: smooth;
   font-family: sans-serif;
-  background-size: 70px 70px;
-  background-image: linear-gradient(to bottom, #1f1f1f 1px, transparent 1px);
-  background-position-x: -10px;
-  background-position-y: -50px;
 }
 
 /* NEXT UI REWRITING */

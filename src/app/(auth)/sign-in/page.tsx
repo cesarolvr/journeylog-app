@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import LOGO from "../../../icons/logo.svg";
+import LOGO from "../../../images/logo.svg";
 
 import { Reenie_Beanie } from "next/font/google";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });

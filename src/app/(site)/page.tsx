@@ -10,19 +10,15 @@ import { useRouter } from "next/navigation";
 
 const Home = () => {
   const user = useSupaUser();
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     if (!!user) {
-      router.push("/app")
+      router.push("/app");
     }
   }, [user]);
 
-  return (
-    <main className="dark text-foreground w-[100vw] flex justify-center items-center">
-      <Landing />
-    </main>
-  );
+  return <Landing />;
 };
 
 export default Home;
