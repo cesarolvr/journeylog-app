@@ -1,6 +1,6 @@
 "use client";
 
-import { EMPTY_STATE } from "../App";
+import { EMPTY_STATE } from "../Editor";
 
 const Quote = ({ quality, content }: any) => {
   // return null;

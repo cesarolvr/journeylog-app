@@ -1,32 +1,26 @@
 "use client";
 
 // Hooks
-import {
-  useUser as useSupaUser,
-  useSessionContext,
-  User,
-} from "@supabase/auth-helpers-react";
+import { useUser as useSupaUser } from "@supabase/auth-helpers-react";
 
 // Components
 import Landing from "@/components/Landing";
-import App from "@/components/App";
-
-<meta name="theme-color" content="#39ff14"/>
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
   const user = useSupaUser();
-  const { session, isLoading } = useSessionContext();
-  const accessToken = session?.access_token ?? null;
+  const router = useRouter()
 
-  const value = {
-    accessToken,
-    user,
-    isLoading,
-  };
+  useEffect(() => {
+    if (!!user) {
+      router.push("/app")
+    }
+  }, [user]);
 
   return (
-    <main className="dark text-foreground w-[100vw]">
-      {!!user ? <App {...value} /> : <Landing />}
+    <main className="dark text-foreground w-[100vw] flex justify-center items-center">
+      <Landing />
     </main>
   );
 };

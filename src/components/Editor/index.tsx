@@ -30,6 +30,7 @@ import SidebarCloseLayer from "../SidebarCloseLayer";
 import ArtboardHeader from "../ArtboardHeader";
 import ArtboardTabs from "../ArtboardTabs";
 import classNames from "classnames";
+import { useRouter } from "next/navigation";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
@@ -48,6 +49,8 @@ const App = ({ user }: any) => {
     useState(false);
 
   const today = DateTime.now().toUTC().toJSDate();
+
+  const router = useRouter();
 
   const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
   const dayWithPad = `0${today.getDate()}`.slice(-2);
@@ -242,9 +245,13 @@ const App = ({ user }: any) => {
 
   const handleLogout = debounce(async () => {
     const { error } = await supabaseClient.auth.signOut();
+    
+
     if (error) {
-      console.log(error);
+      return console.log(error);
     }
+
+    router.push("/");
   }, 500);
 
   const getLogs = async (journeyId: any, dateString: any) => {
