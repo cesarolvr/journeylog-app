@@ -116,9 +116,6 @@ h1 {
   color: #585858;
 }
 
-.editor-listitem-checked a {
-}
-
 .editor-listitem-checked a,
 .editor-listitem-checked a span {
   color: #39d353 !important;
@@ -561,4 +558,15 @@ i.justify-align {
 
 .editor-link {
   color: #39d353;
+}
+
+.textarea {
+  overflow: hidden;
+  > div {
+    padding: 30px;
+  }
+
+  textarea {
+    font-size: 30px;
+  }
 }
