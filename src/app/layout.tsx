@@ -3,7 +3,7 @@ import SupabaseProvider from "@/providers/SupabaseProvider";
 import NextUIProvider from "@/providers/NextUIProvider";
 import { Nunito_Sans } from "next/font/google";
 
-const nunito = Nunito_Sans({ subsets: ["latin"], weight: "400" });
+const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "900"] });
 
 // Styles
 import "./globals.css";
@@ -20,7 +20,7 @@ export default async function RootLayout({
       className={`${nunito.className} bg-[#171717] w-full h-full overflow-scroll`}
     >
       <title>Journeylog</title>
-      <meta name="theme-color" content="#171717"/>
+      <meta name="theme-color" content="#171717" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta
         name="apple-mobile-web-app-status-bar-style"
