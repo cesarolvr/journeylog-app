@@ -6,12 +6,16 @@ import Link from "next/link";
 import Logo from "../../images/logoFull.svg";
 import PlaceholderImage from "../../images/placeholder.png";
 import PlaceholderImageLandscape from "../../images/placeholderLandscape.png";
-import { Accordion, AccordionItem, Button, Textarea } from "@nextui-org/react";
-import { ChevronsDown } from "lucide-react";
+import { Accordion, AccordionItem, Avatar, Button, Textarea } from "@nextui-org/react";
+import { ChevronRight, ChevronsDown } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-const Landing = () => {
+const Landing = ({ user }: any) => {
+  const router = useRouter();
   const defaultContent =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+
+  console.log(user);
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
       <header className="flex w-[800px] rounded-3xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-3">
@@ -27,13 +31,34 @@ const Landing = () => {
             <Link href="">FAQ</Link>
           </li>
           <li className="flex items-center mx-3">
-            <Button
-              className={`bg-[#39D353] font-black`}
-              variant="solid"
-              onClick={(f) => f}
-            >
-              Try free
-            </Button>
+            {!!user ? (
+              <>
+                {" "}
+                <Button
+                  className={`border-[#39D353] text-[#39D353] font-black pr-2`}
+                  variant="bordered"
+                  onClick={(f) => {
+                    router.push("/app");
+                  }}
+                >
+                  Go to the app
+                  <ChevronRight />
+                </Button>
+              </>
+            ) : (
+              <>
+                {" "}
+                <Button
+                  className={`bg-[#39D353] font-black`}
+                  variant="solid"
+                  onClick={(f) => {
+                    router.push("/sign-in");
+                  }}
+                >
+                  Try free
+                </Button>
+              </>
+            )}
           </li>
         </ul>
       </header>
@@ -138,7 +163,9 @@ const Landing = () => {
           id="insights"
           className="inline-flex flex-col justify-center items-center text-center w-full my-12 md:my-20"
         >
-          <h3 className="mb-4 md:mb-16 text-[25px] md:text-[30px] mx-12">And get insights about it</h3>
+          <h3 className="mb-4 md:mb-16 text-[25px] md:text-[30px] mx-12">
+            And get insights about it
+          </h3>
           <Image
             className="max-w-[85%]"
             src={PlaceholderImageLandscape}
@@ -147,7 +174,10 @@ const Landing = () => {
           />
         </section>
 
-        <section id="testimonials" className="text-center my-6 md:my-20 w-[100%]">
+        <section
+          id="testimonials"
+          className="text-center my-6 md:my-20 w-[100%]"
+        >
           <h3 className="md:text-[35px] mb-8 md:mb-16 text-[25px]">
             These people are also creating <br /> different new habits
           </h3>
@@ -184,7 +214,10 @@ const Landing = () => {
             <Accordion
               showDivider={false}
               selectionMode="multiple"
-              itemClasses={{ title: "text-[25px] text-left", content: "text-left text-[20px] py-4 pb-8 text-[#595959]" }}
+              itemClasses={{
+                title: "text-[25px] text-left",
+                content: "text-left text-[20px] py-4 pb-8 text-[#595959]",
+              }}
             >
               <AccordionItem
                 key="1"
@@ -254,7 +287,9 @@ const Landing = () => {
           </div>
         </section>
         <section id="suggestions" className="text-center my-28">
-          <h3 className="text-[40px] font-black mb-4 max-w-[85%] m-auto leading-[40px]">Some suggestion?</h3>
+          <h3 className="text-[40px] font-black mb-4 max-w-[85%] m-auto leading-[40px]">
+            Some suggestion?
+          </h3>
           <h4 className="text-[#7F7F7F] text-[20px] mb-10 max-w-[80%] m-auto">
             New features? UX/UI ideas? iOS version? Just send below
           </h4>
