@@ -15,7 +15,7 @@ const App = () => {
   const user = useSupaUser();
   const { session, isLoading } = useSessionContext();
   const accessToken = session?.access_token ?? null;
-  const router = useRouter()
+  const router = useRouter();
 
   const value = {
     accessToken,
@@ -24,10 +24,13 @@ const App = () => {
   };
 
   useEffect(() => {
+    if (isLoading) return;
     if (!user) {
-      router.push("/")
+      router.push("/");
     }
-  }, []);
+    // setTimeout(() => {
+    // }, 3000);
+  }, [isLoading, user]);
 
   return (
     <main

@@ -546,13 +546,14 @@ const App = ({ user }: any) => {
                   <div>
                     <input
                       disabled={true}
-                      className="px-4 py-2 text-lg bg-[#1f1f1f] rounded-l-lg h-[50px] outline-none"
+                      className="px-4 py-2 text-lg bg-[#1f1f1f] border-1 border-[#454545] border-r-0 rounded-l-xl h-[50px] outline-none"
                       value={newJourneyTitle}
                       onChange={(e) => setNewJourneyTitle(e?.target?.value)}
                     />
                     <Button
                       disabled={true}
-                      className="rounded-l-none bg-[#343434] h-[50px] text-lg px-6"
+                      variant="bordered"
+                      className="rounded-l-none bg-[#343434] border-[#343434] h-[50px] text-lg px-6"
                     >
                       Start
                     </Button>

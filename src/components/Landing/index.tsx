@@ -33,7 +33,6 @@ const Landing = ({ user }: any) => {
           <li className="flex items-center mx-3">
             {!!user ? (
               <>
-                {" "}
                 <Button
                   className={`border-[#39D353] text-[#39D353] font-black pr-2`}
                   variant="bordered"
@@ -181,26 +180,23 @@ const Landing = ({ user }: any) => {
           <h3 className="md:text-[35px] mb-8 md:mb-16 text-[25px]">
             These people are also creating <br /> different new habits
           </h3>
-          <div className="flex w-[100%] px-20 flex-col md:flex-row">
+          <div className="flex w-[100%] px-20 flex-col md:flex-row justify-center">
             <Image
-              className="md:mx-4 mb-12 md:mb-0 max-w-[70%] m-auto"
+              className="md:mx-4 mb-12 md:mb-0 max-w-[70%] md:w-[250px] m-auto"
               src={PlaceholderImage}
-              width={401}
               height={615}
               alt="Logo"
             />
             <Image
-              className="md:mx-4 mb-12 md:mb-0 max-w-[70%] m-auto"
+              className="md:mx-4 mb-12 md:mb-0 max-w-[70%] md:w-[250px] m-auto"
               src={PlaceholderImage}
               width={401}
-              height={615}
               alt="Logo"
             />
             <Image
-              className="md:mx-4 mb-12 md:mb-0 max-w-[70%] m-auto"
+              className="md:mx-4 mb-12 md:mb-0 max-w-[70%] md:w-[250px] m-auto"
               src={PlaceholderImage}
               width={401}
-              height={615}
               alt="Logo"
             />
           </div>
