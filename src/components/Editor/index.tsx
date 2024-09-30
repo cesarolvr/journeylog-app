@@ -405,7 +405,7 @@ const App = ({ user }: any) => {
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
       />
       <div
-        className={`${font.class} fixed z-50 cursor-pointer text-[50px] bottom-[30px] right-[30px] bg-[#171717] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
+        className={`${font.class} daybadge-${font.code} fixed z-50 cursor-pointer text-[50px] bottom-[30px] right-[30px] bg-[#171717] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
         onClick={() => setIsOpened(!isOpened)}
       >
         {todayNote.toLocaleString("default", { month: "short" })},{" "}

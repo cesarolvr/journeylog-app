@@ -3,6 +3,7 @@
   background-image: linear-gradient(to bottom, #1f1f1f 1px, transparent 1px);
   background-position-x: -10px;
   background-position-y: -50px;
+  min-height: 100vh;
 }
 
 .other h2 {
@@ -567,6 +568,10 @@ i.justify-align {
 }
 
 .font-2 {
+  .editor-placeholder {
+    font-size: 35px;
+  }
+
   .editor-input {
     font-size: 25px;
 
@@ -602,6 +607,9 @@ i.justify-align {
 }
 
 .font-3 {
+  .editor-placeholder {
+    font-size: 35px;
+  }
   .editor-input {
     font-size: 25px;
 
@@ -634,4 +642,8 @@ i.justify-align {
       left: 0px;
     }
   }
+}
+
+.daybadge-2, .daybadge-3 {
+  font-size: 35px;
 }

@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import classnames from "classnames";
 import { DateTime } from "luxon";
-import { Reenie_Beanie } from "next/font/google";
-const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 
 import { useInView } from "react-intersection-observer";
 
@@ -24,6 +22,7 @@ import {
 
 import { getDaysDetailsInMonth, isValidDate } from "@/utils";
 import Quote from "../Quote";
+import "./index.scss";
 
 const Sidebar = ({
   isLoading,
@@ -259,7 +258,7 @@ const Sidebar = ({
   return (
     <div
       className={classnames(
-        "w-[260px] h-[100svh] rounded-r-3xl bottom-0 flex-shrink-0 bg-black md:h-[100svh] top-0 px-6 py-6 fixed z-[500] border-r-1 border-[#303030] justify-start",
+        `w-[260px] h-[100svh] rounded-r-3xl bottom-0 flex-shrink-0 bg-black md:h-[100svh] top-0 px-6 py-6 fixed z-[500] border-r-1 border-[#303030] justify-start sidebar-font-${font.code}`,
         {
           "md:translate-x-0 translate-x-[-260px] overflow-visible md:overflow-scroll":
             isOpened,
@@ -372,7 +371,7 @@ const Sidebar = ({
                   <small className="text-sm">{dayName}</small>
                 </div>
                 <ul
-                  className={`text-sm w-full list-disc px-3 pl-10 preview-list overflow-hidden h-[70px] ${font.class}`}
+                  className={`preview-item text-sm w-full list-disc px-3 pl-6 mt-2 preview-list overflow-hidden h-[70px] ${font.class}`}
                 >
                   {previewItem?.map(({ children }: any, key: any) => {
                     return (

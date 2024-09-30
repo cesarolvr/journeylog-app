@@ -8,7 +8,7 @@ import {
   IndentIncrease,
   MessageCircleQuestion,
 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 
 import { Reenie_Beanie, Nunito_Sans, Cutive_Mono } from "next/font/google";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
@@ -20,9 +20,11 @@ const ArtboardOptions = ({
   setIsOptionsOpened,
   handleJourneyDeletion,
   activeTab,
-  font,
   setFont,
 }: any) => {
+  const [fontSelected, setFontSelected]: any = useState("default");
+  const [backgroundSelected, setBackgroundSelected]: any = useState("dark");
+
   return (
     <div className="relative">
       <div
@@ -57,13 +59,19 @@ const ArtboardOptions = ({
           }
         )}
       >
-        <p className="mb-3">Journey’s settings</p>
+        <p className="mb-3">Theme</p>
         <ul className="flex w-full justify-between items-center py-2">
           <li
             onClick={() => {
+              setFontSelected("default");
               setFont({ class: reenie.className, code: 1 });
             }}
-            className="border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]"
+            className={classNames(
+              "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
+              {
+                "border-[#6d6d6d] bg-[#313131] font-bold": fontSelected === "default",
+              }
+            )}
           >
             <span
               className={classNames(`text-3xl scale-125 ${reenie.className}`)}
@@ -74,9 +82,15 @@ const ArtboardOptions = ({
           </li>
           <li
             onClick={() => {
+              setFontSelected("formal");
               setFont({ class: nunito.className, code: 2 });
             }}
-            className="border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]"
+            className={classNames(
+              "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
+              {
+                "border-[#6d6d6d] bg-[#313131] font-bold": fontSelected === "formal",
+              }
+            )}
           >
             <span className={classNames(`text-3xl ${nunito.className}`)}>
               Aa
@@ -85,9 +99,15 @@ const ArtboardOptions = ({
           </li>
           <li
             onClick={() => {
+              setFontSelected("mono");
               setFont({ class: cutive.className, code: 3 });
             }}
-            className="border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]"
+            className={classNames(
+              "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
+              {
+                "border-[#6d6d6d] bg-[#313131] font-bold": fontSelected === "mono",
+              }
+            )}
           >
             <span className={classNames(`text-3xl ${cutive.className}`)}>
               Aa
@@ -96,13 +116,43 @@ const ArtboardOptions = ({
           </li>
         </ul>
         <ul className="flex w-full justify-between items-center py-2 mb-4">
-          <li className="border-1 border-[#383838] bg-[#171717] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-pointer h-[104px]">
+          <li
+            onClick={() => {
+              setBackgroundSelected("dark");
+            }}
+            className={classNames(
+              "border-1 border-[#383838] bg-[#171717] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-pointer h-[104px]",
+              {
+                "border-[#6d6d6d] font-bold": backgroundSelected === "dark",
+              }
+            )}
+          >
             <p className="text-[#5C5C5C] text-sm">Dark</p>
           </li>
-          <li className="border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-pointer h-[104px]">
+          <li
+            onClick={() => {
+              setBackgroundSelected("formal");
+            }}
+            className={classNames(
+              "border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-pointer h-[104px]",
+              {
+                "border-[#a29e8a] font-bold": backgroundSelected === "formal",
+              }
+            )}
+          >
             <p className="text-[#5C5C5C] text-sm">Light</p>
           </li>
-          <li className="border-1 border-[#383838] bg-[#1E262D] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-pointer h-[104px]">
+          <li
+            onClick={() => {
+              setBackgroundSelected("mono");
+            }}
+            className={classNames(
+              "border-1 border-[#383838] bg-[#1E262D] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-pointer h-[104px]",
+              {
+                "border-[#a29e8a] font-bold": backgroundSelected === "mono",
+              }
+            )}
+          >
             <p className="text-[#5C5C5C] text-sm">Blue</p>
           </li>
         </ul>
@@ -116,11 +166,7 @@ const ArtboardOptions = ({
               like
             </p>
           </div>
-          <Switch
-            isDisabled={true}
-            defaultSelected
-            aria-label="Automatic updates"
-          />
+          <Switch isDisabled={true} aria-label="Automatic updates" />
         </div>
         <div className="flex mb-5 items-start">
           <AlarmClock className="flex-shrink-0 stroke-[#A1A1AA]" />
