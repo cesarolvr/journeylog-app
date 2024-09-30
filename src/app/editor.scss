@@ -130,14 +130,9 @@ h1 {
   display: block;
   position: absolute;
 }
-.editor-listitem-checked[dir="rtl"]:before,
-.editor-listitem-unchecked[dir="rtl"]:before {
-  left: auto;
-  right: 0;
-}
+
 .editor-listitem-unchecked:focus:before,
 .editor-listitem-checked:focus:before {
-  /* box-shadow: 0 0 0 2px #a6cdfe; */
   border: none !important;
   outline: none !important;
 }
@@ -568,5 +563,75 @@ i.justify-align {
 
   textarea {
     font-size: 30px;
+  }
+}
+
+.font-2 {
+  .editor-input {
+    font-size: 25px;
+
+    @media screen and (min-width: 500px) {
+      font-size: 30px;
+    }
+
+    ul li:before {
+      content: "➤";
+      left: 5px;
+      font-size: 22px;
+    }
+
+    ol li:before {
+      left: 25px;
+    }
+
+    .editor-listitem-checked:before,
+    .editor-listitem-unchecked:before {
+      content: "O" !important;
+      left: 0px !important;
+      transform: scale(1.2, 1);
+      top: 3px;
+      font-size: 45px;
+    }
+
+    .editor-listitem-checked:after {
+      font-size: 45px;
+      font-family: sans-serif;
+      left: 5px;
+    }
+  }
+}
+
+.font-3 {
+  .editor-input {
+    font-size: 25px;
+
+    @media screen and (min-width: 500px) {
+      font-size: 30px;
+    }
+
+    ul li:before {
+      content: "▻";
+      left: 10px;
+      font-size: 32px;
+    }
+
+    ol li:before {
+      left: 25px;
+    }
+
+    .editor-listitem-checked:before,
+    .editor-listitem-unchecked:before {
+      content: "O" !important;
+      left: 0px !important;
+      transform: scale(1.2, 1);
+      top: 3px;
+      font-size: 50px;
+    }
+
+    .editor-listitem-checked:after {
+      font-size: 35px;
+      font-family: sans-serif;
+      left: 0px;
+    }
   }
 }

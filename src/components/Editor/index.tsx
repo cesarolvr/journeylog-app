@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DateTime } from "luxon";
+import classNames from "classnames";
+import { useRouter } from "next/navigation";
 
 import { Reenie_Beanie } from "next/font/google";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
@@ -29,8 +31,6 @@ import Sidebar from "../Sidebar";
 import SidebarCloseLayer from "../SidebarCloseLayer";
 import ArtboardHeader from "../ArtboardHeader";
 import ArtboardTabs from "../ArtboardTabs";
-import classNames from "classnames";
-import { useRouter } from "next/navigation";
 import ArtboardOptions from "../ArtboardOptions";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
@@ -45,6 +45,7 @@ const App = ({ user }: any) => {
   const [forcedActiveTab, setForcedActiveTab]: any = useState(1);
   const [newJourneyTitle, setNewJourneyTitle]: any = useState("");
   const [isLoading, setIsLoading]: any = useState(false);
+  const [font, setFont]: any = useState({ class: reenie.className, code: 1 });
 
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
     useState(false);
@@ -172,6 +173,7 @@ const App = ({ user }: any) => {
       });
 
       setJourneyTabs(newTabsToBeRendered);
+      setIsOptionsOpened(false);
 
       if (newTabsToBeRendered && newTabsToBeRendered?.length === 0) {
         setPreviewList([]);
@@ -377,9 +379,14 @@ const App = ({ user }: any) => {
       <ArtboardOptions
         isOptionsOpened={isOptionsOpened}
         setIsOptionsOpened={setIsOptionsOpened}
+        handleJourneyDeletion={handleJourneyDeletion}
+        activeTab={activeTab}
+        setFont={setFont}
+        font={font}
       />
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
+        font={font}
         isOpened={isOpened}
         setIsOpened={setIsOpened}
         isBlocked={journeyTabs && journeyTabs?.length < 1}
@@ -398,7 +405,7 @@ const App = ({ user }: any) => {
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
       />
       <div
-        className={`${reenie.className} fixed z-50 cursor-pointer text-[50px] bottom-[30px] right-[30px] bg-[#171717] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
+        className={`${font.class} fixed z-50 cursor-pointer text-[50px] bottom-[30px] right-[30px] bg-[#171717] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
         onClick={() => setIsOpened(!isOpened)}
       >
         {todayNote.toLocaleString("default", { month: "short" })},{" "}
@@ -473,6 +480,7 @@ const App = ({ user }: any) => {
                   id={1}
                   initialState={activeLog?.content}
                   setContent={handleContentEdit}
+                  font={font}
                 />
               ) : (
                 <>
@@ -480,6 +488,7 @@ const App = ({ user }: any) => {
                     id={2}
                     initialState={EMPTY_STATE}
                     setContent={handleContentEdit}
+                    font={font}
                   />
                 </>
               )}
@@ -489,7 +498,7 @@ const App = ({ user }: any) => {
               {!isLoading && (
                 <div className="flex flex-col w-full h-full justify-center md:pl-16">
                   <h1
-                    className={`${reenie.className} text-[60px] text-[#969696] mb-[40px] leading-[60px] w-[460px] max-w-full`}
+                    className={`${font.class} text-[60px] text-[#969696] mb-[40px] leading-[60px] w-[460px] max-w-full`}
                   >
                     Start by creating your new habit journey
                   </h1>

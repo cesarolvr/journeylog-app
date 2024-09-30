@@ -15,7 +15,7 @@ const ArtboardHeader = ({
   handleJourneyNameEdit,
   activeTab,
   setIsOptionsOpened,
-  isOptionsOpened
+  isOptionsOpened,
 }: any) => {
   const [journeyName, setJourneyName] = useState("");
 
@@ -43,29 +43,14 @@ const ArtboardHeader = ({
       />
       {activeTab ? (
         <>
-          <IndentDecrease onClick={() => {
-            setIsOptionsOpened(!isOptionsOpened)
-          }} className="mr-2" />
+          <IndentDecrease
+            onClick={() => {
+              setIsOptionsOpened(!isOptionsOpened);
+            }}
+            className="mr-2"
+          />
         </>
-      ) : // <Popover className="flex justify-center">
-      //   <PopoverTrigger>
-      //     <Ellipsis className="mr-3" />
-      //   </PopoverTrigger>
-      //   <PopoverContent className="w-[240px]">
-      //     {() => (
-      //       <div className="px-1 py-2 w-full">
-      //         <Button
-      //           className="w-full text-danger-500"
-      //           variant="bordered"
-      //           onClick={() => handleJourneyDeletion(activeTab)}
-      //         >
-      //           Delete Journey
-      //         </Button>
-      //       </div>
-      //     )}
-      //   </PopoverContent>
-      // </Popover>
-      null}
+      ) : null}
     </div>
   );
 };

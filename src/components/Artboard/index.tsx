@@ -13,10 +13,6 @@ import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { AutoLinkPlugin } from "@lexical/react/LexicalAutoLinkPlugin";
 
-import { Reenie_Beanie } from "next/font/google";
-
-const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
-
 import ExampleTheme from "./plugins/ArtboardTheme";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import React from "react";
@@ -72,7 +68,7 @@ const onChange = (
   });
 };
 
-const Artboard = ({ setContent, initialState, id }: any) => {
+const Artboard = ({ setContent, initialState, id, font }: any) => {
   return (
     <LexicalComposer
       key={id}
@@ -86,7 +82,7 @@ const Artboard = ({ setContent, initialState, id }: any) => {
         theme: ExampleTheme,
       }}
     >
-      <div className={`editor-container ${reenie.className}`}>
+      <div className={`editor-container ${font.class} font-${font.code}`}>
         <ToolbarPlugin />
         <div className={`editor-inner`}>
           <RichTextPlugin
