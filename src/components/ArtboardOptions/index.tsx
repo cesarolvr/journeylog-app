@@ -69,7 +69,7 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131] font-bold": fontSelected === "default",
+                "border-[#6d6d6d] bg-[#313131] font-semibold": fontSelected === "default",
               }
             )}
           >
@@ -88,7 +88,7 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131] font-bold": fontSelected === "formal",
+                "border-[#6d6d6d] bg-[#313131] font-semibold": fontSelected === "formal",
               }
             )}
           >
@@ -105,7 +105,7 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131] font-bold": fontSelected === "mono",
+                "border-[#6d6d6d] bg-[#313131] font-semibold": fontSelected === "mono",
               }
             )}
           >
@@ -121,9 +121,9 @@ const ArtboardOptions = ({
               setBackgroundSelected("dark");
             }}
             className={classNames(
-              "border-1 border-[#383838] bg-[#171717] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-pointer h-[104px]",
+              "opacity-30 border-1 border-[#383838] bg-[#171717] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
               {
-                "border-[#6d6d6d] font-bold": backgroundSelected === "dark",
+                "border-[#6d6d6d] font-semibold": backgroundSelected === "dark",
               }
             )}
           >
@@ -131,12 +131,12 @@ const ArtboardOptions = ({
           </li>
           <li
             onClick={() => {
-              setBackgroundSelected("formal");
+              setBackgroundSelected("light");
             }}
             className={classNames(
-              "border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-pointer h-[104px]",
+              "opacity-30 border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
               {
-                "border-[#a29e8a] font-bold": backgroundSelected === "formal",
+                "border-[#a29e8a] font-semibold": backgroundSelected === "light",
               }
             )}
           >
@@ -144,12 +144,12 @@ const ArtboardOptions = ({
           </li>
           <li
             onClick={() => {
-              setBackgroundSelected("mono");
+              setBackgroundSelected("blue");
             }}
             className={classNames(
-              "border-1 border-[#383838] bg-[#1E262D] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-pointer h-[104px]",
+              "opacity-30 border-1 border-[#383838] bg-[#1E262D] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
               {
-                "border-[#a29e8a] font-bold": backgroundSelected === "mono",
+                "border-[#a29e8a] font-semibold": backgroundSelected === "blue",
               }
             )}
           >
@@ -157,7 +157,7 @@ const ArtboardOptions = ({
           </li>
         </ul>
         <p className="mb-6">Notifications</p>
-        <div className="flex mb-5 items-start">
+        <div className="flex mb-5 items-start cursor-not-allowed">
           <Bell className="flex-shrink-0 stroke-[#A1A1AA]" />
           <div className="flex flex-col ml-4">
             <p className="text-[#aaaaaa]">Reminders</p>
@@ -168,7 +168,7 @@ const ArtboardOptions = ({
           </div>
           <Switch isDisabled={true} aria-label="Automatic updates" />
         </div>
-        <div className="flex mb-5 items-start">
+        <div className="flex mb-5 items-start cursor-not-allowed">
           <AlarmClock className="flex-shrink-0 stroke-[#A1A1AA]" />
           <div className="flex flex-col ml-4">
             <p className="text-[#aaaaaa]">Remember me</p>
@@ -186,7 +186,7 @@ const ArtboardOptions = ({
             {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
           </Select>
         </div>
-        <div className="flex mb-8 items-start">
+        <div className="flex mb-8 items-start cursor-not-allowed">
           <MessageCircleQuestion className="flex-shrink-0 stroke-[#A1A1AA]" />
           <div className="flex flex-col ml-4">
             <p className="text-[#aaaaaa]">Alert me on</p>
@@ -205,7 +205,7 @@ const ArtboardOptions = ({
           </Select>
         </div>
         <p className="mb-6">Actions</p>
-        <div className="flex justify-between mb-4 items-center">
+        <div className="flex justify-between mb-4 items-center cursor-not-allowed">
           <p className="max-w-[200px] text-sm text-[#525252]">
             Habit created? So, it's time to finish this one and go to the next.
           </p>
@@ -213,7 +213,7 @@ const ArtboardOptions = ({
             Finish Journey
           </Button>
         </div>
-        <div className="flex justify-between mb-4 items-center">
+        <div className="flex justify-between mb-4 items-center cursor-not-allowed">
           <p className="max-w-[200px] text-sm text-[#525252]">
             Habit created? So, it's time to finish this one and go to the next.
           </p>
