@@ -8,12 +8,14 @@ import {
   PopoverContent,
   CircularProgress,
 } from "@nextui-org/react";
-import { Ellipsis } from "lucide-react";
+import { Ellipsis, IndentDecrease } from "lucide-react";
 
 const ArtboardHeader = ({
   handleJourneyDeletion,
   handleJourneyNameEdit,
   activeTab,
+  setIsOptionsOpened,
+  isOptionsOpened
 }: any) => {
   const [journeyName, setJourneyName] = useState("");
 
@@ -40,25 +42,30 @@ const ArtboardHeader = ({
         }}
       />
       {activeTab ? (
-        <Popover className="flex justify-center">
-          <PopoverTrigger>
-            <Ellipsis className="mr-3" />
-          </PopoverTrigger>
-          <PopoverContent className="w-[240px]">
-            {() => (
-              <div className="px-1 py-2 w-full">
-                <Button
-                  className="w-full text-danger-500"
-                  variant="bordered"
-                  onClick={() => handleJourneyDeletion(activeTab)}
-                >
-                  Delete Journey
-                </Button>
-              </div>
-            )}
-          </PopoverContent>
-        </Popover>
-      ) : null}
+        <>
+          <IndentDecrease onClick={() => {
+            setIsOptionsOpened(!isOptionsOpened)
+          }} className="mr-2" />
+        </>
+      ) : // <Popover className="flex justify-center">
+      //   <PopoverTrigger>
+      //     <Ellipsis className="mr-3" />
+      //   </PopoverTrigger>
+      //   <PopoverContent className="w-[240px]">
+      //     {() => (
+      //       <div className="px-1 py-2 w-full">
+      //         <Button
+      //           className="w-full text-danger-500"
+      //           variant="bordered"
+      //           onClick={() => handleJourneyDeletion(activeTab)}
+      //         >
+      //           Delete Journey
+      //         </Button>
+      //       </div>
+      //     )}
+      //   </PopoverContent>
+      // </Popover>
+      null}
     </div>
   );
 };

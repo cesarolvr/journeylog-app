@@ -31,6 +31,7 @@ import ArtboardHeader from "../ArtboardHeader";
 import ArtboardTabs from "../ArtboardTabs";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
+import ArtboardOptions from "../ArtboardOptions";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
@@ -59,6 +60,7 @@ const App = ({ user }: any) => {
 
   let now = todayDate(getLocalTimeZone());
   const [dateSelected, setDateSelected]: any = useState(now);
+  const [isOptionsOpened, setIsOptionsOpened]: any = useState(false);
 
   const username = user?.user_metadata?.full_name
     .split(" ")
@@ -245,7 +247,6 @@ const App = ({ user }: any) => {
 
   const handleLogout = debounce(async () => {
     const { error } = await supabaseClient.auth.signOut();
-    
 
     if (error) {
       return console.log(error);
@@ -373,6 +374,10 @@ const App = ({ user }: any) => {
 
   return (
     <div className="w-full h-full editor">
+      <ArtboardOptions
+        isOptionsOpened={isOptionsOpened}
+        setIsOptionsOpened={setIsOptionsOpened}
+      />
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
         isOpened={isOpened}
@@ -457,6 +462,8 @@ const App = ({ user }: any) => {
                 handleJourneyDeletion={handleJourneyDeletion}
                 handleJourneyNameEdit={handleJourneyNameEdit}
                 activeTab={activeTab}
+                isOptionsOpened={isOptionsOpened}
+                setIsOptionsOpened={setIsOptionsOpened}
               />
             )}
           {isReadyToRenderArtboard && journeyTabs && journeyTabs?.length > 0 ? (
