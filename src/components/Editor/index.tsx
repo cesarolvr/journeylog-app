@@ -32,6 +32,7 @@ import SidebarCloseLayer from "../SidebarCloseLayer";
 import ArtboardHeader from "../ArtboardHeader";
 import ArtboardTabs from "../ArtboardTabs";
 import ArtboardOptions from "../ArtboardOptions";
+import ArtboardInsights from "../ArtboardInsights";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
@@ -62,6 +63,7 @@ const App = ({ user }: any) => {
   let now = todayDate(getLocalTimeZone());
   const [dateSelected, setDateSelected]: any = useState(now);
   const [isOptionsOpened, setIsOptionsOpened]: any = useState(false);
+  const [isInsightsOpened, setIsInsightsOpened]: any = useState(false);
 
   const username = user?.user_metadata?.full_name
     .split(" ")
@@ -282,6 +284,42 @@ const App = ({ user }: any) => {
     return data ? data[0] : null;
   };
 
+  const getInsights = async (year: any, journeyId: any) => {
+    if (!journeyId) return;
+    const start = DateTime.fromISO(`${year}-01-01`)
+      .set({ hour: 0, minute: 0, second: 0 })
+      .toUTC()
+      .toISO();
+
+    const end = DateTime.fromISO(`${year}-01-01`)
+      .plus({ year: 1 })
+      .set({
+        hour: 23,
+        minute: 59,
+        second: 59,
+      })
+      .toUTC()
+      .toISO();
+
+    setIsLoading(true);
+
+    const { error, data } = await supabaseClient
+      .from("log")
+      .select()
+      .eq("journey_id", journeyId)
+      .gt("created_at", start)
+      .lt("created_at", end)
+      .order("created_at", { ascending: false });
+
+    if (data) {
+      setIsLoading(false);
+      return data;
+    }
+
+    setIsLoading(false);
+    return [];
+  };
+
   const getPreviews = debounce(
     async (
       dateStringStart: any,
@@ -289,6 +327,7 @@ const App = ({ user }: any) => {
       newTab: any,
       options: any
     ) => {
+      if (!newTab?.id) return;
       const start = DateTime.fromISO(dateStringStart)
         .minus({ month: 1 })
         .set({ hour: 0, minute: 0, second: 0 })
@@ -306,6 +345,7 @@ const App = ({ user }: any) => {
         .toISO();
 
       setIsLoading(true);
+
       const { error, data } = await supabaseClient
         .from("log")
         .select()
@@ -383,6 +423,12 @@ const App = ({ user }: any) => {
         activeTab={activeTab}
         setFont={setFont}
         font={font}
+      />
+      <ArtboardInsights
+        setIsInsightsOpened={setIsInsightsOpened}
+        isInsightsOpened={isInsightsOpened}
+        getInsights={getInsights}
+        activeTab={activeTab}
       />
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
@@ -471,6 +517,8 @@ const App = ({ user }: any) => {
                 activeTab={activeTab}
                 isOptionsOpened={isOptionsOpened}
                 setIsOptionsOpened={setIsOptionsOpened}
+                setIsInsightsOpened={setIsInsightsOpened}
+                isInsightsOpened={isInsightsOpened}
               />
             )}
           {isReadyToRenderArtboard && journeyTabs && journeyTabs?.length > 0 ? (

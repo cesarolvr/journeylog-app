@@ -102,6 +102,8 @@ const Sidebar = ({
       lastYearLoaded
     );
 
+    
+
     setLastMonthLoaded(newLastMonthLoaded);
     setLastYearLoaded(newLastYearLoaded);
 

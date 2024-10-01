@@ -28,27 +28,33 @@ const ArtboardOptions = ({
   return (
     <div className="relative">
       <div
-        className={classNames("fixed w-full h-full cursor-pointer z-[901] bg-[black] md:bg-none backdrop-blur-sm md:backdrop-blur-none bg-opacity-20", {
-          block: isOptionsOpened,
-          hidden: !isOptionsOpened,
-        })}
-        onClick={() => {
-          setIsOptionsOpened(!isOptionsOpened);
-        }}
-      ></div>
-
-      <IndentIncrease
-        onClick={() => {
-          setIsOptionsOpened(!isOptionsOpened);
-        }}
         className={classNames(
-          "absolute md:right-[425px] right-[90%] cursor-pointer z-[903] top-28",
+          "fixed w-full h-full cursor-pointer z-[901] bg-[black] md:bg-none backdrop-blur-sm md:backdrop-blur-none bg-opacity-20",
           {
             block: isOptionsOpened,
             hidden: !isOptionsOpened,
           }
         )}
-      />
+        onClick={() => {
+          setIsOptionsOpened(!isOptionsOpened);
+        }}
+      ></div>
+
+      <div
+        className={classNames(
+          "rounded-xl bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0 absolute md:right-[425px] right-[87%] cursor-pointer z-[903] top-28",
+          {
+            block: isOptionsOpened,
+            hidden: !isOptionsOpened,
+          }
+        )}
+      >
+        <IndentIncrease
+          onClick={() => {
+            setIsOptionsOpened(!isOptionsOpened);
+          }}
+        />
+      </div>
 
       <div
         className={classNames(
@@ -69,7 +75,8 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131] font-semibold": fontSelected === "default",
+                "border-[#6d6d6d] bg-[#313131] font-semibold":
+                  fontSelected === "default",
               }
             )}
           >
@@ -88,7 +95,8 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131] font-semibold": fontSelected === "formal",
+                "border-[#6d6d6d] bg-[#313131] font-semibold":
+                  fontSelected === "formal",
               }
             )}
           >
@@ -105,7 +113,8 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131] font-semibold": fontSelected === "mono",
+                "border-[#6d6d6d] bg-[#313131] font-semibold":
+                  fontSelected === "mono",
               }
             )}
           >
@@ -136,7 +145,8 @@ const ArtboardOptions = ({
             className={classNames(
               "opacity-30 border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
               {
-                "border-[#a29e8a] font-semibold": backgroundSelected === "light",
+                "border-[#a29e8a] font-semibold":
+                  backgroundSelected === "light",
               }
             )}
           >
