@@ -28,7 +28,7 @@ const ArtboardOptions = ({
   return (
     <div className="relative">
       <div
-        className={classNames("fixed w-full h-full cursor-pointer z-[901]", {
+        className={classNames("fixed w-full h-full cursor-pointer z-[901] bg-[black] md:bg-none backdrop-blur-sm md:backdrop-blur-none bg-opacity-20", {
           block: isOptionsOpened,
           hidden: !isOptionsOpened,
         })}
@@ -42,7 +42,7 @@ const ArtboardOptions = ({
           setIsOptionsOpened(!isOptionsOpened);
         }}
         className={classNames(
-          "absolute right-[425px] cursor-pointer z-[903] top-28",
+          "absolute md:right-[425px] right-[90%] cursor-pointer z-[903] top-28",
           {
             block: isOptionsOpened,
             hidden: !isOptionsOpened,
@@ -52,7 +52,7 @@ const ArtboardOptions = ({
 
       <div
         className={classNames(
-          "fixed w-[400px] h-full bg-[#1E1E1E] border-l-1 py-10 px-7 overflow-scroll border-[#303030] right-0 top-0 z-[902]",
+          "fixed w-[400px] max-w-[85%] h-full bg-[#1E1E1E] border-l-1 py-10 px-7 overflow-scroll border-[#303030] right-0 top-0 z-[902]",
           {
             "right-0": isOptionsOpened,
             "right-[-500px]": !isOptionsOpened,
@@ -206,7 +206,7 @@ const ArtboardOptions = ({
         </div>
         <p className="mb-6">Actions</p>
         <div className="flex justify-between mb-4 items-center cursor-not-allowed">
-          <p className="max-w-[200px] text-sm text-[#525252]">
+          <p className="max-w-[150px] md:max-w-[200px] text-sm text-[#525252]">
             Habit created? So, it's time to finish this one and go to the next.
           </p>
           <Button variant="bordered" color="primary" isDisabled>
@@ -214,7 +214,7 @@ const ArtboardOptions = ({
           </Button>
         </div>
         <div className="flex justify-between mb-4 items-center cursor-not-allowed">
-          <p className="max-w-[200px] text-sm text-[#525252]">
+          <p className="max-w-[150px] md:max-w-[200px] text-sm text-[#525252]">
             Habit created? So, it's time to finish this one and go to the next.
           </p>
           <Button variant="bordered" color="default" isDisabled>
@@ -222,7 +222,7 @@ const ArtboardOptions = ({
           </Button>
         </div>
         <div className="flex justify-between mb-4 items-center">
-          <p className="max-w-[200px] text-sm text-[#525252]">
+          <p className="max-w-[150px] md:max-w-[200px] text-sm text-[#525252]">
             Habit created? So, it's time to finish this one and go to the next.
           </p>
           <Button
