@@ -69,3 +69,24 @@ button.tabJourney > div {
   width: 25px;
   height: 25px;
 }
+
+.ch-container {
+  background-color: #1e1e1e;
+}
+
+#ch-tooltip {
+  z-index: 9999;
+  background: #1e1e1e !important;
+  font-size: 18px !important;
+}
+
+.ch-plugin-calendar-label-text, .ch-domain-text {
+  font-size: 16px !important;
+  fill: #888888;
+  color: #888888;
+}
+
+.ch-subdomain-container rect.ch-subdomain-bg {
+  fill: #3E3E3E;
+}
+
