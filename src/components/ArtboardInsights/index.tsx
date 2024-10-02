@@ -19,6 +19,12 @@ const ArtboardInsights = ({
   activeTab,
 }: any) => {
   const [frequency, setFrequency] = useState([]);
+  console.log(frequency);
+
+  const beginning = DateTime.fromISO(frequency[frequency.length - 1]?.date);
+  const now = DateTime.fromJSDate(new Date());
+  const diffInDays = beginning.diff(now, "days");
+  const daysFromTheBeginning = Math.round(diffInDays?.toObject()?.days * -1);
 
   useEffect(() => {
     const triggerGetInsights = async () => {
@@ -37,13 +43,13 @@ const ArtboardInsights = ({
     }
   }, [isInsightsOpened]);
 
-  const today = DateTime.now().toUTC().toJSDate();
-  const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
-  const dayWithPad = `0${today.getDate()}`.slice(-2);
-  const initialDateSelected = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+  // const today = DateTime.now().toUTC().toJSDate();
+  // const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
+  // const dayWithPad = `0${today.getDate()}`.slice(-2);
+  // const initialDateSelected = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
 
   useEffect(() => {
-    if (frequency.length === 0) return;
+    if (frequency.length === 0 && !isInsightsOpened) return;
     const cal = new CalHeatmap();
     cal.paint(
       {
@@ -162,8 +168,8 @@ const ArtboardInsights = ({
               <span>Days with logs</span>
             </li>
             <li className="flex justify-center items-center flex-col p-4 py-8 text-[#5C5C5C]">
-              <p className="text-5xl font-bold">54</p>
-              <span>Total days</span>
+              <p className="text-5xl font-bold">{daysFromTheBeginning}</p>
+              <span>Days since it started</span>
             </li>
           </ul>
         </div>
@@ -181,7 +187,10 @@ const ArtboardInsights = ({
           </div>
           <div className="w-full overflow-scroll pl-7 pr-8 mb-9">
             <div className="flex">
-              <div id="cal-heatmap" className="mr-6 flex-shrink-0"></div>
+              {isInsightsOpened ? (
+                <div id="cal-heatmap" className="mr-6 flex-shrink-0"></div>
+              ) : null}
+
               <div className="w-[50px] h-[200px] flex-shrink-0"></div>
             </div>
           </div>
