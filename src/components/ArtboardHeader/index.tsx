@@ -20,7 +20,7 @@ const ArtboardHeader = ({
   }, [activeTab?.name]);
 
   return (
-    <div className="flex items-center justify-between bg-[#171717] rounded-xl z-[50] sticky top-[53px]">
+    <div className="flex items-center justify-between bg-[#171717] md:bg-transparent rounded-xl z-[50] sticky top-[53px]">
       <input
         className="px-1 w-full md:py-2 text-2xl text-ellipsis mt-3 mb-3 bg-transparent outline-none max-w-[400px]"
         value={journeyName || activeTab?.name || ""}

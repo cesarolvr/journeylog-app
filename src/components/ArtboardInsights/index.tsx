@@ -21,15 +21,18 @@ const ArtboardInsights = ({
       let object: any = {};
 
       res.forEach((item: any) => {
-        object[item.created_at.split("T")[0]] = 10;
+        object[item.created_at.split("T")[0]] = Math.round(
+          (item?.content?.length || 0) / 150
+        );
       });
-      console.log(object);
       setFrequency(object);
     };
     if (isInsightsOpened) {
       triggerGetInsights();
     }
   }, [isInsightsOpened]);
+
+  console.log(frequency);
 
   const today = DateTime.now().toUTC().toJSDate();
   const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
@@ -82,7 +85,7 @@ const ArtboardInsights = ({
 
         <div>
           <ul className="flex justify-start">
-            <li className="flex justify-center items-center flex-col p-4 py-8 text-[#fff]">
+            <li className="flex justify-center items-center flex-col p-4 py-8 pl-0 text-[#fff]">
               <p className="text-5xl font-bold">22</p>
               <span>Days streak</span>
             </li>
@@ -98,26 +101,54 @@ const ArtboardInsights = ({
         </div>
         <div className="pb-8">
           <div className="flex justify-between mb-6 items-center">
-
-          <p>Frequency</p>
-          <Select
-            isDisabled={true}
-            items={[{ key: "2024", label: "2024" }]}
-            placeholder="2024"
-            className="max-w-[100px]"
-          >
-            {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
-          </Select>
+            <p>Frequency</p>
+            <Select
+              isDisabled={true}
+              items={[{ key: "2024", label: "2024" }]}
+              placeholder="2024"
+              className="max-w-[100px] text-[18px]"
+            >
+              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+            </Select>
           </div>
-          <Calendar values={frequency} until={initialDateSelected} />
+          <Calendar
+            values={frequency}
+            until={initialDateSelected}
+            weekNames={["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]}
+            panelColors={[
+              "#3E3E3E",
+              "#5C5B5B",
+              "#434F45",
+              "#3E5642",
+              "#468A51",
+              "#39D353",
+            ]}
+            panelAttributes={
+              {
+                // ry: 3,
+                // width: 15,
+                // height: 15
+              }
+            }
+          />
+        </div>
+        <div className="mb-10">
+          <div className="flex justify-between mb-6 items-center">
+            <p>Habit consistency</p>
+            <span className="text-[#656565]">Last 30 days</span>
+          </div>
+          <div className="bg-[#2b2b2b] w-full h-[180px] rounded-3xl flex justify-center items-center text-[#656565]">
+            Soon...
+          </div>
         </div>
         <div>
-          <p>Habit consistency</p>
-          <span>Last 30 days</span>
-        </div>
-        <div>
-          <p>Habit density</p>
-          <span>Last 7 days</span>
+          <div className="flex justify-between mb-6 items-center">
+            <p>Habit density</p>
+            <span className="text-[#656565]">Last 7 days</span>
+          </div>
+          <div className="bg-[#2b2b2b] w-full h-[180px] rounded-3xl flex justify-center items-center text-[#656565]">
+            Soon...
+          </div>
         </div>
       </div>
     </div>
