@@ -165,7 +165,7 @@ const ArtboardInsights = ({
 
       <div
         className={classNames(
-          "rounded-xl bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0 absolute md:right-[570px] right-[87%] cursor-pointer z-[903] top-10",
+          "rounded-xl bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0 absolute md:right-[570px] right-[85%] cursor-pointer z-[903] top-10",
           {
             block: isInsightsOpened,
             hidden: !isInsightsOpened,
@@ -180,7 +180,7 @@ const ArtboardInsights = ({
 
       <div
         className={classNames(
-          "fixed w-[550px] max-w-[85%] h-full bg-[#1E1E1E] border-l-1 py-10 overflow-scroll border-[#303030] right-0 top-0 z-[902]",
+          "fixed w-[550px] max-w-[83%] h-full bg-[#1E1E1E] border-l-1 py-10 overflow-y-scroll border-[#303030] right-0 top-0 z-[902]",
           {
             "right-0": isInsightsOpened,
             "right-[-600px]": !isInsightsOpened,
@@ -192,9 +192,9 @@ const ArtboardInsights = ({
           <Share className="opacity-25 cursor-not-allowed" />
         </div>
 
-        <div className="px-7">
-          <ul className="flex justify-start">
-            <li className="flex justify-center items-center flex-col p-4 py-8 pl-0 text-[#fff]">
+        <div className="">
+          <ul className="flex justify-start w-full overflow-scroll">
+            <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 pl-0 text-[#fff] ml-7">
               <p className="text-5xl font-bold">
                 {daysInARow ? (
                   daysInARow
@@ -204,7 +204,7 @@ const ArtboardInsights = ({
               </p>
               <span>Days in a row</span>
             </li>
-            <li className="flex justify-center items-center flex-col p-4 py-8 text-[#5C5C5C]">
+            <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]">
               <p className="text-5xl font-bold">
                 {frequency?.length ? (
                   frequency?.length
@@ -214,7 +214,7 @@ const ArtboardInsights = ({
               </p>
               <span>Days with logs</span>
             </li>
-            <li className="flex justify-center items-center flex-col p-4 py-8 text-[#5C5C5C]">
+            <li className="flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]">
               <p className="text-5xl font-bold">
                 {daysFromTheBeginning ? (
                   daysFromTheBeginning
@@ -253,18 +253,19 @@ const ArtboardInsights = ({
             </div>
           </div>
         </div>
-        <div className="mb-10 px-7">
-          <div className="flex justify-between mb-6 items-center">
+        <div className="mb-10">
+          <div className="flex px-7 justify-between mb-6 items-center">
             <p>Habit consistency</p>
             <span className="text-[#656565]">Last 30 days</span>
           </div>
-          <div className="w-full mb-7">
-            <ul className="flex w-full justify-between">
+          <div className="w-full mb-7 overflow-scroll">
+            <ul className="flex w-full justify-between pl-7">
               {lastTirtyDays.map((item) => {
                 return (
                   <li className="rounded-lg p-[5px] mx-[2px] h-[80px] bg-[#3E3E3E]"></li>
                 );
               })}
+              <div className="w-[50px] flex-shrink-0"></div>
             </ul>
           </div>
         </div>
