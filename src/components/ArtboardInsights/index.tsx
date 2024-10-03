@@ -1,6 +1,6 @@
 "use client";
 
-import { Select, SelectItem } from "@nextui-org/react";
+import { CircularProgress, Select, SelectItem } from "@nextui-org/react";
 import classNames from "classnames";
 import { Share, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -17,14 +17,34 @@ const ArtboardInsights = ({
   setIsInsightsOpened,
   getInsights,
   activeTab,
+  isLoading,
+  previewList,
 }: any) => {
   const [frequency, setFrequency] = useState([]);
-  console.log(frequency);
+  const [daysInARow, setDaysInARow] = useState(0);
+  const [callHeatmap, setCallHeatmap] = useState(null);
+  const [callHeatmap2, setCallHeatmap2] = useState(null);
+  const [callHeatmap3, setCallHeatmap3] = useState(null);
 
   const beginning = DateTime.fromISO(frequency[frequency.length - 1]?.date);
   const now = DateTime.fromJSDate(new Date());
   const diffInDays = beginning.diff(now, "days");
   const daysFromTheBeginning = Math.round(diffInDays?.toObject()?.days * -1);
+
+  const getDaysInARow = () => {
+    let acc = 0;
+
+    const res = frequency.sort((prev, current): any => {
+      const currentDate = DateTime.fromJSDate(new Date(current?.date));
+      const prevDate = DateTime.fromJSDate(new Date(prev?.date));
+      const diffInMonths = currentDate.diff(prevDate, "days")?.toObject();
+      if (diffInMonths?.days < 2) {
+        acc++;
+      }
+    });
+
+    return acc;
+  };
 
   useEffect(() => {
     const triggerGetInsights = async () => {
@@ -43,14 +63,19 @@ const ArtboardInsights = ({
     }
   }, [isInsightsOpened]);
 
-  // const today = DateTime.now().toUTC().toJSDate();
-  // const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
-  // const dayWithPad = `0${today.getDate()}`.slice(-2);
-  // const initialDateSelected = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
-
   useEffect(() => {
-    if (frequency.length === 0 && !isInsightsOpened) return;
+    if (!isInsightsOpened && callHeatmap) {
+      callHeatmap.destroy();
+    }
+  }, [isInsightsOpened]);
+
+  const currentMonth = new Date().getMonth();
+
+  // Graph 1
+  useEffect(() => {
+    if (frequency.length === 0 && !isInsightsOpened && !callHeatmap) return;
     const cal = new CalHeatmap();
+    setCallHeatmap(cal);
     cal.paint(
       {
         data: {
@@ -59,8 +84,13 @@ const ArtboardInsights = ({
           x: "date",
           y: "value",
         },
-        date: { start: new Date("2024-01-01"), max: new Date("2024-10-15") },
-        range: 12,
+        date: {
+          start: new Date("2024-01-01"),
+          max: new Date(),
+          end: new Date(),
+          highlight: [new Date()],
+        },
+        range: currentMonth + 1 > 4 ? currentMonth + 1 : 12,
         theme: "dark",
         scale: {
           color: {
@@ -71,15 +101,15 @@ const ArtboardInsights = ({
         },
         domain: {
           type: "month",
-          gutter: 4,
-          label: { text: "MMM", textAlign: "start", position: "top" },
+          gutter: 6,
+          label: { text: "MMM", textAlign: "start", position: "bottom" },
         },
         subDomain: {
           type: "ghDay",
-          radius: 2,
+          radius: 5,
           width: 27,
           height: 27,
-          gutter: 5,
+          gutter: 6,
         },
       },
       [
@@ -106,12 +136,17 @@ const ArtboardInsights = ({
               );
             },
 
-            padding: [25, 10, 0, 0],
+            padding: [0, 10, 0, 0],
           },
         ],
       ]
     );
+    const days = getDaysInARow();
+    days && setDaysInARow(days);
   }, [frequency]);
+
+  const lastTirtyDays = Array.from(Array(30).keys());
+  const lastSevenDays = Array.from(Array(7).keys());
 
   return (
     <div className="relative">
@@ -160,21 +195,39 @@ const ArtboardInsights = ({
         <div className="px-7">
           <ul className="flex justify-start">
             <li className="flex justify-center items-center flex-col p-4 py-8 pl-0 text-[#fff]">
-              <p className="text-5xl font-bold">22</p>
+              <p className="text-5xl font-bold">
+                {daysInARow ? (
+                  daysInARow
+                ) : (
+                  <CircularProgress className="mb-2" aria-label="Loading..." />
+                )}
+              </p>
               <span>Days in a row</span>
             </li>
             <li className="flex justify-center items-center flex-col p-4 py-8 text-[#5C5C5C]">
-              <p className="text-5xl font-bold">{frequency.length}</p>
+              <p className="text-5xl font-bold">
+                {frequency?.length ? (
+                  frequency?.length
+                ) : (
+                  <CircularProgress className="mb-2" aria-label="Loading..." />
+                )}
+              </p>
               <span>Days with logs</span>
             </li>
             <li className="flex justify-center items-center flex-col p-4 py-8 text-[#5C5C5C]">
-              <p className="text-5xl font-bold">{daysFromTheBeginning}</p>
+              <p className="text-5xl font-bold">
+                {daysFromTheBeginning ? (
+                  daysFromTheBeginning
+                ) : (
+                  <CircularProgress className="mb-2" aria-label="Loading..." />
+                )}
+              </p>
               <span>Days since it started</span>
             </li>
           </ul>
         </div>
         <div className="">
-          <div className="flex justify-between mb-3 px-7 items-center">
+          <div className="flex justify-between mb-6 px-7 items-center">
             <p>Frequency</p>
             <Select
               isDisabled={true}
@@ -185,13 +238,18 @@ const ArtboardInsights = ({
               {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
             </Select>
           </div>
-          <div className="w-full overflow-scroll pl-7 pr-8 mb-9">
+          <div className="w-full overflow-scroll pl-7 pr-8 mb-7">
             <div className="flex">
-              {isInsightsOpened ? (
-                <div id="cal-heatmap" className="mr-6 flex-shrink-0"></div>
-              ) : null}
-
-              <div className="w-[50px] h-[200px] flex-shrink-0"></div>
+              {isInsightsOpened && !isLoading ? (
+                <>
+                  <div id="cal-heatmap" className="mr-6 flex-shrink-0"></div>
+                  <div className="w-[50px] h-[270px] flex-shrink-0"></div>
+                </>
+              ) : (
+                <div className="flex items-center bg-[#2b2b2b] h-[200px] w-full justify-center rounded-3xl">
+                  <CircularProgress aria-label="Loading..." />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -200,8 +258,14 @@ const ArtboardInsights = ({
             <p>Habit consistency</p>
             <span className="text-[#656565]">Last 30 days</span>
           </div>
-          <div className="bg-[#2b2b2b] w-full h-[180px] rounded-3xl flex justify-center items-center text-[#656565]">
-            Soon...
+          <div className="w-full mb-7">
+            <ul className="flex w-full justify-between">
+              {lastTirtyDays.map((item) => {
+                return (
+                  <li className="rounded-lg p-[5px] mx-[2px] h-[80px] bg-[#3E3E3E]"></li>
+                );
+              })}
+            </ul>
           </div>
         </div>
         <div className="px-7">
@@ -209,8 +273,14 @@ const ArtboardInsights = ({
             <p>Habit density</p>
             <span className="text-[#656565]">Last 7 days</span>
           </div>
-          <div className="bg-[#2b2b2b] w-full h-[180px] rounded-3xl flex justify-center items-center text-[#656565]">
-            Soon...
+          <div className="w-full mb-7">
+            <ul className="flex w-full justify-between">
+              {lastSevenDays.map((item) => {
+                return (
+                  <li className="w-[63px] rounded-lg p-[5px] mx-[2px] h-[196px] bg-[#3E3E3E]"></li>
+                );
+              })}
+            </ul>
           </div>
         </div>
       </div>

@@ -90,3 +90,7 @@ button.tabJourney > div {
   fill: #2c2c2c;
 }
 
+.ch-subdomain-bg.highlight {
+  stroke: white !important;
+  stroke-width: 2px !important;
+}

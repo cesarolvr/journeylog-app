@@ -429,6 +429,8 @@ const App = ({ user }: any) => {
         isInsightsOpened={isInsightsOpened}
         getInsights={getInsights}
         activeTab={activeTab}
+        isLoading={isLoading}
+        previewList={previewList}
       />
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
