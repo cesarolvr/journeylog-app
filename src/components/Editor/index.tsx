@@ -23,6 +23,7 @@ import {
   DropdownMenu,
   CircularProgress,
   Button,
+  Divider,
 } from "@nextui-org/react";
 
 import { debounce } from "lodash";
@@ -33,6 +34,7 @@ import ArtboardHeader from "../ArtboardHeader";
 import ArtboardTabs from "../ArtboardTabs";
 import ArtboardOptions from "../ArtboardOptions";
 import ArtboardInsights from "../ArtboardInsights";
+import { ArrowLeftFromLine, ArrowUpRight, LogOut, User } from "lucide-react";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
@@ -210,7 +212,7 @@ const App = ({ user }: any) => {
     const dayWithPad: string = `0${dateSelected.day}`.slice(-2);
 
     const res = await getLogs(
-      activeTab.id,
+      activeTab?.id,
       `${dateSelected.year}-${monthWithPad}-${dayWithPad}`
     );
 
@@ -500,8 +502,32 @@ const App = ({ user }: any) => {
                     name={username}
                   />
                 </DropdownTrigger>
-                <DropdownMenu aria-label="Static Actions">
-                  <DropdownItem key="new" onClick={handleLogout}>
+                <DropdownMenu
+                  aria-label="Static Actions"
+                  disabledKeys={["profile"]}
+                >
+                  <DropdownItem
+                    key="profile"
+                    onClick={(f) => f}
+                    startContent={<User className="w-[20px]" />}
+                  >
+                    Profile
+                  </DropdownItem>
+                  <DropdownItem
+                    key="home"
+                    onClick={() => {
+                      router.push("/");
+                    }}
+                    startContent={<ArrowUpRight className="w-[20px]" />}
+                  >
+                    Go to landing page
+                  </DropdownItem>
+                  <DropdownItem
+                    key="logout"
+                    className="text-danger"
+                    onClick={handleLogout}
+                    startContent={<LogOut className="w-[20px]" />}
+                  >
                     Logout
                   </DropdownItem>
                 </DropdownMenu>

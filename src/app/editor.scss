@@ -562,6 +562,10 @@ i.justify-align {
     font-size: 35px;
   }
 
+  .editor-listitem {
+    margin-bottom: 20px;
+  }
+
   .editor-input {
     font-size: 25px;
 
@@ -600,6 +604,11 @@ i.justify-align {
   .editor-placeholder {
     font-size: 35px;
   }
+
+  .editor-listitem {
+    margin-bottom: 15px;
+  }
+
   .editor-input {
     font-size: 25px;
 
@@ -634,6 +643,7 @@ i.justify-align {
   }
 }
 
-.daybadge-2, .daybadge-3 {
+.daybadge-2,
+.daybadge-3 {
   font-size: 35px;
 }

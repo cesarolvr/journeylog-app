@@ -75,7 +75,7 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131] font-semibold":
+                "border-[#6d6d6d] bg-[#313131]":
                   fontSelected === "default",
               }
             )}
@@ -95,7 +95,7 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131] font-semibold":
+                "border-[#6d6d6d] bg-[#313131]":
                   fontSelected === "formal",
               }
             )}
@@ -113,7 +113,7 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131] font-semibold":
+                "border-[#6d6d6d] bg-[#313131]":
                   fontSelected === "mono",
               }
             )}
@@ -132,7 +132,7 @@ const ArtboardOptions = ({
             className={classNames(
               "opacity-30 border-1 border-[#383838] bg-[#171717] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
               {
-                "border-[#6d6d6d] font-semibold": backgroundSelected === "dark",
+                "border-[#6d6d6d]": backgroundSelected === "dark",
               }
             )}
           >
@@ -145,7 +145,7 @@ const ArtboardOptions = ({
             className={classNames(
               "opacity-30 border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
               {
-                "border-[#a29e8a] font-semibold":
+                "border-[#a29e8a]":
                   backgroundSelected === "light",
               }
             )}
@@ -159,7 +159,7 @@ const ArtboardOptions = ({
             className={classNames(
               "opacity-30 border-1 border-[#383838] bg-[#1E262D] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
               {
-                "border-[#a29e8a] font-semibold": backgroundSelected === "blue",
+                "border-[#a29e8a]": backgroundSelected === "blue",
               }
             )}
           >

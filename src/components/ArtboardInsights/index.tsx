@@ -195,33 +195,33 @@ const ArtboardInsights = ({
         <div className="">
           <ul className="flex justify-start w-full overflow-scroll">
             <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 pl-0 text-[#fff] ml-7">
-              <p className="text-5xl font-bold">
+              <div className="text-5xl font-bold">
                 {daysInARow ? (
                   daysInARow
                 ) : (
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
-              </p>
+              </div>
               <span>Days in a row</span>
             </li>
             <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]">
-              <p className="text-5xl font-bold">
+              <div className="text-5xl font-bold">
                 {frequency?.length ? (
                   frequency?.length
                 ) : (
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
-              </p>
+              </div>
               <span>Days with logs</span>
             </li>
             <li className="flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]">
-              <p className="text-5xl font-bold">
+              <div className="text-5xl font-bold">
                 {daysFromTheBeginning ? (
                   daysFromTheBeginning
                 ) : (
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
-              </p>
+              </div>
               <span>Days since it started</span>
             </li>
           </ul>
@@ -260,9 +260,12 @@ const ArtboardInsights = ({
           </div>
           <div className="w-full mb-7 overflow-scroll">
             <ul className="flex w-full justify-between pl-7">
-              {lastTirtyDays.map((item) => {
+              {lastTirtyDays.map((item, index) => {
                 return (
-                  <li className="rounded-lg p-[5px] mx-[2px] h-[80px] bg-[#3E3E3E]"></li>
+                  <li
+                    key={index}
+                    className="rounded-lg p-[5px] mx-[2px] h-[80px] bg-[#3E3E3E]"
+                  ></li>
                 );
               })}
               <div className="w-[50px] flex-shrink-0"></div>
@@ -276,9 +279,9 @@ const ArtboardInsights = ({
           </div>
           <div className="w-full mb-7">
             <ul className="flex w-full justify-between">
-              {lastSevenDays.map((item) => {
+              {lastSevenDays.map((item, index) => {
                 return (
-                  <li className="w-[63px] rounded-lg p-[5px] mx-[2px] h-[196px] bg-[#3E3E3E]"></li>
+                  <li key={index} className="w-[63px] rounded-lg p-[5px] mx-[2px] h-[196px] bg-[#3E3E3E]"></li>
                 );
               })}
             </ul>

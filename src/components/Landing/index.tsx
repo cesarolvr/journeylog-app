@@ -4,10 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Logo from "../../images/logoFull.svg";
+import Illustration1 from "../../images/illustrations/1.svg";
 import PlaceholderImage from "../../images/placeholder.png";
 import PlaceholderImageLandscape from "../../images/placeholderLandscape.png";
-import { Accordion, AccordionItem, Avatar, Button, Textarea } from "@nextui-org/react";
-import { ChevronRight, ChevronsDown } from "lucide-react";
+import {
+  Accordion,
+  AccordionItem,
+  Button,
+  Textarea,
+} from "@nextui-org/react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const Landing = ({ user }: any) => {
@@ -15,11 +21,15 @@ const Landing = ({ user }: any) => {
   const defaultContent =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
-  console.log(user);
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
-      <header className="flex w-[800px] rounded-3xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-3">
-        <Image src={Logo} width={150} alt="Logo" className="ml-4" />
+      <header className="flex w-[800px] rounded-3xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2">
+        <Image
+          src={Logo}
+          width={150}
+          alt="Logo"
+          className="ml-4 w-[130px] md:w-[150px]"
+        />
         <ul className="flex">
           <li className="md:flex items-center mx-3 hidden">
             <Link href="">What is it?</Link>
@@ -28,13 +38,16 @@ const Landing = ({ user }: any) => {
             <Link href="">Why use it?</Link>
           </li>
           <li className="md:flex items-center mx-3 hidden">
+            <Link href="">Pricing</Link>
+          </li>
+          <li className="md:flex items-center mx-3 hidden">
             <Link href="">FAQ</Link>
           </li>
           <li className="flex items-center mx-3">
             {!!user ? (
               <>
                 <Button
-                  className={`border-[#39D353] text-[#39D353] font-black pr-2`}
+                  className={`border-[#39D353] text-[#39D353] font-black pr-2 md:max-w-[150px] max-w-[130px]`}
                   variant="bordered"
                   onClick={(f) => {
                     router.push("/app");
@@ -66,23 +79,44 @@ const Landing = ({ user }: any) => {
           id="hero"
           className="h-[70vh] justify-center px-2 text-center flex flex-col items-center my-20"
         >
-          <h1 className="text-[40px] max-w-[90%] leading-[40px] md:leading-[65px] md:text-[65px] mb-4 font-black text-white mt-[120px]">
+          <h1 className="text-[40px] max-w-[90%] leading-[40px] md:leading-[65px] md:text-[65px] mb-6 font-black text-white mt-[100px]">
             Build good habits as a diary
           </h1>
-          <h2 className="text-[18px] md:text-[25px] text-white mb-[150px]">
-            Consistently instead streak.
+          <h2 className="text-[18px] md:text-[24px] mb-10 text-white max-w-[700px] font-thin">
+            Log your routine until become automatic and effortless.
+            <br />
+            Consistently instead a perfect streak.
           </h2>
-          <ChevronsDown size="50" className="mt-[100px]" />
+          <div className="mb-[150px]">
+            <Button
+              className="border-[#39D353] text-[#39D353] font-black"
+              variant="bordered"
+              size="lg"
+              onClick={(f) => f}
+            >
+              Know more
+            </Button>
+            <Button
+              className=" ml-7 bg-[#39D353] text-black font-black"
+              variant="solid"
+              size="lg"
+              onClick={(f) => f}
+            >
+              Try now
+              <ChevronRight />
+            </Button>
+          </div>
+          <ChevronDown size="50" className="mt-[10px]" />
         </section>
         <section
           id="log"
           className="items-center justify-center my-4 md:my-20 inline-flex w-full flex-col md:flex-row"
         >
-          <h3 className="text-[25px] md:text-[30px] md:w-[250px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
+          <h3 className="text-[25px] md:text-[30px] md:w-[280px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
             Log your activities through simple notes
           </h3>
           <Image
-            src={PlaceholderImage}
+            src={Illustration1}
             className="mx-12"
             width={358}
             alt="Logo"
