@@ -136,7 +136,7 @@ const App = ({ user }: any) => {
       });
     }
     setIsLoading(false);
-  }, 1500);
+  }, 2500);
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
     const value = e?.target?.value;
@@ -160,29 +160,13 @@ const App = ({ user }: any) => {
       setActiveTab(updatedJourney[0]);
       setJourneyTabs([...updatedTabList]);
     }
-  }, 1000);
+  }, 4000);
 
   const handleJourneyUpdate = debounce(async (theme: any) => {
     const { error, data: updatedJourney } = await supabaseClient
       .from("journey")
       .update({ theme: theme })
-      .eq("id", activeTab?.id)
-      .select();
-
-    if (updatedJourney) {
-      // const updatedTabList = journeyTabs.map((item: any) => {
-      //   if (item?.id === updatedJourney[0].id) {
-      //     return {
-      //       ...item,
-      //       ...updatedJourney[0],
-      //     };
-      //   }
-
-      //   return item;
-      // });
-      // setActiveTab(updatedJourney[0]);
-      // setJourneyTabs([...updatedTabList]);
-    }
+      .eq("id", activeTab?.id);
   }, 1000);
 
   const handleJourneyDeletion = debounce(async ({ id }: any) => {
