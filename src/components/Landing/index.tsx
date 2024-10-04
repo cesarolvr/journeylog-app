@@ -10,6 +10,7 @@ import Illustration3 from "../../images/illustrations/3.svg";
 import Illustration4 from "../../images/illustrations/4.svg";
 import Illustration5 from "../../images/illustrations/5.svg";
 import Illustration6 from "../../images/illustrations/6.svg";
+import Illustration7 from "../../images/illustrations/7.svg";
 
 import Bruno from "../../images/bruno.png";
 import Bia from "../../images/bia.png";
@@ -94,10 +95,9 @@ const Landing = ({ user }: any) => {
           <h1 className="text-[40px] max-w-[90%] leading-[40px] md:leading-[65px] md:text-[65px] mb-6 font-black text-white mt-[100px]">
             Build good habits as a diary
           </h1>
-          <h2 className="text-[18px] md:text-[24px] mb-10 text-white max-w-[700px] font-thin">
-            Log your routine until become automatic and effortless.
-            <br />
-            Consistently instead a perfect streak.
+          <h2 className="text-[18px] md:text-[24px] mb-10 text-white max-w-[70%] md:max-w-[700px] font-thin">
+            Log your routine until become automatic and effortless. Consistently
+            instead a perfect streak.
           </h2>
           <div className="mb-[150px]">
             <Button
@@ -109,7 +109,7 @@ const Landing = ({ user }: any) => {
               Know more
             </Button>
             <Button
-              className=" ml-7 bg-[#39D353] text-black font-black"
+              className=" ml-5 bg-[#39D353] text-black font-black"
               variant="solid"
               size="lg"
               onClick={(f) => f}
@@ -176,7 +176,7 @@ const Landing = ({ user }: any) => {
             Slow and steady...
           </h3>
           <Image
-            className="mx-12 mr-[-200px]"
+            className="md:mx-12 md:mr-[-200px] max-w-[85%] md:max-w-none"
             src={Illustration5}
             width={800}
             alt="Logo"
@@ -191,31 +191,46 @@ const Landing = ({ user }: any) => {
             <span className="text-[#383838] line-through">goals</span> journeys
           </h3>
           <Image
-            className="mx-12 ml-[-150px]"
+            className="md:mx-12 md:ml-[-150px] max-w-[85%] md:max-w-none"
             src={Illustration6}
             width={800}
             alt="Logo"
           />
         </section>
         <section
-          id="insights"
-          className="inline-flex justify-center items-center text-center w-full my-12 md:my-20"
+          id="day-by-day"
+          className="flex justify-center items-center w-full my-4 md:my-20 flex-col md:flex-row"
         >
-          <h3 className="text-[25px] md:text-[30px] mx-12 max-w-[300px] text-left">
+          <h3 className="text-[25px] md:text-[30px] md:w-[320px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
+            And setup reminders
+            to keep you moving
+          </h3>
+          <Image
+            className="md:mx-12 max-w-[85%] md:max-w-none"
+            src={Illustration7}
+            width={388}
+            alt="Logo"
+          />
+        </section>
+        <section
+          id="insights"
+          className="inline-flex flex-col md:flex-row justify-center items-center text-center w-full my-12 md:my-20"
+        >
+          <h3 className="text-[25px] mb-10 md:mb-0 md:text-[30px] mx-12 max-w-[300px] md:text-left">
             And get insights about your journey:
           </h3>
-          <div className="flex justify-center items-center">
-            <span className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 pl-0 text-[#fff] ml-7 mr-2">
+          <div className="flex flex-col md:flex-row justify-center items-center">
+            <span className="flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 pl-0 text-[#fff] ml-7 mr-2">
               <div className="text-[80px] leading-[80px] font-bold text-[#27DE55]">
                 12
               </div>
               <span className="text-[20px]">Days in a row</span>
             </span>
-            <span className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]">
+            <span className="flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 text-[#5C5C5C]">
               <div className="text-[80px] leading-[80px] font-bold">16</div>
               <span className="text-[20px]">Days with logs</span>
             </span>
-            <span className="flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]">
+            <span className="flex justify-center items-center flex-shrink-0 flex-col p-4 md:py-8 text-[#5C5C5C]">
               <div className="text-[80px] leading-[80px] font-bold">360</div>
               <span className="text-[20px]">Days since it started</span>
             </span>
@@ -226,10 +241,10 @@ const Landing = ({ user }: any) => {
           id="testimonials"
           className="text-center my-6 md:my-20 w-[100%]"
         >
-          <h3 className="md:text-[35px] mb-10 md:mb-20 text-[25px]">
+          <h3 className="md:text-[35px] mb-16 md:mb-20 text-[25px]">
             These people are also creating <br /> different new habits
           </h3>
-          <div className="flex w-[100%] px-20 flex-col md:flex-row justify-center">
+          <div className="flex w-[100%] px-20 flex-col md:flex-row justify-center items-center">
             {[
               {
                 image: Bia,
@@ -254,7 +269,7 @@ const Landing = ({ user }: any) => {
               },
             ].map(({ image, nome, rate, occupation, text }) => {
               return (
-                <Card className="py-8 px-6 w-[370px] rounded-[60px] bg-[#2C2C2C] mx-6 overflow-visible">
+                <Card className="py-8 px-6 w-[370px] rounded-[60px] bg-[#2C2C2C] md:mx-6 mb-20 overflow-visible">
                   <CardHeader className="pb-0 pt-2 px-4 flex-col items-center justify-center ">
                     <Image
                       src={image}
@@ -322,7 +337,7 @@ const Landing = ({ user }: any) => {
         </section>
         <section
           id="faq"
-          className="justify-center items-center text-center my-[150px] w-[100%]"
+          className="justify-center items-center text-center md:my-[150px] w-[100%]"
         >
           <h3 className="text-[40px] font-black mb-8">FAQ</h3>
           <div className="w-[85%] flex items-center justify-center m-auto">
@@ -338,7 +353,7 @@ const Landing = ({ user }: any) => {
                 key="1"
                 aria-label="Why would I use it?"
                 title="Why would I use it?"
-                className="border-1 border-[#303030] rounded-lg px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
+                className="rounded-[30px] px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
               >
                 {defaultContent}
               </AccordionItem>
@@ -346,7 +361,7 @@ const Landing = ({ user }: any) => {
                 key="2"
                 aria-label="It's possible to create a habit using this app?"
                 title="It's possible to create a habit using this app?"
-                className="border-1 border-[#303030] rounded-lg px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
+                className="rounded-[30px] px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
               >
                 {defaultContent}
               </AccordionItem>
@@ -354,7 +369,7 @@ const Landing = ({ user }: any) => {
                 key="3"
                 aria-label="Where and how can I use Journeylog?"
                 title="Where and how can I use Journeylog?"
-                className="border-1 border-[#303030] rounded-lg px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
+                className="rounded-[30px] px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
               >
                 {defaultContent}
               </AccordionItem>
@@ -362,7 +377,7 @@ const Landing = ({ user }: any) => {
                 key="3"
                 aria-label="It's an app for iOS or Android?"
                 title="It's an app for iOS or Android?"
-                className="border-1 border-[#303030] rounded-lg px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
+                className="rounded-[30px] px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
               >
                 {defaultContent}
               </AccordionItem>
@@ -370,7 +385,7 @@ const Landing = ({ user }: any) => {
                 key="3"
                 aria-label="It's free?"
                 title="It's free?"
-                className="border-1 border-[#303030] rounded-lg px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
+                className="rounded-[30px] px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
               >
                 {defaultContent}
               </AccordionItem>
