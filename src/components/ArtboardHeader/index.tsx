@@ -36,9 +36,9 @@ const ArtboardHeader = ({
         }}
       />
       {activeTab ? (
-        <div className="flex">
+        <div className="flex editor-options">
           <div
-            className="cursor-pointer mr-2 flex justify-center items-center border-1 border-[#39D353] rounded-xl p-1 py-2 w-[50px] flex-shrink-0"
+            className="insights-button cursor-pointer mr-2 flex justify-center items-center border-1 border-[#39D353] rounded-xl p-1 py-2 w-[50px] flex-shrink-0"
             onClick={() => {
               setIsInsightsOpened(!isInsightsOpened);
             }}
@@ -46,7 +46,7 @@ const ArtboardHeader = ({
             <LucideBarChart />
           </div>
           <div
-            className="cursor-pointer rounded-xl hover:bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0"
+            className="options-button cursor-pointer rounded-xl p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0"
             onClick={() => {
               setIsOptionsOpened(!isOptionsOpened);
             }}

@@ -162,6 +162,29 @@ const App = ({ user }: any) => {
     }
   }, 1000);
 
+  const handleJourneyUpdate = debounce(async (theme: any) => {
+    const { error, data: updatedJourney } = await supabaseClient
+      .from("journey")
+      .update({ theme: theme })
+      .eq("id", activeTab?.id)
+      .select();
+
+    if (updatedJourney) {
+      // const updatedTabList = journeyTabs.map((item: any) => {
+      //   if (item?.id === updatedJourney[0].id) {
+      //     return {
+      //       ...item,
+      //       ...updatedJourney[0],
+      //     };
+      //   }
+
+      //   return item;
+      // });
+      // setActiveTab(updatedJourney[0]);
+      // setJourneyTabs([...updatedTabList]);
+    }
+  }, 1000);
+
   const handleJourneyDeletion = debounce(async ({ id }: any) => {
     const { error, data } = await supabaseClient
       .from("journey")
@@ -422,6 +445,7 @@ const App = ({ user }: any) => {
         isOptionsOpened={isOptionsOpened}
         setIsOptionsOpened={setIsOptionsOpened}
         handleJourneyDeletion={handleJourneyDeletion}
+        handleJourneyUpdate={handleJourneyUpdate}
         activeTab={activeTab}
         setFont={setFont}
         font={font}
@@ -498,7 +522,7 @@ const App = ({ user }: any) => {
               <Dropdown>
                 <DropdownTrigger>
                   <Avatar
-                    className="text-white cursor-pointer"
+                    className="text-white cursor-pointer clear-start avatar"
                     name={username}
                   />
                 </DropdownTrigger>

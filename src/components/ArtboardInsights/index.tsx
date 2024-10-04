@@ -149,7 +149,7 @@ const ArtboardInsights = ({
   const lastSevenDays = Array.from(Array(7).keys());
 
   return (
-    <div className="relative">
+    <div className="relative insights-panel">
       <div
         className={classNames(
           "fixed w-full h-full cursor-pointer z-[901] bg-[black] md:bg-none backdrop-blur-sm md:backdrop-blur-none bg-opacity-20",
@@ -165,7 +165,7 @@ const ArtboardInsights = ({
 
       <div
         className={classNames(
-          "rounded-xl bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0 absolute md:right-[570px] right-[85%] cursor-pointer z-[903] top-10",
+          "close-insights-button rounded-xl bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0 absolute md:right-[570px] right-[85%] cursor-pointer z-[903] top-10",
           {
             block: isInsightsOpened,
             hidden: !isInsightsOpened,
@@ -180,7 +180,7 @@ const ArtboardInsights = ({
 
       <div
         className={classNames(
-          "fixed w-[550px] max-w-[83%] h-full bg-[#1E1E1E] border-l-1 py-10 overflow-y-scroll border-[#303030] right-0 top-0 z-[902]",
+          "content fixed w-[550px] max-w-[83%] h-full bg-[#1E1E1E] border-l-1 py-10 overflow-y-scroll border-[#303030] right-0 top-0 z-[902]",
           {
             "right-0": isInsightsOpened,
             "right-[-600px]": !isInsightsOpened,

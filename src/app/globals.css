@@ -41,6 +41,10 @@ html {
   }
 }
 
+.landing {
+  background-color: #171717 !important;
+}
+
 /* NEXT UI REWRITING */
 .nav-logout {
   flex-grow: unset !important;

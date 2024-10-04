@@ -19,9 +19,9 @@ const SidebarCloseLayer = ({ isOpened, setIsOpened }: any) => {
     >
       <div
         className={classnames(
-          "hover:bg-[#2c2c2c] w-[40px] h-[40px] p-2 rounded-xl left-8 top-[50px] relative",
+          "close-sidemenu-button hover:bg-[#2c2c2c] w-[40px] h-[40px] p-2 rounded-xl left-8 top-[50px] relative",
           {
-            "left-[270px] bg-black top-7": !isOpened,
+            "left-[270px] top-7 isopened": !isOpened,
           }
         )}
       >

@@ -19,8 +19,6 @@ const App = () => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
 
-  console.log(theme)
-
   const value = {
     accessToken,
     user,

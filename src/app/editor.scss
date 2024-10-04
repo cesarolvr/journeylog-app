@@ -34,7 +34,7 @@
       color: #777;
     }
   }
-  
+
   #tabs {
     background-color: #171717;
     > div {
@@ -68,6 +68,11 @@
     input {
       color: white;
     }
+  }
+
+  .close-sidemenu-button {
+    background: black;
+    border: 1px solid #2e2e2e;
   }
 }
 
@@ -103,27 +108,62 @@
   }
 
   .sidebar-day {
-    background-color: #e0d5aa;
+    background-color: #f0e5c2;
     color: #524d37;
   }
 
+  .switch {
+    span {
+      background-color: #47474b;
+      span {
+        background-color: #fff;
+      }
+    }
+  }
+
+  .select {
+    button {
+      background-color: #27272a;
+    }
+  }
+
+  .editor-listitem-checked:before {
+    color: #cbc2a6 !important;
+  }
+
   .sidebar-note {
-    background-color: #f9eec4;
+    background-color: #fbf1d2;
   }
 
   .nav-header {
-    background-color: #f9eec4;
-    border-color: #a49b73;
-    border-width: 1px;
+    background-color: #fbf1d2;
+    border-color: transparent;
   }
 
   .tabJourney {
     > span {
-      background-color: #cdb04f;
+      background-color: #e3d8b5;
+      box-shadow: none;
     }
 
     > div {
+      color: #524d36 !important;
+    }
+  }
+
+  .avatar {
+    background-color: #e5d8ae;
+    border: none;
+
+    span {
       color: #524d36;
+    }
+  }
+
+  .button-new-journey {
+    color: #524d36;
+    svg {
+      stroke: #524d36;
     }
   }
 
@@ -131,6 +171,7 @@
     > div {
       border-color: #a49b74;
       border-width: 1px;
+      box-shadow: none;
     }
   }
 
@@ -143,16 +184,51 @@
   }
 
   .sidebar {
-    background-color: #f9eec4;
+    background-color: #fbf1d2;
     border-color: #a49b73;
   }
 
   .datepicker-wrapper {
-    background-color: #f9eec3;
+    background-color: #fbf1d2;
 
     > div > div {
       border-color: #a49b73;
       border-width: 1px;
+    }
+
+    button svg {
+      color: #cbc2a6;
+    }
+
+    > div > div > div > div > div {
+      color: #4d4d4d !important;
+    }
+  }
+
+  .close-sidemenu-button {
+    background: #f9eec4;
+    border: 1px solid #a49b73;
+
+    svg {
+      stroke: #4d4d4d;
+    }
+  }
+
+  .editor-options {
+    .insights-button {
+      svg {
+        stroke: #39d353;
+      }
+    }
+
+    .options-button {
+      svg {
+        color: #524d36;
+      }
+
+      &:hover {
+        background-color: #f9eec4;
+      }
     }
   }
 

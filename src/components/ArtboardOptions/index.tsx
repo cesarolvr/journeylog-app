@@ -20,22 +20,21 @@ const ArtboardOptions = ({
   isOptionsOpened,
   setIsOptionsOpened,
   handleJourneyDeletion,
+  handleJourneyUpdate,
   activeTab,
   setFont,
 }: any) => {
   const [fontSelected, setFontSelected]: any = useState("default");
-  // const [backgroundSelected, setBackgroundSelected]: any = useState("dark");
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     if (activeTab?.theme) {
       setTheme(activeTab?.theme);
-      // setBackgroundSelected(activeTab?.theme)
     }
   }, [activeTab]);
 
   return (
-    <div className="relative">
+    <div className="relative options-panel">
       <div
         className={classNames(
           "fixed w-full h-full cursor-pointer z-[901] bg-[black] md:bg-none backdrop-blur-sm md:backdrop-blur-none bg-opacity-20",
@@ -51,7 +50,7 @@ const ArtboardOptions = ({
 
       <div
         className={classNames(
-          "rounded-xl bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0 absolute md:right-[425px] right-[87%] cursor-pointer z-[903] top-28",
+          "close-options-button rounded-xl bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0 absolute md:right-[425px] right-[87%] cursor-pointer z-[903] top-28",
           {
             block: isOptionsOpened,
             hidden: !isOptionsOpened,
@@ -67,7 +66,7 @@ const ArtboardOptions = ({
 
       <div
         className={classNames(
-          "fixed w-[400px] max-w-[85%] h-full bg-[#1E1E1E] border-l-1 py-10 px-7 overflow-scroll border-[#303030] right-0 top-0 z-[902]",
+          "content fixed w-[400px] max-w-[85%] h-full bg-[#1E1E1E] border-l-1 py-10 px-7 overflow-scroll border-[#303030] right-0 top-0 z-[902]",
           {
             "right-0": isOptionsOpened,
             "right-[-500px]": !isOptionsOpened,
@@ -133,12 +132,13 @@ const ArtboardOptions = ({
         <ul className="flex w-full justify-between items-center py-2 mb-4">
           <li
             onClick={() => {
-              // setBackgroundSelected("dark");
+              setTheme("dark");
+              handleJourneyUpdate("dark");
             }}
             className={classNames(
-              "opacity-30 border-1 border-[#383838] bg-[#171717] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
+              "cursor-pointer border-1 border-[#383838] bg-[#171717] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center h-[104px]",
               {
-                "border-[#6d6d6d]": activeTab?.theme === "dark",
+                "border-[#6d6d6d]": theme === "dark",
               }
             )}
           >
@@ -146,12 +146,13 @@ const ArtboardOptions = ({
           </li>
           <li
             onClick={() => {
-              // setBackgroundSelected("light");
+              setTheme("light");
+              handleJourneyUpdate("light");
             }}
             className={classNames(
-              "opacity-30 border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
+              "cursor-pointer border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center h-[104px]",
               {
-                "border-[#a29e8a]": activeTab?.theme === "light",
+                "border-[#a29e8a]": theme === "light",
               }
             )}
           >
@@ -159,12 +160,12 @@ const ArtboardOptions = ({
           </li>
           <li
             onClick={() => {
-              // setBackgroundSelected("blue");
+              // handleJourneyUpdate("blue");
             }}
             className={classNames(
               "opacity-30 border-1 border-[#383838] bg-[#1E262D] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
               {
-                "border-[#a29e8a]": activeTab?.theme === "blue",
+                "border-[#a29e8a]": theme === "blue",
               }
             )}
           >
@@ -180,7 +181,7 @@ const ArtboardOptions = ({
               Turn on the reminders to be notified about your progress.
             </p>
           </div>
-          <Switch isDisabled={true} aria-label="Automatic updates" />
+          <Switch isDisabled={true} className="switch" aria-label="Automatic updates" />
         </div>
         <div className="flex mb-5 items-start cursor-not-allowed">
           <AlarmClock className="flex-shrink-0 stroke-[#A1A1AA]" />
@@ -194,7 +195,8 @@ const ArtboardOptions = ({
           <Select
             items={[{ key: "cat", label: "Cat" }]}
             placeholder="When?"
-            className="max-w-[100px]"
+            color="default"
+            className="max-w-[100px] select"
             isDisabled={true}
           >
             {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
@@ -212,7 +214,7 @@ const ArtboardOptions = ({
             isDisabled={true}
             items={[{ key: "cat", label: "Cat" }]}
             placeholder="Where?"
-            className="max-w-[100px]"
+            className="max-w-[100px] select"
           >
             {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
           </Select>
@@ -231,7 +233,7 @@ const ArtboardOptions = ({
             Do you want to take a break and keep your streak alive? Just pause
             it.
           </p>
-          <Button variant="bordered" color="default" isDisabled>
+          <Button variant="bordered" color="default" className="text-[#d4d4d8]" isDisabled>
             Pause Journey
           </Button>
         </div>
