@@ -260,7 +260,7 @@ const Sidebar = ({
   return (
     <div
       className={classnames(
-        `w-[260px] h-[100svh] rounded-r-3xl bottom-0 flex-shrink-0 bg-black md:h-[100svh] top-0 px-6 py-6 fixed z-[500] border-r-1 border-[#303030] justify-start sidebar-font-${font.code}`,
+        `sidebar w-[260px] h-[100svh] rounded-r-3xl bottom-0 flex-shrink-0 md:h-[100svh] top-0 px-6 py-6 fixed z-[500] border-r-1 border-y-1 justify-start sidebar-font-${font.code}`,
         {
           "md:translate-x-0 translate-x-[-260px] overflow-visible md:overflow-scroll":
             isOpened,
@@ -271,7 +271,7 @@ const Sidebar = ({
     >
       <div
         className={classnames(
-          "w-full sticky top-0 mb-5 mt-1 md:mt-2 bg-black z-[1000]",
+          "datepicker-wrapper w-full sticky top-0 mb-5 mt-1 md:mt-2 z-[1000] rounded-xl",
           {
             "pointer-events-none": isBlocked,
           }
@@ -354,7 +354,7 @@ const Sidebar = ({
                   });
                 }}
                 className={classnames(
-                  "p-4 flex flex-col relative justify-start cursor-pointer hover:text-white hover:bg-[#212121] bg-[#161616] mb-4 text-[24px] rounded-2xl text-[#424242] h-[130px]",
+                  "sidebar-day p-4 flex flex-col relative justify-start cursor-pointer hover:text-white hover:bg-[#212121] mb-4 text-[24px] rounded-2xl h-[130px]",
                   {
                     "bg-[#212121] text-white": selectedDay === id,
                   }
@@ -399,7 +399,7 @@ const Sidebar = ({
             ) : (
               <p
                 key={index}
-                className="text-[#4d4d4d] z-[1000] mb-4 flex justify-between px-1 sticky top-[40px] bg-black pb-1 pt-2"
+                className="sidebar-note text-[#4d4d4d] z-[1000] mb-4 flex justify-between px-1 sticky top-[40px] pb-1 pt-2"
               >
                 <span>{monthName}</span>
                 <span>{year}</span>

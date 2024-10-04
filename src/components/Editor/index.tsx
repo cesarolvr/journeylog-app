@@ -455,15 +455,15 @@ const App = ({ user }: any) => {
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
       />
       <div
-        className={`${font.class} daybadge-${font.code} fixed z-50 cursor-pointer text-[50px] bottom-[30px] right-[30px] bg-[#171717] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
+        className={`${font.class} daybadge daybadge-${font.code} fixed z-50 cursor-pointer text-[50px] bottom-[30px] right-[30px] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
         onClick={() => setIsOpened(!isOpened)}
       >
         {todayNote.toLocaleString("default", { month: "short" })},{" "}
         {dateSelected?.day}
       </div>
-      <div className="items-start py-5 px-3 md:pl-[270px] md:py-6 w-full justify-start artboard-parent">
+      <div className="items-start py-5 px-3 md:pl-[280px] md:py-6 w-full justify-start artboard-parent">
         <Navbar
-          className="nav_header h-[64px] bg-[#171717] rounded-2xl nav backdrop-filter-none"
+          className="nav-header h-[64px] rounded-2xl nav backdrop-filter-none"
           maxWidth="full"
         >
           <NavbarContent
@@ -480,7 +480,7 @@ const App = ({ user }: any) => {
           <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">
             <div
               className={classNames(
-                "syncer fixed md:relative translate-y-[-80px] transition-transform left-0 right-0 m-auto bg-[#171717] w-[40px] h-[40px] z-[150] flex justify-center rounded-full",
+                "syncer fixed md:relative translate-y-[-80px] transition-transform left-0 right-0 m-auto w-[40px] h-[40px] z-[150] flex justify-center rounded-full",
                 {
                   "active translate-y-[0px]": isLoading,
                 }
@@ -494,7 +494,7 @@ const App = ({ user }: any) => {
                 aria-label="Loading..."
               />
             </div>
-            <NavbarItem className="flex justify-center">
+            <NavbarItem className="flex justify-center z-[300]">
               <Dropdown>
                 <DropdownTrigger>
                   <Avatar
@@ -535,7 +535,7 @@ const App = ({ user }: any) => {
             </NavbarItem>
           </NavbarContent>
         </Navbar>
-        <div className="px-2 md:p-6 pt-3 md:pt-0 w-full artboard flex-col">
+        <div className="md:py-6 pt-3 md:pt-0 w-full artboard flex-col">
           {isReadyToRenderArtboard &&
             journeyTabs &&
             journeyTabs?.length > 0 && (

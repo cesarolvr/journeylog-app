@@ -8,9 +8,10 @@ import {
   IndentIncrease,
   MessageCircleQuestion,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Reenie_Beanie, Nunito_Sans, Cutive_Mono } from "next/font/google";
+import { useTheme } from "next-themes";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: "400" });
 const cutive = Cutive_Mono({ subsets: ["latin"], weight: "400" });
@@ -23,7 +24,15 @@ const ArtboardOptions = ({
   setFont,
 }: any) => {
   const [fontSelected, setFontSelected]: any = useState("default");
-  const [backgroundSelected, setBackgroundSelected]: any = useState("dark");
+  // const [backgroundSelected, setBackgroundSelected]: any = useState("dark");
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    if (activeTab?.theme) {
+      setTheme(activeTab?.theme);
+      // setBackgroundSelected(activeTab?.theme)
+    }
+  }, [activeTab]);
 
   return (
     <div className="relative">
@@ -75,8 +84,7 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131]":
-                  fontSelected === "default",
+                "border-[#6d6d6d] bg-[#313131]": fontSelected === "default",
               }
             )}
           >
@@ -95,8 +103,7 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131]":
-                  fontSelected === "formal",
+                "border-[#6d6d6d] bg-[#313131]": fontSelected === "formal",
               }
             )}
           >
@@ -113,8 +120,7 @@ const ArtboardOptions = ({
             className={classNames(
               "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
               {
-                "border-[#6d6d6d] bg-[#313131]":
-                  fontSelected === "mono",
+                "border-[#6d6d6d] bg-[#313131]": fontSelected === "mono",
               }
             )}
           >
@@ -127,12 +133,12 @@ const ArtboardOptions = ({
         <ul className="flex w-full justify-between items-center py-2 mb-4">
           <li
             onClick={() => {
-              setBackgroundSelected("dark");
+              // setBackgroundSelected("dark");
             }}
             className={classNames(
               "opacity-30 border-1 border-[#383838] bg-[#171717] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
               {
-                "border-[#6d6d6d]": backgroundSelected === "dark",
+                "border-[#6d6d6d]": activeTab?.theme === "dark",
               }
             )}
           >
@@ -140,13 +146,12 @@ const ArtboardOptions = ({
           </li>
           <li
             onClick={() => {
-              setBackgroundSelected("light");
+              // setBackgroundSelected("light");
             }}
             className={classNames(
               "opacity-30 border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
               {
-                "border-[#a29e8a]":
-                  backgroundSelected === "light",
+                "border-[#a29e8a]": activeTab?.theme === "light",
               }
             )}
           >
@@ -154,12 +159,12 @@ const ArtboardOptions = ({
           </li>
           <li
             onClick={() => {
-              setBackgroundSelected("blue");
+              // setBackgroundSelected("blue");
             }}
             className={classNames(
               "opacity-30 border-1 border-[#383838] bg-[#1E262D] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
               {
-                "border-[#a29e8a]": backgroundSelected === "blue",
+                "border-[#a29e8a]": activeTab?.theme === "blue",
               }
             )}
           >
@@ -172,8 +177,7 @@ const ArtboardOptions = ({
           <div className="flex flex-col ml-4">
             <p className="text-[#aaaaaa]">Reminders</p>
             <p className="text-[#525252] text-sm max-w-[250px]">
-              As opposed to using 'Content here, content here', making it look
-              like
+              Turn on the reminders to be notified about your progress.
             </p>
           </div>
           <Switch isDisabled={true} aria-label="Automatic updates" />
@@ -183,8 +187,8 @@ const ArtboardOptions = ({
           <div className="flex flex-col ml-4">
             <p className="text-[#aaaaaa]">Remember me</p>
             <p className="text-[#525252] text-sm max-w-[250px]">
-              As opposed to using 'Content here, content here', making it look
-              like
+              Define a good interval between notifications. Try not to forget
+              but not to be flooded.
             </p>
           </div>
           <Select
@@ -201,8 +205,7 @@ const ArtboardOptions = ({
           <div className="flex flex-col ml-4">
             <p className="text-[#aaaaaa]">Alert me on</p>
             <p className="text-[#525252] text-sm max-w-[250px]">
-              As opposed to using 'Content here, content here', making it look
-              like
+              Choose where you would like to receive notifications.
             </p>
           </div>
           <Select
@@ -225,7 +228,8 @@ const ArtboardOptions = ({
         </div>
         <div className="flex justify-between mb-4 items-center cursor-not-allowed">
           <p className="max-w-[150px] md:max-w-[200px] text-sm text-[#525252]">
-            Habit created? So, it's time to finish this one and go to the next.
+            Do you want to take a break and keep your streak alive? Just pause
+            it.
           </p>
           <Button variant="bordered" color="default" isDisabled>
             Pause Journey
@@ -233,7 +237,7 @@ const ArtboardOptions = ({
         </div>
         <div className="flex justify-between mb-4 items-center">
           <p className="max-w-[150px] md:max-w-[200px] text-sm text-[#525252]">
-            Habit created? So, it's time to finish this one and go to the next.
+            Delete this Journey and all it’s logs if it doesn't make more sense.
           </p>
           <Button
             variant="bordered"

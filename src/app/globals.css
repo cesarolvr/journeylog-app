@@ -31,6 +31,14 @@ html {
   overflow: hidden;
   scroll-behavior: smooth;
   font-family: sans-serif;
+
+  &.light {
+    background-color: #fff7dc;
+  }
+
+  &.dark {
+    background-color: #171717;
+  }
 }
 
 /* NEXT UI REWRITING */
@@ -38,14 +46,14 @@ html {
   flex-grow: unset !important;
 }
 
-.nav_header header {
-  padding-right: 1rem;
+.nav-header header {
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 #tabs {
   z-index: 90;
   position: relative;
-  background-color: #171717;
 }
 
 #tabsButton {
@@ -80,7 +88,8 @@ button.tabJourney > div {
   font-size: 18px !important;
 }
 
-.ch-plugin-calendar-label-text, .ch-domain-text {
+.ch-plugin-calendar-label-text,
+.ch-domain-text {
   font-size: 16px !important;
   fill: #888888;
   color: #888888;

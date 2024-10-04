@@ -28,13 +28,12 @@ const ArtboardTabs = ({
   const lastTabs = journeyTabs?.slice(tabLimit);
 
   return (
-    <NavbarItem className="justify-center flex items-center">
+    <NavbarItem className="artboard-tabs justify-center flex items-center">
       {journeyTabs.length > 0 && (
         <Tabs
           aria-label="Journeys"
           items={firsTabs}
           variant="bordered"
-          // selectedKey={forcedActiveTab}
           className="relative rounded-xl"
           onSelectionChange={(e) => handleTabSelection(e, false)}
           id="tabs"
@@ -47,9 +46,9 @@ const ArtboardTabs = ({
                 id="tabsButton"
                 title={item.name}
                 className={classNames(
-                  `flex items-center align-middle max-w-[120px] text-left tabJourney text-ellipsis`,
+                  `artboart-tab flex items-center align-middle max-w-[120px] text-left tabJourney text-ellipsis`,
                   {
-                    "overflow-hidden": journeyTabs.length === tabLimit,
+                    "overflow-hidden active": journeyTabs.length === tabLimit,
                   }
                 )}
               >

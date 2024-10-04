@@ -10,12 +10,16 @@ import {
 import Editor from "@/components/Editor";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 
 const App = () => {
   const user = useSupaUser();
   const { session, isLoading } = useSessionContext();
   const accessToken = session?.access_token ?? null;
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
+
+  console.log(theme)
 
   const value = {
     accessToken,
@@ -28,13 +32,11 @@ const App = () => {
     if (!user) {
       router.push("/");
     }
-    // setTimeout(() => {
-    // }, 3000);
   }, [isLoading, user]);
 
   return (
     <main
-      className="dark text-foreground w-[100vw]"
+      className={`w-[100vw] ${theme}`}
       suppressHydrationWarning={true}
     >
       {!!user && <Editor {...value} />}

@@ -20,6 +20,7 @@ import {
 } from "lexical";
 import { useCallback, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
+import { Redo, Undo } from "lucide-react";
 
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: "400" });
 
@@ -89,7 +90,10 @@ export default function ToolbarPlugin() {
   }, [editor, $updateToolbar]);
 
   return (
-    <div className={`toolbar ${nunito.className} flex mb-[1px] pb-1 bg-[#171717] w-full pr-[30px] align-middle sticky md:top-[115px] top-[100px] z-[90]`} ref={toolbarRef}>
+    <div
+      className={`toolbar ${nunito.className} flex mb-1 rounded-xl w-full pr-[30px] align-middle sticky md:top-[115px] top-[100px] z-[90]`}
+      ref={toolbarRef}
+    >
       <button
         disabled={!canUndo}
         onClick={() => {
@@ -98,7 +102,7 @@ export default function ToolbarPlugin() {
         className="toolbar-item spaced"
         aria-label="Undo"
       >
-        <i className="format undo" />
+        <Undo />
       </button>
       <button
         disabled={!canRedo}
@@ -108,7 +112,7 @@ export default function ToolbarPlugin() {
         className="toolbar-item"
         aria-label="Redo"
       >
-        <i className="format redo" />
+        <Redo />
       </button>
       <button
         disabled={false}

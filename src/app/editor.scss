@@ -1,9 +1,166 @@
 .editor {
   background-size: 70px 70px;
-  background-image: linear-gradient(to bottom, #1f1f1f 1px, transparent 1px);
   background-position-x: -10px;
   background-position-y: -50px;
   min-height: 100vh;
+}
+
+.dark {
+  .editor {
+    background-image: linear-gradient(to bottom, #1f1f1f 1px, transparent 1px);
+  }
+  .editor-container {
+    color: white;
+  }
+
+  .toolbar {
+    background-color: #171717;
+
+    .toolbar-item .text {
+      color: #777;
+    }
+
+    .toolbar-item svg {
+      stroke: #777;
+    }
+  }
+
+  .nav-header {
+    background-color: #171717;
+  }
+
+  .tabJourney {
+    > div {
+      color: #777;
+    }
+  }
+  
+  #tabs {
+    background-color: #171717;
+    > div {
+      border-color: #777;
+    }
+  }
+
+  .daybadge {
+    background-color: #171717;
+  }
+
+  .syncer {
+    background-color: #171717;
+  }
+
+  .sidebar {
+    background-color: black;
+    border-color: #2e2e2e;
+  }
+
+  .sidebar-day {
+    background-color: #161616;
+    color: #424242;
+  }
+
+  .sidebar-note {
+    background-color: black;
+  }
+
+  .artboard-header {
+    input {
+      color: white;
+    }
+  }
+}
+
+.light {
+  --nextui-primary: #fff7dc !important;
+
+  .editor {
+    background-image: linear-gradient(to bottom, #ddd2a9 1px, transparent 1px);
+  }
+
+  .editor-container {
+    color: #171717;
+  }
+
+  .toolbar {
+    background-color: transparent;
+
+    .toolbar-item .text {
+      color: #817b65;
+    }
+
+    .toolbar-item svg {
+      stroke: #817b65;
+    }
+
+    button.toolbar-item.active {
+      background-color: #ded7c0;
+
+      .text {
+        color: #2c2c2c;
+      }
+    }
+  }
+
+  .sidebar-day {
+    background-color: #e0d5aa;
+    color: #524d37;
+  }
+
+  .sidebar-note {
+    background-color: #f9eec4;
+  }
+
+  .nav-header {
+    background-color: #f9eec4;
+    border-color: #a49b73;
+    border-width: 1px;
+  }
+
+  .tabJourney {
+    > span {
+      background-color: #cdb04f;
+    }
+
+    > div {
+      color: #524d36;
+    }
+  }
+
+  #tabs {
+    > div {
+      border-color: #a49b74;
+      border-width: 1px;
+    }
+  }
+
+  .daybadge {
+    background-color: #f3ebcb;
+  }
+
+  .syncer {
+    background-color: #f3ebcb;
+  }
+
+  .sidebar {
+    background-color: #f9eec4;
+    border-color: #a49b73;
+  }
+
+  .datepicker-wrapper {
+    background-color: #f9eec3;
+
+    > div > div {
+      border-color: #a49b73;
+      border-width: 1px;
+    }
+  }
+
+  .artboard-header {
+    input {
+      color: #2c2c2c;
+    }
+  }
 }
 
 .other h2 {
@@ -43,7 +200,6 @@ h1 {
   padding-left: 0px;
   width: 100%;
   height: 100%;
-  color: white;
   position: relative;
   line-height: 20px;
   font-weight: 400;
@@ -480,7 +636,6 @@ pre::-webkit-scrollbar-thumb {
   width: 200px;
   vertical-align: middle;
   font-size: 14px;
-  color: #777;
   text-overflow: ellipsis;
   width: 70px;
   overflow: hidden;

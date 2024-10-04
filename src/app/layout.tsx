@@ -2,6 +2,7 @@
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import NextUIProvider from "@/providers/NextUIProvider";
 import { Nunito_Sans } from "next/font/google";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "900"] });
 
@@ -28,7 +29,11 @@ export default async function RootLayout({
       />
       <body className="min-h-[100svh]">
         <SupabaseProvider>
-          <NextUIProvider>{children}</NextUIProvider>
+          <NextUIProvider>
+            <NextThemesProvider attribute="class" defaultTheme="dark">
+              {children}
+            </NextThemesProvider>
+          </NextUIProvider>
         </SupabaseProvider>
       </body>
     </html>
