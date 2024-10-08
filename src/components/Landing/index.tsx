@@ -36,7 +36,7 @@ const Landing = ({ user }: any) => {
 
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
-      <header className="flex w-[800px] rounded-3xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2">
+      <header className="flex w-[850px] rounded-3xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2">
         <Image
           src={Logo}
           width={150}
@@ -45,16 +45,16 @@ const Landing = ({ user }: any) => {
         />
         <ul className="flex">
           <li className="md:flex items-center mx-3 hidden">
-            <Link href="">What is it?</Link>
+            <Link href="#the-product">What is it?</Link>
           </li>
           <li className="md:flex items-center mx-3 hidden">
-            <Link href="">Why use it?</Link>
+            <Link href="/purpose">Why use it?</Link>
           </li>
           <li className="md:flex items-center mx-3 hidden">
-            <Link href="">Pricing</Link>
+            <Link href="#pricing">Pricing</Link>
           </li>
           <li className="md:flex items-center mx-3 hidden">
-            <Link href="">FAQ</Link>
+            <Link href="#faq">FAQ</Link>
           </li>
           <li className="flex items-center mx-3">
             {!!user ? (
@@ -67,7 +67,7 @@ const Landing = ({ user }: any) => {
                   }}
                 >
                   Go to the app
-                  <ChevronRight />
+                  <ChevronRight className="mr-[-5px] ml-[-5px]" />
                 </Button>
               </>
             ) : (
@@ -80,7 +80,8 @@ const Landing = ({ user }: any) => {
                     router.push("/sign-in");
                   }}
                 >
-                  Try free
+                  Try now
+                  <ChevronRight className="mr-[-8px] ml-[-5px]" />
                 </Button>
               </>
             )}
@@ -104,24 +105,46 @@ const Landing = ({ user }: any) => {
               className="border-[#39D353] text-[#39D353] font-black"
               variant="bordered"
               size="lg"
-              onClick={(f) => f}
+              onClick={(f) => {
+                router.push("/purpose");
+              }}
             >
-              Know more
+              Our purpose
             </Button>
-            <Button
-              className=" ml-5 bg-[#39D353] text-black font-black"
-              variant="solid"
-              size="lg"
-              onClick={(f) => f}
-            >
-              Try now
-              <ChevronRight />
-            </Button>
+            {!!user ? (
+              <>
+                <Button
+                  className=" ml-5 bg-[#39D353] text-black font-black"
+                  variant="solid"
+                  size="lg"
+                  onClick={(f) => {
+                    router.push("/app");
+                  }}
+                >
+                  Go to the app
+                  <ChevronRight className="mr-[-10px] ml-[-5px]" />
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  className=" ml-5 bg-[#39D353] text-black font-black"
+                  variant="solid"
+                  size="lg"
+                  onClick={(f) => {
+                    router.push("/sign-in");
+                  }}
+                >
+                  Try now
+                  <ChevronRight className="mr-[-10px] ml-[-5px]" />
+                </Button>
+              </>
+            )}
           </div>
           <ChevronDown size="50" className="mt-[10px]" />
         </section>
         <section
-          id="log"
+          id="the-product"
           className="items-center justify-center my-4 md:my-20 inline-flex w-full flex-col md:flex-row"
         >
           <h3 className="text-[25px] md:text-[30px] md:w-[280px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
@@ -156,9 +179,9 @@ const Landing = ({ user }: any) => {
               Fail some day? Don't worry. Consistency is the key.
             </h3>
             <span className="text-[#787878]">
-              To know more about the Journeylog's purpose, read our{" "}
-              <Link className="text-[#27DE55]" href="">
-                manifesto
+              To know more about the Journeylog's purpose,{" "}
+              <Link className="text-[#27DE55] underline" href="/purpose">
+                read our purpose
               </Link>
               .
             </span>
@@ -169,7 +192,7 @@ const Landing = ({ user }: any) => {
           id="day-by-day"
           className="flex justify-center items-center w-full my-4 md:my-20 flex-col md:flex-row"
         >
-          <h3 className="text-[25px] md:text-[30px] md:w-[320px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
+          <h3 className="text-[25px] md:text-[30px] md:w-[320px] md:flex-shrink-0 md:ml-36 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
             Day by day... <br />
             Baby steps... <br />
             Small wins... <br />
@@ -243,14 +266,14 @@ const Landing = ({ user }: any) => {
           <h3 className="md:text-[35px] mb-16 md:mb-20 text-[25px]">
             These people are also creating <br /> different new habits
           </h3>
-          <div className="flex w-[100%] px-20 flex-col md:flex-row justify-center items-center">
+          <div className="m-auto flex w-[100%] md:max-w-[900px] md:px-0 flex-col md:flex-row justify-center items-center md:items-start">
             {[
               {
                 image: Bia,
                 nome: "Beatriz",
                 rate: 5,
-                occupation: "Communications Analyst",
-                text: "I was having a lot of difficulty maintaining consistency at the gym. I started logging the times I went, and the frequency view in Journeylog became a motivator. Amazing app!",
+                occupation: "Business Analyst",
+                text: "I was having a lot of difficulty maintaining consistency at the gym. I started logging the times I went, and the frequency view became a motivator. Amazing app!",
               },
               {
                 image: Bruno,
@@ -268,7 +291,7 @@ const Landing = ({ user }: any) => {
               },
             ].map(({ image, nome, rate, occupation, text }) => {
               return (
-                <Card className="py-8 px-6 w-[370px] rounded-[40px] bg-[#2C2C2C] md:mx-6 mb-20 overflow-visible">
+                <Card className="py-8 px-2 w-[370px] max-w-[80%] md:max-w-none rounded-[40px] bg-[#2C2C2C] md:mx-3 mb-20 overflow-visible">
                   <CardHeader className="pb-0 pt-2 px-4 flex-col items-center justify-center ">
                     <Image
                       src={image}
@@ -277,8 +300,10 @@ const Landing = ({ user }: any) => {
                       alt={nome}
                       className="mb-4 mt-[-70px]"
                     />
-                    <p className="text-[20px]">{nome}</p>
-                    <p className="text-default-500 mb-2">{occupation}</p>
+                    <p className="text-[18px]">{nome}</p>
+                    <p className="text-default-500 text-[16px] mb-2">
+                      {occupation}
+                    </p>
                     <svg
                       width="145"
                       height="26"
@@ -324,8 +349,8 @@ const Landing = ({ user }: any) => {
                       />
                     </svg>
                   </CardHeader>
-                  <CardBody className="overflow-visible py-2">
-                    <p className="text-center text-[18px] leading-7">
+                  <CardBody className="overflow-visible py-1">
+                    <p className="text-center text-[16px] text-[#bdbdbd] leading-7">
                       "{text}"
                     </p>
                   </CardBody>
@@ -335,12 +360,12 @@ const Landing = ({ user }: any) => {
           </div>
         </section>
         <section
-          id="faq"
-          className="justify-center items-center text-center  w-[80%] m-auto px-10"
+          id="pricing"
+          className="justify-center items-center text-center w-[80%] m-auto px-10"
         >
           <h3 className="text-[40px] font-black mb-10 md:mb-36">Pricing</h3>
           <div className="flex items-center justify-center">
-            <div className="cards flex bg-[#1B1B1B] rounded-3xl p-10 md:flex-row flex-col-reverse">
+            <div className="cards flex bg-[#1B1B1B] rounded-3xl max-w-[1100px] p-10 md:flex-row flex-col-reverse">
               <div className="text-left p-10 pr-14 mb-10 md:mb-0">
                 <p className="text-[45px] flex relative font-black items-end mb-6">
                   $0
@@ -561,23 +586,23 @@ const Landing = ({ user }: any) => {
         </section>
         <section
           id="faq"
-          className="justify-center items-center text-center  mt-20 md:mt-24 md:my-[150px] w-[100%]"
+          className="justify-center items-center text-center mt-20 md:mt-24 md:my-[150px] w-[100%]"
         >
           <h3 className="text-[40px] font-black mb-8">FAQ</h3>
-          <div className="w-[85%] flex items-center justify-center m-auto">
+          <div className="w-[95%] md:max-w-[900px] flex items-center justify-center m-auto">
             <Accordion
               showDivider={false}
               selectionMode="multiple"
               itemClasses={{
-                title: "text-[25px] text-left",
-                content: "text-left text-[20px] py-4 pb-8 text-[#595959]",
+                title: "text-[22px] md:text-[25px] text-left",
+                content: "text-left text-[20px] py-2 pb-8 text-[#595959]",
               }}
             >
               <AccordionItem
                 key="1"
                 aria-label="Why would I use it?"
                 title="Why would I use it?"
-                className="rounded-[30px] px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
+                className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
                 {defaultContent}
               </AccordionItem>
@@ -585,7 +610,7 @@ const Landing = ({ user }: any) => {
                 key="2"
                 aria-label="It's possible to create a habit using this app?"
                 title="It's possible to create a habit using this app?"
-                className="rounded-[30px] px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
+                className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
                 {defaultContent}
               </AccordionItem>
@@ -593,23 +618,23 @@ const Landing = ({ user }: any) => {
                 key="3"
                 aria-label="Where and how can I use Journeylog?"
                 title="Where and how can I use Journeylog?"
-                className="rounded-[30px] px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
+                className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
                 {defaultContent}
               </AccordionItem>
               <AccordionItem
-                key="3"
+                key="4"
                 aria-label="It's an app for iOS or Android?"
                 title="It's an app for iOS or Android?"
-                className="rounded-[30px] px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
+                className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
                 {defaultContent}
               </AccordionItem>
               <AccordionItem
-                key="3"
+                key="5"
                 aria-label="It's free?"
                 title="It's free?"
-                className="rounded-[30px] px-8 py-4 text-[30px] mb-5 bg-[#1B1B1B]"
+                className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
                 {defaultContent}
               </AccordionItem>

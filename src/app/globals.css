@@ -27,6 +27,7 @@ a span::selection {
 
 html {
   width: 100vw;
+  scroll-behavior: smooth;
   height: 100vh;
   overflow: hidden;
   scroll-behavior: smooth;
