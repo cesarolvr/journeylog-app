@@ -41,7 +41,7 @@ const Landing = ({ user }: any) => {
           src={Logo}
           width={150}
           alt="Logo"
-          className="ml-4 w-[130px] md:w-[150px]"
+          className="md:ml-4 ml-2 w-[130px] md:w-[150px]"
         />
         <ul className="flex">
           <li className="md:flex items-center mx-3 hidden">
@@ -56,18 +56,18 @@ const Landing = ({ user }: any) => {
           <li className="md:flex items-center mx-3 hidden">
             <Link href="#faq">FAQ</Link>
           </li>
-          <li className="flex items-center mx-3">
+          <li className="flex items-center mx-3 mr-1">
             {!!user ? (
               <>
                 <Button
-                  className={`border-[#39D353] text-[#39D353] font-black pr-2 md:max-w-[150px] max-w-[130px]`}
+                  className={`border-[#39D353] text-[#39D353] font-black pr-2 md:max-w-[150px] max-w-[140px]`}
                   variant="bordered"
                   onClick={(f) => {
                     router.push("/app");
                   }}
                 >
                   Go to the app
-                  <ChevronRight className="mr-[-5px] ml-[-5px]" />
+                  <ChevronRight className="md:mr-[-5px] ml-[-5px] shrink-0" />
                 </Button>
               </>
             ) : (
@@ -93,10 +93,10 @@ const Landing = ({ user }: any) => {
           id="hero"
           className="h-[70vh] justify-center px-2 text-center flex flex-col items-center my-20"
         >
-          <h1 className="text-[40px] max-w-[90%] leading-[40px] md:leading-[65px] md:text-[65px] mb-6 font-black text-white mt-[100px]">
+          <h1 className="text-[40px] max-w-[90%] leading-[40px] md:leading-[65px] md:text-[65px] mb-6 font-black text-white md:mt-[100px] mt-[70px]">
             Build good habits as a diary
           </h1>
-          <h2 className="text-[18px] md:text-[24px] mb-10 text-white max-w-[70%] md:max-w-[700px] font-thin">
+          <h2 className="text-[18px] md:text-[24px] mb-10 text-white max-w-[80%] md:max-w-[700px] font-thin">
             Log your routine until become automatic and effortless. Consistently
             instead a perfect streak.
           </h2>
@@ -122,7 +122,7 @@ const Landing = ({ user }: any) => {
                   }}
                 >
                   Go to the app
-                  <ChevronRight className="mr-[-10px] ml-[-5px]" />
+                  <ChevronRight className="mr-[-16px] ml-[-5px]" />
                 </Button>
               </>
             ) : (
@@ -365,7 +365,7 @@ const Landing = ({ user }: any) => {
         >
           <h3 className="text-[40px] font-black mb-10 md:mb-36">Pricing</h3>
           <div className="flex items-center justify-center">
-            <div className="cards flex bg-[#1B1B1B] rounded-3xl max-w-[1100px] p-10 md:flex-row flex-col-reverse">
+            <div className="cards flex md:bg-[#1B1B1B] rounded-3xl max-w-[1100px] p-10 md:flex-row flex-col-reverse">
               <div className="text-left p-10 pr-14 mb-10 md:mb-0">
                 <p className="text-[45px] flex relative font-black items-end mb-6">
                   $0
