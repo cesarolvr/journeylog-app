@@ -31,6 +31,10 @@ const ArtboardOptions = ({
     if (activeTab?.theme) {
       setTheme(activeTab?.theme);
     }
+
+    if (activeTab?.font) {
+      setFontSelected(activeTab?.font);
+    }
   }, [activeTab]);
 
   return (
@@ -78,6 +82,7 @@ const ArtboardOptions = ({
           <li
             onClick={() => {
               setFontSelected("default");
+              handleJourneyUpdate({ font: "default" });
               setFont({ class: reenie.className, code: 1 });
             }}
             className={classNames(
@@ -97,6 +102,7 @@ const ArtboardOptions = ({
           <li
             onClick={() => {
               setFontSelected("formal");
+              handleJourneyUpdate({ font: "formal" });
               setFont({ class: nunito.className, code: 2 });
             }}
             className={classNames(
@@ -114,6 +120,7 @@ const ArtboardOptions = ({
           <li
             onClick={() => {
               setFontSelected("mono");
+              handleJourneyUpdate({ font: "mono" });
               setFont({ class: cutive.className, code: 3 });
             }}
             className={classNames(
@@ -133,7 +140,7 @@ const ArtboardOptions = ({
           <li
             onClick={() => {
               setTheme("dark");
-              handleJourneyUpdate("dark");
+              handleJourneyUpdate({ theme: "dark" });
             }}
             className={classNames(
               "cursor-pointer border-1 border-[#383838] bg-[#171717] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center md:h-[104px] h-[95px]",
@@ -147,7 +154,7 @@ const ArtboardOptions = ({
           <li
             onClick={() => {
               setTheme("light");
-              handleJourneyUpdate("light");
+              handleJourneyUpdate({ theme: "light" });
             }}
             className={classNames(
               "cursor-pointer border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center md:h-[104px] h-[95px]",
@@ -160,7 +167,7 @@ const ArtboardOptions = ({
           </li>
           <li
             onClick={() => {
-              // handleJourneyUpdate("blue");
+              // handleJourneyUpdate({theme: "blue"});
             }}
             className={classNames(
               "opacity-30 border-1 border-[#383838] bg-[#1E262D] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed md:h-[104px] h-[95px]",
@@ -181,7 +188,11 @@ const ArtboardOptions = ({
               Turn on the reminders to be notified about your progress.
             </p>
           </div>
-          <Switch isDisabled={true} className="switch" aria-label="Automatic updates" />
+          <Switch
+            isDisabled={true}
+            className="switch"
+            aria-label="Automatic updates"
+          />
         </div>
         <div className="flex mb-5 items-start cursor-not-allowed">
           <AlarmClock className="flex-shrink-0 stroke-[#A1A1AA]" />
@@ -233,7 +244,12 @@ const ArtboardOptions = ({
             Do you want to take a break and keep your streak alive? Just pause
             it.
           </p>
-          <Button variant="bordered" color="default" className="text-[#d4d4d8]" isDisabled>
+          <Button
+            variant="bordered"
+            color="default"
+            className="text-[#d4d4d8]"
+            isDisabled
+          >
             Pause Journey
           </Button>
         </div>

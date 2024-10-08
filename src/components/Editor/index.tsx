@@ -6,8 +6,10 @@ import { DateTime } from "luxon";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
 
-import { Reenie_Beanie } from "next/font/google";
+import { Reenie_Beanie, Nunito_Sans, Cutive_Mono } from "next/font/google";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
+const nunito = Nunito_Sans({ subsets: ["latin"], weight: "400" });
+const cutive = Cutive_Mono({ subsets: ["latin"], weight: "400" });
 
 import { getLocalTimeZone, today as todayDate } from "@internationalized/date";
 
@@ -162,10 +164,10 @@ const App = ({ user }: any) => {
     }
   }, 4000);
 
-  const handleJourneyUpdate = debounce(async (theme: any) => {
+  const handleJourneyUpdate = debounce(async ({ theme, font }: any) => {
     const { error, data: updatedJourney } = await supabaseClient
       .from("journey")
-      .update({ theme: theme })
+      .update({ theme: theme || "dark", font: font || "default" })
       .eq("id", activeTab?.id);
   }, 1000);
 
@@ -416,6 +418,17 @@ const App = ({ user }: any) => {
   useEffect(() => {
     getTabs();
   }, []);
+
+  useEffect(() => {
+    if (activeTab?.font) {
+      const dictionaryFont: any = {
+        default: { class: reenie.className, code: 1 },
+        formal: { class: nunito.className, code: 2 },
+        mono: { class: cutive.className, code: 3 },
+      };
+      setFont(dictionaryFont[activeTab?.font]);
+    }
+  }, [activeTab]);
 
   const todayNote = new Date(
     dateSelected?.year,
