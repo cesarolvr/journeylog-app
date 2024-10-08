@@ -141,18 +141,24 @@ const ArtboardInsights = ({
         ],
       ]
     );
+
+    const timeout = setTimeout(() => {
+      const todayElement = document.querySelector("#cal-heatmap .highlight");
+      if (todayElement) {
+        todayElement.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "start",
+        });
+      }
+    }, 2000);
     const days = getDaysInARow();
     days && setDaysInARow(days);
-  }, [frequency]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      const todayElement = document.querySelector(".highlight");
-      if (todayElement) {
-        todayElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" });
-      }
-    }, 3000);
-  }, []);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [frequency]);
 
   const lastTirtyDays = Array.from(Array(30).keys());
   const lastSevenDays = Array.from(Array(7).keys());
