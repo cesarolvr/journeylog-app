@@ -80,6 +80,14 @@
 .light {
   --nextui-primary: #fff7dc !important;
 
+  main {
+    // background-color: red;
+  }
+
+  .bg-content1 {
+    // background-color: red;
+  }
+
   .editor {
     background-image: linear-gradient(to bottom, #ddd2a9 1px, transparent 1px);
   }
@@ -115,6 +123,10 @@
   .sidebar-day {
     background-color: #f0e5c2;
     color: #524d37;
+
+    &.featured-day {
+      background-color: #e4d8b4;
+    }
   }
 
   ::selection {
@@ -162,7 +174,10 @@
 
     > div {
       color: #524d36 !important;
-      // background-color: #e3d8b5;
+    }
+
+    .extra {
+      background-color: #ebe2c2;
     }
   }
 

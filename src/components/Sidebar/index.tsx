@@ -356,7 +356,7 @@ const Sidebar = ({
                 className={classnames(
                   "sidebar-day p-4 flex flex-col relative justify-start cursor-pointer hover:text-white hover:bg-[#212121] mb-4 text-[24px] rounded-2xl h-[130px]",
                   {
-                    "bg-[#212121] text-white": selectedDay === id,
+                    "bg-[#212121] text-white featured-day": selectedDay === id,
                   }
                 )}
               >

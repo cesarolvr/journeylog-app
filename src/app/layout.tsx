@@ -7,7 +7,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "900"] });
 
 // Styles
-import "./globals.css";
+import "./globals.scss";
 import "./editor.scss";
 
 export default async function RootLayout({

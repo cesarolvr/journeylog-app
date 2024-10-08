@@ -36,7 +36,13 @@ import ArtboardHeader from "../ArtboardHeader";
 import ArtboardTabs from "../ArtboardTabs";
 import ArtboardOptions from "../ArtboardOptions";
 import ArtboardInsights from "../ArtboardInsights";
-import { ArrowLeftFromLine, ArrowUpRight, LogOut, User } from "lucide-react";
+import {
+  ArrowLeftFromLine,
+  ArrowUpRight,
+  ChevronRight,
+  LogOut,
+  User,
+} from "lucide-react";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
@@ -595,7 +601,7 @@ const App = ({ user }: any) => {
               {!isLoading && (
                 <div className="flex flex-col w-full h-full justify-center md:pl-16">
                   <h1
-                    className={`${font.class} text-[60px] text-[#969696] mb-[40px] leading-[60px] w-[460px] max-w-full`}
+                    className={`${font.class} text-[40px] text-[#969696] mb-[20px] leading-[40px] w-[400px] max-w-full`}
                   >
                     Start by creating your new habit journey
                   </h1>
@@ -653,24 +659,30 @@ const App = ({ user }: any) => {
                       📚 To read consistently
                     </Button>
                   </div>
-                  <p className={`text-[16px] text-[#454545] my-[30px] mb-5`}>
+                  <p
+                    className={`text-[16px] text-[#454545] my-[30px] mb-5 mt-2`}
+                  >
                     Or create yours:
                   </p>
                   <div>
                     <input
                       disabled={true}
-                      className="px-4 py-2 text-lg bg-[#1f1f1f] border-1 border-[#454545] border-r-0 rounded-l-xl h-[50px] outline-none"
+                      className="px-4 py-2 text-lg placeholder-gray-500 bg-[#1f1f1f] mb-4 mr-4 rounded-xl h-[50px] outline-none"
                       value={newJourneyTitle}
                       onChange={(e) => setNewJourneyTitle(e?.target?.value)}
                     />
                     <Button
                       disabled={true}
                       variant="bordered"
-                      className="rounded-l-none bg-[#343434] border-[#343434] h-[50px] text-lg px-6"
+                      className="bg-[#343434] border-[#343434] h-[50px] text-lg px-6"
                     >
-                      Start
+                      Create
+                      <ChevronRight />
                     </Button>
                   </div>
+                  <br />
+                  <br />
+                  <br />
                 </div>
               )}
             </div>
