@@ -55,7 +55,7 @@ const ArtboardTabs = ({
                 {journeyTabs.length > tabLimit ? (
                   <Dropdown className="p-0 h-full">
                     <DropdownTrigger className="p-0 h-full" id="tabsPlus">
-                      <div className="border-0 rounded-lg p-0 px-3 py-2 pl-6 ml-[-20px] flex align-middle items-center border-[#222222] bg-[#222222] cursor-pointer	 relative z-10 rounded-l-none border-l-0 h-full">
+                      <div className="extra border-0 rounded-lg p-0 px-3 py-2 pl-6 ml-[-20px] flex align-middle items-center border-[#222222] cursor-pointer	 relative z-10 rounded-l-none border-l-0 h-full">
                         +{lastTabs.length}
                       </div>
                     </DropdownTrigger>

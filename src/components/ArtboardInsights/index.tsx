@@ -145,6 +145,15 @@ const ArtboardInsights = ({
     days && setDaysInARow(days);
   }, [frequency]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      const todayElement = document.querySelector(".highlight");
+      if (todayElement) {
+        todayElement.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" });
+      }
+    }, 3000);
+  }, []);
+
   const lastTirtyDays = Array.from(Array(30).keys());
   const lastSevenDays = Array.from(Array(7).keys());
 
@@ -281,7 +290,10 @@ const ArtboardInsights = ({
             <ul className="flex w-full justify-between">
               {lastSevenDays.map((item, index) => {
                 return (
-                  <li key={index} className="w-[63px] rounded-lg p-[5px] mx-[2px] h-[196px] bg-[#3E3E3E]"></li>
+                  <li
+                    key={index}
+                    className="w-[63px] rounded-lg p-[5px] mx-[2px] h-[196px] bg-[#3E3E3E]"
+                  ></li>
                 );
               })}
             </ul>

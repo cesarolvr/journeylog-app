@@ -50,7 +50,7 @@ const ArtboardOptions = ({
 
       <div
         className={classNames(
-          "close-options-button rounded-xl bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0 absolute md:right-[425px] right-[87%] cursor-pointer z-[903] top-28",
+          "close-options-button rounded-xl bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0 absolute md:right-[425px] right-[86%] cursor-pointer z-[903] top-28",
           {
             block: isOptionsOpened,
             hidden: !isOptionsOpened,
@@ -66,7 +66,7 @@ const ArtboardOptions = ({
 
       <div
         className={classNames(
-          "content fixed w-[400px] max-w-[85%] h-full bg-[#1E1E1E] border-l-1 py-10 px-7 overflow-scroll border-[#303030] right-0 top-0 z-[902]",
+          "content fixed w-[400px] max-w-[85%] h-full bg-[#1E1E1E] border-l-1 py-10 px-5 md:px-7 overflow-scroll border-[#303030] right-0 top-0 z-[902]",
           {
             "right-0": isOptionsOpened,
             "right-[-500px]": !isOptionsOpened,
@@ -81,7 +81,7 @@ const ArtboardOptions = ({
               setFont({ class: reenie.className, code: 1 });
             }}
             className={classNames(
-              "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
+              "border-1 border-[#383838] px-4 py-4 md:py-6 justify-center rounded-2xl w-[31%] md:w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] md:h-[104px] h-[95px]",
               {
                 "border-[#6d6d6d] bg-[#313131]": fontSelected === "default",
               }
@@ -100,7 +100,7 @@ const ArtboardOptions = ({
               setFont({ class: nunito.className, code: 2 });
             }}
             className={classNames(
-              "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
+              "border-1 border-[#383838] px-4 py-4 md:py-6 justify-center rounded-2xl w-[31%] md:w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] md:h-[104px] h-[95px]",
               {
                 "border-[#6d6d6d] bg-[#313131]": fontSelected === "formal",
               }
@@ -117,7 +117,7 @@ const ArtboardOptions = ({
               setFont({ class: cutive.className, code: 3 });
             }}
             className={classNames(
-              "border-1 border-[#383838] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] h-[104px]",
+              "border-1 border-[#383838] px-4 py-4 md:py-6 justify-center rounded-2xl w-[31%] md:w-[30%] flex flex-col items-center cursor-pointer hover:bg-[#313131] md:h-[104px] h-[95px]",
               {
                 "border-[#6d6d6d] bg-[#313131]": fontSelected === "mono",
               }
@@ -136,7 +136,7 @@ const ArtboardOptions = ({
               handleJourneyUpdate("dark");
             }}
             className={classNames(
-              "cursor-pointer border-1 border-[#383838] bg-[#171717] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center h-[104px]",
+              "cursor-pointer border-1 border-[#383838] bg-[#171717] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center md:h-[104px] h-[95px]",
               {
                 "border-[#6d6d6d]": theme === "dark",
               }
@@ -150,7 +150,7 @@ const ArtboardOptions = ({
               handleJourneyUpdate("light");
             }}
             className={classNames(
-              "cursor-pointer border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center h-[104px]",
+              "cursor-pointer border-1 border-[#383838] bg-[#F3EDD1] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center md:h-[104px] h-[95px]",
               {
                 "border-[#a29e8a]": theme === "light",
               }
@@ -163,7 +163,7 @@ const ArtboardOptions = ({
               // handleJourneyUpdate("blue");
             }}
             className={classNames(
-              "opacity-30 border-1 border-[#383838] bg-[#1E262D] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed h-[104px]",
+              "opacity-30 border-1 border-[#383838] bg-[#1E262D] px-4 py-6 rounded-2xl w-[30%] flex flex-col items-center justify-center cursor-not-allowed md:h-[104px] h-[95px]",
               {
                 "border-[#a29e8a]": theme === "blue",
               }

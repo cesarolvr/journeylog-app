@@ -1,7 +1,7 @@
 .editor {
-  background-size: 70px 70px;
+  background-size: 40px 45px;
   background-position-x: -10px;
-  background-position-y: -50px;
+  background-position-y: -40px;
   min-height: 100vh;
 }
 
@@ -26,11 +26,12 @@
   }
 
   .nav-header {
-    background-color: #171717;
+    background-color: transparent;
   }
 
   .tabJourney {
-    > div {
+    .extra {
+      background-color: #222222;
       color: #777;
     }
   }
@@ -98,8 +99,12 @@
       stroke: #817b65;
     }
 
+    button.toolbar-item:hover:not([disabled]) {
+      background-color: #f3ebcb;
+    }
+
     button.toolbar-item.active {
-      background-color: #ded7c0;
+      background-color: #f3ebcb;
 
       .text {
         color: #2c2c2c;
@@ -112,6 +117,11 @@
     color: #524d37;
   }
 
+  ::selection {
+    color: #2c2c2c;
+    background-color: #e2d7b4;
+  }
+
   .switch {
     span {
       background-color: #47474b;
@@ -119,6 +129,10 @@
         background-color: #fff;
       }
     }
+  }
+
+  .editor-placeholder {
+    color: #c8c1a9;
   }
 
   .select {
@@ -136,7 +150,7 @@
   }
 
   .nav-header {
-    background-color: #fbf1d2;
+    background-color: transparent;
     border-color: transparent;
   }
 
@@ -148,6 +162,7 @@
 
     > div {
       color: #524d36 !important;
+      background-color: #e3d8b5;
     }
   }
 
@@ -172,6 +187,7 @@
       border-color: #a49b74;
       border-width: 1px;
       box-shadow: none;
+      background-color: #fbf1d2;
     }
   }
 
