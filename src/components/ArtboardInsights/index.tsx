@@ -322,18 +322,22 @@ const ArtboardInsights = ({
             <p>Habit consistency</p>
             <span className="text-[#656565]">Last 30 days</span>
           </div>
-          <div className="w-full mb-7 overflow-scroll px-7 relative">
+          <div className="w-full mb-16 px-7 relative">
             {isPro ? (
-              <ul className="flex w-full justify-between relative">
-                {lastTirtyDaysFormatted.map(({ value }, index) => {
+              <ul className="flex w-full justify-between relative overflow-visible">
+                {lastTirtyDaysFormatted.map(({ value, date }, index) => {
+                  const dayFormatted = new Date(date)?.getDate();
                   return (
                     <li
                       key={index}
-                      className={`relative rounded-lg p-[5px] mx-[2px] h-[80px] bg-[#3E3E3E] overflow-hidden`}
+                      className={`relative p-[5px] mx-[2px] h-[80px] bg-[#3E3E3E] rounded-lg overflow-visible`}
                     >
+                      <span className="absolute bottom-[-30px] left-0 right-0 text-center justify-center opacity-40 m-auto inline-flex">
+                        <p>{dayFormatted % 2 ? dayFormatted : null}</p>
+                      </span>
                       <span
                         className={classNames(
-                          "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full",
+                          "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full rounded-lg",
                           {
                             "opacity-0": !value,
                             "opacity-25": value && value > 0,
@@ -377,12 +381,16 @@ const ArtboardInsights = ({
           <div className="w-full mb-7 relative">
             {isPro ? (
               <ul className="flex w-full justify-between relative gap-2">
-                {lastSevenDaysFormatted.map(({ value }, index) => {
+                {lastSevenDaysFormatted.map(({ value, date }, index) => {
+                  const dayFormatted = new Date(date)?.getDate();
                   return (
                     <li
                       key={index}
                       className={`relative rounded-lg p-[5px] w-full h-[196px] bg-[#3E3E3E] overflow-hidden`}
                     >
+                      <span className="absolute top-[10px] left-0 right-0 w-full text-center opacity-40">
+                        {dayFormatted}
+                      </span>
                       <div
                         className={classNames(
                           "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 rounded-lg",
