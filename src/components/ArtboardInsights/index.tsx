@@ -164,7 +164,29 @@ const ArtboardInsights = ({
     };
   }, [frequency]);
 
-  const lastTirtyDays = Array.from(Array(30).keys());
+  const lastTirtyDays = Array.from(Array(31).keys());
+  const lastTirtyDaysFormatted = lastTirtyDays.map((item, index) => {
+    const currentDate = DateTime.fromJSDate(new Date())
+      .set({ hour: 0, minute: 0, second: 0 })
+      .minus({ day: 30 - index })
+      .toUTC()
+      .toISO();
+
+    const sameDaySelected = frequency.find(({ date, value }, index) => {
+      const currentLoopItem = currentDate?.split("T")[0];
+      if (currentLoopItem === date)
+        return {
+          date,
+          value,
+        };
+    });
+
+    if (sameDaySelected) {
+      return { index: item, date: currentDate, value: sameDaySelected?.value };
+    }
+
+    return { index: item, date: currentDate };
+  });
   const lastSevenDays = Array.from(Array(7).keys());
 
   return (
@@ -258,7 +280,7 @@ const ArtboardInsights = ({
             </Select>
           </div>
           <div className="w-full overflow-scroll pl-7 pr-8 mb-7">
-            <div className="flex">
+            {/* <div className="flex">
               {isInsightsOpened && !isLoading ? (
                 <>
                   <div id="cal-heatmap" className="mr-6 flex-shrink-0"></div>
@@ -269,7 +291,7 @@ const ArtboardInsights = ({
                   <CircularProgress aria-label="Loading..." />
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="mb-10 relative">
@@ -279,7 +301,24 @@ const ArtboardInsights = ({
           </div>
           <div className="w-full mb-7 overflow-scroll px-7 relative">
             {isPro ? (
-              <>Graph</>
+              <ul className="flex w-full justify-between relative">
+                {lastTirtyDaysFormatted.map(({ value }, index) => {
+                  console.log(value);
+                  return (
+                    <li
+                      key={index}
+                      className={`relative rounded-lg p-[5px] mx-[2px] h-[80px] bg-[#3E3E3E] overflow-hidden`}
+                    >
+                      <span className={classNames("bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full", {
+                        "opacity-0": !value,
+                        "opacity-25": value && value > 0,
+                        "opacity-50": value && value > 4,
+                        "opacity-75": value && value > 10,
+                      })}></span>
+                    </li>
+                  );
+                })}
+              </ul>
             ) : (
               <>
                 <div className="feature-locker absolute inset-0 mx-7 z-50 rounded-lg bg-[rgba(30, 30, 30, 0.6))] flex items-center justify-center backdrop-blur-lg	 border-[#444444]">

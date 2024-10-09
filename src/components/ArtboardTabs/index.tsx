@@ -86,7 +86,9 @@ const ArtboardTabs = ({
       )}
       {journeyTabs.length > 0 && (
         <Button
-          onClick={() => handleCreateJourney()}
+          onClick={() => {
+            handleCreateJourney()
+          }}
           className="button-new-journey w-auto bg-transparent px-0 border-none min-w-0 h-full pl-2"
           variant="bordered"
         >

@@ -432,8 +432,6 @@ const App = ({ user, subscriptionInfo }: any) => {
     }
   }, [activeTab]);
 
-  console.log(subscriptionInfo);
-
   const todayNote = new Date(
     dateSelected?.year,
     dateSelected?.month - 1,

@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
     event.data.object.payment_status === "paid"
   ) {
     const metadata = event.data.object.metadata;
-    console.log('metadata', metadata)
     if (metadata) {
       const res = await supabaseServerClient
         .from("users")
