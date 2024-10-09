@@ -1,35 +1,16 @@
 import { stripe } from "@/services/stripe";
-import { createServerClient } from '@supabase/ssr'
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { headers, cookies } from "next/headers";
-import { DateTime } from "luxon";
+import { headers } from "next/headers";
+import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
   const signature = headers().get("Stripe-Signature") as string;
   let event: Stripe.Event;
-  const cookieStore = cookies()
 
-  const supabaseServerClient = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
-    cookies: {
-      getAll() {
-        return cookieStore.getAll()
-      },
-      setAll(cookiesToSet) {
-        try {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          )
-        } catch {
-          console.log('error on set cookie')
-        }
-      },
-    },
-  })
+  const supabaseServerClient = createClient()
 
   try {
     event = stripe.webhooks.constructEvent(
@@ -47,13 +28,15 @@ export async function POST(request: NextRequest) {
     event.data.object.payment_status === "paid"
   ) {
     const metadata = event.data.object.metadata;
+    console.log('metadata', metadata)
     if (metadata) {
       const res = await supabaseServerClient
         .from("users")
         .update({ subscription: "habit_maker" })
         .eq("id", metadata?.userId)
         .select()
-      console.log('dddd', res)
+
+        console.log('res', res)
       // const userId = metadata.userId;
       // await db
       //   .update(users)
