@@ -261,7 +261,7 @@ const ArtboardInsights = ({
             <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 pl-0 text-[#fff] ml-7">
               <div className="text-5xl font-bold">
                 {daysInARow ? (
-                  daysInARow
+                  String(daysInARow).padStart(2, "0")
                 ) : (
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
@@ -271,7 +271,7 @@ const ArtboardInsights = ({
             <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]">
               <div className="text-5xl font-bold">
                 {frequency?.length ? (
-                  frequency?.length
+                  String(frequency?.length).padStart(2, "0")
                 ) : (
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
@@ -281,7 +281,7 @@ const ArtboardInsights = ({
             <li className="flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]">
               <div className="text-5xl font-bold">
                 {daysFromTheBeginning ? (
-                  daysFromTheBeginning
+                  String(daysFromTheBeginning).padStart(2, "0")
                 ) : (
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
