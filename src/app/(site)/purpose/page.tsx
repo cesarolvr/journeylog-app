@@ -1,29 +1,44 @@
 "use client";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import LOGO from "../../../images/logo.svg";
+import LOGO from "../../../images/logoFull.svg";
 
 // Styles
 import "./purpose.scss";
 
 import { Reenie_Beanie } from "next/font/google";
+import { Button } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 
 const Purpose = () => {
+  const router = useRouter();
   return (
-    <div className="p-6 flex justify-center items-start w-[100svw] h-[100svh] bg-[#171717]">
-      <Link className="fixed top-[30px] left-[20px] flex" href="/">
-        <ChevronLeft />
-        Back to home
-      </Link>
+    <div className="p-6 flex flex-col w-[100svw] h-[100svh] bg-[#171717]">
+      <header className="flex w-[850px] rounded-3xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2 mb-20">
+        <Image
+          src={LOGO}
+          width={150}
+          alt="Logo"
+          className="md:ml-4 ml-2 w-[130px] md:w-[150px]"
+        />
+        <ul className="flex">
+          <li className="md:flex items-center mx-3 hidden">
+            <Link className="flex" href="/">
+              <ChevronLeft />
+              Back to home
+            </Link>
+          </li>
+        </ul>
+      </header>
       <div className="w-full max-w-[100%] flex-col auth flex items-center justify-center">
-        <p
+        {/* <p
           className={`text-white ${reenie.className} text-[50px] mt-24 mb-8 flex`}
         >
           Journeylog
           <Image src={LOGO} alt="" className="mt-[-25px] w-[40px] ml-3" />
-        </p>
+        </p> */}
         <div className="w-[600px] max-w-[95%] text-center mt-5 md:mt-0">
           <h1 className="md:text-[65px] text-[40px] leading-[40px] font-bold mb-5 md:mb-10 text-[white]">
             Our purpose
@@ -50,10 +65,20 @@ const Purpose = () => {
             I started logging the times I went, and the frequency view in
             Journeylog became a motivator.
           </p>
-          <Link className="flex mb-28 text-center w-full items-center justify-center text-[#b7b7b7]" href="/">
-            <ChevronLeft />
-            Back to home
-          </Link>
+          <Button
+            className={`bg-[#39D353] font-black text-[black]`}
+            variant="solid"
+            onClick={(f) => {
+              router.push("/sign-in");
+            }}
+          >
+            Try now
+            <ChevronRight className="mr-[-8px] ml-[-5px]" />
+          </Button>
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
       </div>
     </div>

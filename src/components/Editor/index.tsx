@@ -52,7 +52,7 @@ const App = ({ user, subscriptionInfo }: any) => {
   const [isLoading, setIsLoading]: any = useState(false);
   const [font, setFont]: any = useState({ class: reenie.className, code: 1 });
 
-  const isHabitMaker = subscriptionInfo.subscription === "habit_maker";
+  const isHabitCreator = subscriptionInfo.subscription === "habit_creator";
 
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
     useState(false);
@@ -520,8 +520,8 @@ const App = ({ user, subscriptionInfo }: any) => {
             <NavbarItem className="flex justify-center z-[300]">
               <Dropdown>
                 <DropdownTrigger>
-                  {isHabitMaker ? (
-                    <Badge content="PRO" className="bg-[#39d353]" size="sm">
+                  {isHabitCreator ? (
+                    <Badge content="Habit Creator" className="bg-[#39d353]" size="sm">
                       <Avatar
                         className="text-white cursor-pointer clear-start avatar"
                         name={username}

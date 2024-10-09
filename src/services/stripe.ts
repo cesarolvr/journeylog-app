@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 
 const key: any = process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY
-const priceIdHabitMaker: any = process.env.NEXT_PUBLIC_STRIPE_PRICE_HABIT_MAKER_ID
+const priceIdHabitCreator: any = process.env.NEXT_PUBLIC_STRIPE_PRICE_HABIT_CREATOR_ID
 
 export const stripe = new Stripe(key, {
   apiVersion: "2024-06-20",
@@ -14,7 +14,7 @@ export const subscribeAction = async ({ userId }: any) => {
     payment_method_types: ["card"],
     line_items: [
       {
-        price: priceIdHabitMaker,
+        price: priceIdHabitCreator,
         quantity: 1,
       },
     ],

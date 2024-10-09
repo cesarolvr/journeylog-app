@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     if (metadata) {
       const res = await supabaseServerClient
         .from("users")
-        .update({ subscription: "habit_maker" })
+        .update({ subscription: "habit_creator" })
         .eq("id", metadata?.userId)
         .select()
 

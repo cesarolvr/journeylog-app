@@ -268,23 +268,28 @@ const ArtboardInsights = ({
             </div>
           </div>
         </div>
-        <div className="mb-10">
+        <div className="mb-10 relative">
           <div className="flex px-7 justify-between mb-6 items-center">
             <p>Habit consistency</p>
             <span className="text-[#656565]">Last 30 days</span>
           </div>
-          <div className="w-full mb-7 overflow-scroll">
-            <ul className="flex w-full justify-between pl-7">
+          <div className="w-full mb-7 overflow-scroll px-7 relative">
+            <div className="feature-locker absolute inset-0 mx-7 z-50 rounded-lg bg-[rgba(30, 30, 30, 0.6))] flex items-center justify-center backdrop-blur-lg	 border-[#444444]">
+              <p className="font-black">
+                Unlock with <span className="text-[#27DE55]"> PRO</span>
+              </p>
+            </div>
+            <ul className="flex w-full justify-between relative">
               {lastTirtyDays.map((item, index) => {
                 return (
                   <li
                     key={index}
-                    className="rounded-lg p-[5px] mx-[2px] h-[80px] bg-[#3E3E3E]"
+                    className={`rounded-lg p-[5px] mx-[2px] h-[80px] bg-[#27DE55] opacity-25`}
                   ></li>
                 );
               })}
-              <div className="w-[50px] flex-shrink-0"></div>
             </ul>
+            <div className="w-[50px] flex-shrink-0"></div>
           </div>
         </div>
         <div className="px-7">
@@ -292,13 +297,18 @@ const ArtboardInsights = ({
             <p>Habit density</p>
             <span className="text-[#656565]">Last 7 days</span>
           </div>
-          <div className="w-full mb-7">
+          <div className="w-full mb-7 relative">
+            <div className="feature-locker absolute inset-0 mx-7 z-50 rounded-lg bg-[rgba(30, 30, 30, 0.6))] flex items-center justify-center backdrop-blur-lg	 border-[#444444]">
+              <p className="font-black">
+                Unlock with <span className="text-[#27DE55]"> PRO</span>
+              </p>
+            </div>
             <ul className="flex w-full justify-between">
               {lastSevenDays.map((item, index) => {
                 return (
                   <li
                     key={index}
-                    className="w-[63px] rounded-lg p-[5px] mx-[2px] h-[196px] bg-[#3E3E3E]"
+                    className="w-[63px] rounded-lg p-[5px] mx-[2px] h-[196px] bg-[#27DE55] opacity-15"
                   ></li>
                 );
               })}
