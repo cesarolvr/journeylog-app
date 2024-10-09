@@ -187,7 +187,30 @@ const ArtboardInsights = ({
 
     return { index: item, date: currentDate };
   });
-  const lastSevenDays = Array.from(Array(7).keys());
+
+  const lastSevenDays = Array.from(Array(8).keys());
+  const lastSevenDaysFormatted = lastSevenDays.map((item, index) => {
+    const currentDate = DateTime.fromJSDate(new Date())
+      .set({ hour: 0, minute: 0, second: 0 })
+      .minus({ day: 7 - index })
+      .toUTC()
+      .toISO();
+
+    const sameDaySelected = frequency.find(({ date, value }, index) => {
+      const currentLoopItem = currentDate?.split("T")[0];
+      if (currentLoopItem === date)
+        return {
+          date,
+          value,
+        };
+    });
+
+    if (sameDaySelected) {
+      return { index: item, date: currentDate, value: sameDaySelected?.value };
+    }
+
+    return { index: item, date: currentDate };
+  });
 
   return (
     <div className="relative insights-panel">
@@ -280,7 +303,7 @@ const ArtboardInsights = ({
             </Select>
           </div>
           <div className="w-full overflow-scroll pl-7 pr-8 mb-7">
-            {/* <div className="flex">
+            <div className="flex">
               {isInsightsOpened && !isLoading ? (
                 <>
                   <div id="cal-heatmap" className="mr-6 flex-shrink-0"></div>
@@ -291,7 +314,7 @@ const ArtboardInsights = ({
                   <CircularProgress aria-label="Loading..." />
                 </div>
               )}
-            </div> */}
+            </div>
           </div>
         </div>
         <div className="mb-10 relative">
@@ -303,18 +326,22 @@ const ArtboardInsights = ({
             {isPro ? (
               <ul className="flex w-full justify-between relative">
                 {lastTirtyDaysFormatted.map(({ value }, index) => {
-                  console.log(value);
                   return (
                     <li
                       key={index}
                       className={`relative rounded-lg p-[5px] mx-[2px] h-[80px] bg-[#3E3E3E] overflow-hidden`}
                     >
-                      <span className={classNames("bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full", {
-                        "opacity-0": !value,
-                        "opacity-25": value && value > 0,
-                        "opacity-50": value && value > 4,
-                        "opacity-75": value && value > 10,
-                      })}></span>
+                      <span
+                        className={classNames(
+                          "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full",
+                          {
+                            "opacity-0": !value,
+                            "opacity-25": value && value > 0,
+                            "opacity-50": value && value > 4,
+                            "opacity-75": value && value > 10,
+                          }
+                        )}
+                      ></span>
                     </li>
                   );
                 })}
@@ -349,7 +376,33 @@ const ArtboardInsights = ({
           </div>
           <div className="w-full mb-7 relative">
             {isPro ? (
-              <>Graph</>
+              <ul className="flex w-full justify-between relative gap-2">
+                {lastSevenDaysFormatted.map(({ value }, index) => {
+                  return (
+                    <li
+                      key={index}
+                      className={`relative rounded-lg p-[5px] w-full h-[196px] bg-[#3E3E3E] overflow-hidden`}
+                    >
+                      <div
+                        className={classNames(
+                          "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 rounded-lg",
+                          {
+                            "h-0": !value,
+                            "h-1/4": value && value > 0,
+                            "h-2/4": value && value > 4,
+                            "h-3/4": value && value > 10,
+                            "h-4/4": value && value > 15,
+                          }
+                        )}
+                      >
+                        <span className="absolute top-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center">
+                          {value ? value : null}
+                        </span>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
             ) : (
               <>
                 <div className="feature-locker absolute inset-0 mx-7 z-50 rounded-lg bg-[rgba(30, 30, 30, 0.6))] flex items-center justify-center backdrop-blur-lg	 border-[#444444]">
