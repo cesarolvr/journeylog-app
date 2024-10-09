@@ -25,7 +25,7 @@ import {
   DropdownMenu,
   CircularProgress,
   Button,
-  Divider,
+  Badge,
 } from "@nextui-org/react";
 
 import { debounce } from "lodash";
@@ -36,17 +36,11 @@ import ArtboardHeader from "../ArtboardHeader";
 import ArtboardTabs from "../ArtboardTabs";
 import ArtboardOptions from "../ArtboardOptions";
 import ArtboardInsights from "../ArtboardInsights";
-import {
-  ArrowLeftFromLine,
-  ArrowUpRight,
-  ChevronRight,
-  LogOut,
-  User,
-} from "lucide-react";
+import { ArrowUpRight, ChevronRight, LogOut, User } from "lucide-react";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
-const App = ({ user }: any) => {
+const App = ({ user, subscriptionInfo }: any) => {
   const supabaseClient = useSupabaseClient();
   const [journeyTabs, setJourneyTabs]: any = useState([]);
   const [activeTab, setActiveTab]: any = useState(null);
@@ -57,6 +51,8 @@ const App = ({ user }: any) => {
   const [newJourneyTitle, setNewJourneyTitle]: any = useState("");
   const [isLoading, setIsLoading]: any = useState(false);
   const [font, setFont]: any = useState({ class: reenie.className, code: 1 });
+
+  const isHabitMaker = subscriptionInfo.subscription === "habit_maker";
 
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
     useState(false);
@@ -524,10 +520,19 @@ const App = ({ user }: any) => {
             <NavbarItem className="flex justify-center z-[300]">
               <Dropdown>
                 <DropdownTrigger>
-                  <Avatar
-                    className="text-white cursor-pointer clear-start avatar"
-                    name={username}
-                  />
+                  {isHabitMaker ? (
+                    <Badge content="PRO" className="bg-[#39d353]" size="sm">
+                      <Avatar
+                        className="text-white cursor-pointer clear-start avatar"
+                        name={username}
+                      />
+                    </Badge>
+                  ) : (
+                    <Avatar
+                      className="text-white cursor-pointer clear-start avatar"
+                      name={username}
+                    />
+                  )}
                 </DropdownTrigger>
                 <DropdownMenu
                   aria-label="Static Actions"
