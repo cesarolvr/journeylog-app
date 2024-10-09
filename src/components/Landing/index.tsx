@@ -46,6 +46,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     }
   };
 
+  const isPro = subscription === "habit_creator";
+
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
       <header className="flex w-[850px] rounded-3xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2">
@@ -486,12 +488,12 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     );
                   }}
                 >
-                  {subscription ? "Downgrade plan" : "Try now"}
+                  {isPro ? "Downgrade plan" : "Try now"}
                 </Button>
               </div>
               <div className="text-left relative md:mt-[-100px] p-10 pr-14 bg-[#272727] border-1 border-[#27DE55] rounded-3xl">
                 <div className="absolute top-[-20px] right-[-20px] bg-[#27DE55] rounded-xl py-2 px-4 text-[black] font-black">
-                  {subscription ? "Already subscribed" : "Most popular"}
+                  {isPro ? "Already subscribed" : "Most popular"}
                 </div>
 
                 <p className="text-[45px] flex relative font-black items-end mb-6">
@@ -501,7 +503,12 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   </span>
                 </p>
 
-                <p className="text-[40px] font-black text-[#27DE55]">
+                <p className="text-[40px] font-black text-[#27DE55] relative">
+                  {isPro ? (
+                    <span className="absolute bg-[#39d353] px-[5px] uppercase right-0 top-[-6px] z-50 font-black rounded-md text-[black] text-[12px]">
+                      PRO
+                    </span>
+                  ) : null}
                   Habit Creator
                 </p>
                 <p className="mb-8 max-w-[90%]">
@@ -625,7 +632,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                       : handleChoosePlan(user?.id);
                   }}
                 >
-                  {subscription ? "Go to the app" : "Choose plan"}
+                  {!!user ? "Go to the app" : "Choose plan"}
                   <ChevronRight className="md:mr-[-20px] shrink-0" />
                 </Button>
               </div>

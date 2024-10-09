@@ -18,6 +18,7 @@ const ArtboardInsights = ({
   getInsights,
   activeTab,
   isLoading,
+  subscriptionInfo,
   previewList,
 }: any) => {
   const [frequency, setFrequency] = useState([]);
@@ -30,6 +31,9 @@ const ArtboardInsights = ({
   const now = DateTime.fromJSDate(new Date());
   const diffInDays = beginning.diff(now, "days");
   const daysFromTheBeginning = Math.round(diffInDays?.toObject()?.days * -1);
+
+  const { subscription } = subscriptionInfo;
+  const isPro = subscription === "habit_creator";
 
   const getDaysInARow = () => {
     let acc = 0;
@@ -274,21 +278,28 @@ const ArtboardInsights = ({
             <span className="text-[#656565]">Last 30 days</span>
           </div>
           <div className="w-full mb-7 overflow-scroll px-7 relative">
-            <div className="feature-locker absolute inset-0 mx-7 z-50 rounded-lg bg-[rgba(30, 30, 30, 0.6))] flex items-center justify-center backdrop-blur-lg	 border-[#444444]">
-              <p className="font-black">
-                Unlock with <span className="text-[#27DE55]"> PRO</span>
-              </p>
-            </div>
-            <ul className="flex w-full justify-between relative">
-              {lastTirtyDays.map((item, index) => {
-                return (
-                  <li
-                    key={index}
-                    className={`rounded-lg p-[5px] mx-[2px] h-[80px] bg-[#27DE55] opacity-25`}
-                  ></li>
-                );
-              })}
-            </ul>
+            {isPro ? (
+              <>Graph</>
+            ) : (
+              <>
+                <div className="feature-locker absolute inset-0 mx-7 z-50 rounded-lg bg-[rgba(30, 30, 30, 0.6))] flex items-center justify-center backdrop-blur-lg	 border-[#444444]">
+                  <p className="font-black">
+                    Unlock with <span className="text-[#27DE55]"> PRO</span>
+                  </p>
+                </div>
+                <ul className="flex w-full justify-between relative">
+                  {lastTirtyDays.map((item, index) => {
+                    return (
+                      <li
+                        key={index}
+                        className={`rounded-lg p-[5px] mx-[2px] h-[80px] bg-[#27DE55] opacity-25`}
+                      ></li>
+                    );
+                  })}
+                </ul>
+              </>
+            )}
+
             <div className="w-[50px] flex-shrink-0"></div>
           </div>
         </div>
@@ -298,21 +309,27 @@ const ArtboardInsights = ({
             <span className="text-[#656565]">Last 7 days</span>
           </div>
           <div className="w-full mb-7 relative">
-            <div className="feature-locker absolute inset-0 mx-7 z-50 rounded-lg bg-[rgba(30, 30, 30, 0.6))] flex items-center justify-center backdrop-blur-lg	 border-[#444444]">
-              <p className="font-black">
-                Unlock with <span className="text-[#27DE55]"> PRO</span>
-              </p>
-            </div>
-            <ul className="flex w-full justify-between">
-              {lastSevenDays.map((item, index) => {
-                return (
-                  <li
-                    key={index}
-                    className="w-[63px] rounded-lg p-[5px] mx-[2px] h-[196px] bg-[#27DE55] opacity-15"
-                  ></li>
-                );
-              })}
-            </ul>
+            {isPro ? (
+              <>Graph</>
+            ) : (
+              <>
+                <div className="feature-locker absolute inset-0 mx-7 z-50 rounded-lg bg-[rgba(30, 30, 30, 0.6))] flex items-center justify-center backdrop-blur-lg	 border-[#444444]">
+                  <p className="font-black">
+                    Unlock with <span className="text-[#27DE55]"> PRO</span>
+                  </p>
+                </div>
+                <ul className="flex w-full justify-between">
+                  {lastSevenDays.map((item, index) => {
+                    return (
+                      <li
+                        key={index}
+                        className="w-[63px] rounded-lg p-[5px] mx-[2px] h-[196px] bg-[#27DE55] opacity-15"
+                      ></li>
+                    );
+                  })}
+                </ul>
+              </>
+            )}
           </div>
         </div>
       </div>

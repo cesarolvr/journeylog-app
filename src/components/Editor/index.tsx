@@ -432,6 +432,8 @@ const App = ({ user, subscriptionInfo }: any) => {
     }
   }, [activeTab]);
 
+  console.log(subscriptionInfo);
+
   const todayNote = new Date(
     dateSelected?.year,
     dateSelected?.month - 1,
@@ -448,6 +450,7 @@ const App = ({ user, subscriptionInfo }: any) => {
         activeTab={activeTab}
         setFont={setFont}
         font={font}
+        subscriptionInfo={subscriptionInfo}
       />
       <ArtboardInsights
         setIsInsightsOpened={setIsInsightsOpened}
@@ -456,6 +459,7 @@ const App = ({ user, subscriptionInfo }: any) => {
         activeTab={activeTab}
         isLoading={isLoading}
         previewList={previewList}
+        subscriptionInfo={subscriptionInfo}
       />
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
@@ -521,13 +525,19 @@ const App = ({ user, subscriptionInfo }: any) => {
               <Dropdown>
                 <DropdownTrigger>
                   {isHabitCreator ? (
-                    <Badge content="Habit Creator" className="bg-[#39d353]" size="sm">
+                    <div className="relative flex items-center justify-center">
+                      <span className="bg-[#39d353] px-[5px] uppercase mr-[-20px] z-50 mt-[-50px] font-black rounded-lg text-[black] text-[10px]">
+                        PRO
+                      </span>
                       <Avatar
                         className="text-white cursor-pointer clear-start avatar"
                         name={username}
-                      />
-                    </Badge>
+                        size="md"
+                      ></Avatar>
+                    </div>
                   ) : (
+                    // <Badge content="" className="border-1 border-[#39d353]" size="ld">
+                    // </Badge>
                     <Avatar
                       className="text-white cursor-pointer clear-start avatar"
                       name={username}
