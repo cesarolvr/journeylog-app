@@ -34,7 +34,7 @@ const ArtboardInsights = ({
   const getDaysInARow = () => {
     let acc = 0;
 
-    const res = frequency.sort((prev, current): any => {
+    frequency.sort((prev, current): any => {
       const currentDate = DateTime.fromJSDate(new Date(current?.date));
       const prevDate = DateTime.fromJSDate(new Date(prev?.date));
       const diffInMonths = currentDate.diff(prevDate, "days")?.toObject();

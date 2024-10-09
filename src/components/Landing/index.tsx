@@ -28,11 +28,22 @@ import {
 } from "@nextui-org/react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { subscribeAction } from "@/services/stripe";
 
 const Landing = ({ user }: any) => {
   const router = useRouter();
   const defaultContent =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+
+  const handleChoosePlan = async (id: string) => {
+    const url = await subscribeAction({ userId: id });
+
+    if (url) {
+      router.push(url);
+    } else {
+      console.error("Failed to create subscription");
+    }
+  };
 
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
@@ -289,9 +300,12 @@ const Landing = ({ user }: any) => {
                 occupation: "Game Developer",
                 text: "Using it to log all the times I drink water. I've tried several apps, but this is the only one that really helped me focus on what I needed. Super easy to use!",
               },
-            ].map(({ image, nome, rate, occupation, text }) => {
+            ].map(({ image, nome, rate, occupation, text }, index) => {
               return (
-                <Card className="py-8 px-2 w-[370px] max-w-[80%] md:max-w-none rounded-[40px] bg-[#2C2C2C] md:mx-3 mb-20 overflow-visible">
+                <Card
+                  key={index}
+                  className="py-8 px-2 w-[370px] max-w-[80%] md:max-w-none rounded-[40px] bg-[#2C2C2C] md:mx-3 mb-20 overflow-visible"
+                >
                   <CardHeader className="pb-0 pt-2 px-4 flex-col items-center justify-center ">
                     <Image
                       src={image}
@@ -316,36 +330,36 @@ const Landing = ({ user }: any) => {
                         d="M42.9315 2.94922L46.1585 9.50223L53.3749 10.5595L48.1532 15.6575L49.3855 22.8595L42.9315 19.4574L36.4774 22.8595L37.7098 15.6575L32.488 10.5595L39.7045 9.50223L42.9315 2.94922Z"
                         fill="#F6D31E"
                         stroke="#F6D31E"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                       <path
                         d="M13.3099 2.94922L16.5369 9.50223L23.7534 10.5595L18.5316 15.6575L19.764 22.8595L13.3099 19.4574L6.85585 22.8595L8.08818 15.6575L2.86646 10.5595L10.0829 9.50223L13.3099 2.94922Z"
                         fill="#F6D31E"
                         stroke="#F6D31E"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                       <path
                         d="M72.5528 2.94922L75.7799 9.50223L82.9963 10.5595L77.7746 15.6575L79.0069 22.8595L72.5528 19.4574L66.0988 22.8595L67.3311 15.6575L62.1094 10.5595L69.3258 9.50223L72.5528 2.94922Z"
                         fill="#F6D31E"
                         stroke="#F6D31E"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                       <path
                         d="M102.174 2.94922L105.401 9.50223L112.618 10.5595L107.396 15.6575L108.628 22.8595L102.174 19.4574L95.7204 22.8595L96.9527 15.6575L91.731 10.5595L98.9474 9.50223L102.174 2.94922Z"
                         fill="#F6D31E"
                         stroke="#F6D31E"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                       <path
                         d="M131.796 2.94922L135.023 9.50223L142.239 10.5595L137.017 15.6575L138.25 22.8595L131.796 19.4574L125.342 22.8595L126.574 15.6575L121.352 10.5595L128.569 9.50223L131.796 2.94922Z"
                         fill="#F6D31E"
                         stroke="#F6D31E"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                   </CardHeader>
@@ -445,9 +459,11 @@ const Landing = ({ user }: any) => {
                   className="bg-white text-[20px] w-full px-16 text-black font-black"
                   variant="solid"
                   size="lg"
-                  onClick={(f) => f}
+                  onClick={(f) => {
+                    router.push(!!user ? "/app" : "sign-in");
+                  }}
                 >
-                  Choose plan
+                  Try now
                 </Button>
               </div>
               <div className="text-left md:mt-[-100px] p-10 pr-14 bg-[#272727] border-1 border-[#27DE55] rounded-3xl">
@@ -576,7 +592,9 @@ const Landing = ({ user }: any) => {
                   className="bg-[#39D353] text-[20px] w-full px-16 text-black font-black"
                   variant="solid"
                   size="lg"
-                  onClick={(f) => f}
+                  onClick={() => {
+                    handleChoosePlan(user?.id);
+                  }}
                 >
                   Choose plan
                 </Button>
