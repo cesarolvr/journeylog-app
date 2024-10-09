@@ -30,7 +30,8 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { subscribeAction } from "@/services/stripe";
 
-const Landing = ({ user }: any) => {
+const Landing = ({ user, subscriptionInfo }: any) => {
+  const { subscription } = subscriptionInfo;
   const router = useRouter();
   const defaultContent =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
@@ -460,13 +461,19 @@ const Landing = ({ user }: any) => {
                   variant="solid"
                   size="lg"
                   onClick={(f) => {
-                    router.push(!!user ? "/app" : "sign-in");
+                    router.push(!!user ? "/app/profile#subscriptions" : "sign-in");
                   }}
                 >
-                  Try now
+                  {subscription ? "Downgrade plan" : "Try now"}
                 </Button>
               </div>
-              <div className="text-left md:mt-[-100px] p-10 pr-14 bg-[#272727] border-1 border-[#27DE55] rounded-3xl">
+              <div className="text-left relative md:mt-[-100px] p-10 pr-14 bg-[#272727] border-1 border-[#27DE55] rounded-3xl">
+                {subscription ? (
+                  <div className="absolute top-[-20px] right-[-20px] bg-[#27DE55] rounded-xl py-2 px-4 text-[black] font-black">
+                    Already subscribed
+                  </div>
+                ) : null}
+
                 <p className="text-[45px] flex relative font-black items-end mb-6">
                   $9
                   <span className="text-[18px] bottom-[10px] absolute left-[60px] font-normal text-[#656565]">
@@ -593,10 +600,13 @@ const Landing = ({ user }: any) => {
                   variant="solid"
                   size="lg"
                   onClick={() => {
-                    handleChoosePlan(user?.id);
+                    subscription
+                      ? router.push("/app")
+                      : handleChoosePlan(user?.id);
                   }}
                 >
-                  Choose plan
+                  {subscription ? "Go to the app" : "Choose plan"}
+                  <ChevronRight className="md:mr-[-10px] shrink-0" />
                 </Button>
               </div>
             </div>
