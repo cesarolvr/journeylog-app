@@ -1,11 +1,27 @@
-import { Modal, ModalContent, ModalBody, Button } from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalBody,
+  Button,
+  Avatar,
+} from "@nextui-org/react";
+import {
+  CreditCard,
+  Handshake,
+  LogOut,
+  LucideBarChart,
+  MessageCircle,
+  ScrollText,
+  SquareArrowOutUpRight,
+  User,
+} from "lucide-react";
 
-const ProfileModal = ({ isOpen, onOpen, onOpenChange }: any) => {
+const ProfileModal = ({ isOpen, isPro, userInfo, onOpenChange }: any) => {
+  const shortenedName = userInfo?.full_name.split(" ").slice(0, -1).join(" ");
+
+  console.log(userInfo);
   return (
     <div>
-      {/* <Button onPress={onOpen} color="secondary" className="fixed z-[60]">
-        Open Modal
-      </Button> */}
       <Modal
         backdrop="opaque"
         isOpen={isOpen}
@@ -24,9 +40,87 @@ const ProfileModal = ({ isOpen, onOpen, onOpenChange }: any) => {
           {(onClose) => (
             <>
               <ModalBody>
-                <div className="flex">
-                  <div className="bg-[#181818] p-6 rounded-r-xl border-r-1 border-[#333333] w-[309px] flex-shrink-0">
-                    p
+                <div className="flex h-[600px] max-h-[80%]">
+                  <div className="bg-[#181818] p-4 rounded-r-xl border-r-1 border-[#333333] w-[309px] flex-shrink-0">
+                    <div className="relative flex items-center justify-between pt-6 pb-3 px-3 w-full">
+                      {isPro ? (
+                        <span className="bg-[#39d353] px-[5px] uppercase mr-[-20px] z-40 mt-[-40px] font-black rounded-[5px] text-[black] text-[10px]">
+                          PRO
+                        </span>
+                      ) : null}
+                      <Avatar
+                        className="text-white cursor-pointer clear-start avatar flex-shrink-0"
+                        name={shortenedName}
+                        size="md"
+                      ></Avatar>
+                      <div className="text-left flex flex-col justify-center w-full pl-4">
+                        <p className="text-[18px] leading-[18px]">
+                          {userInfo?.full_name}
+                        </p>
+                        <span className="text-[12px]">{userInfo?.email}</span>
+                      </div>
+                    </div>
+                    <ul>
+                      {[
+                        {
+                          icon: <User />,
+                          text: "Profile",
+                          classes: "",
+                        },
+                        {
+                          icon: <CreditCard />,
+                          text: "Subscription",
+                          classes: "",
+                        },
+                        {
+                          icon: <LucideBarChart />,
+                          text: "Insights",
+                          classes: "",
+                          children: (
+                            <span className="font-bold text-[11px] text-[black] bg-[#27DE55] rounded-lg py-1 px-2">
+                              {isPro ? 'Subscribed' : 'Get PRO'}
+                            </span>
+                          ),
+                        },
+                        {
+                          icon: <SquareArrowOutUpRight />,
+                          text: "Go to landing page",
+                          classes: "",
+                        },
+                        {
+                          icon: <ScrollText />,
+                          text: "Privacy Policy",
+                          classes: "",
+                        },
+                        {
+                          icon: <Handshake />,
+                          text: "Terms of use",
+                          classes: "",
+                        },
+                        {
+                          icon: <MessageCircle />,
+                          text: "Give some feedback",
+                          classes: "",
+                        },
+                        {
+                          icon: <LogOut />,
+                          text: "Logout",
+                          classes: "text-[#F31260]",
+                        },
+                      ].map(({ icon, text, classes, children }: any) => {
+                        return (
+                          <li
+                            className={`${classes} rounded-xl cursor-pointer hover:bg-[#1E1E1E] hover:text-[white] flex w-full p-4 items-center`}
+                          >
+                            <div className="flex-shrink-0">{icon}</div>
+                            <p className="ml-4 flex justify-between w-full">
+                              {text}
+                              {children ?? children}
+                            </p>
+                          </li>
+                        );
+                      })}
+                    </ul>
                   </div>
                   <div className="p-6">
                     <p>

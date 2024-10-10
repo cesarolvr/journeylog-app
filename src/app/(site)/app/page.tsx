@@ -56,11 +56,16 @@ const App = () => {
     }
   }, [isLoading, user]);
 
+  const { subscription }: any = subscriptionInfo;
+  const isPro = subscription === "habit_creator";
+
   return (
     <main className={`w-[100vw] ${theme}`} suppressHydrationWarning={true}>
       <ProfileModal
         isOpen={isOpen}
+        isPro={isPro}
         onOpenChange={onOpenChange}
+        userInfo={user?.user_metadata}
       />
       {!!user && (
         <Editor
