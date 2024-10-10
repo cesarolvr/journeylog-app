@@ -40,7 +40,7 @@ import { ArrowUpRight, ChevronRight, LogOut, User } from "lucide-react";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
-const Editor = ({ user, subscriptionInfo, onOpen }: any) => {
+const Editor = ({ user, subscriptionInfo, onOpen, handleLogout }: any) => {
   const supabaseClient = useSupabaseClient();
   const [journeyTabs, setJourneyTabs]: any = useState([]);
   const [activeTab, setActiveTab]: any = useState(null);
@@ -261,16 +261,6 @@ const Editor = ({ user, subscriptionInfo, onOpen }: any) => {
         setJourneyTabs([...data]);
       }, 100);
     }
-  }, 500);
-
-  const handleLogout = debounce(async () => {
-    const { error } = await supabaseClient.auth.signOut();
-
-    if (error) {
-      return console.log(error);
-    }
-
-    router.push("/");
   }, 500);
 
   const getLogs = async (journeyId: any, dateString: any) => {

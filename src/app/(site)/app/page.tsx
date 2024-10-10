@@ -14,6 +14,8 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import ProfileModal from "@/components/ProfileModal";
 import { useDisclosure } from "@nextui-org/react";
+import { debounce } from "lodash";
+import { subscribeAction } from "@/services/stripe";
 
 const App = () => {
   const user = useSupaUser();
@@ -56,8 +58,28 @@ const App = () => {
     }
   }, [isLoading, user]);
 
+  const handleLogout = debounce(async () => {
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+      return console.log(error);
+    }
+
+    router.push("/");
+  }, 500);
+
   const { subscription }: any = subscriptionInfo;
   const isPro = subscription === "habit_creator";
+
+  const handleChoosePlan = async (id: string) => {
+    const url = await subscribeAction({ userId: id });
+
+    if (url) {
+      router.push(url);
+    } else {
+      console.error("Failed to create subscription");
+    }
+  };
 
   return (
     <main className={`w-[100vw] ${theme}`} suppressHydrationWarning={true}>
@@ -66,10 +88,14 @@ const App = () => {
         isPro={isPro}
         onOpenChange={onOpenChange}
         userInfo={user?.user_metadata}
+        handleLogout={handleLogout}
+        user={user}
+        handleChoosePlan={handleChoosePlan}
       />
       {!!user && (
         <Editor
           {...value}
+          handleLogout={handleLogout}
           isOpen={isOpen}
           onOpen={onOpen}
           onOpenChange={onOpenChange}

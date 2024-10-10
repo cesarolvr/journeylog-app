@@ -111,3 +111,13 @@ button.tabJourney > div {
   stroke: white !important;
   stroke-width: 2px !important;
 }
+
+.modal-wrapper {
+  div[data-slot="input-wrapper"] {
+    background-color: #303030;
+  }
+
+  label[data-slot="label"] {
+    color: #919191 !important;
+  }
+}
