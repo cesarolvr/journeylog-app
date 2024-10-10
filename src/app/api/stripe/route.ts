@@ -23,6 +23,8 @@ export async function POST(request: NextRequest) {
     return new NextResponse("webhook error", { status: 400 });
   }
 
+  console.log('event', event)
+
   if (
     event.type === "checkout.session.completed" &&
     event.data.object.payment_status === "paid"
@@ -35,7 +37,7 @@ export async function POST(request: NextRequest) {
         .eq("id", metadata?.userId)
         .select()
 
-        console.log('res', res)
+      console.log('res', res)
       // const userId = metadata.userId;
       // await db
       //   .update(users)

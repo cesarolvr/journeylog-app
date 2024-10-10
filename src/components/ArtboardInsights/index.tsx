@@ -556,14 +556,28 @@ const ArtboardInsights = ({
                           {
                             "h-0": !value,
                             "h-1/4": value && value > 0,
-                            "h-2/4": value && value > 4,
+                            "h-2/4": value && value > 5,
                             "h-3/4": value && value > 10,
                             "h-4/4": value && value > 15,
                           }
                         )}
                       >
                         <span className="absolute top-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center">
-                          {value ? value : null}
+                          {value ? (
+                            value > 15 ? (
+                              <>🚀</>
+                            ) : value > 10 ? (
+                              <>😮</>
+                            ) : value > 5 ? (
+                              <>👌🏽</>
+                            ) : value > 0 ? (
+                              <>👍🏾</>
+                            ) : (
+                              <>👎🏽</>
+                            )
+                          ) : (
+                            <div className="mt-[-43px]">👎🏽</div>
+                          )}
                         </span>
                       </div>
                     </li>
