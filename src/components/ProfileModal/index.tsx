@@ -19,10 +19,11 @@ import {
   User,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ProfileModal = ({
   isOpen,
+  defaultPanel,
   isPro,
   userInfo,
   onOpenChange,
@@ -30,9 +31,16 @@ const ProfileModal = ({
   user,
   handleLogout,
 }: any) => {
-  const [panel, setPanel] = useState("profile");
+  const [panel, setPanel] = useState('profile');
   const shortenedName = userInfo?.full_name.split(" ").slice(0, -1).join(" ");
   const router = useRouter();
+
+  useEffect(() => {
+    console.log(defaultPanel)
+    if (defaultPanel) {
+      setPanel(defaultPanel);
+    }
+  }, [defaultPanel, isOpen]);
 
   const panels: any = {
     profile: (

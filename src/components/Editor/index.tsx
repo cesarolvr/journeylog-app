@@ -40,7 +40,13 @@ import { ArrowUpRight, ChevronRight, LogOut, User } from "lucide-react";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
-const Editor = ({ user, subscriptionInfo, onOpen, handleLogout }: any) => {
+const Editor = ({
+  user,
+  subscriptionInfo,
+  onOpen,
+  handleLogout,
+  setDefaultPanel,
+}: any) => {
   const supabaseClient = useSupabaseClient();
   const [journeyTabs, setJourneyTabs]: any = useState([]);
   const [activeTab, setActiveTab]: any = useState(null);
@@ -449,6 +455,8 @@ const Editor = ({ user, subscriptionInfo, onOpen, handleLogout }: any) => {
         isLoading={isLoading}
         previewList={previewList}
         subscriptionInfo={subscriptionInfo}
+        onOpenModal={onOpen}
+        setDefaultPanel={setDefaultPanel}
       />
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
@@ -493,6 +501,7 @@ const Editor = ({ user, subscriptionInfo, onOpen, handleLogout }: any) => {
               forcedActiveTab={forcedActiveTab}
               isPro={isPro}
               onOpenModal={onOpen}
+              setDefaultPanel={setDefaultPanel}
             />
           </NavbarContent>
           <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">

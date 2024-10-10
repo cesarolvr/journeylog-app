@@ -20,16 +20,16 @@ const ArtboardInsights = ({
   isLoading,
   subscriptionInfo,
   previewList,
+  onOpenModal,
+  setDefaultPanel,
 }: any) => {
   const [frequency, setFrequency] = useState([]);
   const [daysInARow, setDaysInARow] = useState(0);
   const [callHeatmap, setCallHeatmap] = useState(null);
-  const [callHeatmap2, setCallHeatmap2] = useState(null);
-  const [callHeatmap3, setCallHeatmap3] = useState(null);
 
   const beginning = DateTime.fromISO(frequency[frequency.length - 1]?.date);
   const now = DateTime.fromJSDate(new Date());
-  const diffInDays = beginning.diff(now, "days");
+  const diffInDays: any = beginning.diff(now, "days");
   const daysFromTheBeginning = Math.round(diffInDays?.toObject()?.days * -1);
 
   const { subscription } = subscriptionInfo;
@@ -41,7 +41,7 @@ const ArtboardInsights = ({
     frequency.sort((prev, current): any => {
       const currentDate = DateTime.fromJSDate(new Date(current?.date));
       const prevDate = DateTime.fromJSDate(new Date(prev?.date));
-      const diffInMonths = currentDate.diff(prevDate, "days")?.toObject();
+      const diffInMonths: any = currentDate.diff(prevDate, "days")?.toObject();
       if (diffInMonths?.days < 2) {
         acc++;
       }
@@ -353,7 +353,14 @@ const ArtboardInsights = ({
             ) : (
               <>
                 <div className="feature-locker absolute inset-0 z-40 rounded-xl bg-[rgba(30, 30, 30, 1))] flex items-center justify-center backdrop-blur-[15px]">
-                  <p className="absolute bottom-[-30px] right-7 text-[14px] flex items-center font-black">
+                  <p
+                    className="absolute cursor-pointer bottom-[-30px] right-7 text-[14px] flex items-center font-black"
+                    onClick={() => {
+                      setIsInsightsOpened(false);
+                      onOpenModal();
+                      setDefaultPanel("subscription");
+                    }}
+                  >
                     Unlock with{" "}
                     <span className="text-[#27DE55] ml-1"> PRO </span>
                     <svg
@@ -587,7 +594,14 @@ const ArtboardInsights = ({
             ) : (
               <>
                 <div className="feature-locker absolute inset-0 z-40 rounded-xl bg-[rgba(30, 30, 30, 1))] flex items-center justify-center backdrop-blur-[15px]">
-                  <p className="absolute bottom-[-40px] right-7 text-[14px] flex items-center font-black">
+                  <p
+                    className="absolute cursor-pointer bottom-[-40px] right-7 text-[14px] flex items-center font-black"
+                    onClick={() => {
+                      setIsInsightsOpened(false);
+                      onOpenModal();
+                      setDefaultPanel("subscription");
+                    }}
+                  >
                     Unlock with{" "}
                     <span className="text-[#27DE55] ml-1"> PRO </span>
                     <svg

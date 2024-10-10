@@ -25,6 +25,7 @@ const App = () => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [subscriptionInfo, setSubscriptionInfo] = useState({});
+  const [defaultPanel, setDefaultPanel] = useState("profile");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
@@ -85,6 +86,7 @@ const App = () => {
     <main className={`w-[100vw] ${theme}`} suppressHydrationWarning={true}>
       <ProfileModal
         isOpen={isOpen}
+        defaultPanel={defaultPanel}
         isPro={isPro}
         onOpenChange={onOpenChange}
         userInfo={user?.user_metadata}
@@ -96,6 +98,7 @@ const App = () => {
         <Editor
           {...value}
           handleLogout={handleLogout}
+          setDefaultPanel={setDefaultPanel}
           isOpen={isOpen}
           onOpen={onOpen}
           onOpenChange={onOpenChange}

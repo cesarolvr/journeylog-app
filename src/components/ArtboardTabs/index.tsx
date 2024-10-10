@@ -20,7 +20,8 @@ const ArtboardTabs = ({
   handleTabSelection,
   handleCreateJourney,
   onOpenModal,
-  isPro
+  setDefaultPanel,
+  isPro,
 }: any) => {
   const isMobile = useMediaQuery("only screen and (max-width: 820px)");
 
@@ -89,7 +90,12 @@ const ArtboardTabs = ({
       {journeyTabs.length > 0 && (
         <Button
           onClick={() => {
-            isPro ? handleCreateJourney() : onOpenModal();
+            if (isPro) {
+              handleCreateJourney();
+            } else {
+              onOpenModal();
+              setDefaultPanel("subscription");
+            }
           }}
           className="button-new-journey w-auto bg-transparent px-0 border-none min-w-0 h-full pl-2"
           variant="bordered"
