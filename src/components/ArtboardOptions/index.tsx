@@ -41,7 +41,7 @@ const ArtboardOptions = ({
     <div className="relative options-panel">
       <div
         className={classNames(
-          "fixed w-full h-full cursor-pointer z-[901] bg-[black] md:bg-none backdrop-blur-sm md:backdrop-blur-none bg-opacity-20",
+          "fixed w-full h-full cursor-pointer z-[44] bg-[black] md:bg-none backdrop-blur-sm md:backdrop-blur-none bg-opacity-20",
           {
             block: isOptionsOpened,
             hidden: !isOptionsOpened,
@@ -54,7 +54,7 @@ const ArtboardOptions = ({
 
       <div
         className={classNames(
-          "close-options-button rounded-xl bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0 absolute md:right-[425px] right-[86%] cursor-pointer z-[903] top-28",
+          "close-options-button rounded-xl bg-[#2c2c2c] p-1 w-[50px] flex justify-center py-2 items-center flex-shrink-0 absolute md:right-[425px] right-[86%] cursor-pointer z-[46] top-28",
           {
             block: isOptionsOpened,
             hidden: !isOptionsOpened,
@@ -70,7 +70,7 @@ const ArtboardOptions = ({
 
       <div
         className={classNames(
-          "content fixed w-[400px] max-w-[85%] h-full bg-[#1E1E1E] border-l-1 py-10 px-5 md:px-7 overflow-scroll border-[#303030] right-0 top-0 z-[902]",
+          "content fixed w-[400px] max-w-[85%] h-full bg-[#1E1E1E] border-l-1 py-10 px-5 md:px-7 overflow-scroll border-[#303030] right-0 top-0 z-[45]",
           {
             "right-0": isOptionsOpened,
             "right-[-500px]": !isOptionsOpened,

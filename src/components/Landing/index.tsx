@@ -510,7 +510,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
 
                 <p className="text-[40px] font-black text-[#27DE55] relative">
                   {isPro ? (
-                    <span className="absolute bg-[#39d353] px-[5px] uppercase right-0 top-[-6px] z-50 font-black rounded-md text-[black] text-[12px]">
+                    <span className="absolute bg-[#39d353] px-[5px] uppercase right-0 top-[-6px] z-40 font-black rounded-md text-[black] text-[12px]">
                       PRO
                     </span>
                   ) : null}

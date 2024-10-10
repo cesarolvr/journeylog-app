@@ -12,6 +12,8 @@ import Editor from "@/components/Editor";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import ProfileModal from "@/components/ProfileModal";
+import { useDisclosure } from "@nextui-org/react";
 
 const App = () => {
   const user = useSupaUser();
@@ -21,6 +23,7 @@ const App = () => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [subscriptionInfo, setSubscriptionInfo] = useState({});
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   useEffect(() => {
     if (!!user) {
@@ -55,7 +58,18 @@ const App = () => {
 
   return (
     <main className={`w-[100vw] ${theme}`} suppressHydrationWarning={true}>
-      {!!user && <Editor {...value} />}
+      <ProfileModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      />
+      {!!user && (
+        <Editor
+          {...value}
+          isOpen={isOpen}
+          onOpen={onOpen}
+          onOpenChange={onOpenChange}
+        />
+      )}
     </main>
   );
 };

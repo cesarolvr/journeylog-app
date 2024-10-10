@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+
 import { DateTime } from "luxon";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
@@ -25,7 +26,6 @@ import {
   DropdownMenu,
   CircularProgress,
   Button,
-  Badge,
 } from "@nextui-org/react";
 
 import { debounce } from "lodash";
@@ -40,7 +40,7 @@ import { ArrowUpRight, ChevronRight, LogOut, User } from "lucide-react";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
-const App = ({ user, subscriptionInfo }: any) => {
+const Editor = ({ user, subscriptionInfo, onOpen }: any) => {
   const supabaseClient = useSupabaseClient();
   const [journeyTabs, setJourneyTabs]: any = useState([]);
   const [activeTab, setActiveTab]: any = useState(null);
@@ -52,10 +52,11 @@ const App = ({ user, subscriptionInfo }: any) => {
   const [isLoading, setIsLoading]: any = useState(false);
   const [font, setFont]: any = useState({ class: reenie.className, code: 1 });
 
-  const isHabitCreator = subscriptionInfo.subscription === "habit_creator";
-
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
     useState(false);
+
+  const { subscription } = subscriptionInfo;
+  const isPro = subscription === "habit_creator";
 
   const today = DateTime.now().toUTC().toJSDate();
 
@@ -480,7 +481,7 @@ const App = ({ user, subscriptionInfo }: any) => {
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
       />
       <div
-        className={`${font.class} daybadge daybadge-${font.code} fixed z-50 cursor-pointer text-[50px] bottom-[30px] right-[30px] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
+        className={`${font.class} daybadge daybadge-${font.code} fixed z-40 cursor-pointer text-[50px] bottom-[30px] right-[30px] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
         onClick={() => setIsOpened(!isOpened)}
       >
         {todayNote.toLocaleString("default", { month: "short" })},{" "}
@@ -500,12 +501,14 @@ const App = ({ user, subscriptionInfo }: any) => {
               handleTabSelection={handleTabSelection}
               handleCreateJourney={handleCreateJourney}
               forcedActiveTab={forcedActiveTab}
+              isPro={isPro}
+              onOpenModal={onOpen}
             />
           </NavbarContent>
           <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">
             <div
               className={classNames(
-                "syncer fixed md:relative translate-y-[-80px] transition-transform left-0 right-0 m-auto w-[40px] h-[40px] z-[150] flex justify-center rounded-full",
+                "syncer fixed md:relative translate-y-[-80px] transition-transform left-0 right-0 m-auto w-[40px] h-[40px] z-[15] flex justify-center rounded-full",
                 {
                   "active translate-y-[0px]": isLoading,
                 }
@@ -519,12 +522,12 @@ const App = ({ user, subscriptionInfo }: any) => {
                 aria-label="Loading..."
               />
             </div>
-            <NavbarItem className="flex justify-center z-[300]">
+            <NavbarItem className="flex justify-center z-[30]">
               <Dropdown>
                 <DropdownTrigger>
-                  {isHabitCreator ? (
+                  {isPro ? (
                     <div className="relative flex items-center justify-center">
-                      <span className="bg-[#39d353] px-[5px] uppercase mr-[-20px] z-50 mt-[-50px] font-black rounded-lg text-[black] text-[10px]">
+                      <span className="bg-[#39d353] px-[5px] uppercase mr-[-20px] z-40 mt-[-50px] font-black rounded-lg text-[black] text-[10px]">
                         PRO
                       </span>
                       <Avatar
@@ -706,4 +709,4 @@ const App = ({ user, subscriptionInfo }: any) => {
   );
 };
 
-export default App;
+export default Editor;

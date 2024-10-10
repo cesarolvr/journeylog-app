@@ -260,7 +260,7 @@ const Sidebar = ({
   return (
     <div
       className={classnames(
-        `sidebar w-[260px] h-[100svh] rounded-r-3xl bottom-0 flex-shrink-0 md:h-[100svh] top-0 px-6 py-6 fixed z-[500] border-r-1 border-y-1 justify-start sidebar-font-${font.code}`,
+        `sidebar w-[260px] h-[100svh] rounded-r-3xl bottom-0 flex-shrink-0 md:h-[100svh] top-0 px-6 py-6 fixed z-[48] border-r-1 border-y-1 justify-start sidebar-font-${font.code}`,
         {
           "md:translate-x-0 translate-x-[-260px] overflow-visible md:overflow-scroll":
             isOpened,
@@ -271,7 +271,7 @@ const Sidebar = ({
     >
       <div
         className={classnames(
-          "datepicker-wrapper w-full sticky top-0 mb-5 mt-1 md:mt-2 z-[1000] rounded-xl",
+          "datepicker-wrapper w-full sticky top-0 mb-5 mt-1 md:mt-2 z-[48] rounded-xl",
           {
             "pointer-events-none": isBlocked,
           }
@@ -283,7 +283,7 @@ const Sidebar = ({
           value={dateSelected}
           maxValue={todayDate(getLocalTimeZone())}
           onChange={handleDateSelection}
-          className="rounded-xl text-white outline-none z-[1000] relative"
+          className="rounded-xl text-white outline-none z-[48] relative"
           CalendarTopContent={
             <ButtonGroup
               fullWidth
@@ -399,7 +399,7 @@ const Sidebar = ({
             ) : (
               <p
                 key={index}
-                className="sidebar-note text-[#4d4d4d] z-[1000] mb-4 flex justify-between px-1 sticky top-[40px] pb-1 pt-2"
+                className="sidebar-note text-[#4d4d4d] z-[48] mb-4 flex justify-between px-1 sticky top-[40px] pb-1 pt-2"
               >
                 <span>{monthName}</span>
                 <span>{year}</span>
