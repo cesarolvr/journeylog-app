@@ -74,12 +74,10 @@ const ProfileModal = ({
     subscription: (
       <div className="w-full flex flex-col justify-between h-full overflow-scroll">
         <div className="w-full mb-10">
-          <p className="text-[24px] mb-7 p-8 pb-0 text-[white]">
-            Subscription
-          </p>
+          <p className="text-[24px] mb-7 p-8 pb-0 text-[white]">Subscription</p>
           <div className="flex px-8 items-center justify-center w-full min-h-0">
-            <div className="cards flex gap-5 rounded-3xl w-full min-h-0 md:flex-row flex-col-reverse">
-              <div className="text-left p-8 mb-10 md:mb-0 w-[50%] bg-[#1B1B1B] rounded-3xl flex flex-col justify-between">
+            <div className="cards flex justify-between rounded-3xl w-full min-h-0 md:flex-row flex-col-reverse">
+              <div className="text-left p-8 mb-10 md:mb-0 flex-shrink-0 w-[48%] bg-[#1B1B1B] rounded-3xl flex flex-col justify-between">
                 <div>
                   <p className="text-[35px] flex relative font-black items-end mb-1">
                     $0
@@ -173,7 +171,7 @@ const ProfileModal = ({
                   </ul>
                 </div>
                 <Button
-                  className="bg-white text-[20px] w-full px-16 text-black font-black"
+                  className="bg-white opacity-50 text-[20px] w-full px-16 text-black font-black"
                   variant="solid"
                   size="lg"
                   onClick={(f) => {
@@ -183,7 +181,7 @@ const ProfileModal = ({
                   {isPro ? "Downgrade plan" : "Your plan"}
                 </Button>
               </div>
-              <div className="text-left w-[50%] relative p-8 bg-[#272727] border-1 border-[#27DE55] rounded-3xl">
+              <div className="text-left w-[48%] flex-shrink-0 relative p-8 bg-[#272727] border-1 border-[#27DE55] rounded-3xl">
                 <div className="absolute top-[-20px] right-[-20px] bg-[#27DE55] rounded-xl py-2 px-4 text-[black] font-black">
                   {isPro ? "Already subscribed" : "Most popular"}
                 </div>
@@ -196,11 +194,9 @@ const ProfileModal = ({
                 </p>
 
                 <p className="text-[30px] font-black text-[#27DE55] relative">
-                  {isPro ? (
-                    <span className="absolute bg-[#39d353] px-[5px] uppercase right-0 top-[-6px] z-40 font-black rounded-md text-[black] text-[12px]">
-                      PRO
-                    </span>
-                  ) : null}
+                  <span className="absolute bg-[#39d353] px-[5px] uppercase right-[15px] top-[-6px] z-40 font-black rounded-md text-[black] text-[12px]">
+                    PRO
+                  </span>
                   Habit Creator
                 </p>
                 <p className="mb-8 max-w-[90%] text-[14px]">
@@ -314,22 +310,15 @@ const ProfileModal = ({
                   variant="solid"
                   size="lg"
                   onClick={() => {
-                    if (!!user && isPro) {
-                      router.push("/app");
-                    } else if (!!user) {
-                      console.log(user);
+                    if (!isPro) {
                       handleChoosePlan(user?.id);
-                    } else {
-                      router.push("/sign-in");
                     }
                   }}
                 >
-                  {!!user
-                    ? isPro
-                      ? "Go to the app"
-                      : "Choose plan"
-                    : "Choose plan"}
-                  <ChevronRight className="md:mr-[-20px] shrink-0" />
+                  {isPro ? "Your plan" : "Upgrade plan"}
+                  {isPro ? null : (
+                    <ChevronRight className="md:mr-[-20px] shrink-0" />
+                  )}
                 </Button>
               </div>
             </div>
@@ -398,17 +387,17 @@ const ProfileModal = ({
                           icon: <CreditCard />,
                           text: "Subscription",
                           classes: "",
+                          children: (
+                            <span className="font-bold text-[11px] text-[black] bg-[#27DE55] rounded-lg py-1 px-2">
+                              {isPro ? "Subscribed" : "Get PRO"}
+                            </span>
+                          ),
                         },
                         {
                           key: "insights",
                           icon: <LucideBarChart />,
                           text: "Insights",
                           classes: "",
-                          children: (
-                            <span className="font-bold text-[11px] text-[black] bg-[#27DE55] rounded-lg py-1 px-2">
-                              {isPro ? "Subscribed" : "Get PRO"}
-                            </span>
-                          ),
                         },
                         {
                           key: "landing",
