@@ -378,11 +378,11 @@ const Landing = ({ user, subscriptionInfo }: any) => {
         </section>
         <section
           id="pricing"
-          className="justify-center items-center text-center w-[80%] m-auto px-10"
+          className="justify-center items-center text-center md:w-[80%] m-auto md:px-10"
         >
           <h3 className="text-[40px] font-black mb-10 md:mb-36">Pricing</h3>
-          <div className="flex items-center justify-center">
-            <div className="cards flex md:bg-[#1B1B1B] rounded-3xl max-w-[1100px] p-10 md:flex-row flex-col-reverse">
+          <div className="flex items-center justify-center w-full">
+            <div className="cards flex md:bg-[#1B1B1B] rounded-3xl w-full max-w-[1100px] p-10 md:flex-row flex-col-reverse">
               <div className="text-left p-10 pr-14 mb-10 md:mb-0">
                 <p className="text-[45px] flex relative font-black items-end mb-6">
                   $0
@@ -396,7 +396,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   For most people who want to define a new routine and chase it
                   consistently
                 </p>
-                <ul className="mb-20">
+                <ul className="mb-14">
                   <li className="flex items-center justify-start my-3">
                     <svg
                       width="29"
@@ -484,11 +484,16 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   size="lg"
                   onClick={(f) => {
                     router.push(
-                      !!user ? "/app/profile#subscriptions" : "sign-in"
+                      !!user ? "/app" : "/sign-in"
                     );
                   }}
                 >
-                  {isPro ? "Downgrade plan" : "Try now"}
+                  {!!user
+                    ? subscription === "habit_creator"
+                      ? "Downgrade plan"
+                      : "Go to the app"
+                    : "Try now"}
+                  <ChevronRight className="md:mr-[-20px] shrink-0" />
                 </Button>
               </div>
               <div className="text-left relative md:mt-[-100px] p-10 pr-14 bg-[#272727] border-1 border-[#27DE55] rounded-3xl">
@@ -627,12 +632,20 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   variant="solid"
                   size="lg"
                   onClick={() => {
-                    subscription
-                      ? router.push("/app")
-                      : handleChoosePlan(user?.id);
+                    if (!!user && subscription === "habit_creator") {
+                      router.push("/app");
+                    } else if (!!user) {
+                      handleChoosePlan(user?.userId);
+                    } else {
+                      router.push("/sign-in");
+                    }
                   }}
                 >
-                  {!!user ? "Go to the app" : "Choose plan"}
+                  {!!user
+                    ? subscription === "habit_creator"
+                      ? "Go to the app"
+                      : "Choose plan"
+                    : "Choose plan"}
                   <ChevronRight className="md:mr-[-20px] shrink-0" />
                 </Button>
               </div>

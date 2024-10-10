@@ -59,6 +59,11 @@
   .sidebar-day {
     background-color: #161616;
     color: #424242;
+
+    &.featured-day {
+      background-color: #212121;
+      color: #bcbcbc;
+    }
   }
 
   .sidebar-note {

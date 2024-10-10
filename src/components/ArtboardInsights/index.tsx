@@ -306,8 +306,8 @@ const ArtboardInsights = ({
             <div className="flex">
               {isInsightsOpened && !isLoading ? (
                 <>
-                  <div id="cal-heatmap" className="mr-6 flex-shrink-0"></div>
-                  <div className="w-[50px] h-[270px] flex-shrink-0"></div>
+                  {/* <div id="cal-heatmap" className="mr-6 flex-shrink-0"></div>
+                  <div className="w-[50px] h-[270px] flex-shrink-0"></div> */}
                 </>
               ) : (
                 <div className="flex items-center bg-[#2b2b2b] h-[200px] w-full justify-center rounded-3xl">
@@ -324,15 +324,15 @@ const ArtboardInsights = ({
           </div>
           <div className="w-full mb-16 px-7 relative">
             {isPro ? (
-              <ul className="flex w-full justify-between relative overflow-visible">
+              <ul className="flex w-full gap-1 justify-between relative overflow-visible">
                 {lastTirtyDaysFormatted.map(({ value, date }, index) => {
                   const dayFormatted = new Date(date)?.getDate();
                   return (
                     <li
                       key={index}
-                      className={`relative p-[5px] mx-[2px] h-[80px] bg-[#3E3E3E] rounded-lg overflow-visible`}
+                      className={`w-full relative p-[1px] h-[80px] bg-[#3E3E3E] rounded-lg overflow-visible`}
                     >
-                      <span className="absolute bottom-[-30px] left-0 right-0 text-center justify-center opacity-40 m-auto inline-flex">
+                      <span className="absolute bottom-[-20px] md:bottom-[-30px] text-[10px] md:text-[14px] left-0 right-0 text-center justify-center opacity-40 m-auto inline-flex">
                         <p>{dayFormatted % 2 ? dayFormatted : null}</p>
                       </span>
                       <span
