@@ -29,6 +29,7 @@ import {
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { subscribeAction } from "@/services/stripe";
+import Footer from "../Footer";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const { subscription } = subscriptionInfo;
@@ -483,9 +484,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   variant="solid"
                   size="lg"
                   onClick={(f) => {
-                    router.push(
-                      !!user ? "/app" : "/sign-in"
-                    );
+                    router.push(!!user ? "/app" : "/sign-in");
                   }}
                 >
                   {!!user
@@ -635,7 +634,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     if (!!user && subscription === "habit_creator") {
                       router.push("/app");
                     } else if (!!user) {
-                      console.log(user)
+                      console.log(user);
                       handleChoosePlan(user?.id);
                     } else {
                       router.push("/sign-in");
@@ -733,19 +732,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             </Button>
           </div>
         </section>
-        <footer className="text-center w-full flex flex-col justify-center items-center px-4 text-[#595959]">
-          <ul className="w-full text-center mb-5 text-[18px] justify-center flex">
-            <li className="mx-3 text-center">
-              <Link href={""}>Terms of use</Link>
-            </li>
-            <li className="mx-3 text-center">
-              <Link href={""}>Privacy Policy</Link>
-            </li>
-          </ul>
-          <p className="mb-24 text-[18px]">
-            © Journeylog 2024. All Rights Reserved.
-          </p>
-        </footer>
+        <Footer />
       </main>
     </div>
   );

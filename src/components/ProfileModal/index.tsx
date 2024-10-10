@@ -15,11 +15,12 @@ import {
   SquareArrowOutUpRight,
   User,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const ProfileModal = ({ isOpen, isPro, userInfo, onOpenChange }: any) => {
   const shortenedName = userInfo?.full_name.split(" ").slice(0, -1).join(" ");
+  const router = useRouter();
 
-  console.log(userInfo);
   return (
     <div>
       <Modal
@@ -78,7 +79,7 @@ const ProfileModal = ({ isOpen, isPro, userInfo, onOpenChange }: any) => {
                           classes: "",
                           children: (
                             <span className="font-bold text-[11px] text-[black] bg-[#27DE55] rounded-lg py-1 px-2">
-                              {isPro ? 'Subscribed' : 'Get PRO'}
+                              {isPro ? "Subscribed" : "Get PRO"}
                             </span>
                           ),
                         },
@@ -86,40 +87,57 @@ const ProfileModal = ({ isOpen, isPro, userInfo, onOpenChange }: any) => {
                           icon: <SquareArrowOutUpRight />,
                           text: "Go to landing page",
                           classes: "",
+                          action: () => {
+                            router.push("/");
+                          },
                         },
                         {
                           icon: <ScrollText />,
                           text: "Privacy Policy",
                           classes: "",
+                          action: () => {
+                            router.push("/privacy-policy");
+                          },
                         },
                         {
                           icon: <Handshake />,
                           text: "Terms of use",
                           classes: "",
+                          action: () => {
+                            router.push("/terms-of-use");
+                          },
                         },
                         {
                           icon: <MessageCircle />,
                           text: "Give some feedback",
                           classes: "",
+                          action: () => {
+                            router.push("/#suggestions");
+                          },
                         },
                         {
                           icon: <LogOut />,
                           text: "Logout",
                           classes: "text-[#F31260]",
                         },
-                      ].map(({ icon, text, classes, children }: any) => {
-                        return (
-                          <li
-                            className={`${classes} rounded-xl cursor-pointer hover:bg-[#1E1E1E] hover:text-[white] flex w-full p-4 items-center`}
-                          >
-                            <div className="flex-shrink-0">{icon}</div>
-                            <p className="ml-4 flex justify-between w-full">
-                              {text}
-                              {children ?? children}
-                            </p>
-                          </li>
-                        );
-                      })}
+                      ].map(
+                        ({ icon, text, classes, children, action }: any) => {
+                          return (
+                            <li
+                              onClick={() => {
+                                if (action) return action();
+                              }}
+                              className={`${classes} rounded-xl cursor-pointer hover:bg-[#1E1E1E] hover:text-[white] flex w-full p-4 items-center`}
+                            >
+                              <div className="flex-shrink-0">{icon}</div>
+                              <p className="ml-4 flex justify-between w-full">
+                                {text}
+                                {children ?? children}
+                              </p>
+                            </li>
+                          );
+                        }
+                      )}
                     </ul>
                   </div>
                   <div className="p-6">
