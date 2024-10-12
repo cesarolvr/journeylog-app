@@ -31,12 +31,12 @@ const ProfileModal = ({
   user,
   handleLogout,
 }: any) => {
-  const [panel, setPanel] = useState('profile');
+  const [panel, setPanel] = useState("profile");
   const shortenedName = userInfo?.full_name.split(" ").slice(0, -1).join(" ");
   const router = useRouter();
 
   useEffect(() => {
-    console.log(defaultPanel)
+    console.log(defaultPanel);
     if (defaultPanel) {
       setPanel(defaultPanel);
     }
@@ -48,13 +48,13 @@ const ProfileModal = ({
         <div>
           <p className="text-[24px] mb-7 text-[white]">Profile</p>
           <Input
-            className="mb-3 w-[400px]"
+            className="mb-3 w-[400px] max-w-full"
             type="text"
             defaultValue={userInfo?.full_name}
             label="Name"
           />
           <Input
-            className="mb-7 w-[400px]"
+            className="mb-7 w-[400px] max-w-full"
             color="default"
             type="email"
             label="Email"
@@ -85,7 +85,7 @@ const ProfileModal = ({
           <p className="text-[24px] mb-7 p-8 pb-0 text-[white]">Subscription</p>
           <div className="flex px-8 items-center justify-center w-full min-h-0">
             <div className="cards flex justify-between rounded-3xl w-full min-h-0 md:flex-row flex-col-reverse">
-              <div className="text-left p-8 mb-10 md:mb-0 flex-shrink-0 w-[48%] bg-[#1B1B1B] rounded-3xl flex flex-col justify-between">
+              <div className="text-left p-8 mb-10 md:mb-0 flex-shrink-0 w-full md:w-[48%] bg-[#1B1B1B] rounded-3xl flex flex-col justify-between">
                 <div>
                   <p className="text-[35px] flex relative font-black items-end mb-1">
                     $0
@@ -189,7 +189,7 @@ const ProfileModal = ({
                   {isPro ? "Downgrade plan" : "Your plan"}
                 </Button>
               </div>
-              <div className="text-left w-[48%] flex-shrink-0 relative p-8 bg-[#272727] border-1 border-[#27DE55] rounded-3xl">
+              <div className="text-left w-full md:w-[48%] flex-shrink-0 relative p-8 bg-[#272727] border-1 border-[#27DE55] rounded-3xl mb-8 md:mb-0">
                 <div className="absolute top-[-20px] right-[-20px] bg-[#27DE55] rounded-xl py-2 px-4 text-[black] font-black">
                   {isPro ? "Already subscribed" : "Most popular"}
                 </div>
@@ -201,8 +201,8 @@ const ProfileModal = ({
                   </span>
                 </p>
 
-                <p className="text-[30px] font-black text-[#27DE55] relative">
-                  <span className="absolute bg-[#39d353] px-[5px] uppercase right-[15px] top-[-6px] z-40 font-black rounded-md text-[black] text-[12px]">
+                <p className="text-[27px] md:text-[30px] leading-10 md:leading-normal mb-2 md:mb-0 font-black text-[#27DE55] relative">
+                  <span className="absolute bg-[#39d353] p-1 md:leading-normal md:px-[5px] uppercase hidden md:block md:right-[15px] top-[0px] md:top-[-20px] z-40 leading-3 font-black rounded-md text-[black] text-[12px]">
                     PRO
                   </span>
                   Habit Creator
@@ -336,8 +336,13 @@ const ProfileModal = ({
       </div>
     ),
     insights: (
-      <div>
-        <p>Insights</p>
+      <div className="w-full flex flex-col h-full overflow-scroll">
+        <div className="w-full mb-10">
+          <p className="text-[24px] mb-7 p-8 pb-0 text-[white]">Insights</p>
+        </div>
+        <div className="flex px-8 items-center justify-center w-full min-h-0">
+          Soon...
+        </div>
       </div>
     ),
   };
@@ -363,8 +368,8 @@ const ProfileModal = ({
             <>
               <ModalBody>
                 <div className="flex h-[600px] max-h-[80%]">
-                  <div className="bg-[#181818] p-4 rounded-r-xl border-r-1 border-[#333333] w-[309px] flex-shrink-0">
-                    <div className="relative flex items-center justify-between pt-6 pb-5 px-3 w-full">
+                  <div className="bg-[#181818] px-2 md:px-4 p-4 rounded-r-xl border-r-1 border-[#333333] w-[100px] md:w-[309px] flex-shrink-0">
+                    <div className="relative flex items-center md:justify-between justify-center pt-6 pb-5 px-3 w-full">
                       {isPro ? (
                         <span className="bg-[#39d353] px-[5px] uppercase mr-[-20px] z-40 mt-[-40px] font-black rounded-[5px] text-[black] text-[10px]">
                           PRO
@@ -375,7 +380,7 @@ const ProfileModal = ({
                         name={shortenedName}
                         size="md"
                       ></Avatar>
-                      <div className="text-left flex flex-col justify-center w-full pl-4">
+                      <div className="text-left hidden md:flex flex-col justify-center w-full pl-4">
                         <p className="text-[18px] leading-[18px]">
                           {userInfo?.full_name}
                         </p>
@@ -405,7 +410,8 @@ const ProfileModal = ({
                           key: "insights",
                           icon: <LucideBarChart />,
                           text: "Insights",
-                          classes: "",
+                          classes: "cursor-not-allowed",
+                          blocked: true,
                         },
                         {
                           key: "landing",
@@ -470,14 +476,14 @@ const ProfileModal = ({
                                 return setPanel(key);
                               }}
                               className={classNames(
-                                `${classes} rounded-xl cursor-pointer hover:bg-[#1E1E1E] hover:text-[white] flex w-full p-4 items-center`,
+                                `rounded-xl cursor-pointer hover:bg-[#1E1E1E] hover:text-[white] flex w-full p-4 items-center md:justify-start justify-center ${classes}`,
                                 {
                                   "bg-[#1E1E1E] text-[white]": key === panel,
                                 }
                               )}
                             >
                               <div className="flex-shrink-0">{icon}</div>
-                              <p className="ml-4 flex justify-between w-full">
+                              <p className="ml-4 hidden md:flex justify-between w-full">
                                 {text}
                                 {children ?? children}
                               </p>
