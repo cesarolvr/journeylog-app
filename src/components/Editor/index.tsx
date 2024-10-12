@@ -77,6 +77,7 @@ const Editor = ({
   const [dateSelected, setDateSelected]: any = useState(now);
   const [isOptionsOpened, setIsOptionsOpened]: any = useState(false);
   const [isInsightsOpened, setIsInsightsOpened]: any = useState(false);
+  const [notification, setNotification]: any = useState(null);
 
   const username = user?.user_metadata?.full_name
     .split(" ")
@@ -97,8 +98,37 @@ const Editor = ({
   const getUser = () => user;
   const getActiveLog = () => activeLog;
 
+  const handleSwitchNotifications = debounce(async (isToEnable: any) => {
+    if (isToEnable) {
+      const next_sent = DateTime.fromJSDate(new Date())
+        .plus({ day: 1 })
+        .toUTC()
+        .toISO();
+      const { data, error } = await supabaseClient
+        .from("notification")
+        .upsert({
+          journey_id: activeTab?.id,
+          user_id: getUser()?.id,
+          when: "daily",
+          where: "email",
+          next_sent,
+          time: "9:00:00+00:0",
+        })
+        .select();
+
+      if (data) {
+        setNotification(data[0]);
+      }
+    } else {
+      const { data, error } = await supabaseClient
+        .from("notification")
+        .delete()
+        .eq("journey_id", activeTab?.id);
+      console.log(data);
+    }
+  }, 100);
+
   const handleContentEdit = debounce(async (content: any) => {
-    // if (content === EMPTY_STATE) return null;
     const now = getNow();
     const customDate = getCustomDate();
 
@@ -443,6 +473,7 @@ const Editor = ({
         handleJourneyDeletion={handleJourneyDeletion}
         handleJourneyUpdate={handleJourneyUpdate}
         activeTab={activeTab}
+        handleSwitchNotifications={handleSwitchNotifications}
         setFont={setFont}
         font={font}
         subscriptionInfo={subscriptionInfo}

@@ -22,6 +22,7 @@ const ArtboardOptions = ({
   handleJourneyDeletion,
   handleJourneyUpdate,
   activeTab,
+  handleSwitchNotifications,
   setFont,
 }: any) => {
   const [fontSelected, setFontSelected]: any = useState("default");
@@ -189,9 +190,9 @@ const ArtboardOptions = ({
             </p>
           </div>
           <Switch
-            isDisabled={true}
             className="switch"
             aria-label="Automatic updates"
+            onValueChange={handleSwitchNotifications}
           />
         </div>
         <div className="flex mb-5 items-start cursor-not-allowed">
