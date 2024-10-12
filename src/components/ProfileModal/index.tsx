@@ -82,10 +82,10 @@ const ProfileModal = ({
     subscription: (
       <div className="w-full flex flex-col justify-between h-full overflow-scroll">
         <div className="w-full mb-10">
-          <p className="text-[24px] mb-7 p-8 pb-0 text-[white]">Subscription</p>
-          <div className="flex px-8 items-center justify-center w-full min-h-0">
+          <p className="text-[24px] mb-7 p-8 px-6 md:px-8 pb-0 text-[white]">Subscription</p>
+          <div className="flex px-6 md:px-8 items-center justify-center w-full min-h-0">
             <div className="cards flex justify-between rounded-3xl w-full min-h-0 md:flex-row flex-col-reverse">
-              <div className="text-left p-8 mb-10 md:mb-0 flex-shrink-0 w-full md:w-[48%] bg-[#1B1B1B] rounded-3xl flex flex-col justify-between">
+              <div className="text-left p-6 md:p-8 mb-10 md:mb-0 flex-shrink-0 w-full md:w-[48%] bg-[#1B1B1B] rounded-3xl flex flex-col justify-between">
                 <div>
                   <p className="text-[35px] flex relative font-black items-end mb-1">
                     $0
@@ -103,6 +103,7 @@ const ProfileModal = ({
                     <li className="flex items-center justify-start my-3">
                       <svg
                         width="20"
+                        className="flex-shrink-0"
                         viewBox="0 0 29 36"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -122,6 +123,7 @@ const ProfileModal = ({
                     <li className="flex items-center justify-start my-3">
                       <svg
                         width="20"
+                        className="flex-shrink-0"
                         viewBox="0 0 29 36"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -141,6 +143,7 @@ const ProfileModal = ({
                     <li className="flex items-center justify-start my-3">
                       <svg
                         width="20"
+                        className="flex-shrink-0"
                         viewBox="0 0 29 36"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -160,6 +163,7 @@ const ProfileModal = ({
                     <li className="flex items-center justify-start my-3">
                       <svg
                         width="20"
+                        className="flex-shrink-0"
                         viewBox="0 0 29 36"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -189,7 +193,7 @@ const ProfileModal = ({
                   {isPro ? "Downgrade plan" : "Your plan"}
                 </Button>
               </div>
-              <div className="text-left w-full md:w-[48%] flex-shrink-0 relative p-8 bg-[#272727] border-1 border-[#27DE55] rounded-3xl mb-8 md:mb-0">
+              <div className="text-left w-full md:w-[48%] flex-shrink-0 relative p-6 md:p-8 bg-[#272727] border-1 border-[#27DE55] rounded-3xl mb-8 md:mb-0">
                 <div className="absolute top-[-20px] right-[-20px] bg-[#27DE55] rounded-xl py-2 px-4 text-[black] font-black">
                   {isPro ? "Already subscribed" : "Most popular"}
                 </div>
@@ -215,6 +219,7 @@ const ProfileModal = ({
                   <li className="flex items-center justify-start my-3">
                     <svg
                       width="20"
+                      className="flex-shrink-0"
                       viewBox="0 0 29 36"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -235,6 +240,7 @@ const ProfileModal = ({
                   <li className="flex items-center justify-start my-3">
                     <svg
                       width="20"
+                      className="flex-shrink-0"
                       viewBox="0 0 29 36"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -255,6 +261,7 @@ const ProfileModal = ({
                   <li className="flex items-center justify-start my-3">
                     <svg
                       width="20"
+                      className="flex-shrink-0"
                       viewBox="0 0 29 36"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -275,6 +282,7 @@ const ProfileModal = ({
                   <li className="flex items-center justify-start my-3">
                     <svg
                       width="20"
+                      className="flex-shrink-0"
                       viewBox="0 0 29 36"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -295,6 +303,7 @@ const ProfileModal = ({
                   <li className="flex items-center justify-start my-3">
                     <svg
                       width="20"
+                      className="flex-shrink-0"
                       viewBox="0 0 29 36"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -368,7 +377,7 @@ const ProfileModal = ({
             <>
               <ModalBody>
                 <div className="flex h-[600px] max-h-[80%]">
-                  <div className="bg-[#181818] px-2 md:px-4 p-4 rounded-r-xl border-r-1 border-[#333333] w-[100px] md:w-[309px] flex-shrink-0">
+                  <div className="bg-[#181818] px-1 md:px-4 p-4 rounded-r-xl border-r-1 border-[#333333] w-[70px] md:w-[309px] flex-shrink-0">
                     <div className="relative flex items-center md:justify-between justify-center pt-6 pb-5 px-3 w-full">
                       {isPro ? (
                         <span className="bg-[#39d353] px-[5px] uppercase mr-[-20px] z-40 mt-[-40px] font-black rounded-[5px] text-[black] text-[10px]">
@@ -478,7 +487,7 @@ const ProfileModal = ({
                               className={classNames(
                                 `rounded-xl cursor-pointer hover:bg-[#1E1E1E] hover:text-[white] flex w-full p-4 items-center md:justify-start justify-center ${classes}`,
                                 {
-                                  "bg-[#1E1E1E] text-[white]": key === panel,
+                                  "bg-[#222222] text-[white]": key === panel,
                                 }
                               )}
                             >
