@@ -1,6 +1,12 @@
 "use client";
 
-import { Button, Select, SelectItem, Switch } from "@nextui-org/react";
+import {
+  Button,
+  CircularProgress,
+  Select,
+  SelectItem,
+  Switch,
+} from "@nextui-org/react";
 import classNames from "classnames";
 import {
   AlarmClock,
@@ -21,12 +27,27 @@ const ArtboardOptions = ({
   setIsOptionsOpened,
   handleJourneyDeletion,
   handleJourneyUpdate,
+  isLoading,
   activeTab,
+  notification,
   handleSwitchNotifications,
   setFont,
 }: any) => {
   const [fontSelected, setFontSelected]: any = useState("default");
+  // const [whenDefault, setWhenDefault]: any = useState([notification?.when]);
+  // const [whereDefault, setWhereDefault]: any = useState([notification?.where]);
   const { theme, setTheme } = useTheme();
+
+  const when = [
+    { key: "daily", label: "Daily" },
+    { key: "weekly", label: "Weekly" },
+    { key: "monthly", label: "Monthly" },
+  ];
+  const where = [
+    { key: "email", label: "Email" },
+    { key: "whatsapp", label: "Whatsapp" },
+    { key: "sms", label: "SMS" },
+  ];
 
   useEffect(() => {
     if (activeTab?.theme) {
@@ -190,46 +211,83 @@ const ArtboardOptions = ({
             </p>
           </div>
           <Switch
+            isSelected={!!notification ? true : false}
+            isDisabled={isLoading ? true : false}
+            thumbIcon={() => {
+              return isLoading ? (
+                <CircularProgress
+                  size="sm"
+                  className="switch-loader"
+                  classNames={{
+                    indicator: "stroke-[#39D353]",
+                  }}
+                  aria-label="Loading..."
+                />
+              ) : null;
+            }}
             className="switch"
             aria-label="Automatic updates"
             onValueChange={handleSwitchNotifications}
           />
         </div>
-        <div className="flex mb-5 items-start cursor-not-allowed">
+        <div className="flex mb-5 items-start">
           <AlarmClock className="flex-shrink-0 stroke-[#A1A1AA]" />
           <div className="flex flex-col ml-4">
             <p className="text-[#aaaaaa]">Remember me</p>
-            <p className="text-[#525252] text-sm max-w-[250px]">
+            <p className="text-[#525252] text-sm max-w-[250px] mb-3">
               Define a good interval between notifications. Try not to forget
               but not to be flooded.
             </p>
+            {!!notification ? null : (
+              <small
+                className="cursor-pointer text-[#878787] underline"
+                onClick={() => handleSwitchNotifications(true)}
+              >
+                Turn on the reminders
+              </small>
+            )}
           </div>
-          <Select
-            items={[{ key: "cat", label: "Cat" }]}
-            placeholder="When?"
-            color="default"
-            className="max-w-[100px] select"
-            isDisabled={true}
-          >
-            {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
-          </Select>
+          {!!notification ? (
+            <Select
+              items={when}
+              defaultSelectedKeys={[notification.when]}
+              color="default"
+              className="max-w-[100px] select"
+              isDisabled={!!notification ? false : true}
+              onChange={(e) => handleSwitchNotifications(e, "when")}
+            >
+              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+            </Select>
+          ) : null}
         </div>
         <div className="flex mb-8 items-start cursor-not-allowed">
           <MessageCircleQuestion className="flex-shrink-0 stroke-[#A1A1AA]" />
           <div className="flex flex-col ml-4">
             <p className="text-[#aaaaaa]">Alert me on</p>
-            <p className="text-[#525252] text-sm max-w-[250px]">
+            <p className="text-[#525252] text-sm max-w-[250px] mb-3">
               Choose where you would like to receive notifications.
             </p>
+            {!!notification ? null : (
+              <small
+                className="cursor-pointer text-[#878787] underline"
+                onClick={() => handleSwitchNotifications(true)}
+              >
+                Turn on the reminders
+              </small>
+            )}
           </div>
-          <Select
-            isDisabled={true}
-            items={[{ key: "cat", label: "Cat" }]}
-            placeholder="Where?"
-            className="max-w-[100px] select"
-          >
-            {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
-          </Select>
+          {!!notification ? (
+            <Select
+              items={where}
+              defaultSelectedKeys={[notification.where]}
+              color="default"
+              className="max-w-[100px] select"
+              isDisabled={!!notification ? false : true}
+              onChange={(e) => handleSwitchNotifications(e, "where")}
+            >
+              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+            </Select>
+          ) : null}
         </div>
         <p className="mb-6">Actions</p>
         <div className="flex justify-between mb-4 items-center cursor-not-allowed">

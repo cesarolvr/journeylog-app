@@ -98,35 +98,48 @@ const Editor = ({
   const getUser = () => user;
   const getActiveLog = () => activeLog;
 
-  const handleSwitchNotifications = debounce(async (isToEnable: any) => {
-    if (isToEnable) {
-      const next_sent = DateTime.fromJSDate(new Date())
-        .plus({ day: 1 })
-        .toUTC()
-        .toISO();
-      const { data, error } = await supabaseClient
-        .from("notification")
-        .upsert({
-          journey_id: activeTab?.id,
-          user_id: getUser()?.id,
-          when: "daily",
-          where: "email",
-          next_sent,
-          time: "9:00:00+00:0",
-        })
-        .select();
+  const handleSwitchNotifications = debounce(
+    async (isToEnable: any, setup: any) => {
+      setIsLoading(true);
+      if (isToEnable) {
+        const next_sent = DateTime.fromJSDate(new Date())
+          .plus({ day: 1 })
+          .toUTC()
+          .toISO();
+        const { data, error } = await supabaseClient
+          .from("notification")
+          .upsert({
+            id: notification?.id,
+            journey_id: activeTab?.id,
+            user_id: getUser()?.id,
+            when:
+              setup === "when"
+                ? isToEnable?.target?.value
+                : notification?.when || "daily",
+            where:
+              setup === "where"
+                ? isToEnable?.target?.value
+                : notification?.where || "email",
+            next_sent,
+            time: "9:00:00+00:0",
+          })
+          .select();
 
-      if (data) {
-        setNotification(data[0]);
+        if (data) {
+          setNotification(data[0]);
+        }
+      } else {
+        const { data, error } = await supabaseClient
+          .from("notification")
+          .delete()
+          .eq("id", notification?.id);
+
+        setNotification(null);
       }
-    } else {
-      const { data, error } = await supabaseClient
-        .from("notification")
-        .delete()
-        .eq("journey_id", activeTab?.id);
-      console.log(data);
-    }
-  }, 100);
+      setIsLoading(false);
+    },
+    100
+  );
 
   const handleContentEdit = debounce(async (content: any) => {
     const now = getNow();
@@ -441,6 +454,13 @@ const Editor = ({
 
       setIsReadyToRenderArtboard(true);
       setIsLoading(false);
+
+      const { data: notification }: any = await supabaseClient
+        .from("notification")
+        .select()
+        .eq("journey_id", data[0]?.id);
+
+      setNotification(notification[0]);
     }
   };
 
@@ -473,9 +493,11 @@ const Editor = ({
         handleJourneyDeletion={handleJourneyDeletion}
         handleJourneyUpdate={handleJourneyUpdate}
         activeTab={activeTab}
+        notification={notification}
         handleSwitchNotifications={handleSwitchNotifications}
         setFont={setFont}
         font={font}
+        isLoading={isLoading}
         subscriptionInfo={subscriptionInfo}
       />
       <ArtboardInsights
