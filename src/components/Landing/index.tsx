@@ -156,7 +156,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               </>
             )}
           </div>
-          <ChevronDown size="50" className="mt-[10px]" />
+          <ChevronDown size="50" className="mt-[10px] flex-shrink-0" />
         </section>
         <section
           id="the-product"

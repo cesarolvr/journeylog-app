@@ -102,7 +102,7 @@ const Editor = ({
     async (isToEnable: any, setup: any) => {
       setIsLoading(true);
       if (isToEnable) {
-        const next_sent = DateTime.fromJSDate(new Date())
+        const next_sent = notification?.id ? notification?.next_sent : DateTime.fromJSDate(new Date())
           .plus({ day: 1 })
           .toUTC()
           .toISO();

@@ -539,13 +539,13 @@ const ArtboardInsights = ({
           <div className="w-[50px] flex-shrink-0"></div>
         </div>
         <div className="mb-10 relative">
-          <div className="flex justify-between mb-2 px-7 items-center">
+          <div className="flex justify-between mb-3 px-7 items-center">
             <p>Habit density</p>
             <span className="text-[#656565]">Last 7 days</span>
           </div>
           <div className="w-full mb-7 relative">
             {isPro ? (
-              <ul className="flex w-full justify-between relative gap-2">
+              <ul className="flex w-full justify-between relative gap-2 px-7">
                 {lastSevenDaysFormatted.map(({ value, date }, index) => {
                   const dayFormatted = new Date(date as any)?.getDate();
                   return (
