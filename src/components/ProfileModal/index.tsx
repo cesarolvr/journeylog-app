@@ -32,7 +32,7 @@ const ProfileModal = ({
   handleLogout,
 }: any) => {
   const [panel, setPanel] = useState("profile");
-  const shortenedName = userInfo?.full_name.split(" ").slice(0, -1).join(" ");
+  const shortenedName = userInfo?.full_name?.split(" ")?.slice(0, -1)?.join(" ");
   const router = useRouter();
 
   useEffect(() => {
@@ -206,10 +206,7 @@ const ProfileModal = ({
                 </p>
 
                 <p className="text-[27px] md:text-[30px] leading-10 md:leading-normal mb-2 md:mb-0 font-black text-[#27DE55] relative">
-                  <span className="absolute bg-[#39d353] p-1 md:leading-normal md:px-[5px] uppercase hidden md:block md:right-[15px] top-[0px] md:top-[-20px] z-40 leading-3 font-black rounded-md text-[black] text-[12px]">
-                    PRO
-                  </span>
-                  Habit Creator
+                  PRO
                 </p>
                 <p className="mb-8 max-w-[90%] text-[14px]">
                   For those who want to pursue goals in a disciplined manner and

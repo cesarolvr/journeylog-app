@@ -146,22 +146,22 @@ const ArtboardInsights = ({
       ]
     );
 
-    const timeout = setTimeout(() => {
-      const todayElement = document.querySelector("#cal-heatmap .highlight");
-      if (todayElement) {
-        todayElement.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-          inline: "start",
-        });
-      }
-    }, 2000);
+    // const timeout = setTimeout(() => {
+    //   const todayElement = document.querySelector("#cal-heatmap .highlight");
+    //   if (todayElement) {
+    //     todayElement.scrollIntoView({
+    //       behavior: "smooth",
+    //       block: "center",
+    //       inline: "start",
+    //     });
+    //   }
+    // }, 2000);
     const days = getDaysInARow();
     days && setDaysInARow(days);
 
-    return () => {
-      clearTimeout(timeout);
-    };
+    // return () => {
+    //   clearTimeout(timeout);
+    // };
   }, [frequency]);
 
   const lastTirtyDays = Array.from(Array(31).keys());

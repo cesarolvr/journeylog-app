@@ -80,9 +80,9 @@ const Editor = ({
   const [notification, setNotification]: any = useState(null);
 
   const username = user?.user_metadata?.full_name
-    .split(" ")
-    .slice(0, -1)
-    .join(" ");
+    ?.split(" ")
+    ?.slice(0, -1)
+    ?.join(" ");
 
   const getNow = () => DateTime.now().toUTC().toISO();
   const getCustomDate = () =>

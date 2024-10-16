@@ -63,7 +63,7 @@ const SignIn = () => {
                 loading_button_label: "Creating...",
                 password_label: "Create an password",
                 password_input_placeholder: "••••••••••••",
-                link_text: "Already have an account? Sign Up",
+                link_text: "New here? Sign Up",
                 social_provider_text: "Or try with Google",
               },
             },

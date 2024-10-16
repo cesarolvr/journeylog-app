@@ -508,12 +508,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 </p>
 
                 <p className="text-[40px] font-black text-[#27DE55] relative">
-                  {isPro ? (
-                    <span className="absolute bg-[#39d353] px-[5px] uppercase right-0 top-[-6px] z-40 font-black rounded-md text-[black] text-[12px]">
-                      PRO
-                    </span>
-                  ) : null}
-                  Habit Creator
+                  PRO
                 </p>
                 <p className="mb-8 max-w-[90%]">
                   For those who want to pursue goals in a disciplined manner and
