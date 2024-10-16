@@ -100,7 +100,6 @@ const Editor = ({
 
   const handleSwitchNotifications = debounce(
     async (isToEnable: any, setup: any) => {
-      console.log(getUser())
       setIsLoading(true);
       if (isToEnable) {
         const next_sent = notification?.id ? notification?.next_sent : DateTime.fromJSDate(new Date())
