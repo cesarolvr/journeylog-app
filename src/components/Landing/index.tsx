@@ -89,7 +89,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               <>
                 {" "}
                 <Button
-                  className={`bg-[#39D353] font-black`}
+                  className={`bg-[#39D353] font-black text-[black]`}
                   variant="solid"
                   onClick={(f) => {
                     router.push("/sign-in");

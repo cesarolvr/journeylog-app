@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 import { DateTime } from "luxon";
@@ -26,6 +26,7 @@ import {
   DropdownMenu,
   CircularProgress,
   Button,
+  Input,
 } from "@nextui-org/react";
 
 import { debounce } from "lodash";
@@ -58,6 +59,7 @@ const Editor = ({
   const [forcedActiveTab, setForcedActiveTab]: any = useState(1);
   const [newJourneyTitle, setNewJourneyTitle]: any = useState("");
   const [isLoading, setIsLoading]: any = useState(false);
+  const [journeyName, setJourneyName]: any = useState('');
   const [font, setFont]: any = useState({ class: reenie.className, code: 1 });
 
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
@@ -65,6 +67,10 @@ const Editor = ({
 
   const { subscription } = subscriptionInfo;
   const isPro = subscription === "habit_creator";
+
+  const handleJourneyName = (e) => {
+    setJourneyName(e?.target.value);
+  };
 
   const today = DateTime.now().toUTC().toJSDate();
 
@@ -303,8 +309,8 @@ const Editor = ({
     });
   };
 
-  const handleCreateJourney = debounce(async (e: any) => {
-    const journeyTitle = e?.target?.textContent;
+  const handleCreateJourney = debounce(async (e: any, type: any) => {
+    const journeyTitle = type === "input" ? e : e?.target?.textContent;
     await supabaseClient.from("journey").insert({
       name: journeyTitle || "🏆 New journey",
     });
@@ -744,20 +750,24 @@ const Editor = ({
                   >
                     Or create yours:
                   </p>
-                  <div>
-                    <input
-                      disabled={true}
-                      className="px-4 py-2 text-lg placeholder-gray-500 bg-[#1f1f1f] mb-4 mr-4 rounded-xl h-[50px] outline-none"
-                      value={newJourneyTitle}
-                      onChange={(e) => setNewJourneyTitle(e?.target?.value)}
+                  <div className="flex items-center">
+                    <Input
+                      type="email"
+                      placeholder="🚀  New Journey"
+                      size="lg"
+                      className="w-[200px] mr-3"
+                      onChange={handleJourneyName}
                     />
                     <Button
-                      disabled={true}
+                      isDisabled={!!journeyName ? false : true}
                       variant="bordered"
-                      className="bg-[#343434] border-[#343434] h-[50px] text-lg px-6"
+                      onClick={() => {
+                        handleCreateJourney(journeyName, "input");
+                      }}
+                      className="h-[48px] font-black text-lg bg-[#39D353] border-[#39D353] text-[black] px-6 disabled:bg-[#343434] disabled:text-[#5f5f5f] disabled:border-[#343434]"
                     >
                       Create
-                      <ChevronRight />
+                      <ChevronRight className="mr-[-10px]" />
                     </Button>
                   </div>
                   <br />
