@@ -11,6 +11,7 @@ import classNames from "classnames";
 import {
   AlarmClock,
   Bell,
+  Clock9,
   IndentIncrease,
   MessageCircleQuestion,
 } from "lucide-react";
@@ -42,6 +43,33 @@ const ArtboardOptions = ({
     { key: "daily", label: "Daily" },
     { key: "weekly", label: "Weekly" },
     { key: "monthly", label: "Monthly" },
+  ];
+
+  const whatTime = [
+    { key: "12am", label: "12 AM" },
+    { key: "1am", label: "1 AM" },
+    { key: "2am", label: "2 AM" },
+    { key: "3am", label: "3 AM" },
+    { key: "4am", label: "4 AM" },
+    { key: "5am", label: "5 AM" },
+    { key: "6am", label: "6 AM" },
+    { key: "7am", label: "7 AM" },
+    { key: "8am", label: "8 AM" },
+    { key: "9am", label: "9 AM" },
+    { key: "10am", label: "10 AM" },
+    { key: "11am", label: "11 AM" },
+    { key: "12pm", label: "12 PM" },
+    { key: "01pm", label: "01 PM" },
+    { key: "02pm", label: "02 PM" },
+    { key: "03pm", label: "03 PM" },
+    { key: "04pm", label: "04 PM" },
+    { key: "05pm", label: "05 PM" },
+    { key: "06pm", label: "06 PM" },
+    { key: "07pm", label: "07 PM" },
+    { key: "08pm", label: "08 PM" },
+    { key: "09pm", label: "09 PM" },
+    { key: "10pm", label: "10 PM" },
+    { key: "11pm", label: "11 PM" },
   ];
   const where = [
     { key: "email", label: "Email" },
@@ -202,13 +230,15 @@ const ArtboardOptions = ({
           </li>
         </ul>
         <p className="mb-6">Notifications</p>
-        <div className="flex mb-5 items-start cursor-not-allowed">
-          <Bell className="flex-shrink-0 stroke-[#A1A1AA]" />
-          <div className="flex flex-col ml-4">
-            <p className="text-[#aaaaaa]">Reminders</p>
-            <p className="text-[#525252] text-sm max-w-[250px]">
-              Turn on the reminders to be notified about your progress.
-            </p>
+        <div className="flex mb-5 items-start justify-between">
+          <div className="flex">
+            <Bell className="flex-shrink-0 stroke-[#A1A1AA]" />
+            <div className="flex flex-col ml-4">
+              <p className="text-[#aaaaaa]">Reminders</p>
+              <p className="text-[#525252] text-sm max-w-[190px]">
+                Turn on the reminders to be notified about your progress.
+              </p>
+            </div>
           </div>
           <Switch
             isSelected={!!notification ? true : false}
@@ -230,29 +260,31 @@ const ArtboardOptions = ({
             onValueChange={handleSwitchNotifications}
           />
         </div>
-        <div className="flex mb-5 items-start">
-          <AlarmClock className="flex-shrink-0 stroke-[#A1A1AA]" />
-          <div className="flex flex-col ml-4">
-            <p className="text-[#aaaaaa]">Remember me</p>
-            <p className="text-[#525252] text-sm max-w-[250px] mb-3">
-              Define a good interval between notifications. Try not to forget
-              but not to be flooded.
-            </p>
-            {!!notification ? null : (
-              <small
-                className="cursor-pointer text-[#878787] underline"
-                onClick={() => handleSwitchNotifications(true)}
-              >
-                Turn on the reminders
-              </small>
-            )}
+        <div className="flex mb-5 items-start justify-between">
+          <div className="flex">
+            <AlarmClock className="flex-shrink-0 stroke-[#A1A1AA]" />
+            <div className="flex flex-col ml-4">
+              <p className="text-[#aaaaaa]">Remember me</p>
+              <p className="text-[#525252] text-sm max-w-[190px] mb-3">
+                Define a good interval between notifications. Try not to forget
+                but not to be flooded.
+              </p>
+              {!!notification ? null : (
+                <small
+                  className="cursor-pointer text-[#878787] underline"
+                  onClick={() => handleSwitchNotifications(true)}
+                >
+                  Turn on the reminders
+                </small>
+              )}
+            </div>
           </div>
           {!!notification ? (
             <Select
               items={when}
               defaultSelectedKeys={[notification.when]}
               color="default"
-              className="max-w-[100px] select"
+              className="max-w-[100px] select text-[11px]"
               isDisabled={!!notification ? false : true}
               onChange={(e) => handleSwitchNotifications(e, "when")}
             >
@@ -260,21 +292,46 @@ const ArtboardOptions = ({
             </Select>
           ) : null}
         </div>
-        <div className="flex mb-8 items-start cursor-not-allowed">
-          <MessageCircleQuestion className="flex-shrink-0 stroke-[#A1A1AA]" />
-          <div className="flex flex-col ml-4">
-            <p className="text-[#aaaaaa]">Alert me on</p>
-            <p className="text-[#525252] text-sm max-w-[250px] mb-3">
-              Choose where you would like to receive notifications.
-            </p>
-            {!!notification ? null : (
-              <small
-                className="cursor-pointer text-[#878787] underline"
-                onClick={() => handleSwitchNotifications(true)}
-              >
-                Turn on the reminders
-              </small>
-            )}
+        {!!notification ? (
+          <div className="flex mb-5 items-start justify-between">
+            <div className="flex">
+              <Clock9 className="flex-shrink-0 stroke-[#A1A1AA]" />
+              <div className="flex flex-col ml-4">
+                <p className="text-[#aaaaaa]">What time?</p>
+                <p className="text-[#525252] text-sm max-w-[190px] mb-3">
+                  Choose what time you want to be reminded
+                </p>
+              </div>
+            </div>
+            <Select
+              items={whatTime}
+              defaultSelectedKeys={['9am']}
+              color="default"
+              className="max-w-[100px] select text-[11px]"
+              isDisabled={!!notification ? false : true}
+              onChange={(e) => handleSwitchNotifications(e, "when")}
+            >
+              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+            </Select>
+          </div>
+        ) : null}
+        <div className="flex mb-8 items-start justify-between">
+          <div className="flex">
+            <MessageCircleQuestion className="flex-shrink-0 stroke-[#A1A1AA]" />
+            <div className="flex flex-col ml-4">
+              <p className="text-[#aaaaaa]">Alert me on</p>
+              <p className="text-[#525252] text-sm max-w-[170px] mb-3">
+                Choose where you would like to receive notifications.
+              </p>
+              {!!notification ? null : (
+                <small
+                  className="cursor-pointer text-[#878787] underline"
+                  onClick={() => handleSwitchNotifications(true)}
+                >
+                  Turn on the reminders
+                </small>
+              )}
+            </div>
           </div>
           {!!notification ? (
             <Select

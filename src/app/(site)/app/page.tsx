@@ -101,6 +101,7 @@ const App = () => {
           setDefaultPanel={setDefaultPanel}
           isOpen={isOpen}
           onOpen={onOpen}
+          setTheme={setTheme}
           onOpenChange={onOpenChange}
         />
       )}

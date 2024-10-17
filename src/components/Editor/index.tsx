@@ -37,6 +37,7 @@ import ArtboardTabs from "../ArtboardTabs";
 import ArtboardOptions from "../ArtboardOptions";
 import ArtboardInsights from "../ArtboardInsights";
 import { ArrowUpRight, ChevronRight, LogOut, User } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
@@ -45,6 +46,7 @@ const Editor = ({
   subscriptionInfo,
   onOpen,
   handleLogout,
+  setTheme,
   setDefaultPanel,
 }: any) => {
   const supabaseClient = useSupabaseClient();
@@ -100,47 +102,52 @@ const Editor = ({
 
   const handleSwitchNotifications = debounce(
     async (isToEnable: any, setup: any) => {
-      setIsLoading(true);
-      if (isToEnable) {
-        const next_sent = notification?.id
-          ? notification?.next_sent
-          : DateTime.fromJSDate(new Date())
-              .set({ hour: 9 })
-              .plus({ day: 1 })
-              .toUTC()
-              .toISO();
-        const { data, error } = await supabaseClient
-          .from("notification")
-          .upsert({
-            id: notification?.id,
-            journey_id: activeTab?.id,
-            email: getUser()?.email,
-            phone: getUser()?.phone,
-            user_id: getUser()?.id,
-            when:
-              setup === "when"
-                ? isToEnable?.target?.value
-                : notification?.when || "daily",
-            where:
-              setup === "where"
-                ? isToEnable?.target?.value
-                : notification?.where || "email",
-            next_sent,
-          })
-          .select();
-
-        if (data) {
-          setNotification(data[0]);
-        }
+      if (!isPro) {
+        onOpen();
+        setDefaultPanel("subscription");
       } else {
-        const { data, error } = await supabaseClient
-          .from("notification")
-          .delete()
-          .eq("id", notification?.id);
+        setIsLoading(true);
+        if (isToEnable) {
+          const next_sent = notification?.id
+            ? notification?.next_sent
+            : DateTime.fromJSDate(new Date())
+                .set({ hour: 9, minute: 0, second: 0 })
+                .plus({ day: 1 })
+                .toUTC()
+                .toISO();
+          const { data, error } = await supabaseClient
+            .from("notification")
+            .upsert({
+              id: notification?.id,
+              journey_id: activeTab?.id,
+              email: getUser()?.email,
+              phone: getUser()?.phone,
+              user_id: getUser()?.id,
+              when:
+                setup === "when"
+                  ? isToEnable?.target?.value
+                  : notification?.when || "daily",
+              where:
+                setup === "where"
+                  ? isToEnable?.target?.value
+                  : notification?.where || "email",
+              next_sent,
+            })
+            .select();
 
-        setNotification(null);
+          if (data) {
+            setNotification(data[0]);
+          }
+        } else {
+          const { data, error } = await supabaseClient
+            .from("notification")
+            .delete()
+            .eq("id", notification?.id);
+
+          setNotification(null);
+        }
+        setIsLoading(false);
       }
-      setIsLoading(false);
     },
     100
   );
@@ -246,6 +253,7 @@ const Editor = ({
 
       if (newTabsToBeRendered && newTabsToBeRendered?.length === 0) {
         setPreviewList([]);
+        setTheme("dark");
       }
     }
   }, 500);

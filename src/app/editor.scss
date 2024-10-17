@@ -152,12 +152,6 @@
     color: #c8c1a9;
   }
 
-  .select {
-    button {
-      background-color: #27272a;
-    }
-  }
-
   .editor-listitem-checked:before {
     color: #cbc2a6 !important;
   }
@@ -917,4 +911,15 @@ i.justify-align {
 
 .switch-loader svg {
   width: 28px;
+}
+
+.select {
+  font-size: 11px;
+  button, div[data-slot="content"] {
+    background-color: #272727;
+  }
+}
+
+* {
+  --nextui-content1: 240 0% 8%;
 }
