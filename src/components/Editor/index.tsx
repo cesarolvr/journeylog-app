@@ -102,10 +102,13 @@ const Editor = ({
     async (isToEnable: any, setup: any) => {
       setIsLoading(true);
       if (isToEnable) {
-        const next_sent = notification?.id ? notification?.next_sent : DateTime.fromJSDate(new Date())
-          .plus({ day: 1 })
-          .toUTC()
-          .toISO();
+        const next_sent = notification?.id
+          ? notification?.next_sent
+          : DateTime.fromJSDate(new Date())
+              .set({ hour: 9 })
+              .plus({ day: 1 })
+              .toUTC()
+              .toISO();
         const { data, error } = await supabaseClient
           .from("notification")
           .upsert({
@@ -123,7 +126,6 @@ const Editor = ({
                 ? isToEnable?.target?.value
                 : notification?.where || "email",
             next_sent,
-            time: "9:00:00+00:0",
           })
           .select();
 
