@@ -609,7 +609,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     if (!!user && subscription === "habit_creator") {
                       router.push("/app");
                     } else if (!!user) {
-                      console.log(user);
                       handleChoosePlan(user?.id);
                     } else {
                       router.push("/sign-in");

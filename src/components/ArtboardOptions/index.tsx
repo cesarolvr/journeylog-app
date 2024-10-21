@@ -19,6 +19,7 @@ import React, { useEffect, useState } from "react";
 
 import { Reenie_Beanie, Nunito_Sans, Cutive_Mono } from "next/font/google";
 import { useTheme } from "next-themes";
+import { DateTime } from "luxon";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: "400" });
 const cutive = Cutive_Mono({ subsets: ["latin"], weight: "400" });
@@ -46,30 +47,30 @@ const ArtboardOptions = ({
   ];
 
   const whatTime = [
-    { key: "12am", label: "12 AM" },
-    { key: "1am", label: "1 AM" },
-    { key: "2am", label: "2 AM" },
-    { key: "3am", label: "3 AM" },
-    { key: "4am", label: "4 AM" },
-    { key: "5am", label: "5 AM" },
-    { key: "6am", label: "6 AM" },
-    { key: "7am", label: "7 AM" },
-    { key: "8am", label: "8 AM" },
-    { key: "9am", label: "9 AM" },
-    { key: "10am", label: "10 AM" },
-    { key: "11am", label: "11 AM" },
-    { key: "12pm", label: "12 PM" },
-    { key: "01pm", label: "01 PM" },
-    { key: "02pm", label: "02 PM" },
-    { key: "03pm", label: "03 PM" },
-    { key: "04pm", label: "04 PM" },
-    { key: "05pm", label: "05 PM" },
-    { key: "06pm", label: "06 PM" },
-    { key: "07pm", label: "07 PM" },
-    { key: "08pm", label: "08 PM" },
-    { key: "09pm", label: "09 PM" },
-    { key: "10pm", label: "10 PM" },
-    { key: "11pm", label: "11 PM" },
+    { key: "0-key", label: "12 AM" },
+    { key: "1-key", label: "1 AM" },
+    { key: "2-key", label: "2 AM" },
+    { key: "3-key", label: "3 AM" },
+    { key: "4-key", label: "4 AM" },
+    { key: "5-key", label: "5 AM" },
+    { key: "6-key", label: "6 AM" },
+    { key: "7-key", label: "7 AM" },
+    { key: "8-key", label: "8 AM" },
+    { key: "9-key", label: "9 AM" },
+    { key: "10-key", label: "10 AM" },
+    { key: "11-key", label: "11 AM" },
+    { key: "12-key", label: "12 PM" },
+    { key: "13-key", label: "01 PM" },
+    { key: "14-key", label: "02 PM" },
+    { key: "15-key", label: "03 PM" },
+    { key: "16-key", label: "04 PM" },
+    { key: "17-key", label: "05 PM" },
+    { key: "18-key", label: "06 PM" },
+    { key: "19-key", label: "07 PM" },
+    { key: "20-key", label: "08 PM" },
+    { key: "21-key", label: "09 PM" },
+    { key: "22-key", label: "10 PM" },
+    { key: "23-key", label: "11 PM" },
   ];
   const where = [
     { key: "email", label: "Email" },
@@ -272,7 +273,7 @@ const ArtboardOptions = ({
               {!!notification ? null : (
                 <small
                   className="cursor-pointer text-[#878787] underline"
-                  onClick={() => handleSwitchNotifications(true)}
+                  onClick={() => handleSwitchNotifications(true, "turnon")}
                 >
                   Turn on the reminders
                 </small>
@@ -305,11 +306,13 @@ const ArtboardOptions = ({
             </div>
             <Select
               items={whatTime}
-              defaultSelectedKeys={['9am']}
+              defaultSelectedKeys={[
+                `${DateTime.fromISO(notification?.next_sent)?.hour}-key`,
+              ]}
               color="default"
               className="max-w-[100px] select text-[11px]"
               isDisabled={!!notification ? false : true}
-              onChange={(e) => handleSwitchNotifications(e, "when")}
+              onChange={(e) => handleSwitchNotifications(e, "what")}
             >
               {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
             </Select>
@@ -326,7 +329,7 @@ const ArtboardOptions = ({
               {!!notification ? null : (
                 <small
                   className="cursor-pointer text-[#878787] underline"
-                  onClick={() => handleSwitchNotifications(true)}
+                  onClick={() => handleSwitchNotifications(true, "turnon")}
                 >
                   Turn on the reminders
                 </small>

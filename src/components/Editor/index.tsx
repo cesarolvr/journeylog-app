@@ -59,7 +59,7 @@ const Editor = ({
   const [forcedActiveTab, setForcedActiveTab]: any = useState(1);
   const [newJourneyTitle, setNewJourneyTitle]: any = useState("");
   const [isLoading, setIsLoading]: any = useState(false);
-  const [journeyName, setJourneyName]: any = useState('');
+  const [journeyName, setJourneyName]: any = useState("");
   const [font, setFont]: any = useState({ class: reenie.className, code: 1 });
 
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
@@ -114,13 +114,47 @@ const Editor = ({
       } else {
         setIsLoading(true);
         if (isToEnable) {
-          const next_sent = notification?.id
-            ? notification?.next_sent
+          const isWhen = setup === "when";
+          const isWhat = setup === "what";
+
+          const valueWhen = isWhen
+            ? isToEnable?.target?.value
+            : notification?.when;
+          const valueWhere =
+            setup === "where" ? isToEnable?.target?.value : notification?.where;
+          const valueWhat =
+            setup === "what"
+              ? isToEnable?.target?.value?.split("-")[0]
+              : DateTime.fromISO(notification?.next_sent).hour;
+
+          const nextSent = notification?.id
+            ? DateTime.fromISO(notification?.next_sent)
+                .set({ hour: valueWhat ? valueWhat : 9, minute: 0, second: 0 })
+                .plus({ day: 1 })
+                .toUTC()
+                .toISO()
             : DateTime.fromJSDate(new Date())
                 .set({ hour: 9, minute: 0, second: 0 })
                 .plus({ day: 1 })
                 .toUTC()
                 .toISO();
+
+          const newNextSent = isWhen
+            ? DateTime.fromJSDate(new Date())
+                .set({ hour: valueWhat ? valueWhat : 9, minute: 0, second: 0 })
+                .plus(
+                  valueWhen === "weekly"
+                    ? { week: 1 }
+                    : valueWhen === "monthly"
+                    ? { month: 1 }
+                    : { day: 1 }
+                )
+                .toUTC()
+                .toISO()
+            : nextSent;
+
+          console.log("aaaa", newNextSent);
+
           const { data, error } = await supabaseClient
             .from("notification")
             .upsert({
@@ -129,15 +163,9 @@ const Editor = ({
               email: getUser()?.email,
               phone: getUser()?.phone,
               user_id: getUser()?.id,
-              when:
-                setup === "when"
-                  ? isToEnable?.target?.value
-                  : notification?.when || "daily",
-              where:
-                setup === "where"
-                  ? isToEnable?.target?.value
-                  : notification?.where || "email",
-              next_sent,
+              when: valueWhen,
+              where: valueWhere,
+              next_sent: newNextSent,
             })
             .select();
 

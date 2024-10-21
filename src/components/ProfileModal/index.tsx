@@ -36,7 +36,6 @@ const ProfileModal = ({
   const router = useRouter();
 
   useEffect(() => {
-    console.log(defaultPanel);
     if (defaultPanel) {
       setPanel(defaultPanel);
     }
