@@ -307,6 +307,7 @@ const Editor = ({
       journeyTabs.length === 1 ? journeyTabs[0] : journeyTabs[index];
 
     setIsLoading(true);
+    setNotification(null);
 
     const { data: updatedJourney } = await supabaseClient
       .from("journey")
@@ -341,6 +342,13 @@ const Editor = ({
     getPreviews(dateStringStart, dateStringEnd, activeTab, {
       forceUpdate: true,
     });
+
+    const { data: notification }: any = await supabaseClient
+      .from("notification")
+      .select()
+      .eq("journey_id", activeTab.id);
+
+    setNotification(notification[0]);
   };
 
   const handleCreateJourney = debounce(async (e: any, type: any) => {
