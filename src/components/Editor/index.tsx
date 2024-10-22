@@ -172,6 +172,8 @@ const Editor = ({
               where: valueWhere,
               next_sent: newNextSent,
               journey_name: activeTab?.name,
+              user_name:
+                getUser()?.user_metadata?.full_name || getUser()?.email,
             })
             .select();
 
