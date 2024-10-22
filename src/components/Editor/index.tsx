@@ -57,7 +57,6 @@ const Editor = ({
   const [isOpened, setIsOpened]: any = useState(true);
   const [previewList, setPreviewList]: any = useState(null);
   const [forcedActiveTab, setForcedActiveTab]: any = useState(1);
-  const [newJourneyTitle, setNewJourneyTitle]: any = useState("");
   const [isLoading, setIsLoading]: any = useState(false);
   const [journeyName, setJourneyName]: any = useState("");
   const [font, setFont]: any = useState({ class: reenie.className, code: 1 });
@@ -68,7 +67,7 @@ const Editor = ({
   const { subscription } = subscriptionInfo;
   const isPro = subscription === "habit_creator";
 
-  const handleJourneyName = (e) => {
+  const handleJourneyName = (e: any) => {
     setJourneyName(e?.target.value);
   };
 
@@ -161,13 +160,6 @@ const Editor = ({
                 .toISO()
             : nextSent;
 
-          console.log({
-            valueWhen,
-            valueWhat,
-            valueWhere,
-            newNextSent,
-          });
-
           const { data, error } = await supabaseClient
             .from("notification")
             .upsert({
@@ -179,6 +171,7 @@ const Editor = ({
               when: valueWhen,
               where: valueWhere,
               next_sent: newNextSent,
+              journey_name: activeTab?.name,
             })
             .select();
 
@@ -739,49 +732,49 @@ const Editor = ({
                     <Button
                       className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
                       variant="bordered"
-                      onClick={(e) => handleCreateJourney(e)}
+                      onClick={(e) => handleCreateJourney(e, null)}
                     >
                       🏋🏽 Workout on weekdays
                     </Button>
                     <Button
                       className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
                       variant="bordered"
-                      onClick={(e) => handleCreateJourney(e)}
+                      onClick={(e) => handleCreateJourney(e, null)}
                     >
                       👩🏽‍🦳 Call mom everyday
                     </Button>
                     <Button
                       className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
                       variant="bordered"
-                      onClick={(e) => handleCreateJourney(e)}
+                      onClick={(e) => handleCreateJourney(e, null)}
                     >
                       🚰 Drink water
                     </Button>
                     <Button
                       className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
                       variant="bordered"
-                      onClick={(e) => handleCreateJourney(e)}
+                      onClick={(e) => handleCreateJourney(e, null)}
                     >
                       🗣️ To learn a new language
                     </Button>
                     <Button
                       className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
                       variant="bordered"
-                      onClick={(e) => handleCreateJourney(e)}
+                      onClick={(e) => handleCreateJourney(e, null)}
                     >
                       🧘🏽 Daily meditation
                     </Button>
                     <Button
                       className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
                       variant="bordered"
-                      onClick={(e) => handleCreateJourney(e)}
+                      onClick={(e) => handleCreateJourney(e, null)}
                     >
                       🍏 Eat fruits
                     </Button>
                     <Button
                       className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
                       variant="bordered"
-                      onClick={(e) => handleCreateJourney(e)}
+                      onClick={(e) => handleCreateJourney(e, null)}
                     >
                       📚 To read consistently
                     </Button>
