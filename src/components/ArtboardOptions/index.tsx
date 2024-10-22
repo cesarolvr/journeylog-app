@@ -258,7 +258,7 @@ const ArtboardOptions = ({
             }}
             className="switch"
             aria-label="Automatic updates"
-            onValueChange={handleSwitchNotifications}
+            onValueChange={(e) => handleSwitchNotifications(e, "turnon")}
           />
         </div>
         <div className="flex mb-5 items-start justify-between">
@@ -283,6 +283,7 @@ const ArtboardOptions = ({
           {!!notification ? (
             <Select
               items={when}
+              disallowEmptySelection={true}
               defaultSelectedKeys={[notification.when]}
               color="default"
               className="max-w-[100px] select text-[11px]"
@@ -306,6 +307,7 @@ const ArtboardOptions = ({
             </div>
             <Select
               items={whatTime}
+              disallowEmptySelection={true}
               defaultSelectedKeys={[
                 `${DateTime.fromISO(notification?.next_sent)?.hour}-key`,
               ]}
@@ -339,6 +341,7 @@ const ArtboardOptions = ({
           {!!notification ? (
             <Select
               items={where}
+              disallowEmptySelection={true}
               defaultSelectedKeys={[notification.where]}
               color="default"
               className="max-w-[100px] select"

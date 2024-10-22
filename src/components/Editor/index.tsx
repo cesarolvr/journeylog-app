@@ -114,23 +114,31 @@ const Editor = ({
       } else {
         setIsLoading(true);
         if (isToEnable) {
+          const isTurnOn = setup === "turnon";
           const isWhen = setup === "when";
+          const isWhere = setup === "where";
           const isWhat = setup === "what";
 
           const valueWhen = isWhen
             ? isToEnable?.target?.value
             : notification?.when;
-          const valueWhere =
-            setup === "where" ? isToEnable?.target?.value : notification?.where;
-          const valueWhat =
-            setup === "what"
-              ? isToEnable?.target?.value?.split("-")[0]
-              : DateTime.fromISO(notification?.next_sent).hour;
+
+          const valueWhere = isWhere
+            ? isToEnable?.target?.value
+            : notification?.where;
+
+          const valueWhat = isWhat
+            ? isToEnable?.target?.value?.split("-")[0]
+            : DateTime.fromISO(notification?.next_sent).hour;
 
           const nextSent = notification?.id
             ? DateTime.fromISO(notification?.next_sent)
-                .set({ hour: valueWhat ? valueWhat : 9, minute: 0, second: 0 })
-                .plus({ day: 1 })
+                .set({
+                  hour: valueWhat ? valueWhat : 9,
+                  minute: 0,
+                  second: 0,
+                })
+                .plus({ day: isWhat || isWhere ? 0 : 1 })
                 .toUTC()
                 .toISO()
             : DateTime.fromJSDate(new Date())
@@ -153,7 +161,12 @@ const Editor = ({
                 .toISO()
             : nextSent;
 
-          console.log("aaaa", newNextSent);
+          console.log({
+            valueWhen,
+            valueWhat,
+            valueWhere,
+            newNextSent,
+          });
 
           const { data, error } = await supabaseClient
             .from("notification")
