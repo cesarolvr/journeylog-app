@@ -19,19 +19,23 @@ import Andre from "../../images/andre.png";
 import {
   Accordion,
   AccordionItem,
-  Avatar,
   Button,
   Card,
   CardBody,
   CardHeader,
+  CircularProgress,
   Textarea,
 } from "@nextui-org/react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { subscribeAction } from "@/services/stripe";
 import Footer from "../Footer";
+import { useState } from "react";
+import { sendGAEvent } from "@next/third-parties/google";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
+  const [formContent, setFormContent] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { subscription } = subscriptionInfo;
   const router = useRouter();
   const defaultContent =
@@ -44,6 +48,25 @@ const Landing = ({ user, subscriptionInfo }: any) => {
       router.push(url);
     } else {
       console.error("Failed to create subscription");
+    }
+  };
+
+  const handleSuggestionForm = (e: any) => {
+    const max = 150;
+    const value = e.target.value;
+    const currentLength = e?.target?.value?.length;
+    if (currentLength <= max) {
+      setFormContent(value);
+    }
+  };
+
+  const submitForm = () => {
+    if (formContent) {
+      setIsLoading(true);
+      setTimeout(() => {
+        sendGAEvent({ event: "feedback_form_submit", value: formContent });
+        setIsLoading(false);
+      }, 5000);
     }
   };
 
@@ -556,7 +579,9 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                       />
                     </svg>
 
-                    <p className="ml-4">Reminders via e-mail, SMS or Whatsapp</p>
+                    <p className="ml-4">
+                      Reminders via e-mail, SMS or Whatsapp
+                    </p>
                   </li>
                   <li className="flex items-center justify-start my-3">
                     <svg
@@ -598,7 +623,9 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                       />
                     </svg>
 
-                    <p className="ml-4">Access to <strong>full</strong> habit insights</p>
+                    <p className="ml-4">
+                      Access to <strong>full</strong> habit insights
+                    </p>
                   </li>
                 </ul>
                 <Button
@@ -695,14 +722,28 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             <Textarea
               className="textarea w-[500px] max-w-[80%] m-auto mb-12 bg-[#1D1D1D] rounded-[30px]"
               size="lg"
+              isDisabled={isLoading}
+              onChange={handleSuggestionForm}
             />
             <Button
               className="bg-white text-[20px] px-16 text-black font-black"
               variant="solid"
+              isDisabled={isLoading}
               size="lg"
-              onClick={(f) => f}
+              onClick={submitForm}
             >
-              Send
+              {isLoading ? (
+                <CircularProgress
+                  size="sm"
+                  className="switch-loader"
+                  classNames={{
+                    indicator: "stroke-[#ffffff]",
+                  }}
+                  aria-label="Loading..."
+                />
+              ) : (
+                <> Send</>
+              )}
             </Button>
           </div>
         </section>

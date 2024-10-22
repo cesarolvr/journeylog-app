@@ -121,3 +121,25 @@ button.tabJourney > div {
     color: #919191 !important;
   }
 }
+
+.t-consentPrompt {
+  border-radius: 30px !important;
+}
+
+.t-consentPrompt > div > div:first-child {
+  background-color: red !important;
+  display: none !important;
+}
+
+.t-acceptAllButton, .t-preference-button, .t-allowAllButton, .t-declineAllButton {
+  border-radius: 13px !important;
+}
+
+div[class*="termly-styles-modal-md"] {
+  border-radius: 25px !important;
+  overflow: hidden !important;
+}
+
+h2[class*="termly-styles-preferenceTitle-e3b150"] {
+font-size: 25px !important;
+}
