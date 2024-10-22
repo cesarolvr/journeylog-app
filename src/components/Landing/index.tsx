@@ -34,7 +34,9 @@ import { useState } from "react";
 import { sendGAEvent } from "@next/third-parties/google";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
-  const [formContent, setFormContent] = useState(null);
+  const [formContent, setFormContent] = useState("");
+  const [buttonFormText, setButtonFormText] = useState("Send");
+
   const [isLoading, setIsLoading] = useState(false);
   const { subscription } = subscriptionInfo;
   const router = useRouter();
@@ -51,10 +53,9 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     }
   };
 
-  const handleSuggestionForm = (e: any) => {
+  const handleSuggestionForm = (value: any) => {
     const max = 150;
-    const value = e.target.value;
-    const currentLength = e?.target?.value?.length;
+    const currentLength = value?.length;
     if (currentLength <= max) {
       setFormContent(value);
     }
@@ -66,7 +67,9 @@ const Landing = ({ user, subscriptionInfo }: any) => {
       setTimeout(() => {
         sendGAEvent({ event: "feedback_form_submit", value: formContent });
         setIsLoading(false);
-      }, 5000);
+        setButtonFormText("Sent 👍🏾");
+        setFormContent("");
+      }, 2000);
     }
   };
 
@@ -673,7 +676,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 title="Why would I use it?"
                 className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
-                {defaultContent}
+                It helps you build and maintain habits by logging your
+                activities and tracking progress.
               </AccordionItem>
               <AccordionItem
                 key="2"
@@ -681,7 +685,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 title="It's possible to create a habit using this app?"
                 className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
-                {defaultContent}
+                Yes, Journeylog is designed to help you develop and sustain
+                habits with consistency.
               </AccordionItem>
               <AccordionItem
                 key="3"
@@ -689,7 +694,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 title="Where and how can I use Journeylog?"
                 className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
-                {defaultContent}
+                You can use Journeylog on any device (Desktop, Mobile or WebApp
+                saving in your home page). Just create an account and try it!
               </AccordionItem>
               <AccordionItem
                 key="4"
@@ -697,7 +703,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 title="It's an app for iOS or Android?"
                 className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
-                {defaultContent}
+                Currently, Journeylog is a web-based app, with future plans for
+                mobile.
               </AccordionItem>
               <AccordionItem
                 key="5"
@@ -705,7 +712,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 title="It's free?"
                 className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
-                {defaultContent}
+                Yes, there’s a free plan, but if you want more, there is an option to upgrade.
               </AccordionItem>
             </Accordion>
           </div>
@@ -723,7 +730,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               className="textarea w-[500px] max-w-[80%] m-auto mb-12 bg-[#1D1D1D] rounded-[30px]"
               size="lg"
               isDisabled={isLoading}
-              onChange={handleSuggestionForm}
+              onValueChange={handleSuggestionForm}
+              value={formContent}
             />
             <Button
               className="bg-white text-[20px] px-16 text-black font-black"
@@ -742,7 +750,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   aria-label="Loading..."
                 />
               ) : (
-                <> Send</>
+                <>{buttonFormText}</>
               )}
             </Button>
           </div>
