@@ -12,6 +12,9 @@ const Footer = () => {
         <li className="mx-3 text-center">
           <Link className="hover:underline" href="/privacy-policy">Privacy Policy</Link>
         </li>
+        <li className="mx-3 text-center">
+          <Link className="hover:underline termly-display-preferences" href="#">Consent Preferences</Link>
+        </li>
       </ul>
       <p className="mb-24 text-[18px]">
         © Journeylog 2024. All Rights Reserved.

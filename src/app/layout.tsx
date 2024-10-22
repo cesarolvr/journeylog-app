@@ -10,6 +10,7 @@ const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "900"] });
 // Styles
 import "./globals.scss";
 import "./editor.scss";
+import Script from "next/script";
 
 export default async function RootLayout({
   children,
@@ -27,6 +28,10 @@ export default async function RootLayout({
       <meta
         name="apple-mobile-web-app-status-bar-style"
         content="black-translucent"
+      />
+      <Script
+        src="https://app.termly.io/resource-blocker/e75a858e-67fd-4b97-aace-63f842fce17c?autoBlock=on"
+        type="text/javascript"
       />
       <body className="min-h-[100svh]">
         <SupabaseProvider>
