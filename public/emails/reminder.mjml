@@ -9,23 +9,16 @@
     <mj-style inline="inline">a { text-decoration: none!important; color: inherit!important; }</mj-style>
   </mj-head>
   <mj-body background-color="#1E1E1E">
-    <mj-section>
-      <mj-column width="40%">
-        <mj-image src="https://journeylog-app.vercel.app/_next/static/media/logoFull.60100830.svg" alt="header image" padding-top="70px" padding-bottom="50px"></mj-image>
-      </mj-column>
-    </mj-section>
-    <mj-section padding-bottom="20px" padding-top="10px">
+    <mj-section padding-bottom="20px" padding-top="10px" border-radius="30px">
       <mj-column>
-        <mj-text align="center" padding="10px 25px" font-size="20px" color="#fff" padding-bottom="30px"><strong>Hey, {{FirstName}}</strong></mj-text>
-        <mj-text color="#D3D3D3" align="center" font-size="18px" font-family="Arial" padding-bottom="40px">Today, you have these journeys to keep running:</mj-text>
-        <mj-text color="#39D353" font-weight="bold" align="center" font-size="26px" font-family="Arial" line-height="50px">👉 Workout</mj-text>
-        <mj-text color="#39D353" line-height="50px" font-weight="bold" align="center" font-size="26px" font-family="Arial">👉 Drink 2L of Water</mj-text>
-        <mj-text color="#39D353" line-height="50px" font-weight="bold" align="center" font-size="26px" font-family="Arial">👉 Call to my mom</mj-text>
-        <mj-text color="#39D353" line-height="50px" font-weight="bold" align="center" font-size="26px" font-family="Arial"></mj-text>
-        <mj-button background-color="#ffffff" color="#39D353" href="https://mjml.io" font-family="Arial, sans-serif" padding="40px 0 0 0" font-weight="bold" font-size="20px">Go to the app</mj-button>
-        <mj-text align="center" color="#D3D3D3" font-size="18px" font-family="Arial, sans-serif" padding-top="60px" padding-bottom="10px">Don't give up! 🤞
+         <mj-image width="200px" src="https://www.journeylog.app/images/logoFull.png" alt="header image" padding-top="50px" padding-bottom="50px"></mj-image>
+        <mj-text align="center" padding="10px 25px" font-size="20px" color="#fff" padding-bottom="20px"><strong>Hey, ${name}</strong></mj-text>
+        <mj-text color="#D3D3D3" align="center" font-size="16px" font-family="Arial" padding-bottom="30px">You have this <strong>${frequency}</strong> journey to keep running:</mj-text>
+        <mj-text color="#39D353" font-weight="bold" align="center" font-size="26px" font-family="Arial" line-height="50px">${journey_name}</mj-text>
+        <mj-button background-color="#ffffff" color="#39D353" href="https://journeylog.app/" font-family="Arial, sans-serif" padding="50px 0 0 0" font-weight="bold" font-size="18px">Go to the app</mj-button>
+        <mj-text align="center" color="#D3D3D3" font-size="16px" font-family="Arial, sans-serif" padding-top="60px" padding-bottom="10px">Don't give up! 🤞
         </mj-text>
-                <mj-text align="center" color="#D3D3D3" font-size="18px" font-family="Arial, sans-serif" padding-top="0px" padding-bottom="30px">The Journeylog Team
+                <mj-text align="center" color="#D3D3D3" font-size="16px" font-family="Arial, sans-serif" padding-top="0px" padding-bottom="30px">The Journeylog Team
         </mj-text>
       </mj-column>
     </mj-section>
