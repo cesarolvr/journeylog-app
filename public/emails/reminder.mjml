@@ -9,6 +9,7 @@
     <mj-style inline="inline">a { text-decoration: none!important; color: inherit!important; }</mj-style>
   </mj-head>
   <mj-body background-color="#1E1E1E">
+    <mj-section padding-bottom="30px" background-color="#1E1E1E" padding-top="30px"></mj-section>
     <mj-section padding-bottom="20px" padding-top="10px" border-radius="30px">
       <mj-column>
          <mj-image width="200px" src="https://www.journeylog.app/images/logoFull.png" alt="header image" padding-top="50px" padding-bottom="50px"></mj-image>
@@ -22,5 +23,6 @@
         </mj-text>
       </mj-column>
     </mj-section>
+    <mj-section padding-bottom="30px" background-color="#1E1E1E" padding-top="30px"></mj-section>
   </mj-body>
 </mjml>
