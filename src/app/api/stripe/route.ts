@@ -23,13 +23,14 @@ export async function POST(request: NextRequest) {
     return new NextResponse("webhook error", { status: 400 });
   }
 
-  console.log('event', event)
+  console.log('event', JSON.stringify(event))
 
   if (
     event.type === "checkout.session.completed" &&
     event.data.object.payment_status === "paid"
   ) {
     const metadata = event.data.object.metadata;
+    console.log('metadata', metadata)
     if (metadata) {
       const res = await supabaseServerClient
         .from("users")
