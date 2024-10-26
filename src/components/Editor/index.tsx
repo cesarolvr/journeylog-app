@@ -622,7 +622,7 @@ const Editor = ({
           <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">
             <div
               className={classNames(
-                "syncer fixed md:relative translate-y-[-80px] transition-transform left-0 right-0 m-auto w-[40px] h-[40px] z-[15] flex justify-center rounded-full",
+                "syncer fixed md:relative translate-y-[-80px] transition-transform left-0 right-0 m-auto w-[40px] h-[40px] z-[90] flex justify-center rounded-full",
                 {
                   "active translate-y-[0px]": isLoading,
                 }
@@ -659,13 +659,13 @@ const Editor = ({
                     />
                   )}
                 </DropdownTrigger>
-                <DropdownMenu
-                  aria-label="Static Actions"
-                  disabledKeys={["profile"]}
-                >
+                <DropdownMenu aria-label="Static Actions">
                   <DropdownItem
                     key="profile"
-                    onClick={(f) => f}
+                    onClick={() => {
+                      onOpen();
+                      setDefaultPanel("profile");
+                    }}
                     startContent={<User className="w-[20px]" />}
                   >
                     Profile

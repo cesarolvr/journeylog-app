@@ -21,6 +21,9 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 const ProfileModal = ({
   isOpen,
   defaultPanel,
@@ -32,7 +35,10 @@ const ProfileModal = ({
   handleLogout,
 }: any) => {
   const [panel, setPanel] = useState("profile");
-  const shortenedName = userInfo?.full_name?.split(" ")?.slice(0, -1)?.join(" ");
+  const shortenedName = userInfo?.full_name
+    ?.split(" ")
+    ?.slice(0, -1)
+    ?.join(" ");
   const router = useRouter();
 
   useEffect(() => {
@@ -53,12 +59,19 @@ const ProfileModal = ({
             label="Name"
           />
           <Input
-            className="mb-7 w-[400px] max-w-full"
+            className="mb-3 w-[400px] max-w-full"
             color="default"
             type="email"
             label="Email"
             defaultValue={userInfo?.email}
           />
+          {/* <div className="mb-7 w-[400px] max-w-full">
+            <PhoneInput
+              value={userInfo?.phon}
+              onChange={(f) => f}
+              country={"us"}
+            />
+          </div> */}
           <Button
             variant="solid"
             className=""
@@ -81,7 +94,9 @@ const ProfileModal = ({
     subscription: (
       <div className="w-full flex flex-col justify-between h-full overflow-scroll">
         <div className="w-full mb-10">
-          <p className="text-[24px] mb-7 p-8 px-6 md:px-8 pb-0 text-[white]">Subscription</p>
+          <p className="text-[24px] mb-7 p-8 px-6 md:px-8 pb-0 text-[white]">
+            Subscription
+          </p>
           <div className="flex px-6 md:px-8 items-center justify-center w-full min-h-0">
             <div className="cards flex justify-between rounded-3xl w-full min-h-0 md:flex-row flex-col-reverse">
               <div className="text-left p-6 md:p-8 mb-10 md:mb-0 flex-shrink-0 w-full md:w-[48%] bg-[#1B1B1B] rounded-3xl flex flex-col justify-between">
@@ -253,7 +268,9 @@ const ProfileModal = ({
                       />
                     </svg>
 
-                    <p className="ml-4">Reminders via e-mail, SMS or Whatsapp</p>
+                    <p className="ml-4">
+                      Reminders via e-mail, SMS or Whatsapp
+                    </p>
                   </li>
                   <li className="flex items-center justify-start my-3">
                     <svg
@@ -295,7 +312,9 @@ const ProfileModal = ({
                       />
                     </svg>
 
-                    <p className="ml-4">Access to <strong>full</strong> habit insights</p>
+                    <p className="ml-4">
+                      Access to <strong>full</strong> habit insights
+                    </p>
                   </li>
                 </ul>
                 <Button

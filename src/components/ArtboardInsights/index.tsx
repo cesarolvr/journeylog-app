@@ -24,7 +24,7 @@ const ArtboardInsights = ({
   setDefaultPanel,
 }: any) => {
   const [frequency, setFrequency] = useState([]);
-  const [daysInARow, setDaysInARow] = useState(0);
+  const [daysInARow, setDaysInARow] = useState(null);
   const [callHeatmap, setCallHeatmap] = useState(null);
 
   const beginning = DateTime.fromISO(frequency[frequency.length - 1]?.date);
@@ -42,7 +42,9 @@ const ArtboardInsights = ({
       const currentDate = DateTime.fromJSDate(new Date(current?.date));
       const prevDate = DateTime.fromJSDate(new Date(prev?.date));
       const diffInMonths: any = currentDate.diff(prevDate, "days")?.toObject();
-      if (diffInMonths?.days < 2) {
+      const isToday = current?.date === DateTime.local().toISODate()
+      
+      if (diffInMonths?.days < 2 || isToday) {
         acc++;
       }
     });
@@ -157,7 +159,7 @@ const ArtboardInsights = ({
     //   }
     // }, 2000);
     const days = getDaysInARow();
-    days && setDaysInARow(days);
+    typeof days === "number" && setDaysInARow(days);
 
     // return () => {
     //   clearTimeout(timeout);
@@ -260,8 +262,11 @@ const ArtboardInsights = ({
           <ul className="flex justify-start w-full overflow-scroll">
             <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 pl-0 text-[#fff] ml-7">
               <div className="text-5xl font-bold">
-                {daysInARow ? (
-                  String(daysInARow).padStart(2, "0")
+                {typeof daysInARow === "number" ? (
+                  String(daysInARow).padStart(
+                    typeof daysInARow === "number" ? 1 : 2,
+                    "0"
+                  )
                 ) : (
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
