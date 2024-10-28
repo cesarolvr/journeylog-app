@@ -240,7 +240,7 @@ const Editor = ({
 
       getPreviews(dateStringStart, dateStringEnd, activeTab, {
         forceUpdate: true,
-      });
+      }, false);
     }
     // setIsLoading(false);
   }, 500);
@@ -440,7 +440,8 @@ const Editor = ({
       dateStringStart: any,
       dateStringEnd: any,
       newTab: any,
-      options: any
+      options: any,
+      isToShowLoader: boolean = true
     ) => {
       if (!newTab?.id) return;
       const start = DateTime.fromISO(dateStringStart)
@@ -459,7 +460,7 @@ const Editor = ({
         .toUTC()
         .toISO();
 
-      setIsLoading(true);
+      isToShowLoader && setIsLoading(true);
 
       const { error, data } = await supabaseClient
         .from("log")
@@ -477,7 +478,7 @@ const Editor = ({
         setPreviewList(isToForcePreviewList ? [...data] : formattedPreviewList);
       }
 
-      setIsLoading(false);
+      isToShowLoader && setIsLoading(false);
     },
     100
   );

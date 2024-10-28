@@ -277,7 +277,6 @@ const ArtboardInsights = ({
             </li>
             <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]">
               <div className="text-5xl font-bold">
-                {console.log(daysWithLogs)}
                 {typeof daysWithLogs === "number" ? (
                   isNaN(daysWithLogs) ? (
                     0
