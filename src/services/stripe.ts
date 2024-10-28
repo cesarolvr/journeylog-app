@@ -22,7 +22,7 @@ export const subscribeAction = async ({ userId }: any) => {
       userId,
     },
     mode: "subscription",
-    success_url: `${process.env.NEXT_PUBLIC_URL}`,
+    success_url: `${process.env.NEXT_PUBLIC_URL}/app`,
     cancel_url: `${process.env.NEXT_PUBLIC_URL}`,
   });
 

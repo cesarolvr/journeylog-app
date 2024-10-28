@@ -222,7 +222,7 @@ const Editor = ({
         };
       }
     };
-    setIsLoading(true);
+    // setIsLoading(true);
 
     const { data, error } = await supabaseClient
       .from("log")
@@ -242,8 +242,8 @@ const Editor = ({
         forceUpdate: true,
       });
     }
-    setIsLoading(false);
-  }, 2500);
+    // setIsLoading(false);
+  }, 500);
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
     const value = e?.target?.value;

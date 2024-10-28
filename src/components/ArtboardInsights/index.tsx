@@ -23,14 +23,25 @@ const ArtboardInsights = ({
   onOpenModal,
   setDefaultPanel,
 }: any) => {
-  const [frequency, setFrequency] = useState([]);
+  const [frequency, setFrequency] = useState(null);
   const [daysInARow, setDaysInARow] = useState(null);
   const [callHeatmap, setCallHeatmap] = useState(null);
 
-  const beginning = DateTime.fromISO(frequency[frequency.length - 1]?.date);
+  const beginning = DateTime.fromISO(
+    frequency ? frequency[frequency?.length - 1]?.date : ""
+  );
   const now = DateTime.fromJSDate(new Date());
   const diffInDays: any = beginning.diff(now, "days");
-  const daysFromTheBeginning = Math.round(diffInDays?.toObject()?.days * -1);
+
+  const filteredLogs =
+    frequency?.reduce((a, v) => ({ ...a, [v.date]: v }), {}) || {};
+  const daysWithLogs = Object.keys(filteredLogs)?.length;
+
+  const filteredDays =
+    frequency?.reduce((a, v) => ({ ...a, [v.date]: v }), {}) || {};
+
+  // const firstDay = frequency[frequency.length - 1]
+  const daysFromTheBeginning = Math.round(diffInDays?.values?.days) * -1;
 
   const { subscription } = subscriptionInfo;
   const isPro = subscription === "habit_creator";
@@ -38,15 +49,20 @@ const ArtboardInsights = ({
   const getDaysInARow = () => {
     let acc = 0;
 
-    frequency.sort((prev, current): any => {
+    if (!frequency) return 0;
+    frequency?.sort((prev, current): any => {
       const currentDate = DateTime.fromJSDate(new Date(current?.date));
       const prevDate = DateTime.fromJSDate(new Date(prev?.date));
-      const diffInMonths: any = currentDate.diff(prevDate, "days")?.toObject();
-      const isToday = current?.date === DateTime.local().toISODate()
-      
-      if (diffInMonths?.days < 2 || isToday) {
+      const diff: any = currentDate.diff(prevDate, "days")?.toObject();
+      const isToday = current?.date === DateTime.local().toISODate();
+
+      const isLastItemInARow =
+        frequency.indexOf(prev) === frequency.length - 1 && diff?.days > 1;
+
+      if (diff?.days < 2 || isToday || !isLastItemInARow) {
         acc++;
       }
+      return 0;
     });
 
     return acc;
@@ -79,7 +95,7 @@ const ArtboardInsights = ({
 
   // Graph 1
   useEffect(() => {
-    if (frequency.length === 0 && !isInsightsOpened && !callHeatmap) return;
+    if (frequency?.length === 0 && !isInsightsOpened && !callHeatmap) return;
     const cal = new CalHeatmap();
     setCallHeatmap(cal);
     cal.paint(
@@ -147,23 +163,8 @@ const ArtboardInsights = ({
         ],
       ]
     );
-
-    // const timeout = setTimeout(() => {
-    //   const todayElement = document.querySelector("#cal-heatmap .highlight");
-    //   if (todayElement) {
-    //     todayElement.scrollIntoView({
-    //       behavior: "smooth",
-    //       block: "center",
-    //       inline: "start",
-    //     });
-    //   }
-    // }, 2000);
     const days = getDaysInARow();
     typeof days === "number" && setDaysInARow(days);
-
-    // return () => {
-    //   clearTimeout(timeout);
-    // };
   }, [frequency]);
 
   const lastTirtyDays = Array.from(Array(31).keys());
@@ -174,14 +175,16 @@ const ArtboardInsights = ({
       .toUTC()
       .toISO();
 
-    const sameDaySelected = frequency.find(({ date, value }, index) => {
-      const currentLoopItem = currentDate?.split("T")[0];
-      if (currentLoopItem === date)
-        return {
-          date,
-          value,
-        };
-    });
+    const sameDaySelected = frequency
+      ? frequency?.find(({ date, value }, index) => {
+          const currentLoopItem = currentDate?.split("T")[0];
+          if (currentLoopItem === date)
+            return {
+              date,
+              value,
+            };
+        })
+      : null;
 
     if (sameDaySelected) {
       return { index: item, date: currentDate, value: sameDaySelected?.value };
@@ -198,14 +201,16 @@ const ArtboardInsights = ({
       .toUTC()
       .toISO();
 
-    const sameDaySelected = frequency.find(({ date, value }, index) => {
-      const currentLoopItem = currentDate?.split("T")[0];
-      if (currentLoopItem === date)
-        return {
-          date,
-          value,
-        };
-    });
+    const sameDaySelected = frequency
+      ? frequency?.find(({ date, value }, index) => {
+          const currentLoopItem = currentDate?.split("T")[0];
+          if (currentLoopItem === date)
+            return {
+              date,
+              value,
+            };
+        })
+      : null;
 
     if (sameDaySelected) {
       return { index: item, date: currentDate, value: sameDaySelected?.value };
@@ -263,10 +268,7 @@ const ArtboardInsights = ({
             <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 pl-0 text-[#fff] ml-7">
               <div className="text-5xl font-bold">
                 {typeof daysInARow === "number" ? (
-                  String(daysInARow).padStart(
-                    typeof daysInARow === "number" ? 1 : 2,
-                    "0"
-                  )
+                  String(daysInARow).padStart(daysInARow === 0 ? 1 : 2, "0")
                 ) : (
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
@@ -275,8 +277,13 @@ const ArtboardInsights = ({
             </li>
             <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]">
               <div className="text-5xl font-bold">
-                {frequency?.length ? (
-                  String(frequency?.length).padStart(2, "0")
+                {console.log(daysWithLogs)}
+                {typeof daysWithLogs === "number" ? (
+                  isNaN(daysWithLogs) ? (
+                    0
+                  ) : (
+                    String(daysWithLogs).padStart(daysWithLogs > 0 ? 2 : 1, "0")
+                  )
                 ) : (
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
@@ -285,8 +292,12 @@ const ArtboardInsights = ({
             </li>
             <li className="flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]">
               <div className="text-5xl font-bold">
-                {daysFromTheBeginning ? (
-                  String(daysFromTheBeginning).padStart(2, "0")
+                {frequency ? (
+                  isNaN(daysFromTheBeginning) ? (
+                    0
+                  ) : (
+                    String(daysFromTheBeginning).padStart(2, "0")
+                  )
                 ) : (
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
