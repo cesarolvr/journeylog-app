@@ -264,10 +264,10 @@ const Editor = ({
 
         return item;
       });
-      setActiveTab(updatedJourney[0]);
+      // setActiveTab(updatedJourney[0]);
       setJourneyTabs([...updatedTabList]);
     }
-  }, 4000);
+  }, 200);
 
   const handleJourneyUpdate = debounce(async ({ theme, font }: any) => {
     const { error, data: updatedJourney } = await supabaseClient
