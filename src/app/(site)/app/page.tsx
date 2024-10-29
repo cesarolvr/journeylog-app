@@ -98,6 +98,7 @@ const App = () => {
         handleLogout={handleLogout}
         user={user}
         handleChoosePlan={handleChoosePlan}
+        subscriptionInfo={subscriptionInfo}
       />
       {!!user && (
         <Editor

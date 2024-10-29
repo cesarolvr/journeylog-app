@@ -18,6 +18,7 @@ import {
   SquareArrowOutUpRight,
   User,
 } from "lucide-react";
+import { DateTime } from "luxon";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -32,6 +33,7 @@ const ProfileModal = ({
   onOpenChange,
   handleChoosePlan,
   user,
+  subscriptionInfo,
   handleLogout,
 }: any) => {
   const [panel, setPanel] = useState("profile");
@@ -46,6 +48,13 @@ const ProfileModal = ({
       setPanel(defaultPanel);
     }
   }, [defaultPanel, isOpen]);
+
+  const isCancelled = subscriptionInfo?.to_cancel_at;
+  const cancellationScheduled = isCancelled
+    ? DateTime.fromISO(subscriptionInfo?.to_cancel_at).toJSDate()
+    : null;
+
+  console.log(subscriptionInfo);
 
   const panels: any = {
     profile: (
@@ -94,9 +103,24 @@ const ProfileModal = ({
     subscription: (
       <div className="w-full flex flex-col justify-between h-full overflow-scroll">
         <div className="w-full mb-10">
-          <p className="text-[24px] mb-7 p-8 px-6 md:px-8 pb-0 text-[white]">
+          <p className="text-[24px] p-8 px-6 md:px-8 mb-3 pb-0 text-[white]">
             Subscription
           </p>
+          {isCancelled ? (
+            <div className="text-[14px] px-6 md:px-8 mb-7 md:pr-12 text-red-400">
+              Your subscription was cancelled and you won't be charged anymore.{" "}
+              <br />
+              <span className="text-[#919191]">
+                You PRO account is still valid until{" "}
+                <strong className="text-[white]">
+                  {cancellationScheduled?.getDate()}/
+                  {cancellationScheduled?.getMonth() + 1}/
+                  {cancellationScheduled?.getFullYear()}.
+                </strong>
+              </span>
+            </div>
+          ) : null}
+
           <div className="flex px-6 md:px-8 items-center justify-center w-full min-h-0">
             <div className="cards flex justify-between rounded-3xl w-full min-h-0 md:flex-row flex-col-reverse">
               <div className="text-left p-6 md:p-8 mb-10 md:mb-0 flex-shrink-0 w-full md:w-[48%] bg-[#1B1B1B] rounded-3xl flex flex-col justify-between">

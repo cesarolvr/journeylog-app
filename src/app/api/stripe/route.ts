@@ -4,6 +4,7 @@ import Stripe from "stripe";
 import { headers } from "next/headers";
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from "next/cache";
+import { DateTime } from "luxon";
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -41,9 +42,15 @@ export async function POST(request: NextRequest) {
       console.log('on create subscription', res)
     }
   } else if (event.type === "customer.subscription.updated") {
+    const cancelDate = DateTime.fromJSDate(new Date(event?.data?.object?.cancel_at * 1000))
+      .toUTC()
+      .toISO()
+
     const res = await supabaseServerClient
       .from("users")
-      .update({ subscription_record: JSON.stringify(event), cancel_at: event?.data?.object?.cancel_at })
+      .update({
+        subscription_record: JSON.stringify(event), to_cancel_at: cancelDate
+      })
       .eq("subscription_key", event?.data?.object?.id)
       .select()
 
