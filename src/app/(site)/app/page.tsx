@@ -15,7 +15,7 @@ import { useTheme } from "next-themes";
 import ProfileModal from "@/components/ProfileModal";
 import { useDisclosure } from "@nextui-org/react";
 import { debounce } from "lodash";
-import { subscribeAction } from "@/services/stripe";
+import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 
 const App = () => {
   const user = useSupaUser();
@@ -69,16 +69,21 @@ const App = () => {
     router.push("/");
   }, 500);
 
-  const { subscription }: any = subscriptionInfo;
+  const { subscription, subscription_key }: any = subscriptionInfo;
   const isPro = subscription === "habit_creator";
 
-  const handleChoosePlan = async (id: string) => {
-    const url = await subscribeAction({ userId: id });
+  const handleChoosePlan = async (id: string, plan: string) => {
+    const isPro = plan === "pro";
+    if (isPro) {
+      const url = await subscribeAction({ userId: id });
 
-    if (url) {
-      router.push(url);
+      if (url) {
+        router.push(url);
+      } else {
+        console.error("Failed to create subscription");
+      }
     } else {
-      console.error("Failed to create subscription");
+      await unsubscribeAction({ userId: id, subscription_key });
     }
   };
 

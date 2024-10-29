@@ -34,17 +34,20 @@ export async function POST(request: NextRequest) {
     if (metadata) {
       const res = await supabaseServerClient
         .from("users")
-        .update({ subscription: "habit_creator" })
+        .update({ subscription: "habit_creator", subscription_record: JSON.stringify(event), subscription_key: event?.data?.object?.subscription })
         .eq("id", metadata?.userId)
         .select()
 
-      console.log('res', res)
-      // const userId = metadata.userId;
-      // await db
-      //   .update(users)
-      //   .set({ isSubscribed: true })
-      //   .where(eq(users.id, userId));
+      console.log('on create subscription', res)
     }
+  } else if (event.type === "customer.subscription.updated") {
+    const res = await supabaseServerClient
+      .from("users")
+      .update({ subscription_record: JSON.stringify(event), cancel_at: event?.data?.object?.cancel_at })
+      .eq("subscription_key", event?.data?.object?.id)
+      .select()
+
+    console.log('on update subscription', res)
   }
 
   revalidatePath("/", "layout");

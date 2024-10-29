@@ -28,7 +28,7 @@ import {
 } from "@nextui-org/react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { subscribeAction } from "@/services/stripe";
+import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 import Footer from "../Footer";
 import { useState } from "react";
 import { sendGAEvent } from "@next/third-parties/google";
@@ -38,18 +38,26 @@ const Landing = ({ user, subscriptionInfo }: any) => {
   const [buttonFormText, setButtonFormText] = useState("Send");
 
   const [isLoading, setIsLoading] = useState(false);
-  const { subscription } = subscriptionInfo;
+  const { subscription, subscription_key } = subscriptionInfo;
   const router = useRouter();
-  const defaultContent =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+  // const defaultContent =
+  //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
-  const handleChoosePlan = async (id: string) => {
-    const url = await subscribeAction({ userId: id });
-
-    if (url) {
-      router.push(url);
+  const handleChoosePlan = async (id: string, plan: string) => {
+    const isPro = plan === 'pro'
+    if (isPro) {
+      const url = await subscribeAction({ userId: id });
+  
+      if (url) {
+        router.push(url);
+      } else {
+        console.error("Failed to create subscription");
+      }
     } else {
-      console.error("Failed to create subscription");
+      const res = await unsubscribeAction({ userId: id, subscription_key })
+
+      console.log(res)
+      
     }
   };
 
@@ -490,7 +498,9 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   variant="solid"
                   size="lg"
                   onClick={(f) => {
-                    router.push(!!user ? "/app" : "/sign-in");
+                    console.log(user)
+                    handleChoosePlan(user?.id, 'free')
+                    // router.push(!!user ? "/app" : "/sign-in");
                   }}
                 >
                   {!!user
@@ -639,7 +649,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     if (!!user && subscription === "habit_creator") {
                       router.push("/app");
                     } else if (!!user) {
-                      handleChoosePlan(user?.id);
+                      handleChoosePlan(user?.id, 'pro');
                     } else {
                       router.push("/sign-in");
                     }

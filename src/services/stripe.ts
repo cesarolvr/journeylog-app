@@ -28,3 +28,11 @@ export const subscribeAction = async ({ userId }: any) => {
 
   return url;
 };
+
+export const unsubscribeAction = async ({ userId, subscription_key }: any) => {
+  const stripeRes = await stripe.subscriptions.update(subscription_key, {
+    cancel_at_period_end: true
+  });
+
+  return stripeRes
+};

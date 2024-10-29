@@ -180,8 +180,8 @@ const ProfileModal = ({
                   className="bg-white opacity-50 text-[20px] w-full px-16 text-black font-black"
                   variant="solid"
                   size="lg"
-                  onClick={(f) => {
-                    console.log("downgrade");
+                  onClick={() => {
+                    handleChoosePlan(user?.id, "free");
                   }}
                 >
                   {isPro ? "Downgrade plan" : "Your plan"}
@@ -323,7 +323,7 @@ const ProfileModal = ({
                   size="lg"
                   onClick={() => {
                     if (!isPro) {
-                      handleChoosePlan(user?.id);
+                      handleChoosePlan(user?.id, "pro");
                     }
                   }}
                 >
