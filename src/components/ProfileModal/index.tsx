@@ -5,7 +5,9 @@ import {
   Button,
   Avatar,
   Input,
+  CircularProgress,
 } from "@nextui-org/react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import classNames from "classnames";
 import {
   ChevronRight,
@@ -37,10 +39,17 @@ const ProfileModal = ({
   handleLogout,
 }: any) => {
   const [panel, setPanel] = useState("profile");
+  const [phone, setPhone] = useState(userInfo?.phone);
+  const [name, setName] = useState(subscriptionInfo?.full_name);
+  const [isLoading, setIsloading] = useState(false);
+
+  const supabaseServerClient = useSupabaseClient();
+
   const shortenedName = userInfo?.full_name
     ?.split(" ")
     ?.slice(0, -1)
     ?.join(" ");
+
   const router = useRouter();
 
   useEffect(() => {
@@ -54,7 +63,26 @@ const ProfileModal = ({
     ? DateTime.fromISO(subscriptionInfo?.to_cancel_at).toJSDate()
     : null;
 
-  console.log(subscriptionInfo);
+  const handleProfile = async (e: any, type: any) => {
+    const value = e?.target?.value;
+    if (type === "full_name") {
+      setName(value);
+    } else {
+      setPhone(value);
+    }
+  };
+
+  const save = async () => {
+    setIsloading(true);
+    const res = await supabaseServerClient
+      .from("users")
+      .update({
+        full_name: name,
+      })
+      .eq("id", user?.id);
+
+    setIsloading(false);
+  };
 
   const panels: any = {
     profile: (
@@ -62,17 +90,29 @@ const ProfileModal = ({
         <div>
           <p className="text-[24px] mb-7 text-[white]">Profile</p>
           <Input
+            onChange={(e) => handleProfile(e, "full_name")}
             className="mb-3 w-[400px] max-w-full"
             type="text"
-            defaultValue={userInfo?.full_name}
+            defaultValue={subscriptionInfo?.full_name}
             label="Name"
           />
           <Input
+            // onChange={(e) => handleProfile(e, "email")}
             className="mb-3 w-[400px] max-w-full"
             color="default"
             type="email"
             label="Email"
-            defaultValue={userInfo?.email}
+            isDisabled={true}
+            defaultValue={user?.email}
+          />
+          <Input
+            onChange={(e) => handleProfile(e, "phone")}
+            className="mb-3 w-[400px] max-w-full"
+            color="default"
+            type="text"
+            label="Phone"
+            isDisabled={true}
+            defaultValue={userInfo?.phone}
           />
           {/* <div className="mb-7 w-[400px] max-w-full">
             <PhoneInput
@@ -81,13 +121,17 @@ const ProfileModal = ({
               country={"us"}
             />
           </div> */}
+          
           <Button
             variant="solid"
-            className=""
-            color="default"
-            onClick={(f) => f}
+            className="bg-[white] text-[black] font-black mt-3"
+            onClick={save}
           >
-            Save
+            {isLoading ? (
+              <CircularProgress className="mb-2" aria-label="Loading..." />
+            ) : (
+              "Save"
+            )}
           </Button>
         </div>
         <div className="flex max-w-[400px] justify-between items-center">

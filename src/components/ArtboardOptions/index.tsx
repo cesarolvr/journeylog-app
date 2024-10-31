@@ -338,6 +338,7 @@ const ArtboardOptions = ({
             <Select
               items={where}
               disallowEmptySelection={true}
+              disabledKeys={["sms", "whatsapp"]}
               defaultSelectedKeys={[notification.where]}
               color="default"
               className="max-w-[100px] select"
@@ -350,17 +351,18 @@ const ArtboardOptions = ({
         </div>
         {nextScheduledDate ? (
           <p className="cursor-pointer text-[#525252] text-[14px]">
-            Next reminder scheduled to{" "}
+            Next reminder:{" "}
             <span className="text-[white]">{nextScheduledDate}</span>
           </p>
         ) : null}
+        <br />
         <br />
         <p className="mb-6">Actions</p>
         <div className="flex justify-between mb-4 items-center cursor-not-allowed">
           <p className="max-w-[150px] md:max-w-[200px] text-sm text-[#525252]">
             Habit created? So, it's time to finish this one and go to the next.
           </p>
-          <Button variant="bordered" color="primary" isDisabled>
+          <Button variant="bordered" className="opacity-20" disabled={true} color="primary">
             Finish Journey
           </Button>
         </div>
@@ -372,8 +374,8 @@ const ArtboardOptions = ({
           <Button
             variant="bordered"
             color="default"
-            className="text-[#d4d4d8]"
-            isDisabled
+            className="text-[#d4d4d8] opacity-20"
+            isDisabled={true}
           >
             Pause Journey
           </Button>
