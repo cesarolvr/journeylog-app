@@ -44,20 +44,19 @@ const Landing = ({ user, subscriptionInfo }: any) => {
   //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
   const handleChoosePlan = async (id: string, plan: string) => {
-    const isPro = plan === 'pro'
+    const isPro = plan === "pro";
     if (isPro) {
       const url = await subscribeAction({ userId: id });
-  
+
       if (url) {
         router.push(url);
       } else {
         console.error("Failed to create subscription");
       }
     } else {
-      const res = await unsubscribeAction({ userId: id, subscription_key })
+      const res = await unsubscribeAction({ userId: id, subscription_key });
 
-      console.log(res)
-      
+      console.log(res);
     }
   };
 
@@ -73,7 +72,14 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     if (formContent) {
       setIsLoading(true);
       setTimeout(() => {
-        sendGAEvent({ event: "feedback_form_submit", value: formContent });
+        // sendGAEvent({ event: "feedback_form_submit", value: formContent });
+
+        window?.gtag &&
+          window?.gtag("event", "feedback_form", {
+            title: "Feedback form",
+            text: formContent,
+          });
+
         setIsLoading(false);
         setButtonFormText("Sent 👍🏾");
         setFormContent("");
@@ -498,8 +504,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   variant="solid"
                   size="lg"
                   onClick={(f) => {
-                    console.log(user)
-                    handleChoosePlan(user?.id, 'free')
+                    console.log(user);
+                    handleChoosePlan(user?.id, "free");
                     // router.push(!!user ? "/app" : "/sign-in");
                   }}
                 >
@@ -649,7 +655,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     if (!!user && subscription === "habit_creator") {
                       router.push("/app");
                     } else if (!!user) {
-                      handleChoosePlan(user?.id, 'pro');
+                      handleChoosePlan(user?.id, "pro");
                     } else {
                       router.push("/sign-in");
                     }
@@ -722,7 +728,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 title="It's free?"
                 className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
-                Yes, there’s a free plan, but if you want more, there is an option to upgrade.
+                Yes, there’s a free plan, but if you want more, there is an
+                option to upgrade.
               </AccordionItem>
             </Accordion>
           </div>
