@@ -11,6 +11,7 @@ import classNames from "classnames";
 import {
   AlarmClock,
   Bell,
+  CalendarClock,
   Clock9,
   IndentIncrease,
   MessageCircleQuestion,
@@ -36,8 +37,6 @@ const ArtboardOptions = ({
   setFont,
 }: any) => {
   const [fontSelected, setFontSelected]: any = useState("default");
-  // const [whenDefault, setWhenDefault]: any = useState([notification?.when]);
-  // const [whereDefault, setWhereDefault]: any = useState([notification?.where]);
   const { theme, setTheme } = useTheme();
 
   const when = [
@@ -77,6 +76,10 @@ const ArtboardOptions = ({
     { key: "whatsapp", label: "Whatsapp" },
     { key: "sms", label: "SMS" },
   ];
+
+  const nextScheduledDate = DateTime.fromISO(
+    notification?.next_sent
+  ).toLocaleString(DateTime.DATETIME_MED);
 
   useEffect(() => {
     if (activeTab?.theme) {
@@ -230,6 +233,31 @@ const ArtboardOptions = ({
             <p className="text-[#5C5C5C] text-sm">Blue</p>
           </li>
         </ul>
+        <br />
+        <div className="flex mb-5 items-start justify-between">
+          <div className="flex">
+            <CalendarClock className="flex-shrink-0 stroke-[#A1A1AA]" />
+            <div className="flex flex-col ml-4">
+              <p className="text-[#aaaaaa]">Frequency</p>
+              <p className="text-[#525252] text-sm max-w-[190px] mb-3">
+                Define an ideal frequency for this habit. It will affects your
+                graphs and also define the interval between reminders.
+              </p>
+            </div>
+          </div>
+          {activeTab?.frequency ? (
+            <Select
+              items={when}
+              disallowEmptySelection={true}
+              defaultSelectedKeys={[activeTab?.frequency]}
+              color="default"
+              className="max-w-[100px] select text-[11px]"
+              onChange={(e) => handleSwitchNotifications(e, "when")}
+            >
+              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+            </Select>
+          ) : null}
+        </div>
         <p className="mb-6">Notifications</p>
         <div className="flex mb-5 items-start justify-between">
           <div className="flex">
@@ -261,39 +289,7 @@ const ArtboardOptions = ({
             onValueChange={(e) => handleSwitchNotifications(e, "turnon")}
           />
         </div>
-        <div className="flex mb-5 items-start justify-between">
-          <div className="flex">
-            <AlarmClock className="flex-shrink-0 stroke-[#A1A1AA]" />
-            <div className="flex flex-col ml-4">
-              <p className="text-[#aaaaaa]">Remember me</p>
-              <p className="text-[#525252] text-sm max-w-[190px] mb-3">
-                Define a good interval between notifications. Try not to forget
-                but not to be flooded.
-              </p>
-              {!!notification ? null : (
-                <small
-                  className="cursor-pointer text-[#878787] underline"
-                  onClick={() => handleSwitchNotifications(true, "turnon")}
-                >
-                  Turn on the reminders
-                </small>
-              )}
-            </div>
-          </div>
-          {!!notification ? (
-            <Select
-              items={when}
-              disallowEmptySelection={true}
-              defaultSelectedKeys={[notification.when]}
-              color="default"
-              className="max-w-[100px] select text-[11px]"
-              isDisabled={!!notification ? false : true}
-              onChange={(e) => handleSwitchNotifications(e, "when")}
-            >
-              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
-            </Select>
-          ) : null}
-        </div>
+
         {!!notification ? (
           <div className="flex mb-5 items-start justify-between">
             <div className="flex">
@@ -320,7 +316,7 @@ const ArtboardOptions = ({
             </Select>
           </div>
         ) : null}
-        <div className="flex mb-8 items-start justify-between">
+        <div className="flex mb-3 items-start justify-between">
           <div className="flex">
             <MessageCircleQuestion className="flex-shrink-0 stroke-[#A1A1AA]" />
             <div className="flex flex-col ml-4">
@@ -352,6 +348,13 @@ const ArtboardOptions = ({
             </Select>
           ) : null}
         </div>
+        {nextScheduledDate ? (
+          <p className="cursor-pointer text-[#525252] text-[14px]">
+            Next reminder scheduled to{" "}
+            <span className="text-[white]">{nextScheduledDate}</span>
+          </p>
+        ) : null}
+        <br />
         <p className="mb-6">Actions</p>
         <div className="flex justify-between mb-4 items-center cursor-not-allowed">
           <p className="max-w-[150px] md:max-w-[200px] text-sm text-[#525252]">

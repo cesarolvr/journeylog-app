@@ -113,7 +113,6 @@ const Editor = ({
       } else {
         setIsLoading(true);
         if (isToEnable) {
-          const isTurnOn = setup === "turnon";
           const isWhen = setup === "when";
           const isWhere = setup === "where";
           const isWhat = setup === "what";
@@ -177,6 +176,10 @@ const Editor = ({
             })
             .select();
 
+          if (isWhen) {
+            handleJourneyUpdate({ frequency: valueWhen });
+          }
+
           if (data) {
             setNotification(data[0]);
           }
@@ -238,9 +241,15 @@ const Editor = ({
       const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
       const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
 
-      getPreviews(dateStringStart, dateStringEnd, activeTab, {
-        forceUpdate: true,
-      }, false);
+      getPreviews(
+        dateStringStart,
+        dateStringEnd,
+        activeTab,
+        {
+          forceUpdate: true,
+        },
+        false
+      );
     }
     // setIsLoading(false);
   }, 500);
@@ -269,12 +278,15 @@ const Editor = ({
     }
   }, 200);
 
-  const handleJourneyUpdate = debounce(async ({ theme, font }: any) => {
-    const { error, data: updatedJourney } = await supabaseClient
-      .from("journey")
-      .update({ theme: theme || "dark", font: font || "default" })
-      .eq("id", activeTab?.id);
-  }, 1000);
+  const handleJourneyUpdate = debounce(
+    async ({ theme, font, frequency }: any) => {
+      const { error, data: updatedJourney } = await supabaseClient
+        .from("journey")
+        .update({ theme: theme || "dark", font: font || "default", frequency })
+        .eq("id", activeTab?.id);
+    },
+    1000
+  );
 
   const handleJourneyDeletion = debounce(async ({ id }: any) => {
     const { error, data } = await supabaseClient
