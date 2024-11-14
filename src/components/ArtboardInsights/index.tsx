@@ -53,40 +53,53 @@ const ArtboardInsights = ({
     const reversedList = frequency?.toReversed();
 
     if (!frequency) return 0;
-    reversedList?.sort((prev: any, current: any): any => {
-      const currentDate = DateTime.fromJSDate(new Date(current?.date));
-      const prevDate = DateTime.fromJSDate(new Date(prev?.date));
-      const diff: any = currentDate.diff(prevDate, "days")?.toObject();
-      const diffInDays = diff?.days * -1;
-      const isToday = prev?.date === DateTime.local().toISODate();
 
-      const isLastItemInARow =
-        reversedList.indexOf(prev) === reversedList.length - 1;
+    if (reversedList.length > 1) {
+      reversedList?.sort((prev: any, current: any): any => {
+        const currentDate = DateTime.fromJSDate(new Date(current?.date));
+        const prevDate = DateTime.fromJSDate(new Date(prev?.date));
+        const diff: any = currentDate.diff(prevDate, "days")?.toObject();
+        const diffInDays = diff?.days * -1;
+        const isToday = prev?.date === DateTime.local().toISODate();
 
+        const isLastItemInARow =
+          reversedList.indexOf(prev) === reversedList.length - 1;
+
+        if (diffInDays < 2) {
+          // if (isToday) {
+          //   if (acc === 0) {
+          //     acc += 2;
+          //   } else {
+          //     acc++;
+          //   }
+          // } else {
+          //   acc++;
+          // }
+          if (acc === 0) {
+            acc += 2;
+          } else {
+            acc++;
+          }
+        }
+
+        if (diffInDays > 1) {
+          if (!isToday) {
+            acc = 0;
+          }
+        }
+
+        if (isLastItemInARow && !isToday) {
+          acc = 0;
+        }
+
+        return 0;
+      });
+    } else if (reversedList.length === 1) {
+      const isToday = reversedList[0]?.date === DateTime.local().toISODate();
       if (isToday) {
         acc = 1;
       }
-
-      if (diffInDays < 2) {
-        if (acc === 0) {
-          acc += 2;
-        } else {
-          acc++;
-        }
-      }
-
-      if (diffInDays > 1) {
-        if (!isToday) {
-          acc = 0;
-        }
-      }
-
-      if (isLastItemInARow && !isToday) {
-        acc = 0;
-      }
-
-      return 0;
-    });
+    }
 
     return acc;
   };
@@ -105,6 +118,7 @@ const ArtboardInsights = ({
           };
         })
         .filter((item: any) => !item?.empty);
+
       setFrequency(newRes);
     };
     if (isInsightsOpened) {

@@ -320,7 +320,7 @@ const Editor = ({
     const activeTab: any =
       journeyTabs.length === 1 ? journeyTabs[0] : journeyTabs[index];
 
-    setIsLoading(true);
+    // setIsLoading(true);
     setNotification(null);
 
     const { data: updatedJourney } = await supabaseClient
@@ -503,8 +503,6 @@ const Editor = ({
       .select()
       .order("selected_at", { ascending: false });
 
-    setIsLoading(false);
-
     if (data && data[0]) {
       setJourneyTabs(data);
       setActiveTab(data[0]);
@@ -515,8 +513,6 @@ const Editor = ({
 
       const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
       const dayWithPad = `0${today?.getDate()}`.slice(-2);
-
-      setIsLoading(true);
 
       const res = await getLogs(
         data[0]?.id,
@@ -537,6 +533,8 @@ const Editor = ({
 
       setNotification(notification[0]);
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
