@@ -24,7 +24,7 @@ const ArtboardInsights = ({
   onOpenModal,
   setDefaultPanel,
 }: any) => {
-  const [frequency, setFrequency] = useState(null);
+  const [frequency, setFrequency]: any = useState(null);
   const [daysInARow, setDaysInARow] = useState(null);
   const [callHeatmap, setCallHeatmap] = useState(null);
 
@@ -50,28 +50,46 @@ const ArtboardInsights = ({
   const getDaysInARow = () => {
     let acc = 0;
 
+    const reversedList = frequency?.toReversed();
+
     if (!frequency) return 0;
-    frequency?.sort((prev, current): any => {
+    reversedList?.sort((prev: any, current: any): any => {
       const currentDate = DateTime.fromJSDate(new Date(current?.date));
       const prevDate = DateTime.fromJSDate(new Date(prev?.date));
       const diff: any = currentDate.diff(prevDate, "days")?.toObject();
-      const isToday = current?.date === DateTime.local().toISODate();
+      const diffInDays = diff?.days * -1;
+      const isToday = prev?.date === DateTime.local().toISODate();
 
       const isLastItemInARow =
-        frequency.indexOf(prev) === frequency.length - 1 && diff?.days > 1;
+        reversedList.indexOf(prev) === reversedList.length - 1;
 
-        console.log(isLastItemInARow)
-
-      if (diff?.days < 2 || isToday || !isLastItemInARow) {
-        acc++;
+      if (isToday) {
+        acc = 1;
       }
+
+      if (diffInDays < 2) {
+        if (acc === 0) {
+          acc += 2;
+        } else {
+          acc++;
+        }
+      }
+
+      if (diffInDays > 1) {
+        if (!isToday) {
+          acc = 0;
+        }
+      }
+
+      if (isLastItemInARow && !isToday) {
+        acc = 0;
+      }
+
       return 0;
     });
 
     return acc;
   };
-
-  // console.log(getDaysInARow());
 
   useEffect(() => {
     const triggerGetInsights = async () => {
