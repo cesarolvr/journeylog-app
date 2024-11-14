@@ -1,11 +1,9 @@
 "use client";
 
-import { EMPTY_STATE } from "../Editor";
-
 const Quote = ({ quality, content }: any) => {
   // return null;
 
-  if (quality === 0 || content === EMPTY_STATE) {
+  if (quality === 0) {
     return null;
   } else if (quality > 10) {
     return (

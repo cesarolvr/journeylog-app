@@ -77,9 +77,9 @@ const ArtboardOptions = ({
     { key: "sms", label: "SMS" },
   ];
 
-  const nextScheduledDate = DateTime.fromISO(
+  const nextScheduledDate = notification?.next_sent ? DateTime.fromISO(
     notification?.next_sent
-  ).toLocaleString(DateTime.DATETIME_MED);
+  ).toLocaleString(DateTime.DATETIME_MED) : null;
 
   useEffect(() => {
     if (activeTab?.theme) {

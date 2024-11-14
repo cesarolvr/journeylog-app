@@ -11,6 +11,7 @@ import Tooltip from "cal-heatmap/plugins/Tooltip";
 import CalendarLabel from "cal-heatmap/plugins/CalendarLabel";
 
 import "cal-heatmap/cal-heatmap.css";
+import { EMPTY_STATE } from "../Editor";
 
 const ArtboardInsights = ({
   isInsightsOpened,
@@ -37,10 +38,10 @@ const ArtboardInsights = ({
     frequency?.reduce((a, v) => ({ ...a, [v.date]: v }), {}) || {};
   const daysWithLogs = Object.keys(filteredLogs)?.length;
 
-  const filteredDays =
-    frequency?.reduce((a, v) => ({ ...a, [v.date]: v }), {}) || {};
-
+  // const filteredDays =
+  //   frequency?.reduce((a, v) => ({ ...a, [v.date]: v }), {}) || {};
   // const firstDay = frequency[frequency.length - 1]
+
   const daysFromTheBeginning = Math.round(diffInDays?.values?.days) * -1;
 
   const { subscription } = subscriptionInfo;
@@ -59,6 +60,8 @@ const ArtboardInsights = ({
       const isLastItemInARow =
         frequency.indexOf(prev) === frequency.length - 1 && diff?.days > 1;
 
+        console.log(isLastItemInARow)
+
       if (diff?.days < 2 || isToday || !isLastItemInARow) {
         acc++;
       }
@@ -68,16 +71,22 @@ const ArtboardInsights = ({
     return acc;
   };
 
+  // console.log(getDaysInARow());
+
   useEffect(() => {
     const triggerGetInsights = async () => {
       const res = await getInsights(2024, activeTab?.id);
 
-      const newRes = res.map((item: any) => {
-        return {
-          date: item.created_at.split("T")[0],
-          value: Math.round((item?.content?.length || 0) / 150),
-        };
-      });
+      const newRes = res
+        .map((item: any) => {
+          return {
+            date: item?.created_at.split("T")[0],
+            value: Math.round((item?.content?.length || 0) / 150),
+            content: item?.content,
+            empty: item?.content === EMPTY_STATE,
+          };
+        })
+        .filter((item: any) => !item?.empty);
       setFrequency(newRes);
     };
     if (isInsightsOpened) {
