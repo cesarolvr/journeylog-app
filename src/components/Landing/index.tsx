@@ -31,17 +31,17 @@ import { useRouter } from "next/navigation";
 import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 import Footer from "../Footer";
 import { useState } from "react";
-import { sendGAEvent } from "@next/third-parties/google";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
   const [buttonFormText, setButtonFormText] = useState("Send");
 
+  const supabaseClient = useSupabaseClient();
+
   const [isLoading, setIsLoading] = useState(false);
   const { subscription, subscription_key } = subscriptionInfo;
   const router = useRouter();
-  // const defaultContent =
-  //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
   const handleChoosePlan = async (id: string, plan: string) => {
     const isPro = plan === "pro";
@@ -68,15 +68,17 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     }
   };
 
-  const submitForm = () => {
-    if (formContent) {
+  const submitForm = async () => {
+    if (formContent && formContent?.length > 5 ) {
       setIsLoading(true);
-      setTimeout(() => {
 
-        setIsLoading(false);
-        setButtonFormText("Sent 👍🏾");
-        setFormContent("");
-      }, 2000);
+      await supabaseClient.from("feedback").insert({
+        content: formContent,
+      });
+
+      setIsLoading(false);
+      setButtonFormText("Sent 👍🏾");
+      setFormContent("");
     }
   };
 
@@ -746,7 +748,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             <Button
               className="bg-white text-[20px] px-16 text-black font-black"
               variant="solid"
-              isDisabled={isLoading}
+              isDisabled={isLoading || formContent?.length < 5}
               size="lg"
               onClick={submitForm}
             >
