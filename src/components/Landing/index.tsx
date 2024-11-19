@@ -72,13 +72,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     if (formContent) {
       setIsLoading(true);
       setTimeout(() => {
-        // sendGAEvent({ event: "feedback_form_submit", value: formContent });
-
-        window?.gtag &&
-          window?.gtag("event", "feedback_form", {
-            title: "Feedback form",
-            text: formContent,
-          });
 
         setIsLoading(false);
         setButtonFormText("Sent 👍🏾");

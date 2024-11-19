@@ -2,7 +2,6 @@
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import NextUIProvider from "@/providers/NextUIProvider";
 import { Nunito_Sans } from "next/font/google";
-import { GoogleTagManager } from "@next/third-parties/google";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "900"] });
@@ -42,7 +41,6 @@ export default async function RootLayout({
           </NextUIProvider>
         </SupabaseProvider>
       </body>
-      <GoogleTagManager gtmId={process.env.GA_ID} />
     </html>
   );
 }
