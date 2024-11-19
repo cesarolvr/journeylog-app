@@ -302,6 +302,8 @@ const Editor = ({
         return item.id !== itemDeleted.id;
       });
 
+      handleTabSelection(2, true);
+
       setJourneyTabs(newTabsToBeRendered);
       setIsOptionsOpened(false);
 
