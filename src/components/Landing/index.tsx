@@ -69,7 +69,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
   };
 
   const submitForm = async () => {
-    if (formContent && formContent?.length > 5 ) {
+    if (formContent && formContent?.length > 5) {
       setIsLoading(true);
 
       await supabaseClient.from("feedback").insert({
@@ -314,7 +314,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           className="text-center my-6 md:my-16 w-[100%]"
         >
           <h3 className="md:text-[35px] mb-16 md:mb-20 text-[25px]">
-            These people are also creating <br /> different new habits
+            There are people <br />
+            creating new habits
           </h3>
           <div className="m-auto flex w-[100%] md:max-w-[900px] md:px-0 flex-col md:flex-row justify-center items-center md:items-start">
             {[
@@ -412,6 +413,117 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             })}
           </div>
         </section>
+        <section
+          id="testimonials"
+          className="text-center my-6 md:my-16 w-[100%] mb-14"
+        >
+          <h3 className="md:text-[35px] mb-16 md:mb-18 text-[25px]">
+            And some trying different stuff like
+          </h3>
+          <div className="m-auto flex items-center w-[100%] md:px-0 flex-row justify-start md:items-start">
+            {[
+              {
+                text: `“Using Journeylog to call to my mom daily”`,
+                author: "João from Brazil",
+                color: `#397649`,
+              },
+              {
+                text: `“Using Journeylog to call to my mom daily”`,
+                author: "Mike from US",
+                color: `#1F602F`,
+              },
+              {
+                text: `“Using Journeylog to call to my mom daily”`,
+                author: "Francesco from Italy",
+                color: `#35A351`,
+              },
+            ].map(({ text, author, color }, index) => {
+              return (
+                <div
+                  key={index}
+                  style={{ backgroundColor: color }}
+                  className="py-6 px-6 md:w-[560px] w-[300px] flex-shrink-0 rounded-[20px] bg-[#20B545] mx-3 mb-6 text-left text-white"
+                >
+                  <p className="font-black text-[20px] md:text-[32px] max-w-[400px] mb-3 md:leading-10 leading-6">
+                    {text}
+                  </p>
+                  <p className="text-[16px] mb-0 font-bold opacity-50">
+                    {author}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+          <div className="m-auto flex w-[100%] md:px-0 flex-row justify-end items-center md:items-start">
+            {[
+              {
+                text: `“Using Journeylog to call to my mom daily”`,
+                author: "João from Brazil",
+                color: `#397649`,
+              },
+              {
+                text: `“Using Journeylog to call to my mom daily”`,
+                author: "Mike from US",
+                color: `#35A351`,
+              },
+              {
+                text: `“Using Journeylog to call to my mom daily”`,
+                author: "Francesco from Italy",
+                color: `#1F602F`,
+              },
+            ].map(({ text, author, color }, index) => {
+              return (
+                <div
+                  key={index}
+                  style={{ backgroundColor: color }}
+                  className="py-6 px-6 md:w-[560px] w-[300px] flex-shrink-0 rounded-[20px] bg-[#20B545] mx-3 mb-6 text-left text-white"
+                >
+                  <p className="font-black text-[20px] md:text-[32px] max-w-[400px] mb-3 md:leading-10 leading-6">
+                    {text}
+                  </p>
+                  <p className="text-[16px] mb-0 font-bold opacity-50">
+                    {author}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+          <div className="m-auto flex w-[100%] md:px-0 flex-row justify-center items-center md:items-start">
+            {[
+              {
+                text: `“Using Journeylog to call to my mom daily”`,
+                author: "João from Brazil",
+                color: `#35A351`,
+              },
+              {
+                text: `“Using Journeylog to call to my mom daily”`,
+                author: "Mike from US",
+                color: `#397649`,
+              },
+              {
+                text: `“Using Journeylog to call to my mom daily”`,
+                author: "Francesco from Italy",
+                color: `#1F602F`,
+              },
+            ].map(({ text, author, color }, index) => {
+              return (
+                <div
+                  key={index}
+                  style={{ backgroundColor: color }}
+                  className="py-6 px-6 md:w-[560px] w-[300px] flex-shrink-0 rounded-[20px] bg-[#20B545] mx-3 mb-6 text-left text-white"
+                >
+                  <p className="font-black text-[20px] md:text-[32px] max-w-[400px] mb-3 md:leading-10 leading-6">
+                    {text}
+                  </p>
+                  <p className="text-[16px] mb-0 font-bold opacity-50">
+                    {author}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
         <section
           id="pricing"
           className="justify-center items-center text-center md:w-[80%] m-auto md:px-10"
