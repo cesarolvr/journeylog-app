@@ -362,7 +362,7 @@ const ArtboardOptions = ({
           <p className="max-w-[150px] md:max-w-[200px] text-sm text-[#525252]">
             Habit created? So, it's time to finish this one and go to the next.
           </p>
-          <Button variant="bordered" className="opacity-20" disabled={true} color="primary">
+          <Button variant="bordered" className="opacity-20" isDisabled color="primary">
             Finish Journey
           </Button>
         </div>
