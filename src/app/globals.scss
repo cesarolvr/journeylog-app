@@ -136,7 +136,10 @@ button.tabJourney > div {
   display: none !important;
 }
 
-.t-acceptAllButton, .t-preference-button, .t-allowAllButton, .t-declineAllButton {
+.t-acceptAllButton,
+.t-preference-button,
+.t-allowAllButton,
+.t-declineAllButton {
   border-radius: 13px !important;
 }
 
@@ -146,5 +149,21 @@ div[class*="termly-styles-modal-md"] {
 }
 
 h2[class*="termly-styles-preferenceTitle-e3b150"] {
-font-size: 25px !important;
+  font-size: 25px !important;
+}
+
+.PhoneInput {
+  input {
+    background-color: transparent;
+    padding-left: 5px;
+    font-size: 14px;
+    line-height: 28px;
+    outline: none;
+    &::placeholder {
+      color: rgb(145, 145, 145);
+    }
+  }
+  background-color: #303030;
+  padding: 14px;
+  border-radius: 12px;
 }

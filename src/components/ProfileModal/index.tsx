@@ -14,7 +14,6 @@ import {
   CreditCard,
   Handshake,
   LogOut,
-  LucideBarChart,
   MessageCircle,
   ScrollText,
   SquareArrowOutUpRight,
@@ -22,10 +21,10 @@ import {
 } from "lucide-react";
 import { DateTime } from "luxon";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+import "react-phone-number-input/style.css";
+import PhoneInput, { formatPhoneNumberIntl, isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 
 const ProfileModal = ({
   isOpen,
@@ -39,9 +38,13 @@ const ProfileModal = ({
   handleLogout,
 }: any) => {
   const [panel, setPanel] = useState("profile");
-  const [phone, setPhone] = useState(userInfo?.phone);
+  const [phone, setPhone] = useState(null);
+  const [code, setCode]: any = useState(null);
   const [name, setName] = useState(subscriptionInfo?.full_name);
   const [isLoading, setIsloading] = useState(false);
+  const [isToVerifyCode, setIsToVerifyCode] = useState(false);
+  const [isInValidCode, setIsInValidCode] = useState(false);
+  const [isToVerifyPhone, setIsToVerifyPhone] = useState(false);
 
   const supabaseServerClient = useSupabaseClient();
 
@@ -74,7 +77,8 @@ const ProfileModal = ({
 
   const save = async () => {
     setIsloading(true);
-    const res = await supabaseServerClient
+
+    await supabaseServerClient
       .from("users")
       .update({
         full_name: name,
@@ -84,10 +88,56 @@ const ProfileModal = ({
     setIsloading(false);
   };
 
+  const checkPhone = async () => {
+    setIsloading(true);
+
+    if (phone && isValidPhoneNumber(phone)) {
+      const { data, error } = await supabaseServerClient.auth.updateUser({
+        phone,
+      });
+      if (data) {
+        setIsToVerifyCode(true);
+      }
+    }
+
+    setIsloading(false);
+  };
+
+  const verifyCode = async () => {
+    if (phone && isValidPhoneNumber(phone) && code) {
+      const { data, error } = await supabaseServerClient.auth.verifyOtp({
+        phone,
+        type: "phone_change",
+        token: code,
+      });
+
+      if (error) {
+        setIsInValidCode(true);
+        return;
+      }
+
+      if (data) {
+        setIsInValidCode(false);
+        setIsToVerifyCode(false);
+      }
+    }
+  };
+
+  const validateCode = (value: any) => value?.match(/^[0-9]{6,6}$/g) && phone;
+
+  const isInvalid = useMemo(() => {
+    if (!code) return false;
+
+    return validateCode(code) ? false : true;
+  }, [code]);
+
+  const isValidCode = code && code.length === 6;
+
   const panels: any = {
-    profile: (
-      <div className="p-8 w-full flex flex-col justify-between h-full">
+    profile: !!user && (
+      <div className="p-8 w-full flex flex-col justify-between h-full overflow-scroll">
         <div>
+          {console.log(user)}
           <p className="text-[24px] mb-7 text-[white]">Profile</p>
           <Input
             onChange={(e) => handleProfile(e, "full_name")}
@@ -97,7 +147,6 @@ const ProfileModal = ({
             label="Name"
           />
           <Input
-            // onChange={(e) => handleProfile(e, "email")}
             className="mb-3 w-[400px] max-w-full"
             color="default"
             type="email"
@@ -105,23 +154,7 @@ const ProfileModal = ({
             isDisabled={true}
             defaultValue={user?.email}
           />
-          <Input
-            onChange={(e) => handleProfile(e, "phone")}
-            className="mb-3 w-[400px] max-w-full"
-            color="default"
-            type="text"
-            label="Phone"
-            isDisabled={true}
-            defaultValue={userInfo?.phone}
-          />
-          {/* <div className="mb-7 w-[400px] max-w-full">
-            <PhoneInput
-              value={userInfo?.phon}
-              onChange={(f) => f}
-              country={"us"}
-            />
-          </div> */}
-          
+
           <Button
             variant="solid"
             className="bg-[white] text-[black] font-black mt-3"
@@ -133,14 +166,80 @@ const ProfileModal = ({
               "Save"
             )}
           </Button>
+
+          <br />
+          <br />
+          <br />
+
+          {console.log('aaa', parsePhoneNumber(user.phone))}
+
+          <PhoneInput
+            className="mb-3 w-[400px] max-w-full"
+            placeholder="Phone"
+            initialValueFormat="national"
+            displayInitialValueAsLocalNumber
+            value={user?.phone}
+            onChange={(value) => {
+              setPhone(formatPhoneNumberIntl(value));
+              if (phone && isValidPhoneNumber(phone)) {
+                setIsToVerifyPhone(true);
+              }
+            }}
+          />
+          {phone &&
+          isValidPhoneNumber(phone) &&
+          isToVerifyPhone &&
+          !isToVerifyCode ? (
+            <p onClick={checkPhone} className="cursor-pointer hover:underline">
+              Verify number
+            </p>
+          ) : null}
+
+          {/* {true && ( */}
+          {isToVerifyCode && (
+            <>
+              <Input
+                onChange={(e) => {
+                  const value = e?.target?.value;
+                  if (value.length > 6) return;
+                  setCode(e?.target?.value);
+                }}
+                value={code}
+                className="mb-3 w-[400px] shrink-0 max-w-full"
+                color="default"
+                isInvalid={isInvalid}
+                label="Verification code"
+              />
+
+              {isInValidCode && (
+                <>
+                  <p className="text-danger leading-3 mt-[-5px] mb-5 text-[14px]">
+                    Invalid code
+                  </p>
+                </>
+              )}
+
+              {isValidCode && (
+                <Button color="default" onClick={verifyCode} variant="bordered">
+                  Confirm code
+                </Button>
+              )}
+            </>
+          )}
         </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         <div className="flex max-w-[400px] justify-between items-center">
           <p className="max-w-[200px]">
-            Please don't do that. But if you need so...
+            Please don't do that. But if you need, just email us.
           </p>
-          <Button variant="bordered" color="danger" onClick={(f) => f}>
+          <a href="mailto:contact@cesarolvr.com" className="text-danger">
             Delete account
-          </Button>
+          </a>
         </div>
       </div>
     ),
