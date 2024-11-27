@@ -24,7 +24,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import "react-phone-number-input/style.css";
-import PhoneInput, { formatPhoneNumberIntl, isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
+import PhoneInput, {
+  formatPhoneNumberIntl,
+  isValidPhoneNumber,
+  parsePhoneNumber,
+} from "react-phone-number-input";
 
 const ProfileModal = ({
   isOpen,
@@ -171,18 +175,23 @@ const ProfileModal = ({
           <br />
           <br />
 
-          {console.log('aaa', parsePhoneNumber(user.phone))}
-
           <PhoneInput
             className="mb-3 w-[400px] max-w-full"
             placeholder="Phone"
-            initialValueFormat="national"
-            displayInitialValueAsLocalNumber
-            value={user?.phone}
+            international
+            value={user.phone}
             onChange={(value) => {
-              setPhone(formatPhoneNumberIntl(value));
+              setPhone(value);
+              const valueRaw = value?.replace("+", "").trim();
+              console.log(valueRaw, user.phone, valueRaw == user?.phone);
               if (phone && isValidPhoneNumber(phone)) {
-                setIsToVerifyPhone(true);
+                if (valueRaw == user?.phone?.trim()) {
+                  setIsToVerifyPhone(false);
+                } else {
+                  setIsToVerifyPhone(true);
+                }
+              } else {
+                setIsToVerifyPhone(false);
               }
             }}
           />
