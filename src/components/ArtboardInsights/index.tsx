@@ -56,31 +56,24 @@ const ArtboardInsights = ({
         const prevDate = DateTime.fromJSDate(new Date(prev?.date));
         const diff: any = currentDate.diff(prevDate, "days")?.toObject();
         const diffInDays = diff?.days * -1;
-        const isToday = prev?.date === DateTime.local().toISODate();
-        const isCurrentToday = current?.date === DateTime.local().toISODate();
+        const isToday = prev?.date === DateTime.local().toISODate() || current?.date === DateTime.local().toISODate();
 
         const isLastItemInARow =
           reversedList.indexOf(prev) === reversedList.length - 1;
 
+        if (isLastItemInARow) {
+          // debugger
+          acc++
+        }
+
+        // console.log(acc)
+        console.log(acc)
         if (diffInDays < 2) {
-          if (acc === 0) {
-            
-            acc += 2;
-          } else {
-            acc++;
-          }
-        }
-
-        if (diffInDays > 1) {
-          if (!isToday) {
-            
-            acc = 0;
-          }
-        }
-
-        // console.log(isLastItemInARow, isToday, current, prev)
-        if (isLastItemInARow && !isToday) {
-          acc = 0;
+          acc++;
+          // if (acc === 0) {
+          //   acc += 1;
+          // } else {
+          // }
         }
 
         return 0;
@@ -196,7 +189,7 @@ const ArtboardInsights = ({
       ]
     );
     const days: any = getDaysInARow();
-    
+
     typeof days === "number" && setDaysInARow(days);
   }, [frequency]);
 
