@@ -179,7 +179,7 @@ const ProfileModal = ({
             className="mb-3 w-[400px] max-w-full"
             placeholder="Phone"
             international
-            value={user.phone}
+            value={`+${user.phone}`}
             onChange={(value) => {
               setPhone(value);
               const valueRaw = value?.replace("+", "").trim();
