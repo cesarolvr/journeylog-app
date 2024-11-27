@@ -141,7 +141,6 @@ const ProfileModal = ({
     profile: !!user && (
       <div className="p-8 w-full flex flex-col justify-between h-full overflow-scroll">
         <div>
-          {console.log(user)}
           <p className="text-[24px] mb-7 text-[white]">Profile</p>
           <Input
             onChange={(e) => handleProfile(e, "full_name")}
@@ -183,7 +182,6 @@ const ProfileModal = ({
             onChange={(value) => {
               setPhone(value);
               const valueRaw = value?.replace("+", "").trim();
-              console.log(valueRaw, user.phone, valueRaw == user?.phone);
               if (phone && isValidPhoneNumber(phone)) {
                 if (valueRaw == user?.phone?.trim()) {
                   setIsToVerifyPhone(false);

@@ -532,12 +532,12 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           <div className="flex items-center justify-center w-full">
             <div className="cards flex md:bg-[#1B1B1B] rounded-3xl w-full max-w-[900px] p-10 lg:flex-row flex-col-reverse">
               <div className="text-left p-10 pr-14 mb-10 md:mb-0">
-                <p className="text-[45px] flex relative font-black items-end mb-6">
+                <div className="text-[45px] flex relative font-black items-end mb-6">
                   $0
                   <span className="text-[18px] bottom-[10px] absolute left-[60px] font-normal text-[#656565]">
                     /month
                   </span>
-                </p>
+                </div>
 
                 <p className="text-[40px] font-black">Free</p>
                 <p className="mb-8 max-w-[90%]">
@@ -629,7 +629,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   {isPro ? "Already subscribed" : "Most popular"}
                 </div>
 
-                <p className="text-[45px] flex relative font-black items-end mb-6">
+                <div className="text-[45px] flex relative font-black items-end mb-6">
                   <div className="absolute text-[30px] top-[-15px] opacity-45 line-through">
                     $10
                   </div>
@@ -637,7 +637,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   <span className="text-[18px] bottom-[10px] absolute left-[130px] font-normal text-[#656565]">
                     /month
                   </span>
-                </p>
+                </div>
 
                 <p className="text-[40px] font-black text-[#27DE55] relative">
                   PRO

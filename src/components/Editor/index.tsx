@@ -234,7 +234,8 @@ const Editor = ({
       .select();
 
     if (data && data[0]) {
-      // setActiveLog(data[0]);
+      // console.log(data[0])
+      setActiveLog(data[0]);
 
       const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
       const dayWithPad = `0${today?.getDate()}`.slice(-2);
@@ -722,7 +723,7 @@ const Editor = ({
             )}
           {isReadyToRenderArtboard && journeyTabs && journeyTabs?.length > 0 ? (
             <>
-              {activeLog?.content ? (
+              {true ? (
                 <Artboard
                   id={1}
                   initialState={activeLog?.content}

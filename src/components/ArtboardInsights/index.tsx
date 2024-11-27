@@ -25,7 +25,7 @@ const ArtboardInsights = ({
   setDefaultPanel,
 }: any) => {
   const [frequency, setFrequency]: any = useState(null);
-  const [daysInARow, setDaysInARow] = useState(null);
+  const [daysInARow, setDaysInARow]: any = useState(null);
   const [callHeatmap, setCallHeatmap] = useState(null);
 
   const beginning = DateTime.fromISO(
@@ -57,12 +57,14 @@ const ArtboardInsights = ({
         const diff: any = currentDate.diff(prevDate, "days")?.toObject();
         const diffInDays = diff?.days * -1;
         const isToday = prev?.date === DateTime.local().toISODate();
+        const isCurrentToday = current?.date === DateTime.local().toISODate();
 
         const isLastItemInARow =
           reversedList.indexOf(prev) === reversedList.length - 1;
 
         if (diffInDays < 2) {
           if (acc === 0) {
+            
             acc += 2;
           } else {
             acc++;
@@ -71,10 +73,12 @@ const ArtboardInsights = ({
 
         if (diffInDays > 1) {
           if (!isToday) {
+            
             acc = 0;
           }
         }
 
+        // console.log(isLastItemInARow, isToday, current, prev)
         if (isLastItemInARow && !isToday) {
           acc = 0;
         }
@@ -192,62 +196,70 @@ const ArtboardInsights = ({
       ]
     );
     const days: any = getDaysInARow();
+    
     typeof days === "number" && setDaysInARow(days);
   }, [frequency]);
 
   const getLastDaysConsistency: any = {
     daily: {
       days: Array.from(Array(31).keys()),
-      text: 'Last 31 days'
+      text: "Last 31 days",
     },
     weekly: {
       days: Array.from(Array(12).keys()),
-      text: 'Last 12 weeks'
+      text: "Last 12 weeks",
     },
     monthly: {
       days: Array.from(Array(12).keys()),
-      text: 'Last 12 months'
+      text: "Last 12 months",
     },
   };
 
-  const lastDaysConsistency = getLastDaysConsistency[activeTab?.frequency]?.days || [];
-  const lastTirtyDaysFormatted = lastDaysConsistency.map((item: any, index: any) => {
-    const currentDate = DateTime.fromJSDate(new Date())
-      .set({ hour: 0, minute: 0, second: 0 })
-      .minus({ day: 30 - index })
-      .toUTC()
-      .toISO();
+  const lastDaysConsistency =
+    getLastDaysConsistency[activeTab?.frequency]?.days || [];
+  const lastTirtyDaysFormatted = lastDaysConsistency.map(
+    (item: any, index: any) => {
+      const currentDate = DateTime.fromJSDate(new Date())
+        .set({ hour: 0, minute: 0, second: 0 })
+        .minus({ day: 30 - index })
+        .toUTC()
+        .toISO();
 
-    const sameDaySelected = frequency
-      ? frequency?.find(({ date, value }, index) => {
-          const currentLoopItem = currentDate?.split("T")[0];
-          if (currentLoopItem === date)
-            return {
-              date,
-              value,
-            };
-        })
-      : null;
+      const sameDaySelected = frequency
+        ? frequency?.find(({ date, value }, index) => {
+            const currentLoopItem = currentDate?.split("T")[0];
+            if (currentLoopItem === date)
+              return {
+                date,
+                value,
+              };
+          })
+        : null;
 
-    if (sameDaySelected) {
-      return { index: item, date: currentDate, value: sameDaySelected?.value };
+      if (sameDaySelected) {
+        return {
+          index: item,
+          date: currentDate,
+          value: sameDaySelected?.value,
+        };
+      }
+
+      return { index: item, date: currentDate };
     }
-
-    return { index: item, date: currentDate };
-  });
+  );
 
   const getLastDaysDensity: any = {
     daily: {
       days: Array.from(Array(7).keys()),
-      text: 'Last 7 days'
+      text: "Last 7 days",
     },
     weekly: {
       days: Array.from(Array(8).keys()),
-      text: 'Last 8 weeks'
+      text: "Last 8 weeks",
     },
     monthly: {
       days: Array.from(Array(6).keys()),
-      text: 'Last 6 months'
+      text: "Last 6 months",
     },
   };
 
@@ -393,7 +405,9 @@ const ArtboardInsights = ({
         <div className="mb-12 relative">
           <div className="flex px-7 justify-between mb-3 items-center">
             <p>Habit consistency</p>
-            <span className="text-[#656565]">{getLastDaysConsistency[activeTab?.frequency]?.text}</span>
+            <span className="text-[#656565]">
+              {getLastDaysConsistency[activeTab?.frequency]?.text}
+            </span>
           </div>
           {isPro ? (
             <div className="w-full mb-16 px-7 relative">
@@ -614,7 +628,9 @@ const ArtboardInsights = ({
         <div className="mb-10 relative">
           <div className="flex justify-between mb-3 px-7 items-center">
             <p>Habit density</p>
-            <span className="text-[#656565]">{getLastDaysDensity[activeTab?.frequency]?.text}</span>
+            <span className="text-[#656565]">
+              {getLastDaysDensity[activeTab?.frequency]?.text}
+            </span>
           </div>
           <div className="w-full mb-7 relative">
             {isPro ? (
