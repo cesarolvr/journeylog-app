@@ -56,30 +56,46 @@ const ArtboardInsights = ({
         const prevDate = DateTime.fromJSDate(new Date(prev?.date));
         const diff: any = currentDate.diff(prevDate, "days")?.toObject();
         const diffInDays = diff?.days * -1;
-        const isToday = prev?.date === DateTime.local().toISODate() || current?.date === DateTime.local().toISODate();
+        const isToday =
+          prev?.date === DateTime.local().toISODate() ||
+          current?.date === DateTime.local().toISODate();
 
         const isLastItemInARow =
           reversedList.indexOf(prev) === reversedList.length - 1;
 
+        console.log("iniciou", acc);
+
         if (isLastItemInARow) {
           // debugger
-          acc++
+          acc++;
+          console.log("isLastItemInARow", acc);
         }
 
         // console.log(acc)
-        console.log(acc)
         if (diffInDays < 2) {
           acc++;
+          console.log("diffInDays < 2", acc);
           // if (acc === 0) {
           //   acc += 1;
           // } else {
           // }
+        } else {
+          if (isToday) {
+            console.log("isToday", acc);
+            acc = 1;
+          } else {
+            console.log("is not Today", acc);
+            acc = 0;
+          }
         }
+
+        console.log("acabou", acc);
 
         return 0;
       });
     } else if (reversedList.length === 1) {
       const isToday = reversedList[0]?.date === DateTime.local().toISODate();
+      console.log(isToday, reversedList, DateTime.local().toISODate());
       if (isToday) {
         acc = 1;
       }
@@ -94,8 +110,11 @@ const ArtboardInsights = ({
 
       const newRes = res
         .map((item: any) => {
+          const localDate = DateTime.fromJSDate(new Date(item?.created_at))
+            .toLocal()
+            .toISODate();
           return {
-            date: item?.created_at.split("T")[0],
+            date: localDate,
             value: Math.round((item?.content?.length || 0) / 150),
             content: item?.content,
             empty: item?.content === EMPTY_STATE,

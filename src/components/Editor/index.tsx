@@ -98,6 +98,8 @@ const Editor = ({
         day: dateSelected.day,
         month: dateSelected.month,
         year: dateSelected.year,
+        // hour: 0,
+        // minute: 0,
       })
       .toUTC()
       .toISO();
@@ -201,6 +203,8 @@ const Editor = ({
   const handleContentEdit = debounce(async (content: any) => {
     const now = getNow();
     const customDate = getCustomDate();
+
+    console.log(customDate);
 
     const isToCreate = !getActiveLog();
 
