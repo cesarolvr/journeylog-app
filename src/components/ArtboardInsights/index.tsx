@@ -63,39 +63,24 @@ const ArtboardInsights = ({
         const isLastItemInARow =
           reversedList.indexOf(prev) === reversedList.length - 1;
 
-        console.log("iniciou", acc);
-
         if (isLastItemInARow) {
-          // debugger
           acc++;
-          console.log("isLastItemInARow", acc);
         }
 
-        // console.log(acc)
         if (diffInDays < 2) {
           acc++;
-          console.log("diffInDays < 2", acc);
-          // if (acc === 0) {
-          //   acc += 1;
-          // } else {
-          // }
         } else {
           if (isToday) {
-            console.log("isToday", acc);
             acc = 1;
           } else {
-            console.log("is not Today", acc);
             acc = 0;
           }
         }
 
-        console.log("acabou", acc);
-
-        return 0;
+        return -1;
       });
     } else if (reversedList.length === 1) {
       const isToday = reversedList[0]?.date === DateTime.local().toISODate();
-      console.log(isToday, reversedList, DateTime.local().toISODate());
       if (isToday) {
         acc = 1;
       }
@@ -106,7 +91,7 @@ const ArtboardInsights = ({
 
   useEffect(() => {
     const triggerGetInsights = async () => {
-      const res = await getInsights(2024, activeTab?.id);
+      const res = await getInsights(new Date().getFullYear(), activeTab?.id);
 
       const newRes = res
         .map((item: any) => {
@@ -137,9 +122,9 @@ const ArtboardInsights = ({
 
   const currentMonth = new Date().getMonth();
 
-  // Graph 1
   useEffect(() => {
     if (frequency?.length === 0 && !isInsightsOpened && !callHeatmap) return;
+
     const cal = new CalHeatmap();
     setCallHeatmap(cal);
     cal.paint(
@@ -151,7 +136,7 @@ const ArtboardInsights = ({
           y: "value",
         },
         date: {
-          start: new Date("2024-01-01"),
+          start: new Date(`${new Date().getFullYear()}-01-01`),
           max: new Date(),
           end: new Date(),
           highlight: [new Date()],
@@ -207,6 +192,7 @@ const ArtboardInsights = ({
         ],
       ]
     );
+
     const days: any = getDaysInARow();
 
     typeof days === "number" && setDaysInARow(days);
@@ -216,31 +202,50 @@ const ArtboardInsights = ({
     daily: {
       days: Array.from(Array(31).keys()),
       text: "Last 31 days",
+      value: 31,
     },
     weekly: {
       days: Array.from(Array(12).keys()),
       text: "Last 12 weeks",
+      value: 12,
     },
     monthly: {
       days: Array.from(Array(12).keys()),
       text: "Last 12 months",
+      value: 12,
     },
   };
 
+  const isWeekly = activeTab?.frequency === "weekly";
+  const isDaily = activeTab?.frequency === "daily";
+  const isMonthly = activeTab?.frequency === "monthly";
+
   const lastDaysConsistency =
     getLastDaysConsistency[activeTab?.frequency]?.days || [];
-  const lastTirtyDaysFormatted = lastDaysConsistency.map(
+
+  const lastDatesFormatted = lastDaysConsistency.map(
     (item: any, index: any) => {
       const currentDate = DateTime.fromJSDate(new Date())
         .set({ hour: 0, minute: 0, second: 0 })
-        .minus({ day: 30 - index })
+        .minus(
+          isDaily
+            ? { day: 31 - index }
+            : isWeekly
+            ? { week: 1 + index }
+            : { month: 0 + index }
+        )
         .toUTC()
         .toISO();
 
       const sameDaySelected = frequency
         ? frequency?.find(({ date, value }, index) => {
-            const currentLoopItem = currentDate?.split("T")[0];
-            if (currentLoopItem === date)
+            const currentLoopSlot = new Date(
+              new Date(currentDate).setHours(0, 0, 0, 0)
+            ).getTime();
+            const currentLoopItem = new Date(
+              new Date(date).setHours(0, 0, 0, 0)
+            ).getTime();
+            if (currentLoopSlot === currentLoopItem)
               return {
                 date,
                 value,
@@ -248,13 +253,47 @@ const ArtboardInsights = ({
           })
         : null;
 
-      if (sameDaySelected) {
+      const sameMonthSelected = frequency
+        ? frequency?.find(({ date, value }, index) => {
+            const currentLoopSlot = DateTime.fromJSDate(
+              new Date(currentDate)
+            ).month;
+            const currentLoopItem = DateTime.fromJSDate(new Date(date)).month;
+
+            if (currentLoopSlot === currentLoopItem) {
+              return {
+                date,
+                value: currentLoopItem,
+                month: currentLoopItem,
+              };
+            }
+          })
+        : null;
+
+      if (isDaily && sameDaySelected) {
         return {
           index: item,
           date: currentDate,
           value: sameDaySelected?.value,
         };
       }
+
+      if (isMonthly && sameMonthSelected) {
+        return {
+          index: item,
+          date: currentDate,
+          value: 11,
+          month: DateTime.fromJSDate(new Date(currentDate)).toLocal().month,
+        };
+      }
+
+      // if (isMonthly && sameMonthSelected) {
+      //   return {
+      //     index: item,
+      //     date: currentDate,
+      //     value: 10,
+      //   };
+      // }
 
       return { index: item, date: currentDate };
     }
@@ -392,8 +431,13 @@ const ArtboardInsights = ({
             <p>Frequency</p>
             <Select
               isDisabled={true}
-              items={[{ key: "2024", label: "2024" }]}
-              placeholder="2024"
+              items={[
+                {
+                  key: new Date().getFullYear(),
+                  label: new Date().getFullYear(),
+                },
+              ]}
+              placeholder={`${new Date().getFullYear()}`}
               className="max-w-[100px] text-[18px]"
             >
               {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
@@ -404,6 +448,7 @@ const ArtboardInsights = ({
               {isInsightsOpened && !isLoading ? (
                 <>
                   <div id="cal-heatmap" className="mr-6 flex-shrink-0"></div>
+                  <div id="weekly-graph" className="mr-6 flex-shrink-0"></div>
                   <div className="w-[50px] h-[270px] flex-shrink-0"></div>
                 </>
               ) : (
@@ -424,30 +469,38 @@ const ArtboardInsights = ({
           {isPro ? (
             <div className="w-full mb-16 px-7 relative">
               <ul className="flex w-full gap-1 justify-between relative overflow-visible">
-                {lastTirtyDaysFormatted.map(({ value, date }, index) => {
-                  const dayFormatted = new Date(date as any)?.getDate();
-                  return (
-                    <li
-                      key={index}
-                      className={`w-full relative p-[1px] h-[80px] bg-[#3E3E3E] rounded-lg overflow-visible`}
-                    >
-                      <span className="absolute bottom-[-20px] md:bottom-[-30px] text-[10px] md:text-[14px] left-0 right-0 text-center justify-center opacity-40 m-auto inline-flex">
-                        <p>{dayFormatted % 2 ? dayFormatted : null}</p>
-                      </span>
-                      <span
-                        className={classNames(
-                          "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full rounded-lg",
-                          {
-                            "opacity-0": !value,
-                            "opacity-25": value && value > 0,
-                            "opacity-50": value && value > 4,
-                            "opacity-75": value && value > 10,
-                          }
-                        )}
-                      ></span>
-                    </li>
-                  );
-                })}
+                {lastDatesFormatted
+                  .toReversed()
+                  .map(({ value, date, ...item }, index) => {
+                    const label = isDaily
+                      ? new Date(date as any)?.getDate()
+                      : DateTime.fromJSDate(new Date(date as any))?.toLocal().month + 1;
+                    return (
+                      <li
+                        key={index}
+                        className={`w-full relative p-[1px] h-[80px] bg-[#3E3E3E] rounded-lg overflow-visible`}
+                      >
+                        <span className="absolute bottom-[-20px] md:bottom-[-30px] text-[10px] md:text-[14px] left-0 right-0 text-center justify-center opacity-40 m-auto inline-flex">
+                          {isDaily ? (
+                            <p>{label % 2 ? label : null}</p>
+                          ) : (
+                            <p>{label}</p>
+                          )}
+                        </span>
+                        <span
+                          className={classNames(
+                            "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full rounded-lg",
+                            {
+                              "opacity-0": !value,
+                              "opacity-25": value && value > 0,
+                              "opacity-50": value && value > 4,
+                              "opacity-75": value && value > 10,
+                            }
+                          )}
+                        ></span>
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
           ) : (
@@ -649,6 +702,7 @@ const ArtboardInsights = ({
               <ul className="flex w-full justify-between relative gap-2 px-7">
                 {lastSevenDaysFormatted.map(({ value, date }, index) => {
                   const dayFormatted = new Date(date as any)?.getDate();
+
                   return (
                     <li
                       key={index}

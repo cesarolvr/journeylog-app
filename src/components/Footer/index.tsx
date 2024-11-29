@@ -35,7 +35,7 @@ const Footer = () => {
         </li>
       </ul>
       <p className="mb-24 text-[18px]">
-        © Journeylog 2024. All Rights Reserved.
+        © Journeylog {new Date().getFullYear()}. All Rights Reserved.
       </p>
     </footer>
   );

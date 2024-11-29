@@ -611,7 +611,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   variant="solid"
                   size="lg"
                   onClick={(f) => {
-                    console.log(user);
                     handleChoosePlan(user?.id, "free");
                     // router.push(!!user ? "/app" : "/sign-in");
                   }}

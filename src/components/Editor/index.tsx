@@ -98,8 +98,6 @@ const Editor = ({
         day: dateSelected.day,
         month: dateSelected.month,
         year: dateSelected.year,
-        // hour: 0,
-        // minute: 0,
       })
       .toUTC()
       .toISO();
@@ -204,8 +202,6 @@ const Editor = ({
     const now = getNow();
     const customDate = getCustomDate();
 
-    console.log(customDate);
-
     const isToCreate = !getActiveLog();
 
     const payloadToSend = (condition: boolean) => {
@@ -238,7 +234,6 @@ const Editor = ({
       .select();
 
     if (data && data[0]) {
-      // console.log(data[0])
       setActiveLog(data[0]);
 
       const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
