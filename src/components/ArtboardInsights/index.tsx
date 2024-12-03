@@ -28,17 +28,39 @@ const ArtboardInsights = ({
   const [daysInARow, setDaysInARow]: any = useState(null);
   const [callHeatmap, setCallHeatmap] = useState(null);
 
+  const isWeekly = activeTab?.frequency === "weekly";
+  const isDaily = activeTab?.frequency === "daily";
+  const isMonthly = activeTab?.frequency === "monthly";
+
   const beginning = DateTime.fromISO(
     frequency ? frequency[frequency?.length - 1]?.date : ""
   );
   const now = DateTime.fromJSDate(new Date());
-  const diffInDays: any = beginning.diff(now, "days");
+  
+  const diffInDays: any = beginning.diff(now, isDaily ? 'days': isMonthly ? 'months' : 'weeks');
 
-  const filteredLogs =
+  const filteredDaysLogs =
     frequency?.reduce((a: any, v: any) => ({ ...a, [v.date]: v }), {}) || {};
-  const daysWithLogs = Object.keys(filteredLogs)?.length;
 
-  const daysFromTheBeginning = Math.round(diffInDays?.values?.days) * -1;
+  const filteredMonthsLogs =
+    frequency?.reduce((a: any, v: any) => {
+      const keyname = DateTime.fromJSDate(new Date(v.date)).toUTC();
+      return { ...a, [`${keyname.year}-${keyname.month}`]: v };
+    }, {}) || {};
+
+  const filteredWeeksLogs =
+    frequency?.reduce((a: any, v: any) => {
+      const keyname = DateTime.fromJSDate(new Date(v.date)).toUTC();
+      return { ...a, [`${keyname.year}-${keyname.weekNumber}-week`]: v };
+    }, {}) || {};
+
+  const daysWithLogs = isDaily
+    ? Object.keys(filteredDaysLogs)?.length
+    : isMonthly
+    ? Object.keys(filteredMonthsLogs)?.length
+    : Object.keys(filteredWeeksLogs)?.length;
+  
+  const daysFromTheBeginning = Math.round(diffInDays?.values[isDaily ? 'days': isMonthly ? 'months' : 'weeks']) * -1;
 
   const { subscription } = subscriptionInfo;
   const isPro = subscription === "habit_creator";
@@ -123,75 +145,78 @@ const ArtboardInsights = ({
   const currentMonth = new Date().getMonth();
 
   useEffect(() => {
+    const element = document.querySelector("#cal-heatmap");
     if (frequency?.length === 0 && !isInsightsOpened && !callHeatmap) return;
 
-    const cal = new CalHeatmap();
-    setCallHeatmap(cal);
-    cal.paint(
-      {
-        data: {
-          source: frequency,
-          type: "json",
-          x: "date",
-          y: "value",
-        },
-        date: {
-          start: new Date(`${new Date().getFullYear()}-01-01`),
-          max: new Date(),
-          end: new Date(),
-          highlight: [new Date()],
-        },
-        range: currentMonth + 1 > 4 ? currentMonth + 1 : 12,
-        theme: "dark",
-        scale: {
-          color: {
-            type: "threshold",
-            range: ["#626262", "#515e54", "#4d6551", "#468A51", "#39D353"],
-            domain: [2, 4, 6, 8, 10],
+    if (element) {
+      const cal = new CalHeatmap();
+      setCallHeatmap(cal);
+      cal.paint(
+        {
+          data: {
+            source: frequency,
+            type: "json",
+            x: "date",
+            y: "value",
           },
-        },
-        domain: {
-          type: "month",
-          gutter: 6,
-          label: { text: "MMM", textAlign: "start", position: "bottom" },
-        },
-        subDomain: {
-          type: "ghDay",
-          radius: 5,
-          width: 27,
-          height: 27,
-          gutter: 6,
-        },
-      },
-      [
-        [
-          Tooltip,
-          {
-            text: function (date: any, value: any, dayjsDate: any) {
-              return (
-                (value ? value : "No") +
-                " logs on " +
-                dayjsDate.format("dddd, MMMM D, YYYY")
-              );
+          date: {
+            start: new Date(`${new Date().getFullYear()}-01-01`),
+            max: new Date(),
+            end: new Date(),
+            highlight: [new Date()],
+          },
+          range: currentMonth + 1 > 4 ? currentMonth + 1 : 12,
+          theme: "dark",
+          scale: {
+            color: {
+              type: "threshold",
+              range: ["#626262", "#515e54", "#4d6551", "#468A51", "#39D353"],
+              domain: [2, 4, 6, 8, 10],
             },
           },
-        ],
+          domain: {
+            type: "month",
+            gutter: 6,
+            label: { text: "MMM", textAlign: "start", position: "bottom" },
+          },
+          subDomain: {
+            type: "ghDay",
+            radius: 5,
+            width: 27,
+            height: 27,
+            gutter: 6,
+          },
+        },
         [
-          CalendarLabel,
-          {
-            width: 35,
-            textAlign: "end",
-            text: () => {
-              return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                (d, i) => d
-              );
+          [
+            Tooltip,
+            {
+              text: function (date: any, value: any, dayjsDate: any) {
+                return (
+                  (value ? value : "No") +
+                  " logs on " +
+                  dayjsDate.format("dddd, MMMM D, YYYY")
+                );
+              },
             },
+          ],
+          [
+            CalendarLabel,
+            {
+              width: 35,
+              textAlign: "end",
+              text: () => {
+                return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                  (d, i) => d
+                );
+              },
 
-            padding: [0, 10, 0, 0],
-          },
-        ],
-      ]
-    );
+              padding: [0, 10, 0, 0],
+            },
+          ],
+        ]
+      );
+    }
 
     const days: any = getDaysInARow();
 
@@ -201,7 +226,7 @@ const ArtboardInsights = ({
   const getLastDaysConsistency: any = {
     daily: {
       days: Array.from(Array(31).keys()),
-      text: "Last 31 days",
+      text: "Last 30 days",
       value: 31,
     },
     weekly: {
@@ -216,10 +241,6 @@ const ArtboardInsights = ({
     },
   };
 
-  const isWeekly = activeTab?.frequency === "weekly";
-  const isDaily = activeTab?.frequency === "daily";
-  const isMonthly = activeTab?.frequency === "monthly";
-
   const lastDaysConsistency =
     getLastDaysConsistency[activeTab?.frequency]?.days || [];
 
@@ -229,16 +250,16 @@ const ArtboardInsights = ({
         .set({ hour: 0, minute: 0, second: 0 })
         .minus(
           isDaily
-            ? { day: 31 - index }
+            ? { day: 30 - index }
             : isWeekly
-            ? { week: 1 + index }
-            : { month: 0 + index }
+            ? { week: 11 - index }
+            : { month: 11 - index }
         )
         .toUTC()
         .toISO();
 
       const sameDaySelected = frequency
-        ? frequency?.find(({ date, value }, index) => {
+        ? frequency?.find(({ date, value }: any) => {
             const currentLoopSlot = new Date(
               new Date(currentDate).setHours(0, 0, 0, 0)
             ).getTime();
@@ -254,17 +275,41 @@ const ArtboardInsights = ({
         : null;
 
       const sameMonthSelected = frequency
-        ? frequency?.find(({ date, value }, index) => {
+        ? frequency?.find(({ date }: any) => {
             const currentLoopSlot = DateTime.fromJSDate(
               new Date(currentDate)
-            ).month;
-            const currentLoopItem = DateTime.fromJSDate(new Date(date)).month;
+            ).toLocal();
 
-            if (currentLoopSlot === currentLoopItem) {
+            const currentLoopItem = DateTime.fromJSDate(new Date(date)).toUTC();
+
+            if (
+              currentLoopSlot.month === currentLoopItem.month &&
+              currentLoopSlot.year === currentLoopItem.year
+            ) {
               return {
-                date,
+                date: DateTime.fromJSDate(new Date(date)).toUTC(),
                 value: currentLoopItem,
-                month: currentLoopItem,
+              };
+            }
+          })
+        : null;
+
+      const sameWeekSelected = frequency
+        ? frequency?.find(({ date }: any) => {
+            const currentLoopSlot = DateTime.fromJSDate(
+              new Date(currentDate)
+            ).toLocal();
+
+            const currentLoopItem = DateTime.fromJSDate(new Date(date)).toUTC();
+            if (
+              currentLoopSlot.localWeekNumber ===
+                currentLoopItem.localWeekNumber &&
+              currentLoopSlot.month === currentLoopItem.month &&
+              currentLoopSlot.year === currentLoopItem.year
+            ) {
+              return {
+                date: DateTime.fromJSDate(new Date(date)).toUTC(),
+                value: currentLoopItem,
               };
             }
           })
@@ -283,17 +328,18 @@ const ArtboardInsights = ({
           index: item,
           date: currentDate,
           value: 11,
-          month: DateTime.fromJSDate(new Date(currentDate)).toLocal().month,
+          month: DateTime.fromJSDate(new Date(currentDate)).toUTC().month,
         };
       }
 
-      // if (isMonthly && sameMonthSelected) {
-      //   return {
-      //     index: item,
-      //     date: currentDate,
-      //     value: 10,
-      //   };
-      // }
+      if (isWeekly && sameWeekSelected) {
+        return {
+          index: item,
+          date: currentDate,
+          value: 10,
+          week: DateTime.fromJSDate(new Date(currentDate)).toUTC().weekNumber,
+        };
+      }
 
       return { index: item, date: currentDate };
     }
@@ -303,22 +349,16 @@ const ArtboardInsights = ({
     daily: {
       days: Array.from(Array(7).keys()),
       text: "Last 7 days",
-    },
-    weekly: {
-      days: Array.from(Array(8).keys()),
-      text: "Last 8 weeks",
-    },
-    monthly: {
-      days: Array.from(Array(6).keys()),
-      text: "Last 6 months",
+      value: 31,
     },
   };
 
   const lastDaysDensity = getLastDaysDensity[activeTab?.frequency]?.days || [];
+
   const lastSevenDaysFormatted = lastDaysDensity.map((item, index) => {
     const currentDate = DateTime.fromJSDate(new Date())
       .set({ hour: 0, minute: 0, second: 0 })
-      .minus({ day: 7 - index })
+      .minus({ day: 6 - index })
       .toUTC()
       .toISO();
 
@@ -394,7 +434,9 @@ const ArtboardInsights = ({
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
               </div>
-              <span>Days in a row</span>
+              <span>
+                {isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} in a row
+              </span>
             </li>
             <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]">
               <div className="text-5xl font-bold">
@@ -408,7 +450,7 @@ const ArtboardInsights = ({
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
               </div>
-              <span>Days with logs</span>
+              <span>{isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} with logs</span>
             </li>
             <li className="flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]">
               <div className="text-5xl font-bold">
@@ -422,7 +464,7 @@ const ArtboardInsights = ({
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
               </div>
-              <span>Days since it started</span>
+              <span>{isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} since it started</span>
             </li>
           </ul>
         </div>
@@ -469,38 +511,40 @@ const ArtboardInsights = ({
           {isPro ? (
             <div className="w-full mb-16 px-7 relative">
               <ul className="flex w-full gap-1 justify-between relative overflow-visible">
-                {lastDatesFormatted
-                  .toReversed()
-                  .map(({ value, date, ...item }, index) => {
-                    const label = isDaily
-                      ? new Date(date as any)?.getDate()
-                      : DateTime.fromJSDate(new Date(date as any))?.toLocal().month + 1;
-                    return (
-                      <li
-                        key={index}
-                        className={`w-full relative p-[1px] h-[80px] bg-[#3E3E3E] rounded-lg overflow-visible`}
-                      >
-                        <span className="absolute bottom-[-20px] md:bottom-[-30px] text-[10px] md:text-[14px] left-0 right-0 text-center justify-center opacity-40 m-auto inline-flex">
-                          {isDaily ? (
-                            <p>{label % 2 ? label : null}</p>
-                          ) : (
-                            <p>{label}</p>
-                          )}
-                        </span>
-                        <span
-                          className={classNames(
-                            "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full rounded-lg",
-                            {
-                              "opacity-0": !value,
-                              "opacity-25": value && value > 0,
-                              "opacity-50": value && value > 4,
-                              "opacity-75": value && value > 10,
-                            }
-                          )}
-                        ></span>
-                      </li>
-                    );
-                  })}
+                {lastDatesFormatted.map(({ value, date }: any, index: any) => {
+                  const label = isDaily
+                    ? new Date(date as any)?.getDate()
+                    : isMonthly
+                    ? DateTime.fromJSDate(new Date(date as any))?.toLocal()
+                        .month
+                    : DateTime.fromJSDate(new Date(date as any))?.toLocal()
+                        .localWeekNumber;
+                  return (
+                    <li
+                      key={index}
+                      className={`w-full relative p-[1px] h-[80px] bg-[#3E3E3E] rounded-lg overflow-visible`}
+                    >
+                      <span className="absolute bottom-[-20px] md:bottom-[-30px] text-[10px] md:text-[14px] left-0 right-0 text-center justify-center opacity-40 m-auto inline-flex">
+                        {isDaily ? (
+                          <p>{label % 2 ? label : null}</p>
+                        ) : (
+                          <p>{label}</p>
+                        )}
+                      </span>
+                      <span
+                        className={classNames(
+                          "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full rounded-lg",
+                          {
+                            "opacity-0": !value,
+                            "opacity-25": value && value > 0,
+                            "opacity-50": value && value > 4,
+                            "opacity-75": value && value > 10,
+                          }
+                        )}
+                      ></span>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ) : (
@@ -690,212 +734,214 @@ const ArtboardInsights = ({
 
           <div className="w-[50px] flex-shrink-0"></div>
         </div>
-        <div className="mb-10 relative">
-          <div className="flex justify-between mb-3 px-7 items-center">
-            <p>Habit density</p>
-            <span className="text-[#656565]">
-              {getLastDaysDensity[activeTab?.frequency]?.text}
-            </span>
-          </div>
-          <div className="w-full mb-7 relative">
-            {isPro ? (
-              <ul className="flex w-full justify-between relative gap-2 px-7">
-                {lastSevenDaysFormatted.map(({ value, date }, index) => {
-                  const dayFormatted = new Date(date as any)?.getDate();
+        {isDaily ? (
+          <div className="mb-10 relative">
+            <div className="flex justify-between mb-3 px-7 items-center">
+              <p>Habit density</p>
+              <span className="text-[#656565]">
+                {getLastDaysDensity[activeTab?.frequency]?.text}
+              </span>
+            </div>
+            <div className="w-full mb-7 relative">
+              {isPro ? (
+                <ul className="flex w-full justify-between relative gap-2 px-7">
+                  {lastSevenDaysFormatted.map(({ value, date }, index) => {
+                    const dayFormatted = new Date(date as any)?.getDate();
 
-                  return (
-                    <li
-                      key={index}
-                      className={`relative rounded-lg p-[5px] w-full h-[196px] bg-[#3E3E3E] overflow-hidden`}
-                    >
-                      <span className="absolute top-[10px] left-0 right-0 w-full text-center opacity-40">
-                        {dayFormatted}
-                      </span>
-                      <div
-                        className={classNames(
-                          "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 rounded-lg",
-                          {
-                            "h-0": !value,
-                            "h-1/4": value && value > 0,
-                            "h-2/4": value && value > 5,
-                            "h-3/4": value && value > 10,
-                            "h-4/4": value && value > 15,
-                          }
-                        )}
+                    return (
+                      <li
+                        key={index}
+                        className={`relative rounded-lg p-[5px] w-full h-[196px] bg-[#3E3E3E] overflow-hidden`}
                       >
-                        <span className="absolute top-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center">
-                          {value ? (
-                            value > 15 ? (
-                              <>🚀</>
-                            ) : value > 10 ? (
-                              <>😮</>
-                            ) : value > 5 ? (
-                              <>👌🏽</>
-                            ) : value > 0 ? (
-                              <>👍🏾</>
-                            ) : (
-                              <>👎🏽</>
-                            )
-                          ) : (
-                            <div className="mt-[-43px]">👎🏽</div>
-                          )}
+                        <span className="absolute top-[10px] left-0 right-0 w-full text-center opacity-40">
+                          {dayFormatted}
                         </span>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            ) : (
-              <div className="w-full h-[250px] mb-16 px-7 relative flex justify-center items-center">
-                <div className="feature-locker absolute inset-0 z-40 rounded-xl bg-[rgba(30, 30, 30, 1))] flex items-center justify-center backdrop-blur-[15px]">
-                  <p
-                    className="absolute cursor-pointer bottom-[-30px] right-7 text-[14px] flex items-center font-black"
-                    onClick={() => {
-                      setIsInsightsOpened(false);
-                      onOpenModal();
-                      setDefaultPanel("subscription");
-                    }}
-                  >
-                    Unlock with{" "}
-                    <span className="text-[#27DE55] ml-1"> PRO </span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-move-right ml-2 stroke-[#5c5c5c]"
+                        <div
+                          className={classNames(
+                            "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 rounded-lg",
+                            {
+                              "h-0": !value,
+                              "h-1/4": value && value > 0,
+                              "h-2/4": value && value > 5,
+                              "h-3/4": value && value > 10,
+                              "h-4/4": value && value > 15,
+                            }
+                          )}
+                        >
+                          <span className="absolute top-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center">
+                            {value ? (
+                              value > 15 ? (
+                                <>🚀</>
+                              ) : value > 10 ? (
+                                <>😮</>
+                              ) : value > 5 ? (
+                                <>👌🏽</>
+                              ) : value > 0 ? (
+                                <>👍🏾</>
+                              ) : (
+                                <>👎🏽</>
+                              )
+                            ) : (
+                              <div className="mt-[-43px]">👎🏽</div>
+                            )}
+                          </span>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <div className="w-full h-[250px] mb-16 px-7 relative flex justify-center items-center">
+                  <div className="feature-locker absolute inset-0 z-40 rounded-xl bg-[rgba(30, 30, 30, 1))] flex items-center justify-center backdrop-blur-[15px]">
+                    <p
+                      className="absolute cursor-pointer bottom-[-30px] right-7 text-[14px] flex items-center font-black"
+                      onClick={() => {
+                        setIsInsightsOpened(false);
+                        onOpenModal();
+                        setDefaultPanel("subscription");
+                      }}
                     >
-                      <path d="M18 8L22 12L18 16" />
-                      <path d="M2 12H22" />
-                    </svg>
-                  </p>
+                      Unlock with{" "}
+                      <span className="text-[#27DE55] ml-1"> PRO </span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-move-right ml-2 stroke-[#5c5c5c]"
+                      >
+                        <path d="M18 8L22 12L18 16" />
+                        <path d="M2 12H22" />
+                      </svg>
+                    </p>
+                  </div>
+                  <svg
+                    width="513"
+                    className="w-full"
+                    height="196"
+                    viewBox="0 0 513 196"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.1235e-05 5C1.14018e-05 2.23857 2.23859 -1.57433e-08 5.00001 1.26417e-07L58 2.8549e-06C60.7614 2.99706e-06 63 2.23858 63 5L63 191C63 193.761 60.7614 196 58 196H5C2.23858 196 -1.66799e-07 193.761 0 191L1.1235e-05 5Z"
+                      fill="#3E3E3E"
+                    />
+                    <path
+                      d="M75 5C75 2.23857 77.2386 -7.23423e-08 80 0L134 1.41466e-06C136.761 1.48701e-06 139 2.23858 139 5L139 191C139 193.761 136.761 196 134 196H80C77.2386 196 75 193.761 75 191L75 5Z"
+                      fill="#3E3E3E"
+                    />
+                    <path
+                      d="M150 5C150 2.23857 152.239 -7.17761e-08 155 1.26443e-09L209 1.42958e-06C211.761 1.50262e-06 214 2.23858 214 5L214 191C214 193.761 211.761 196 209 196H155C152.239 196 150 193.761 150 191L150 5Z"
+                      fill="#3E3E3E"
+                    />
+                    <path
+                      d="M150 118C150 115.239 152.239 113 155 113H209C211.761 113 214 115.239 214 118V191C214 193.761 211.761 196 209 196H155C152.239 196 150 193.761 150 191L150 118Z"
+                      fill="#3D6D49"
+                    />
+                    <path
+                      d="M450 5C450 2.23857 452.239 -7.17761e-08 455 1.26443e-09L508 1.40313e-06C510.761 1.47617e-06 513 2.23858 513 5V191C513 193.761 510.761 196 508 196H455C452.239 196 450 193.761 450 191L450 5Z"
+                      fill="#3E3E3E"
+                    />
+                    <path
+                      d="M450 137C450 134.239 452.239 132 455 132H508C510.761 132 513 134.239 513 137V191C513 193.761 510.761 196 508 196H455C452.239 196 450 193.761 450 191L450 137Z"
+                      fill="#3D6D49"
+                    />
+                    <path
+                      d="M227 5C227 2.23857 229.239 -7.17761e-08 232 1.26443e-09L283 1.35023e-06C285.761 1.42327e-06 288 2.23858 288 5V191C288 193.761 285.761 196 283 196H232C229.239 196 227 193.761 227 191L227 5Z"
+                      fill="#3E3E3E"
+                    />
+                    <path
+                      d="M227 137C227 134.239 229.239 132 232 132H283C285.761 132 288 134.239 288 137V191C288 193.761 285.761 196 283 196H232C229.239 196 227 193.761 227 191L227 137Z"
+                      fill="#3D6D49"
+                    />
+                    <path
+                      d="M1.00001 177C1.00001 174.239 3.23859 172 6.00001 172H57C59.7614 172 62 174.239 62 177L62 191C62 193.761 59.7614 196 57 196H6.00001C3.23859 196 1.00001 193.761 1.00001 191L1.00001 177Z"
+                      fill="#56725D"
+                    />
+                    <path
+                      d="M299 5C299 2.23857 301.239 -7.17761e-08 304 1.26443e-09L358 1.42958e-06C360.761 1.50262e-06 363 2.23858 363 5L363 191C363 193.761 360.761 196 358 196H304C301.239 196 299 193.761 299 191L299 5Z"
+                      fill="#3E3E3E"
+                    />
+                    <path
+                      d="M299 88C299 85.2386 301.239 83 304 83H358C360.761 83 363 85.2386 363 88V191C363 193.761 360.761 196 358 196H304C301.239 196 299 193.761 299 191L299 88Z"
+                      fill="#27DE54"
+                    />
+                    <path
+                      d="M376 5C376 2.23857 378.239 -7.17761e-08 381 1.26443e-09L436 1.45603e-06C438.761 1.52907e-06 441 2.23858 441 5L441 191C441 193.761 438.761 196 436 196H381C378.239 196 376 193.761 376 191L376 5Z"
+                      fill="#3E3E3E"
+                    />
+                    <path
+                      d="M376 67C376 64.2386 378.239 62 381 62H436C438.761 62 441 64.2386 441 67V191C441 193.761 438.761 196 436 196H381C378.239 196 376 193.761 376 191L376 67Z"
+                      fill="#27DE54"
+                    />
+                    <path
+                      d="M95.62 22V20.884L99.958 16.204C100.57 15.532 101.008 14.92 101.272 14.368C101.548 13.816 101.686 13.252 101.686 12.676C101.686 11.2 100.828 10.462 99.112 10.462C97.828 10.462 96.694 10.942 95.71 11.902L95.152 10.75C95.62 10.27 96.214 9.886 96.934 9.598C97.666 9.298 98.434 9.148 99.238 9.148C100.51 9.148 101.482 9.448 102.154 10.048C102.838 10.636 103.18 11.476 103.18 12.568C103.18 13.324 102.994 14.068 102.622 14.8C102.25 15.52 101.68 16.288 100.912 17.104L97.51 20.74H103.702V22H95.62Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M106.413 22V20.884L110.751 16.204C111.363 15.532 111.801 14.92 112.065 14.368C112.341 13.816 112.479 13.252 112.479 12.676C112.479 11.2 111.621 10.462 109.905 10.462C108.621 10.462 107.487 10.942 106.503 11.902L105.945 10.75C106.413 10.27 107.007 9.886 107.727 9.598C108.459 9.298 109.227 9.148 110.031 9.148C111.303 9.148 112.275 9.448 112.947 10.048C113.631 10.636 113.973 11.476 113.973 12.568C113.973 13.324 113.787 14.068 113.415 14.8C113.043 15.52 112.473 16.288 111.705 17.104L108.303 20.74H114.495V22H106.413Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M21.62 22V20.884L25.958 16.204C26.366 15.76 26.696 15.346 26.948 14.962C27.2 14.566 27.386 14.182 27.506 13.81C27.626 13.438 27.686 13.06 27.686 12.676C27.686 11.956 27.464 11.41 27.02 11.038C26.588 10.654 25.952 10.462 25.112 10.462C24.464 10.462 23.858 10.582 23.294 10.822C22.742 11.05 22.214 11.41 21.71 11.902L21.152 10.75C21.62 10.27 22.214 9.886 22.934 9.598C23.666 9.298 24.434 9.148 25.238 9.148C26.09 9.148 26.81 9.28 27.398 9.544C27.986 9.808 28.43 10.198 28.73 10.714C29.03 11.218 29.18 11.836 29.18 12.568C29.18 12.952 29.132 13.33 29.036 13.702C28.952 14.062 28.814 14.428 28.622 14.8C28.442 15.16 28.208 15.532 27.92 15.916C27.644 16.3 27.308 16.696 26.912 17.104L23.096 21.154V20.74H29.702V22H21.62Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M33.025 22V20.74H35.923V10.588H36.697L33.637 12.532L33.007 11.434L36.337 9.31H37.399V20.74H40.117V22H33.025Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M172.62 22V20.884L176.958 16.204C177.57 15.532 178.008 14.92 178.272 14.368C178.548 13.816 178.686 13.252 178.686 12.676C178.686 11.2 177.828 10.462 176.112 10.462C174.828 10.462 173.694 10.942 172.71 11.902L172.152 10.75C172.62 10.27 173.214 9.886 173.934 9.598C174.666 9.298 175.434 9.148 176.238 9.148C177.51 9.148 178.482 9.448 179.154 10.048C179.838 10.636 180.18 11.476 180.18 12.568C180.18 13.324 179.994 14.068 179.622 14.8C179.25 15.52 178.68 16.288 177.912 17.104L174.51 20.74H180.702V22H172.62Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M187.049 22.162C186.209 22.162 185.411 22.036 184.655 21.784C183.899 21.52 183.263 21.142 182.747 20.65L183.287 19.48C183.875 19.96 184.469 20.308 185.069 20.524C185.669 20.74 186.317 20.848 187.013 20.848C187.925 20.848 188.621 20.65 189.101 20.254C189.593 19.846 189.839 19.252 189.839 18.472C189.839 17.728 189.593 17.164 189.101 16.78C188.609 16.396 187.895 16.204 186.959 16.204H185.087V14.926H186.833C187.649 14.926 188.291 14.716 188.759 14.296C189.239 13.864 189.479 13.276 189.479 12.532C189.479 11.872 189.257 11.362 188.813 11.002C188.381 10.642 187.763 10.462 186.959 10.462C185.639 10.462 184.487 10.942 183.503 11.902L182.963 10.75C183.431 10.246 184.025 9.856 184.745 9.58C185.477 9.292 186.245 9.148 187.049 9.148C188.273 9.148 189.227 9.436 189.911 10.012C190.607 10.588 190.955 11.386 190.955 12.406C190.955 13.114 190.775 13.738 190.415 14.278C190.055 14.806 189.557 15.19 188.921 15.43C189.677 15.634 190.265 16.012 190.685 16.564C191.105 17.104 191.315 17.776 191.315 18.58C191.315 19.672 190.931 20.542 190.163 21.19C189.407 21.838 188.369 22.162 187.049 22.162Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M249.62 22V20.884L253.958 16.204C254.57 15.532 255.008 14.92 255.272 14.368C255.548 13.816 255.686 13.252 255.686 12.676C255.686 11.2 254.828 10.462 253.112 10.462C251.828 10.462 250.694 10.942 249.71 11.902L249.152 10.75C249.62 10.27 250.214 9.886 250.934 9.598C251.666 9.298 252.434 9.148 253.238 9.148C254.51 9.148 255.482 9.448 256.154 10.048C256.838 10.636 257.18 11.476 257.18 12.568C257.18 13.324 256.994 14.068 256.622 14.8C256.25 15.52 255.68 16.288 254.912 17.104L251.51 20.74H257.702V22H249.62Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M265.579 22V19.282H259.729V18.166L265.831 9.31H267.073V18.022H268.963V19.282H267.073V22H265.579ZM265.579 18.022V11.74L261.259 18.022H265.579Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M322.62 22V20.884L326.958 16.204C327.57 15.532 328.008 14.92 328.272 14.368C328.548 13.816 328.686 13.252 328.686 12.676C328.686 11.2 327.828 10.462 326.112 10.462C324.828 10.462 323.694 10.942 322.71 11.902L322.152 10.75C322.62 10.27 323.214 9.886 323.934 9.598C324.666 9.298 325.434 9.148 326.238 9.148C327.51 9.148 328.482 9.448 329.154 10.048C329.838 10.636 330.18 11.476 330.18 12.568C330.18 13.324 329.994 14.068 329.622 14.8C329.25 15.52 328.68 16.288 327.912 17.104L324.51 20.74H330.702V22H322.62Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M337.463 22.162C336.647 22.162 335.867 22.03 335.123 21.766C334.379 21.502 333.749 21.13 333.233 20.65L333.791 19.48C334.907 20.392 336.125 20.848 337.445 20.848C338.321 20.848 339.011 20.602 339.515 20.11C340.019 19.618 340.271 18.97 340.271 18.166C340.271 17.338 340.031 16.66 339.551 16.132C339.071 15.604 338.411 15.34 337.571 15.34C336.359 15.34 335.405 15.844 334.709 16.852H333.629V9.31H340.991V10.57H335.087V15.106C335.783 14.41 336.701 14.062 337.841 14.062C338.633 14.062 339.323 14.23 339.911 14.566C340.499 14.902 340.949 15.376 341.261 15.988C341.585 16.588 341.747 17.29 341.747 18.094C341.747 18.886 341.573 19.588 341.225 20.2C340.877 20.812 340.379 21.292 339.731 21.64C339.095 21.988 338.339 22.162 337.463 22.162Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M399.62 22V20.884L403.958 16.204C404.57 15.532 405.008 14.92 405.272 14.368C405.548 13.816 405.686 13.252 405.686 12.676C405.686 11.2 404.828 10.462 403.112 10.462C401.828 10.462 400.694 10.942 399.71 11.902L399.152 10.75C399.62 10.27 400.214 9.886 400.934 9.598C401.666 9.298 402.434 9.148 403.238 9.148C404.51 9.148 405.482 9.448 406.154 10.048C406.838 10.636 407.18 11.476 407.18 12.568C407.18 13.324 406.994 14.068 406.622 14.8C406.25 15.52 405.68 16.288 404.912 17.104L401.51 20.74H407.702V22H399.62Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M414.625 22.162C413.125 22.162 411.967 21.622 411.151 20.542C410.347 19.45 409.945 17.926 409.945 15.97C409.945 13.774 410.395 12.088 411.295 10.912C412.195 9.736 413.455 9.148 415.075 9.148C415.723 9.148 416.371 9.286 417.019 9.562C417.679 9.838 418.219 10.21 418.639 10.678L418.099 11.83C417.655 11.374 417.169 11.032 416.641 10.804C416.125 10.576 415.591 10.462 415.039 10.462C413.863 10.462 412.957 10.9 412.321 11.776C411.697 12.652 411.385 13.954 411.385 15.682V16.564C411.613 15.772 412.033 15.154 412.645 14.71C413.269 14.266 414.001 14.044 414.841 14.044C415.585 14.044 416.245 14.218 416.821 14.566C417.397 14.902 417.847 15.37 418.171 15.97C418.495 16.57 418.657 17.26 418.657 18.04C418.657 18.844 418.483 19.558 418.135 20.182C417.799 20.794 417.325 21.28 416.713 21.64C416.113 21.988 415.417 22.162 414.625 22.162ZM414.535 20.902C415.339 20.902 415.987 20.644 416.479 20.128C416.983 19.612 417.235 18.934 417.235 18.094C417.235 17.266 416.983 16.594 416.479 16.078C415.987 15.55 415.339 15.286 414.535 15.286C413.731 15.286 413.077 15.55 412.573 16.078C412.081 16.594 411.835 17.266 411.835 18.094C411.835 18.934 412.081 19.612 412.573 20.128C413.077 20.644 413.731 20.902 414.535 20.902Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M474.62 22V20.884L478.958 16.204C479.57 15.532 480.008 14.92 480.272 14.368C480.548 13.816 480.686 13.252 480.686 12.676C480.686 11.2 479.828 10.462 478.112 10.462C476.828 10.462 475.694 10.942 474.71 11.902L474.152 10.75C474.62 10.27 475.214 9.886 475.934 9.598C476.666 9.298 477.434 9.148 478.238 9.148C479.51 9.148 480.482 9.448 481.154 10.048C481.838 10.636 482.18 11.476 482.18 12.568C482.18 13.324 481.994 14.068 481.622 14.8C481.25 15.52 480.68 16.288 479.912 17.104L476.51 20.74H482.702V22H474.62Z"
+                      fill="#888888"
+                    />
+                    <path
+                      d="M485.809 22L491.713 10.588H484.999V9.31H493.387V10.426L487.447 22H485.809Z"
+                      fill="#888888"
+                    />
+                  </svg>
                 </div>
-                <svg
-                  width="513"
-                  className="w-full"
-                  height="196"
-                  viewBox="0 0 513 196"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1.1235e-05 5C1.14018e-05 2.23857 2.23859 -1.57433e-08 5.00001 1.26417e-07L58 2.8549e-06C60.7614 2.99706e-06 63 2.23858 63 5L63 191C63 193.761 60.7614 196 58 196H5C2.23858 196 -1.66799e-07 193.761 0 191L1.1235e-05 5Z"
-                    fill="#3E3E3E"
-                  />
-                  <path
-                    d="M75 5C75 2.23857 77.2386 -7.23423e-08 80 0L134 1.41466e-06C136.761 1.48701e-06 139 2.23858 139 5L139 191C139 193.761 136.761 196 134 196H80C77.2386 196 75 193.761 75 191L75 5Z"
-                    fill="#3E3E3E"
-                  />
-                  <path
-                    d="M150 5C150 2.23857 152.239 -7.17761e-08 155 1.26443e-09L209 1.42958e-06C211.761 1.50262e-06 214 2.23858 214 5L214 191C214 193.761 211.761 196 209 196H155C152.239 196 150 193.761 150 191L150 5Z"
-                    fill="#3E3E3E"
-                  />
-                  <path
-                    d="M150 118C150 115.239 152.239 113 155 113H209C211.761 113 214 115.239 214 118V191C214 193.761 211.761 196 209 196H155C152.239 196 150 193.761 150 191L150 118Z"
-                    fill="#3D6D49"
-                  />
-                  <path
-                    d="M450 5C450 2.23857 452.239 -7.17761e-08 455 1.26443e-09L508 1.40313e-06C510.761 1.47617e-06 513 2.23858 513 5V191C513 193.761 510.761 196 508 196H455C452.239 196 450 193.761 450 191L450 5Z"
-                    fill="#3E3E3E"
-                  />
-                  <path
-                    d="M450 137C450 134.239 452.239 132 455 132H508C510.761 132 513 134.239 513 137V191C513 193.761 510.761 196 508 196H455C452.239 196 450 193.761 450 191L450 137Z"
-                    fill="#3D6D49"
-                  />
-                  <path
-                    d="M227 5C227 2.23857 229.239 -7.17761e-08 232 1.26443e-09L283 1.35023e-06C285.761 1.42327e-06 288 2.23858 288 5V191C288 193.761 285.761 196 283 196H232C229.239 196 227 193.761 227 191L227 5Z"
-                    fill="#3E3E3E"
-                  />
-                  <path
-                    d="M227 137C227 134.239 229.239 132 232 132H283C285.761 132 288 134.239 288 137V191C288 193.761 285.761 196 283 196H232C229.239 196 227 193.761 227 191L227 137Z"
-                    fill="#3D6D49"
-                  />
-                  <path
-                    d="M1.00001 177C1.00001 174.239 3.23859 172 6.00001 172H57C59.7614 172 62 174.239 62 177L62 191C62 193.761 59.7614 196 57 196H6.00001C3.23859 196 1.00001 193.761 1.00001 191L1.00001 177Z"
-                    fill="#56725D"
-                  />
-                  <path
-                    d="M299 5C299 2.23857 301.239 -7.17761e-08 304 1.26443e-09L358 1.42958e-06C360.761 1.50262e-06 363 2.23858 363 5L363 191C363 193.761 360.761 196 358 196H304C301.239 196 299 193.761 299 191L299 5Z"
-                    fill="#3E3E3E"
-                  />
-                  <path
-                    d="M299 88C299 85.2386 301.239 83 304 83H358C360.761 83 363 85.2386 363 88V191C363 193.761 360.761 196 358 196H304C301.239 196 299 193.761 299 191L299 88Z"
-                    fill="#27DE54"
-                  />
-                  <path
-                    d="M376 5C376 2.23857 378.239 -7.17761e-08 381 1.26443e-09L436 1.45603e-06C438.761 1.52907e-06 441 2.23858 441 5L441 191C441 193.761 438.761 196 436 196H381C378.239 196 376 193.761 376 191L376 5Z"
-                    fill="#3E3E3E"
-                  />
-                  <path
-                    d="M376 67C376 64.2386 378.239 62 381 62H436C438.761 62 441 64.2386 441 67V191C441 193.761 438.761 196 436 196H381C378.239 196 376 193.761 376 191L376 67Z"
-                    fill="#27DE54"
-                  />
-                  <path
-                    d="M95.62 22V20.884L99.958 16.204C100.57 15.532 101.008 14.92 101.272 14.368C101.548 13.816 101.686 13.252 101.686 12.676C101.686 11.2 100.828 10.462 99.112 10.462C97.828 10.462 96.694 10.942 95.71 11.902L95.152 10.75C95.62 10.27 96.214 9.886 96.934 9.598C97.666 9.298 98.434 9.148 99.238 9.148C100.51 9.148 101.482 9.448 102.154 10.048C102.838 10.636 103.18 11.476 103.18 12.568C103.18 13.324 102.994 14.068 102.622 14.8C102.25 15.52 101.68 16.288 100.912 17.104L97.51 20.74H103.702V22H95.62Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M106.413 22V20.884L110.751 16.204C111.363 15.532 111.801 14.92 112.065 14.368C112.341 13.816 112.479 13.252 112.479 12.676C112.479 11.2 111.621 10.462 109.905 10.462C108.621 10.462 107.487 10.942 106.503 11.902L105.945 10.75C106.413 10.27 107.007 9.886 107.727 9.598C108.459 9.298 109.227 9.148 110.031 9.148C111.303 9.148 112.275 9.448 112.947 10.048C113.631 10.636 113.973 11.476 113.973 12.568C113.973 13.324 113.787 14.068 113.415 14.8C113.043 15.52 112.473 16.288 111.705 17.104L108.303 20.74H114.495V22H106.413Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M21.62 22V20.884L25.958 16.204C26.366 15.76 26.696 15.346 26.948 14.962C27.2 14.566 27.386 14.182 27.506 13.81C27.626 13.438 27.686 13.06 27.686 12.676C27.686 11.956 27.464 11.41 27.02 11.038C26.588 10.654 25.952 10.462 25.112 10.462C24.464 10.462 23.858 10.582 23.294 10.822C22.742 11.05 22.214 11.41 21.71 11.902L21.152 10.75C21.62 10.27 22.214 9.886 22.934 9.598C23.666 9.298 24.434 9.148 25.238 9.148C26.09 9.148 26.81 9.28 27.398 9.544C27.986 9.808 28.43 10.198 28.73 10.714C29.03 11.218 29.18 11.836 29.18 12.568C29.18 12.952 29.132 13.33 29.036 13.702C28.952 14.062 28.814 14.428 28.622 14.8C28.442 15.16 28.208 15.532 27.92 15.916C27.644 16.3 27.308 16.696 26.912 17.104L23.096 21.154V20.74H29.702V22H21.62Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M33.025 22V20.74H35.923V10.588H36.697L33.637 12.532L33.007 11.434L36.337 9.31H37.399V20.74H40.117V22H33.025Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M172.62 22V20.884L176.958 16.204C177.57 15.532 178.008 14.92 178.272 14.368C178.548 13.816 178.686 13.252 178.686 12.676C178.686 11.2 177.828 10.462 176.112 10.462C174.828 10.462 173.694 10.942 172.71 11.902L172.152 10.75C172.62 10.27 173.214 9.886 173.934 9.598C174.666 9.298 175.434 9.148 176.238 9.148C177.51 9.148 178.482 9.448 179.154 10.048C179.838 10.636 180.18 11.476 180.18 12.568C180.18 13.324 179.994 14.068 179.622 14.8C179.25 15.52 178.68 16.288 177.912 17.104L174.51 20.74H180.702V22H172.62Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M187.049 22.162C186.209 22.162 185.411 22.036 184.655 21.784C183.899 21.52 183.263 21.142 182.747 20.65L183.287 19.48C183.875 19.96 184.469 20.308 185.069 20.524C185.669 20.74 186.317 20.848 187.013 20.848C187.925 20.848 188.621 20.65 189.101 20.254C189.593 19.846 189.839 19.252 189.839 18.472C189.839 17.728 189.593 17.164 189.101 16.78C188.609 16.396 187.895 16.204 186.959 16.204H185.087V14.926H186.833C187.649 14.926 188.291 14.716 188.759 14.296C189.239 13.864 189.479 13.276 189.479 12.532C189.479 11.872 189.257 11.362 188.813 11.002C188.381 10.642 187.763 10.462 186.959 10.462C185.639 10.462 184.487 10.942 183.503 11.902L182.963 10.75C183.431 10.246 184.025 9.856 184.745 9.58C185.477 9.292 186.245 9.148 187.049 9.148C188.273 9.148 189.227 9.436 189.911 10.012C190.607 10.588 190.955 11.386 190.955 12.406C190.955 13.114 190.775 13.738 190.415 14.278C190.055 14.806 189.557 15.19 188.921 15.43C189.677 15.634 190.265 16.012 190.685 16.564C191.105 17.104 191.315 17.776 191.315 18.58C191.315 19.672 190.931 20.542 190.163 21.19C189.407 21.838 188.369 22.162 187.049 22.162Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M249.62 22V20.884L253.958 16.204C254.57 15.532 255.008 14.92 255.272 14.368C255.548 13.816 255.686 13.252 255.686 12.676C255.686 11.2 254.828 10.462 253.112 10.462C251.828 10.462 250.694 10.942 249.71 11.902L249.152 10.75C249.62 10.27 250.214 9.886 250.934 9.598C251.666 9.298 252.434 9.148 253.238 9.148C254.51 9.148 255.482 9.448 256.154 10.048C256.838 10.636 257.18 11.476 257.18 12.568C257.18 13.324 256.994 14.068 256.622 14.8C256.25 15.52 255.68 16.288 254.912 17.104L251.51 20.74H257.702V22H249.62Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M265.579 22V19.282H259.729V18.166L265.831 9.31H267.073V18.022H268.963V19.282H267.073V22H265.579ZM265.579 18.022V11.74L261.259 18.022H265.579Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M322.62 22V20.884L326.958 16.204C327.57 15.532 328.008 14.92 328.272 14.368C328.548 13.816 328.686 13.252 328.686 12.676C328.686 11.2 327.828 10.462 326.112 10.462C324.828 10.462 323.694 10.942 322.71 11.902L322.152 10.75C322.62 10.27 323.214 9.886 323.934 9.598C324.666 9.298 325.434 9.148 326.238 9.148C327.51 9.148 328.482 9.448 329.154 10.048C329.838 10.636 330.18 11.476 330.18 12.568C330.18 13.324 329.994 14.068 329.622 14.8C329.25 15.52 328.68 16.288 327.912 17.104L324.51 20.74H330.702V22H322.62Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M337.463 22.162C336.647 22.162 335.867 22.03 335.123 21.766C334.379 21.502 333.749 21.13 333.233 20.65L333.791 19.48C334.907 20.392 336.125 20.848 337.445 20.848C338.321 20.848 339.011 20.602 339.515 20.11C340.019 19.618 340.271 18.97 340.271 18.166C340.271 17.338 340.031 16.66 339.551 16.132C339.071 15.604 338.411 15.34 337.571 15.34C336.359 15.34 335.405 15.844 334.709 16.852H333.629V9.31H340.991V10.57H335.087V15.106C335.783 14.41 336.701 14.062 337.841 14.062C338.633 14.062 339.323 14.23 339.911 14.566C340.499 14.902 340.949 15.376 341.261 15.988C341.585 16.588 341.747 17.29 341.747 18.094C341.747 18.886 341.573 19.588 341.225 20.2C340.877 20.812 340.379 21.292 339.731 21.64C339.095 21.988 338.339 22.162 337.463 22.162Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M399.62 22V20.884L403.958 16.204C404.57 15.532 405.008 14.92 405.272 14.368C405.548 13.816 405.686 13.252 405.686 12.676C405.686 11.2 404.828 10.462 403.112 10.462C401.828 10.462 400.694 10.942 399.71 11.902L399.152 10.75C399.62 10.27 400.214 9.886 400.934 9.598C401.666 9.298 402.434 9.148 403.238 9.148C404.51 9.148 405.482 9.448 406.154 10.048C406.838 10.636 407.18 11.476 407.18 12.568C407.18 13.324 406.994 14.068 406.622 14.8C406.25 15.52 405.68 16.288 404.912 17.104L401.51 20.74H407.702V22H399.62Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M414.625 22.162C413.125 22.162 411.967 21.622 411.151 20.542C410.347 19.45 409.945 17.926 409.945 15.97C409.945 13.774 410.395 12.088 411.295 10.912C412.195 9.736 413.455 9.148 415.075 9.148C415.723 9.148 416.371 9.286 417.019 9.562C417.679 9.838 418.219 10.21 418.639 10.678L418.099 11.83C417.655 11.374 417.169 11.032 416.641 10.804C416.125 10.576 415.591 10.462 415.039 10.462C413.863 10.462 412.957 10.9 412.321 11.776C411.697 12.652 411.385 13.954 411.385 15.682V16.564C411.613 15.772 412.033 15.154 412.645 14.71C413.269 14.266 414.001 14.044 414.841 14.044C415.585 14.044 416.245 14.218 416.821 14.566C417.397 14.902 417.847 15.37 418.171 15.97C418.495 16.57 418.657 17.26 418.657 18.04C418.657 18.844 418.483 19.558 418.135 20.182C417.799 20.794 417.325 21.28 416.713 21.64C416.113 21.988 415.417 22.162 414.625 22.162ZM414.535 20.902C415.339 20.902 415.987 20.644 416.479 20.128C416.983 19.612 417.235 18.934 417.235 18.094C417.235 17.266 416.983 16.594 416.479 16.078C415.987 15.55 415.339 15.286 414.535 15.286C413.731 15.286 413.077 15.55 412.573 16.078C412.081 16.594 411.835 17.266 411.835 18.094C411.835 18.934 412.081 19.612 412.573 20.128C413.077 20.644 413.731 20.902 414.535 20.902Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M474.62 22V20.884L478.958 16.204C479.57 15.532 480.008 14.92 480.272 14.368C480.548 13.816 480.686 13.252 480.686 12.676C480.686 11.2 479.828 10.462 478.112 10.462C476.828 10.462 475.694 10.942 474.71 11.902L474.152 10.75C474.62 10.27 475.214 9.886 475.934 9.598C476.666 9.298 477.434 9.148 478.238 9.148C479.51 9.148 480.482 9.448 481.154 10.048C481.838 10.636 482.18 11.476 482.18 12.568C482.18 13.324 481.994 14.068 481.622 14.8C481.25 15.52 480.68 16.288 479.912 17.104L476.51 20.74H482.702V22H474.62Z"
-                    fill="#888888"
-                  />
-                  <path
-                    d="M485.809 22L491.713 10.588H484.999V9.31H493.387V10.426L487.447 22H485.809Z"
-                    fill="#888888"
-                  />
-                </svg>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );
