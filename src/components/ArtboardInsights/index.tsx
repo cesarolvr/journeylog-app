@@ -60,7 +60,7 @@ const ArtboardInsights = ({
     ? Object.keys(filteredMonthsLogs)?.length
     : Object.keys(filteredWeeksLogs)?.length;
   
-  const daysFromTheBeginning = Math.round(diffInDays?.values[isDaily ? 'days': isMonthly ? 'months' : 'weeks']) * -1;
+  const daysFromTheBeginning = Math.round(diffInDays?.values?.[isDaily ? 'days': isMonthly ? 'months' : 'weeks']) * -1;
 
   const { subscription } = subscriptionInfo;
   const isPro = subscription === "habit_creator";
