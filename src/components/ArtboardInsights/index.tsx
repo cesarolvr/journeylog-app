@@ -36,8 +36,11 @@ const ArtboardInsights = ({
     frequency ? frequency[frequency?.length - 1]?.date : ""
   );
   const now = DateTime.fromJSDate(new Date());
-  
-  const diffInDays: any = beginning.diff(now, isDaily ? 'days': isMonthly ? 'months' : 'weeks');
+
+  const diffInDays: any = beginning.diff(
+    now,
+    isDaily ? "days" : isMonthly ? "months" : "weeks"
+  );
 
   const filteredDaysLogs =
     frequency?.reduce((a: any, v: any) => ({ ...a, [v.date]: v }), {}) || {};
@@ -59,8 +62,11 @@ const ArtboardInsights = ({
     : isMonthly
     ? Object.keys(filteredMonthsLogs)?.length
     : Object.keys(filteredWeeksLogs)?.length;
-  
-  const daysFromTheBeginning = Math.round(diffInDays?.values?.[isDaily ? 'days': isMonthly ? 'months' : 'weeks']) * -1;
+
+  const daysFromTheBeginning =
+    Math.round(
+      diffInDays?.values?.[isDaily ? "days" : isMonthly ? "months" : "weeks"]
+    ) * -1;
 
   const { subscription } = subscriptionInfo;
   const isPro = subscription === "habit_creator";
@@ -247,7 +253,6 @@ const ArtboardInsights = ({
   const lastDatesFormatted = lastDaysConsistency.map(
     (item: any, index: any) => {
       const currentDate = DateTime.fromJSDate(new Date())
-        .set({ hour: 0, minute: 0, second: 0 })
         .minus(
           isDaily
             ? { day: 30 - index }
@@ -260,12 +265,14 @@ const ArtboardInsights = ({
 
       const sameDaySelected = frequency
         ? frequency?.find(({ date, value }: any) => {
-            const currentLoopSlot = new Date(
-              new Date(currentDate).setHours(0, 0, 0, 0)
-            ).getTime();
-            const currentLoopItem = new Date(
-              new Date(date).setHours(0, 0, 0, 0)
-            ).getTime();
+            const currentLoopSlot = `${
+              DateTime.fromJSDate(new Date(currentDate)).toUTC().day
+            }-${DateTime.fromJSDate(new Date(currentDate)).toUTC().month}`;
+
+            const currentLoopItem = `${
+              DateTime.fromJSDate(new Date(date)).toUTC().day
+            }-${DateTime.fromJSDate(new Date(date)).toUTC().month}`;
+
             if (currentLoopSlot === currentLoopItem)
               return {
                 date,
@@ -320,6 +327,7 @@ const ArtboardInsights = ({
           index: item,
           date: currentDate,
           value: sameDaySelected?.value,
+          day: DateTime.fromJSDate(new Date(currentDate)).toUTC().day,
         };
       }
 
@@ -450,7 +458,9 @@ const ArtboardInsights = ({
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
               </div>
-              <span>{isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} with logs</span>
+              <span>
+                {isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} with logs
+              </span>
             </li>
             <li className="flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]">
               <div className="text-5xl font-bold">
@@ -464,7 +474,10 @@ const ArtboardInsights = ({
                   <CircularProgress className="mb-2" aria-label="Loading..." />
                 )}
               </div>
-              <span>{isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} since it started</span>
+              <span>
+                {isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} since it
+                started
+              </span>
             </li>
           </ul>
         </div>
@@ -511,40 +524,49 @@ const ArtboardInsights = ({
           {isPro ? (
             <div className="w-full mb-16 px-7 relative">
               <ul className="flex w-full gap-1 justify-between relative overflow-visible">
-                {lastDatesFormatted.map(({ value, date }: any, index: any) => {
-                  const label = isDaily
-                    ? new Date(date as any)?.getDate()
-                    : isMonthly
-                    ? DateTime.fromJSDate(new Date(date as any))?.toLocal()
-                        .month
-                    : DateTime.fromJSDate(new Date(date as any))?.toLocal()
-                        .localWeekNumber;
-                  return (
-                    <li
-                      key={index}
-                      className={`w-full relative p-[1px] h-[80px] bg-[#3E3E3E] rounded-lg overflow-visible`}
-                    >
-                      <span className="absolute bottom-[-20px] md:bottom-[-30px] text-[10px] md:text-[14px] left-0 right-0 text-center justify-center opacity-40 m-auto inline-flex">
-                        {isDaily ? (
-                          <p>{label % 2 ? label : null}</p>
-                        ) : (
-                          <p>{label}</p>
-                        )}
-                      </span>
-                      <span
-                        className={classNames(
-                          "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full rounded-lg",
-                          {
-                            "opacity-0": !value,
-                            "opacity-25": value && value > 0,
-                            "opacity-50": value && value > 4,
-                            "opacity-75": value && value > 10,
-                          }
-                        )}
-                      ></span>
-                    </li>
-                  );
-                })}
+                {lastDatesFormatted.map(
+                  ({ value, date, ...item }: any, index: any) => {
+                    const label = isDaily
+                      ? new Date(date as any)?.getDate()
+                      : isMonthly
+                      ? DateTime.fromJSDate(new Date(date as any))?.toLocal()
+                          .month
+                      : DateTime.fromJSDate(new Date(date as any))?.toLocal()
+                          .localWeekNumber;
+                    console.log(
+                      "aa",
+                      DateTime.fromJSDate(new Date(date as any))?.toLocal().day,
+                      label,
+                      new Date(date as any)?.getDate(),
+                      item
+                    );
+                    return (
+                      <li
+                        key={index}
+                        className={`w-full relative p-[1px] h-[80px] bg-[#3E3E3E] rounded-lg overflow-visible`}
+                      >
+                        <span className="absolute bottom-[-20px] md:bottom-[-30px] text-[10px] md:text-[14px] left-0 right-0 text-center justify-center opacity-40 m-auto inline-flex">
+                          {isDaily ? (
+                            <p>{label % 2 ? label : null}</p>
+                          ) : (
+                            <p>{label}</p>
+                          )}
+                        </span>
+                        <span
+                          className={classNames(
+                            "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full rounded-lg",
+                            {
+                              "opacity-0": !value,
+                              "opacity-25": value && value > 0,
+                              "opacity-50": value && value > 4,
+                              "opacity-75": value && value > 10,
+                            }
+                          )}
+                        ></span>
+                      </li>
+                    );
+                  }
+                )}
               </ul>
             </div>
           ) : (
