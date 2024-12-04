@@ -78,40 +78,53 @@ const ArtboardInsights = ({
 
     if (!frequency) return 0;
 
-    if (reversedList.length > 1) {
-      reversedList?.sort((prev: any, current: any): any => {
-        const currentDate = DateTime.fromJSDate(new Date(current?.date));
-        const prevDate = DateTime.fromJSDate(new Date(prev?.date));
-        const diff: any = currentDate.diff(prevDate, "days")?.toObject();
-        const diffInDays = diff?.days * -1;
-        const isToday =
-          prev?.date === DateTime.local().toISODate() ||
-          current?.date === DateTime.local().toISODate();
+    if (isDaily) {
+      if (reversedList.length > 1) {
+        reversedList?.sort((prev: any, current: any): any => {
+          const currentDate = DateTime.fromJSDate(new Date(current?.date));
+          const prevDate = DateTime.fromJSDate(new Date(prev?.date));
+          const diff: any = currentDate.diff(prevDate, "days")?.toObject();
+          const diffInDays = diff?.days * -1;
+          const isToday =
+            prev?.date === DateTime.local().toISODate() ||
+            current?.date === DateTime.local().toISODate();
 
-        const isLastItemInARow =
-          reversedList.indexOf(prev) === reversedList.length - 1;
+          const isLastItemInARow =
+            reversedList.indexOf(prev) === reversedList.length - 1;
 
-        if (isLastItemInARow) {
-          acc++;
-        }
-
-        if (diffInDays < 2) {
-          acc++;
-        } else {
-          if (isToday) {
-            acc = 1;
-          } else {
-            acc = 0;
+          if (isLastItemInARow) {
+            acc++;
           }
-        }
 
-        return -1;
-      });
-    } else if (reversedList.length === 1) {
-      const isToday = reversedList[0]?.date === DateTime.local().toISODate();
-      if (isToday) {
-        acc = 1;
+          if (diffInDays < 2) {
+            acc++;
+          } else {
+            if (isToday) {
+              acc = 1;
+            } else {
+              acc = 0;
+            }
+          }
+
+          return -1;
+        });
+      } else if (reversedList.length === 1) {
+        const isToday = reversedList[0]?.date === DateTime.local().toISODate();
+        if (isToday) {
+          acc = 1;
+        }
       }
+    } else if (isWeekly) {
+      reversedList.sort((a, b) => {
+        const DateA = DateTime.fromJSDate(new Date(a?.date));
+        const DateB = DateTime.fromJSDate(new Date(b?.date));
+
+        if (DateA.localWeekNumber === DateB.localWeekNumber) {
+          acc++;
+
+          // CONTINUAR AQUI ENTRE ADICIONAR +1 ou +2
+        }
+      });
     }
 
     return acc;
@@ -533,13 +546,7 @@ const ArtboardInsights = ({
                           .month
                       : DateTime.fromJSDate(new Date(date as any))?.toLocal()
                           .localWeekNumber;
-                    console.log(
-                      "aa",
-                      DateTime.fromJSDate(new Date(date as any))?.toLocal().day,
-                      label,
-                      new Date(date as any)?.getDate(),
-                      item
-                    );
+
                     return (
                       <li
                         key={index}
