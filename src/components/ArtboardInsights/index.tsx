@@ -130,24 +130,58 @@ const ArtboardInsights = ({
           const isLastItemInARow =
             reversedList.indexOf(a) === reversedList.length - 1;
 
-          const dateToBeAdded = DateTime.fromJSDate(new Date(b?.date));
+          const dateAToAeAdded = DateTime.fromJSDate(new Date(a?.date));
+          const dateBToBeAdded = DateTime.fromJSDate(new Date(b?.date));
+
           if (diffInWeeks <= 1) {
-            accObj[dateToBeAdded.localWeekNumber] = dateToBeAdded;
-            // debugger
+            accObj[dateBToBeAdded.localWeekNumber] = dateBToBeAdded;
+
+            if (isLastItemInARow) {
+              accObj[dateAToAeAdded.localWeekNumber] = dateAToAeAdded;
+            }
           } else {
-            acc = 0;
             if (isToday) {
-              accObj[dateToBeAdded.localWeekNumber] = dateToBeAdded;
+              accObj[dateBToBeAdded.localWeekNumber] = dateBToBeAdded;
             }
           }
 
-          // if (isLastItemInARow) {
-          //   if (!isToday) {
-          //     delete accObj[dateToBeAdded];
-          //   }
-          // }
+          return -1;
+        });
+      } else {
+        const isToday = reversedList[0]?.date === DateTime.local().toISODate();
+        if (isToday) {
+          accObj[1] = DateTime.local();
+        }
+      }
+    } else if (isMonthly) {
+      if (reversedList.length > 1) {
+        reversedList.sort((a, b) => {
+          const currentDate = DateTime.fromJSDate(new Date(b?.date)).toLocal();
+          const prevDate = DateTime.fromJSDate(new Date(a?.date)).toLocal();
+          const diff: any = currentDate.diff(prevDate, "months")?.toObject();
 
-          console.log({ accObj, diffInWeeks });
+          const aMonth = DateTime.fromJSDate(new Date(a?.date)).month;
+          const bMonth = DateTime.fromJSDate(new Date(b?.date)).month;
+          const diffInMonths = Math.abs(aMonth - bMonth);
+
+          const isToday =
+            aMonth === DateTime.local().month ||
+            bMonth === DateTime.local().month;
+
+          const isLastItemInARow =
+            reversedList.indexOf(a) === reversedList.length - 1;
+
+          const dateAToBeAdded = DateTime.fromJSDate(new Date(a?.date));
+          const dateBToBeAdded = DateTime.fromJSDate(new Date(b?.date));
+
+          if (diffInMonths <= 1) {
+            accObj[dateBToBeAdded.month] = dateBToBeAdded;
+            accObj[dateAToBeAdded.month] = dateAToBeAdded;
+          } else {
+            if (isToday) {
+              accObj[dateBToBeAdded.month] = dateBToBeAdded;
+            }
+          }
 
           return -1;
         });
@@ -159,7 +193,7 @@ const ArtboardInsights = ({
       }
     }
 
-    return isDaily ? acc : isWeekly ? Object.keys(accObj).length : 0;
+    return isDaily ? acc : Object.keys(accObj).length;
   };
 
   useEffect(() => {
