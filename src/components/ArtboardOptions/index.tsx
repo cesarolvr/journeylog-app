@@ -338,7 +338,7 @@ const ArtboardOptions = ({
             <Select
               items={where}
               disallowEmptySelection={true}
-              disabledKeys={["sms", "whatsapp"]}
+              // disabledKeys={["sms", "whatsapp"]}
               defaultSelectedKeys={[notification.where]}
               color="default"
               className="max-w-[100px] select"
