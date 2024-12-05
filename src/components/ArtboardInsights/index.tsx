@@ -73,6 +73,7 @@ const ArtboardInsights = ({
 
   const getDaysInARow = () => {
     let acc = 0;
+    let accObj = {};
 
     const reversedList = frequency?.toReversed();
 
@@ -115,19 +116,51 @@ const ArtboardInsights = ({
         }
       }
     } else if (isWeekly) {
-      reversedList.sort((a, b) => {
-        const DateA = DateTime.fromJSDate(new Date(a?.date));
-        const DateB = DateTime.fromJSDate(new Date(b?.date));
+      if (reversedList.length > 1) {
+        reversedList.sort((a, b) => {
+          const currentDate = DateTime.fromJSDate(new Date(b?.date)).toLocal();
+          const prevDate = DateTime.fromJSDate(new Date(a?.date)).toLocal();
+          const diff: any = currentDate.diff(prevDate, "weeks")?.toObject();
+          const diffInWeeks = diff?.weeks * -1;
+          const isToday =
+            DateTime.fromJSDate(new Date(a?.date)).localWeekNumber ===
+              DateTime.local().localWeekNumber ||
+            DateTime.fromJSDate(new Date(b?.date)).localWeekNumber ===
+              DateTime.local().localWeekNumber;
+          const isLastItemInARow =
+            reversedList.indexOf(a) === reversedList.length - 1;
 
-        if (DateA.localWeekNumber === DateB.localWeekNumber) {
-          acc++;
+          if (diffInWeeks <= 1) {
+            const dateToBeAdded = DateTime.fromJSDate(new Date(b?.date));
+            accObj[dateToBeAdded.localWeekNumber] = dateToBeAdded;
+            // debugger
+          }
+          // else {
+          //   acc = 0;
+          //   if (isToday) {
+          //     acc = 1;
+          //   }
+          // }
 
-          // CONTINUAR AQUI ENTRE ADICIONAR +1 ou +2
+          // if (isLastItemInARow) {
+          //   if (!isToday) {
+          //     acc = 0;
+          //   }
+          // }
+
+          console.log({ accObj, diffInWeeks });
+
+          return -1;
+        });
+      } else {
+        const isToday = reversedList[0]?.date === DateTime.local().toISODate();
+        if (isToday) {
+          accObj[1] = DateTime.local();
         }
-      });
+      }
     }
 
-    return acc;
+    return isDaily ? acc : isWeekly ? Object.keys(accObj).length : 0;
   };
 
   useEffect(() => {
