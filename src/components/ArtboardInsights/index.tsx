@@ -130,21 +130,20 @@ const ArtboardInsights = ({
           const isLastItemInARow =
             reversedList.indexOf(a) === reversedList.length - 1;
 
+          const dateToBeAdded = DateTime.fromJSDate(new Date(b?.date));
           if (diffInWeeks <= 1) {
-            const dateToBeAdded = DateTime.fromJSDate(new Date(b?.date));
             accObj[dateToBeAdded.localWeekNumber] = dateToBeAdded;
             // debugger
+          } else {
+            acc = 0;
+            if (isToday) {
+              accObj[dateToBeAdded.localWeekNumber] = dateToBeAdded;
+            }
           }
-          // else {
-          //   acc = 0;
-          //   if (isToday) {
-          //     acc = 1;
-          //   }
-          // }
 
           // if (isLastItemInARow) {
           //   if (!isToday) {
-          //     acc = 0;
+          //     delete accObj[dateToBeAdded];
           //   }
           // }
 
