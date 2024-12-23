@@ -52,6 +52,8 @@ const ProfileModal = ({
 
   const supabaseServerClient = useSupabaseClient();
 
+  const getUser = () => user;
+
   const shortenedName = userInfo?.full_name
     ?.split(" ")
     ?.slice(0, -1)
@@ -121,6 +123,15 @@ const ProfileModal = ({
       }
 
       if (data) {
+        const { data, error } = await supabaseServerClient
+          .from("notification")
+          .update({
+            phone: getUser()?.phone,
+          })
+          .eq("user_id", getUser()?.id);
+
+        console.log("aaaa", data);
+
         setIsInValidCode(false);
         setIsToVerifyCode(false);
       }
