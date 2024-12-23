@@ -77,9 +77,11 @@ const ArtboardOptions = ({
     { key: "sms", label: "SMS" },
   ];
 
-  const nextScheduledDate = notification?.next_sent ? DateTime.fromISO(
-    notification?.next_sent
-  ).toLocaleString(DateTime.DATETIME_MED) : null;
+  const nextScheduledDate = notification?.next_sent
+    ? DateTime.fromISO(notification?.next_sent).toLocaleString(
+        DateTime.DATETIME_MED
+      )
+    : null;
 
   useEffect(() => {
     if (activeTab?.theme) {
@@ -338,7 +340,7 @@ const ArtboardOptions = ({
             <Select
               items={where}
               disallowEmptySelection={true}
-              // disabledKeys={["sms", "whatsapp"]}
+              disabledKeys={notification?.phone ? [] : ["sms", "whatsapp"]}
               defaultSelectedKeys={[notification.where]}
               color="default"
               className="max-w-[100px] select"
@@ -362,7 +364,12 @@ const ArtboardOptions = ({
           <p className="max-w-[150px] md:max-w-[200px] text-sm text-[#525252]">
             Habit created? So, it's time to finish this one and go to the next.
           </p>
-          <Button variant="bordered" className="opacity-20" isDisabled color="primary">
+          <Button
+            variant="bordered"
+            className="opacity-20"
+            isDisabled
+            color="primary"
+          >
             Finish Journey
           </Button>
         </div>
