@@ -5,8 +5,8 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <footer className="text-center w-full flex flex-col justify-center items-center px-4 text-[#595959]">
-      <ul className="w-full text-center mb-5 text-[18px] justify-center flex">
-        <li className="mx-3 text-center">
+      <ul className="w-full text-center mb-5 text-[18px] justify-center flex-col">
+        <li className="mx-3 text-center my-2">
           <Link
             target="_blank"
             className="hover:underline"
@@ -15,7 +15,7 @@ const Footer = () => {
             Privacy Policy
           </Link>
         </li>
-        <li className="mx-3 text-center">
+        <li className="mx-3 text-center  my-2">
           <Link
             target="_blank"
             className="hover:underline"
@@ -24,7 +24,7 @@ const Footer = () => {
             Terms of use
           </Link>
         </li>
-        <li className="mx-3 text-center">
+        <li className="mx-3 text-center  my-2">
           <Link
             target="_blank"
             className="hover:underline termly-display-preferences"

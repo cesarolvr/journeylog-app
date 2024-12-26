@@ -119,7 +119,7 @@ const Editor = ({
 
           const valueWhen = isWhen
             ? isToEnable?.target?.value
-            : notification?.when;
+            : activeTab?.frequency;
 
           const valueWhere = isWhere
             ? isToEnable?.target?.value
@@ -182,6 +182,7 @@ const Editor = ({
 
           if (data) {
             setNotification(data[0]);
+
             setActiveTab({ ...activeTab, frequency: valueWhen });
           }
         } else {
@@ -189,7 +190,6 @@ const Editor = ({
             .from("notification")
             .delete()
             .eq("id", notification?.id);
-
 
           setNotification(null);
         }

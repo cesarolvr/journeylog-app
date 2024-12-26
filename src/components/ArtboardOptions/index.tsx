@@ -247,11 +247,11 @@ const ArtboardOptions = ({
               </p>
             </div>
           </div>
-          {!!notification ? (
+          {activeTab?.frequency ? (
             <Select
               items={when}
               disallowEmptySelection={true}
-              defaultSelectedKeys={[notification?.when]}
+              defaultSelectedKeys={[activeTab?.frequency]}
               color="default"
               className="max-w-[100px] select text-[11px]"
               onChange={(e) => handleSwitchNotifications(e, "when")}
@@ -274,18 +274,6 @@ const ArtboardOptions = ({
           <Switch
             isSelected={!!notification ? true : false}
             isDisabled={isLoading ? true : false}
-            // thumbIcon={() => {
-            //   return isLoading ? (
-            //     <CircularProgress
-            //       size="sm"
-            //       className="switch-loader"
-            //       classNames={{
-            //         indicator: "stroke-[#39D353]",
-            //       }}
-            //       aria-label="Loading..."
-            //     />
-            //   ) : null;
-            // }}
             className="switch"
             aria-label="Automatic updates"
             onValueChange={(e) =>
