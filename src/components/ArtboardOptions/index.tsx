@@ -247,11 +247,11 @@ const ArtboardOptions = ({
               </p>
             </div>
           </div>
-          {activeTab?.frequency ? (
+          {!!notification ? (
             <Select
               items={when}
               disallowEmptySelection={true}
-              defaultSelectedKeys={[activeTab?.frequency]}
+              defaultSelectedKeys={[notification?.when]}
               color="default"
               className="max-w-[100px] select text-[11px]"
               onChange={(e) => handleSwitchNotifications(e, "when")}
@@ -274,21 +274,23 @@ const ArtboardOptions = ({
           <Switch
             isSelected={!!notification ? true : false}
             isDisabled={isLoading ? true : false}
-            thumbIcon={() => {
-              return isLoading ? (
-                <CircularProgress
-                  size="sm"
-                  className="switch-loader"
-                  classNames={{
-                    indicator: "stroke-[#39D353]",
-                  }}
-                  aria-label="Loading..."
-                />
-              ) : null;
-            }}
+            // thumbIcon={() => {
+            //   return isLoading ? (
+            //     <CircularProgress
+            //       size="sm"
+            //       className="switch-loader"
+            //       classNames={{
+            //         indicator: "stroke-[#39D353]",
+            //       }}
+            //       aria-label="Loading..."
+            //     />
+            //   ) : null;
+            // }}
             className="switch"
             aria-label="Automatic updates"
-            onValueChange={(e) => handleSwitchNotifications(e, "turnon")}
+            onValueChange={(e) =>
+              handleSwitchNotifications({ target: { value: e } }, "turnon")
+            }
           />
         </div>
 
@@ -329,7 +331,7 @@ const ArtboardOptions = ({
               {!!notification ? null : (
                 <small
                   className="cursor-pointer text-[#878787] underline"
-                  onClick={() => handleSwitchNotifications(true, "turnon")}
+                  onClick={(e) => handleSwitchNotifications(e, "turnon")}
                 >
                   Turn on the reminders
                 </small>

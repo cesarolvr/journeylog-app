@@ -112,7 +112,7 @@ const Editor = ({
         setDefaultPanel("subscription");
       } else {
         setIsLoading(true);
-        if (isToEnable) {
+        if (isToEnable?.target?.value) {
           const isWhen = setup === "when";
           const isWhere = setup === "where";
           const isWhat = setup === "what";
@@ -189,6 +189,7 @@ const Editor = ({
             .from("notification")
             .delete()
             .eq("id", notification?.id);
+
 
           setNotification(null);
         }
