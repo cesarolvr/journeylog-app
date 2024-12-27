@@ -33,13 +33,21 @@ export async function POST(request: NextRequest) {
     const metadata = event.data.object.metadata;
     console.log('metadata', metadata)
     if (metadata) {
-      const res = await supabaseServerClient
+      const resSubscription = await supabaseServerClient
         .from("users")
         .update({ subscription: "habit_creator", subscription_record: JSON.stringify(event), subscription_key: event?.data?.object?.subscription })
         .eq("id", metadata?.userId)
         .select()
 
-      console.log('on create subscription', res)
+      console.log('on create subscription =>', resSubscription)
+
+      const resNotification = await supabaseServerClient
+        .from("notification")
+        .delete()
+        .eq("user_id", metadata?.userId)
+        .select()
+
+      console.log('on remove notification =>', resNotification)
     }
   } else if (event.type === "customer.subscription.updated") {
     const cancelDate = DateTime.fromJSDate(new Date(event?.data?.object?.cancel_at * 1000))
