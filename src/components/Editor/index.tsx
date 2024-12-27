@@ -107,16 +107,16 @@ const Editor = ({
 
   const handleSwitchNotifications = debounce(
     async (isToEnable: any, setup: any) => {
+      const isWhen = setup === "when";
+      const isWhere = setup === "where";
+      const isWhat = setup === "what";
+
       if (!isPro && isToEnable.target.value === true) {
         onOpen();
         setDefaultPanel("subscription");
       } else {
         setIsLoading(true);
         if (isToEnable?.target?.value) {
-          const isWhen = setup === "when";
-          const isWhere = setup === "where";
-          const isWhat = setup === "what";
-
           const valueWhen = isWhen
             ? isToEnable?.target?.value
             : activeTab?.frequency;
@@ -159,34 +159,35 @@ const Editor = ({
                 .toISO()
             : nextSent;
 
-          const { data, error } = await supabaseClient
-            .from("notification")
-            .upsert({
-              id: notification?.id,
-              journey_id: activeTab?.id,
-              email: getUser()?.email,
-              phone: getUser()?.phone,
-              user_id: getUser()?.id,
-              when: valueWhen,
-              where: valueWhere,
-              next_sent: newNextSent,
-              journey_name: activeTab?.name,
-              user_name:
-                getUser()?.user_metadata?.full_name || getUser()?.email,
-            })
-            .select();
+          if (isPro) {
+            const { data, error } = await supabaseClient
+              .from("notification")
+              .upsert({
+                id: notification?.id,
+                journey_id: activeTab?.id,
+                email: getUser()?.email,
+                phone: getUser()?.phone,
+                user_id: getUser()?.id,
+                when: valueWhen,
+                where: valueWhere,
+                next_sent: newNextSent,
+                journey_name: activeTab?.name,
+                user_name:
+                  getUser()?.user_metadata?.full_name || getUser()?.email,
+              })
+              .select();
+
+            if (data) {
+              setNotification(data[0]);
+            }
+          }
+          setActiveTab({ ...activeTab, frequency: valueWhen });
 
           if (isWhen) {
             handleJourneyUpdate({ frequency: valueWhen });
           }
-
-          if (data) {
-            setNotification(data[0]);
-
-            setActiveTab({ ...activeTab, frequency: valueWhen });
-          }
         } else {
-          const { data, error } = await supabaseClient
+          await supabaseClient
             .from("notification")
             .delete()
             .eq("id", notification?.id);
@@ -227,7 +228,6 @@ const Editor = ({
         };
       }
     };
-    // setIsLoading(true);
 
     const { data, error } = await supabaseClient
       .from("log")

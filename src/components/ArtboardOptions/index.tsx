@@ -273,7 +273,7 @@ const ArtboardOptions = ({
           </div>
           <Switch
             isSelected={!!notification ? true : false}
-            isDisabled={isLoading ? true : false}
+            // isDisabled={isLoading ? true : false}
             className="switch"
             aria-label="Automatic updates"
             onValueChange={(e) =>
