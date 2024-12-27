@@ -1,6 +1,7 @@
 "use client";
 
 import * as motion from "motion/react-client";
+import { StaggerTextReveal } from "stagger-text-reveal-animation";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -34,6 +35,7 @@ import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 import Footer from "../Footer";
 import { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useScroll } from "framer-motion";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
@@ -86,16 +88,19 @@ const Landing = ({ user, subscriptionInfo }: any) => {
 
   const isPro = subscription === "habit_creator";
 
+  const { scrollYProgress } = useScroll();
+
+  console.log(scrollYProgress);
+
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
       <motion.header
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{
           duration: 0.2,
-          scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
         }}
-        className="flex w-[850px] rounded-3xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2"
+        className="flex w-[850px] rounded-2xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2"
       >
         <Image
           src={Logo}
@@ -153,26 +158,59 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           id="hero"
           className="h-[70vh] justify-center px-2 text-center flex flex-col items-center my-20"
         >
-          <h1 className="text-[40px] max-w-[90%] leading-[40px] md:leading-[65px] md:text-[65px] mb-6 font-black text-white md:mt-[100px] mt-[70px]">
-            Build good habits as a diary
-          </h1>
-          <h2 className="text-[18px] md:text-[24px] mb-10 text-white max-w-[80%] md:max-w-[700px] font-thin">
-            Log your routine until become automatic and effortless. Consistently
-            instead a perfect streak.
-          </h2>
-          <div className="mb-[150px]">
-            <Button
-              className="border-[#39D353] text-[#39D353] font-black"
-              variant="bordered"
-              size="lg"
-              onClick={(f) => {
-                router.push("/purpose");
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.2,
+            }}
+            className="text-[40px] max-w-[90%] leading-[40px] md:leading-[65px] md:text-[65px] mb-6 font-black text-white md:mt-[100px] mt-[70px]"
+          >
+            Turn your habits into a lifestyle!
+          </motion.h1>
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.2,
+              delay: 0.1,
+            }}
+            className="text-[18px] md:text-[24px] leading-6 md:leading-10 mb-10 text-white max-w-[80%] md:max-w-[600px] font-thin"
+          >
+            Keep track of your routine until it’s second nature. And we’ll ping
+            you on{" "}
+            <strong className="font-bold text-[#39d353]">WhatsApp</strong> to
+            keep you on track
+          </motion.h2>
+          <div className="mb-[150px] flex">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.2,
+                delay: 0.3,
               }}
             >
-              Our purpose
-            </Button>
+              <Button
+                className="border-[#39D353] text-[#39D353] font-black"
+                variant="bordered"
+                size="lg"
+                onClick={(f) => {
+                  router.push("/purpose");
+                }}
+              >
+                Our purpose
+              </Button>
+            </motion.div>
             {!!user ? (
-              <>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.2,
+                  delay: 0.4,
+                }}
+              >
                 <Button
                   className=" ml-5 bg-[#39D353] text-black font-black"
                   variant="solid"
@@ -184,9 +222,16 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   Go to the app
                   <ChevronRight className="mr-[-16px] ml-[-5px]" />
                 </Button>
-              </>
+              </motion.div>
             ) : (
-              <>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.2,
+                  delay: 0.4,
+                }}
+              >
                 <Button
                   className=" ml-5 bg-[#39D353] text-black font-black"
                   variant="solid"
@@ -198,10 +243,20 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   Try now
                   <ChevronRight className="mr-[-10px] ml-[-5px]" />
                 </Button>
-              </>
+              </motion.div>
             )}
           </div>
-          <ChevronDown size="50" className="mt-[10px] flex-shrink-0" />
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.2,
+              delay: 0.5,
+              y: { type: "spring", visualDuration: 0.4, bounce: 0.9 },
+            }}
+          >
+            <ChevronDown size="50" className="mt-[10px] flex-shrink-0" />
+          </motion.div>
         </section>
         <section
           id="the-product"
@@ -428,23 +483,26 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           className="text-center my-6 md:my-16 w-[100%] mb-14"
         >
           <h3 className="md:text-[35px] mb-16 md:mb-18 text-[25px]">
-            And some trying different stuff like
+            And some are just exploring new vibes:
           </h3>
-          <div className="m-auto flex items-center w-[100%] md:px-0 flex-row justify-start md:items-start">
+          <motion.div
+            style={{ x: scrollYProgress * 10 }}
+            className="m-auto flex items-center w-[100%] md:px-0 flex-row justify-center md:items-end"
+          >
             {[
               {
-                text: `“Using Journeylog to call to my mom daily”`,
-                author: "João from Brazil",
+                text: `“I'm using Journeylog to not forget to call my mom every day. It's just working 💚”`,
+                author: "Jake from Colorado",
                 color: `#397649`,
               },
               {
-                text: `“Using Journeylog to call to my mom daily”`,
-                author: "Mike from US",
+                text: `“I log every gym session, and seeing my streak grow has been a huge motivator. I’ve never been this consistent before! 💪🏽”`,
+                author: "Mike from Atlanta",
                 color: `#1F602F`,
               },
               {
-                text: `“Using Journeylog to call to my mom daily”`,
-                author: "Francesco from Italy",
+                text: `“I use it to log every glass of water I drink, and it’s honestly helped me stay hydrated. Love the reminders too! 💦”`,
+                author: "Cris from Brazil",
                 color: `#35A351`,
               },
             ].map(({ text, author, color }, index) => {
@@ -454,7 +512,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   style={{ backgroundColor: color }}
                   className="py-6 px-6 md:w-[560px] w-[300px] flex-shrink-0 rounded-[20px] bg-[#20B545] mx-3 mb-6 text-left text-white"
                 >
-                  <p className="font-black text-[20px] md:text-[32px] max-w-[400px] mb-3 md:leading-10 leading-6">
+                  <p className="font-black text-[20px] md:text-[32px] max-w-[480px] mb-3 md:leading-10 leading-6">
                     {text}
                   </p>
                   <p className="text-[16px] mb-0 font-bold opacity-50">
@@ -463,22 +521,22 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 </div>
               );
             })}
-          </div>
-          <div className="m-auto flex w-[100%] md:px-0 flex-row justify-end items-center md:items-start">
+          </motion.div>
+          <div className="m-auto flex w-[100%] md:px-0 flex-row justify-end items-center md:items-center">
             {[
               {
-                text: `“Using Journeylog to call to my mom daily”`,
-                author: "João from Brazil",
+                text: `“JourneyLog keeps me on track with the important but small stuff, like remembering to call my Grandma every week. She loves it, and so do I! 🤰🏼”`,
+                author: "Emma from Berlin",
                 color: `#397649`,
               },
               {
-                text: `“Using Journeylog to call to my mom daily”`,
-                author: "Mike from US",
+                text: `“I use it to track my tasks and progress on projects. Like a brag document! It’s simple, effective, and has become my secret weapon at work! 🚀”`,
+                author: "Alex from London",
                 color: `#35A351`,
               },
               {
-                text: `“Using Journeylog to call to my mom daily”`,
-                author: "Francesco from Italy",
+                text: `Tracking things like skincare routines and taking time to read before bed. It’s great for staying accountable to myself. 🧴”`,
+                author: "Olivia from Budapest",
                 color: `#1F602F`,
               },
             ].map(({ text, author, color }, index) => {
@@ -488,7 +546,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   style={{ backgroundColor: color }}
                   className="py-6 px-6 md:w-[560px] w-[300px] flex-shrink-0 rounded-[20px] bg-[#20B545] mx-3 mb-6 text-left text-white"
                 >
-                  <p className="font-black text-[20px] md:text-[32px] max-w-[400px] mb-3 md:leading-10 leading-6">
+                  <p className="font-black text-[20px] md:text-[32px] max-w-[480px] mb-3 md:leading-10 leading-6">
                     {text}
                   </p>
                   <p className="text-[16px] mb-0 font-bold opacity-50">
@@ -501,18 +559,18 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           <div className="m-auto flex w-[100%] md:px-0 flex-row justify-center items-center md:items-start">
             {[
               {
-                text: `“Using Journeylog to call to my mom daily”`,
-                author: "João from Brazil",
+                text: `“I log every step of my freelance projects and deadlines. It keeps me on track and stress-free. 📆”`,
+                author: "Mason from Vancouver",
                 color: `#35A351`,
               },
               {
-                text: `“Using Journeylog to call to my mom daily”`,
-                author: "Mike from US",
+                text: `“Using it to plan my hiking trips and track my progress toward summiting all the local peaks. It’s my adventure buddy! ⛰️”`,
+                author: "Ella from Seattle",
                 color: `#397649`,
               },
               {
-                text: `“Using Journeylog to call to my mom daily”`,
-                author: "Francesco from Italy",
+                text: `“Using Journeylog as a normal notes tool. I just don't use notifications, it's to much for me 📝”`,
+                author: "Ethan from New York",
                 color: `#1F602F`,
               },
             ].map(({ text, author, color }, index) => {
@@ -522,7 +580,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   style={{ backgroundColor: color }}
                   className="py-6 px-6 md:w-[560px] w-[300px] flex-shrink-0 rounded-[20px] bg-[#20B545] mx-3 mb-6 text-left text-white"
                 >
-                  <p className="font-black text-[20px] md:text-[32px] max-w-[400px] mb-3 md:leading-10 leading-6">
+                  <p className="font-black text-[20px] md:text-[32px] max-w-[480px] mb-3 md:leading-10 leading-6">
                     {text}
                   </p>
                   <p className="text-[16px] mb-0 font-bold opacity-50">
