@@ -107,7 +107,7 @@ const Editor = ({
 
   const handleSwitchNotifications = debounce(
     async (isToEnable: any, setup: any) => {
-      if (!isPro) {
+      if (!isPro && isToEnable.target.value === true) {
         onOpen();
         setDefaultPanel("subscription");
       } else {
