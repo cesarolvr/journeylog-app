@@ -21,7 +21,14 @@ export default async function RootLayout({
       lang="en"
       className={`${nunito.className} w-full h-full overflow-scroll dark`}
     >
-      <title>Journeylog</title>
+      <title>
+        JourneyLog | Transform Your Habits and Goals into a Consistent Journey
+      </title>
+      <meta
+        name="description"
+        content="JourneyLog: Track your habits, goals, and daily routines effortlessly. Stay consistent, gain insights, and get reminders to keep you on track. Start your journey today!"
+      />
+
       <meta name="theme-color" content="#171717" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta
