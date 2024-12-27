@@ -486,7 +486,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             And some are just exploring new vibes:
           </h3>
           <motion.div
-            style={{ x: scrollYProgress * 10 }}
+            style={{ x: scrollYProgress }}
             className="m-auto flex items-center w-[100%] md:px-0 flex-row justify-center md:items-end"
           >
             {[

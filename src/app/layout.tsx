@@ -26,7 +26,7 @@ export default async function RootLayout({
       </title>
       <meta
         name="description"
-        content="JourneyLog: Track your habits, goals, and daily routines effortlessly. Stay consistent, gain insights, and get reminders to keep you on track. Start your journey today!"
+        content="Track your habits, goals, and daily routines effortlessly. Stay consistent, gain insights, and get reminders to keep you on track. Start your journey today!"
       />
 
       <meta name="theme-color" content="#171717" />
