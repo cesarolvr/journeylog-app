@@ -1,5 +1,7 @@
 "use client";
 
+import * as motion from "motion/react-client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -86,7 +88,15 @@ const Landing = ({ user, subscriptionInfo }: any) => {
 
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
-      <header className="flex w-[850px] rounded-3xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2">
+      <motion.header
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.2,
+          scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
+        }}
+        className="flex w-[850px] rounded-3xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2"
+      >
         <Image
           src={Logo}
           width={150}
@@ -137,7 +147,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             )}
           </li>
         </ul>
-      </header>
+      </motion.header>
       <main>
         <section
           id="hero"
