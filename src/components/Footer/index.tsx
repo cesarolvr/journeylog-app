@@ -24,7 +24,7 @@ const Footer = () => {
             Terms of use
           </Link>
         </li>
-        <li className="mx-3 text-center  my-2">
+        {/* <li className="mx-3 text-center  my-2">
           <Link
             target="_blank"
             className="hover:underline termly-display-preferences"
@@ -32,7 +32,7 @@ const Footer = () => {
           >
             Consent Preferences
           </Link>
-        </li>
+        </li> */}
       </ul>
       <p className="mb-24 text-[18px]">
         © Journeylog {new Date().getFullYear()}. All Rights Reserved.
