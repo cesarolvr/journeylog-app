@@ -1,20 +1,20 @@
 "use client";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import LOGO from "../../../images/logoFull.svg";
 
 // Styles
 import "./terms-of-use.scss";
 
-import { Reenie_Beanie } from "next/font/google";
-import { Button } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
-const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
+
+export const metadata = {
+  title: 'Journeylog | Terms of Use',
+  description: 'Track your habits, goals, and daily routines effortlessly. Stay consistent, gain insights, and get reminders to keep you on track. Start your journey today!',
+}
 
 const Purpose = () => {
-  const router = useRouter();
   return (
     <div className="p-6 flex flex-col w-[100svw] h-[100svh] bg-[#171717]">
       <header className="flex w-[850px] rounded-2xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2 mb-20">

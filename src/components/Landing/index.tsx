@@ -521,7 +521,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               },
               {
                 text: `“I use it to log every glass of water I drink, and it’s honestly helped me stay hydrated. Love the reminders too! 💦”`,
-                author: "Cris from Brazil",
+                author: "Cris from Rio",
                 color: `#35A351`,
               },
             ].map(({ text, author, color }, index) => {
