@@ -22,7 +22,7 @@ export default async function RootLayout({
       className={`${nunito.className} w-full h-full overflow-scroll dark`}
     >
       <title>
-        JourneyLog | Transform Your Habits and Goals into a Consistent Journey
+        Journeylog | Transform Your Habits and Goals into a Consistent Journey
       </title>
       <meta
         name="description"

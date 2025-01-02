@@ -2,6 +2,7 @@
 
 import * as motion from "motion/react-client";
 import { StaggerTextReveal } from "stagger-text-reveal-animation";
+import Typed from "typed.js";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -33,7 +34,7 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 import Footer from "../Footer";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useScroll } from "framer-motion";
 
@@ -90,7 +91,22 @@ const Landing = ({ user, subscriptionInfo }: any) => {
 
   const { scrollYProgress } = useScroll();
 
-  console.log(scrollYProgress);
+  const whereText = useRef(null);
+
+  useEffect(() => {
+    const typed = new Typed(whereText.current, {
+      strings: ["Whatsapp", "Email", "SMS"],
+      typeSpeed: 50,
+      loop: true,
+      backDelay: 3000,
+      backSpeed: 50,
+    });
+
+    return () => {
+      // Destroy Typed instance during cleanup to stop animation
+      typed.destroy();
+    };
+  }, []);
 
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
@@ -178,9 +194,12 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             className="text-[18px] md:text-[24px] leading-6 md:leading-10 mb-10 text-white max-w-[80%] md:max-w-[600px] font-thin"
           >
             Keep track of your routine until it’s second nature. And we’ll ping
-            you on{" "}
-            <strong className="font-bold text-[#39d353]">WhatsApp</strong> to
-            keep you on track
+            you through{" "}
+            <strong
+              className="font-bold text-[#39d353]"
+              ref={whereText}
+            ></strong>{" "}
+            to keep you on track
           </motion.h2>
           <div className="mb-[150px] flex">
             <motion.div
