@@ -36,7 +36,12 @@ import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 import Footer from "../Footer";
 import { useEffect, useRef, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useScroll } from "framer-motion";
+import {
+  useMotionValueEvent,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
@@ -89,7 +94,18 @@ const Landing = ({ user, subscriptionInfo }: any) => {
 
   const isPro = subscription === "habit_creator";
 
-  const { scrollYProgress } = useScroll();
+  const casesRef = useRef(null);
+  const { scrollYProgress, scrollY } = useScroll({
+    // container: casesRef
+  });
+
+  const translateFirstLine = useTransform(scrollYProgress, [0, 1], [-500, 500]);
+  const translateSecondLine = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [500, -100]
+  );
+  const translateThirdLine = useTransform(scrollYProgress, [0, 1], [-1000, 500]);
 
   const whereText = useRef(null);
 
@@ -281,27 +297,46 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           id="the-product"
           className="items-center justify-center my-4 md:my-20 inline-flex w-full flex-col md:flex-row"
         >
-          <h3 className="text-[25px] md:text-[30px] md:w-[280px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
+          <motion.h3
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ amount: 1 }}
+            className="text-[25px] md:text-[30px] md:w-[280px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
+          >
             Log your activities through simple notes
-          </h3>
+          </motion.h3>
           <Image src={Illustration1} className="mx-12" width={358} alt="Logo" />
         </section>
         <section
           id="check"
           className="justify-center items-center my-4 md:my-20 inline-flex w-full flex-col md:flex-row-reverse"
         >
-          <h3 className="text-[25px] md:text-[30px] md:w-[250px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
+          {/* <h3 className="text-[25px] md:text-[30px] md:w-[250px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"></h3> */}
+          <motion.h3
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ amount: 1 }}
+            className="text-[25px] md:text-[30px] md:w-[250px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
+          >
             Or even through to-do and check lists
-          </h3>
+          </motion.h3>
           <Image className="mx-12" src={Illustration2} width={358} alt="Logo" />
         </section>
         <section
           id="moving"
           className="justify-center items-center inline-flex w-full my-4 md:my-20 flex-col md:flex-row"
         >
-          <h3 className="text-[25px] md:text-[30px] md:w-[250px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
+          {/* <h3 className="text-[25px] md:text-[30px] md:w-[250px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
+          </h3> */}
+          <motion.h3
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ amount: 1 }}
+            className="text-[25px] md:text-[30px] md:w-[280px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
+          >
             Track the quality of the day's logs and keep moving
-          </h3>
+            {/* Log your activities through simple notes */}
+          </motion.h3>
           <Image className="mx-12" src={Illustration3} width={358} alt="Logo" />
         </section>
         <section
@@ -309,16 +344,27 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           className="inline-flex justify-center items-center w-full my-4 md:my-20 flex-col md:flex-row-reverse"
         >
           <div className="md:w-[280px] md:mx-12 p-6 max-w-[70%] md:max-w-none">
-            <h3 className="text-[25px] md:text-[30px] mb-10  text-center md:text-left">
+            <motion.h3
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ amount: 1 }}
+              className="text-[25px] md:text-[30px] mb-10  text-center md:text-left"
+            >
               Fail some day? Don't worry. Consistency is the key.
-            </h3>
-            <span className="text-[#787878]">
+              {/* Or even through to-do and check lists */}
+            </motion.h3>
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ amount: 1 }}
+              className="text-[#787878]"
+            >
               To know more about the Journeylog's purpose,{" "}
               <Link className="text-[#27DE55] underline" href="/purpose">
                 read our purpose
               </Link>
               .
-            </span>
+            </motion.span>
           </div>
           <Image className="mx-12" src={Illustration4} width={358} alt="Logo" />
         </section>
@@ -326,12 +372,17 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           id="day-by-day"
           className="flex justify-center items-center w-full my-4 md:my-20 flex-col md:flex-row"
         >
-          <h3 className="text-[25px] md:text-[30px] md:w-[320px] md:flex-shrink-0 md:ml-36 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
+          <motion.h3
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ amount: 1 }}
+            className="text-[25px] md:text-[30px] md:w-[320px] md:flex-shrink-0 md:ml-36 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
+          >
             Day by day... <br />
             Baby steps... <br />
             Small wins... <br />
             Slow and steady...
-          </h3>
+          </motion.h3>
           <Image
             className="md:mx-12 md:mr-[-200px] max-w-[85%] md:max-w-none"
             src={Illustration5}
@@ -343,10 +394,16 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           id="personalize"
           className="inline-flex justify-center items-center w-full my-4 md:my-20 flex-col md:flex-row-reverse"
         >
-          <h3 className="text-[25px] md:text-[30px] md:w-[270px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
+          <h3></h3>
+          <motion.h3
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ amount: 1 }}
+            className="text-[25px] md:text-[30px] md:w-[270px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
+          >
             Personalize your experience and create multiple{" "}
             <span className="text-[#383838] line-through">goals</span> journeys
-          </h3>
+          </motion.h3>
           <Image
             className="md:mx-12 md:ml-[-150px] max-w-[85%] md:max-w-none"
             src={Illustration6}
@@ -358,9 +415,17 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           id="day-by-day"
           className="flex justify-center items-center w-full my-4 md:my-20 flex-col md:flex-row"
         >
-          <h3 className="text-[25px] md:text-[30px] md:w-[320px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
+          {/* <h3 className="text-[25px] md:text-[30px] md:w-[320px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
             And setup reminders to keep you moving
-          </h3>
+          </h3> */}
+          <motion.h3
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ amount: 1 }}
+            className="text-[25px] md:text-[30px] md:w-[320px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
+          >
+            And setup reminders to keep you moving
+          </motion.h3>
           <Image
             className="md:mx-12 max-w-[85%] md:max-w-none"
             src={Illustration7}
@@ -368,9 +433,12 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             alt="Logo"
           />
         </section>
-        <section
+        <motion.section
           id="insights"
           className="inline-flex flex-col md:flex-row justify-center items-center text-center w-full my-12 md:my-20"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ amount: 1 }}
         >
           <h3 className="text-[25px] mb-10 md:mb-0 md:text-[30px] mx-12 max-w-[300px] md:text-left">
             And get insights about your journey:
@@ -391,7 +459,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               <span className="text-[20px]">Days since it started</span>
             </span>
           </div>
-        </section>
+        </motion.section>
 
         <section
           id="testimonials"
@@ -499,13 +567,14 @@ const Landing = ({ user, subscriptionInfo }: any) => {
         </section>
         <section
           id="testimonials"
+          ref={casesRef}
           className="text-center my-6 md:my-16 w-[100%] mb-14"
         >
           <h3 className="md:text-[35px] mb-16 md:mb-18 text-[25px]">
             And some are just exploring new vibes:
           </h3>
           <motion.div
-            style={{ x: scrollYProgress }}
+            style={{ x: translateFirstLine }}
             className="m-auto flex items-center w-[100%] md:px-0 flex-row justify-center md:items-end"
           >
             {[
@@ -541,7 +610,10 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               );
             })}
           </motion.div>
-          <div className="m-auto flex w-[100%] md:px-0 flex-row justify-end items-center md:items-center">
+          <motion.div
+            style={{ x: translateSecondLine }}
+            className="m-auto flex w-[100%] md:px-0 flex-row justify-end items-center md:items-center"
+          >
             {[
               {
                 text: `“JourneyLog keeps me on track with the important but small stuff, like remembering to call my Grandma every week. She loves it, and so do I! 🤰🏼”`,
@@ -574,8 +646,11 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 </div>
               );
             })}
-          </div>
-          <div className="m-auto flex w-[100%] md:px-0 flex-row justify-center items-center md:items-start">
+          </motion.div>
+          <motion.div
+            style={{ x: translateThirdLine }}
+            className="m-auto flex w-[100%] md:px-0 flex-row justify-center items-center md:items-start"
+          >
             {[
               {
                 text: `“I log every step of my freelance projects and deadlines. It keeps me on track and stress-free. 📆”`,
@@ -608,7 +683,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 </div>
               );
             })}
-          </div>
+          </motion.div>
         </section>
 
         <section
