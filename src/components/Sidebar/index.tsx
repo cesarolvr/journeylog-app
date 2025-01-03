@@ -220,6 +220,15 @@ const Sidebar = ({
       if (res) {
         setActiveLog(res);
       }
+
+      const dateStringStart = `${e?.year}-${monthWithPad}-01`;
+      const lastDayOfMonth = new Date(e?.year, e?.month, 0).getDate();
+      const dateStringEnd = `${e?.year}-${monthWithPad}-${lastDayOfMonth}`;
+
+      await getPreviews(dateStringStart, dateStringEnd, activeTab, {
+        forceUpdate: true,
+      });
+
       setIsReadyToRenderArtboard(true);
       setIsOpened(true);
     }
