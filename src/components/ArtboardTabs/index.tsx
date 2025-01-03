@@ -93,8 +93,12 @@ const ArtboardTabs = ({
             if (isPro) {
               handleCreateJourney();
             } else {
-              onOpenModal();
-              setDefaultPanel("subscription");
+              if (journeyTabs.length < 2) {
+                handleCreateJourney();
+              } else {
+                onOpenModal();
+                setDefaultPanel("subscription");
+              }
             }
           }}
           className="button-new-journey w-auto bg-transparent px-0 border-none min-w-0 h-full pl-2"

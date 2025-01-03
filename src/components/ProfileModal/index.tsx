@@ -377,12 +377,15 @@ const ProfileModal = ({
                   {isPro ? "Already subscribed" : "Most popular"}
                 </div>
 
-                <p className="text-[35px] flex relative font-black items-end mb-1 text-[white]">
-                  $9
-                  <span className="text-[18px] bottom-[10px] absolute left-[50px] font-normal text-[#656565]">
+                <div className="text-[35px] flex relative font-black items-end mb-6">
+                  <div className="absolute text-[30px] top-[-15px] opacity-45 line-through">
+                    $10
+                  </div>
+                  <p className="mt-5">$4.99</p>
+                  <span className="text-[18px] bottom-[10px] absolute left-[100px] font-normal text-[#656565]">
                     /month
                   </span>
-                </p>
+                </div>
 
                 <p className="text-[27px] md:text-[30px] leading-10 md:leading-normal mb-2 md:mb-0 font-black text-[#27DE55] relative">
                   PRO
