@@ -563,7 +563,7 @@ const ArtboardInsights = ({
         <div className="">
           <div className="flex justify-between mb-6 px-7 items-center">
             <p>Frequency</p>
-            <Select
+            {/* <Select
               isDisabled={true}
               items={[
                 {
@@ -575,7 +575,7 @@ const ArtboardInsights = ({
               className="max-w-[100px] text-[18px]"
             >
               {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
-            </Select>
+            </Select> */}
           </div>
           <div className="w-full overflow-scroll pl-7 pr-8 mb-7">
             <div className="flex">

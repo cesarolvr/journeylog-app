@@ -1,7 +1,6 @@
 "use client";
 
 import * as motion from "motion/react-client";
-import { StaggerTextReveal } from "stagger-text-reveal-animation";
 import Typed from "typed.js";
 
 import Image from "next/image";
@@ -36,12 +35,7 @@ import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 import Footer from "../Footer";
 import { useEffect, useRef, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import {
-  useMotionValueEvent,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { useScroll, useTransform } from "framer-motion";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
@@ -99,13 +93,17 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     // container: casesRef
   });
 
-  const translateFirstLine = useTransform(scrollYProgress, [0, 1], [-500, 500]);
+  const translateFirstLine = useTransform(scrollYProgress, [0, 1], [-800, 500]);
   const translateSecondLine = useTransform(
     scrollYProgress,
     [0, 1],
     [500, -100]
   );
-  const translateThirdLine = useTransform(scrollYProgress, [0, 1], [-1000, 500]);
+  const translateThirdLine = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [-1000, 500]
+  );
 
   const whereText = useRef(null);
 
@@ -116,10 +114,10 @@ const Landing = ({ user, subscriptionInfo }: any) => {
       loop: true,
       backDelay: 3000,
       backSpeed: 50,
+      startDelay: 500,
     });
 
     return () => {
-      // Destroy Typed instance during cleanup to stop animation
       typed.destroy();
     };
   }, []);
@@ -398,7 +396,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 1 }}
+            viewport={{ amount: 0.5 }}
             className="text-[25px] md:text-[30px] md:w-[270px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
           >
             Personalize your experience and create multiple{" "}
@@ -433,33 +431,54 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             alt="Logo"
           />
         </section>
-        <motion.section
+        <section
           id="insights"
           className="inline-flex flex-col md:flex-row justify-center items-center text-center w-full my-12 md:my-20"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ amount: 1 }}
         >
-          <h3 className="text-[25px] mb-10 md:mb-0 md:text-[30px] mx-12 max-w-[300px] md:text-left">
+          <motion.h3
+            id="insights"
+            className="text-[25px] mb-10 md:mb-0 md:text-[30px] mx-12 max-w-[300px] md:text-left"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ amount: 1 }}
+          >
             And get insights about your journey:
-          </h3>
+          </motion.h3>
           <div className="flex flex-col md:flex-row justify-center items-center">
-            <span className="flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 pl-0 text-[#fff] ml-7 mr-2">
+            <motion.span
+              id="insights"
+              className="flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 pl-0 text-[#fff] ml-7 mr-2"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0, transition: { delay: 0.1 } }}
+              viewport={{ amount: 1 }}
+            >
               <div className="text-[80px] leading-[80px] font-bold text-[#27DE55]">
                 12
               </div>
               <span className="text-[20px]">Days in a row</span>
-            </span>
-            <span className="flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 text-[#5C5C5C]">
+            </motion.span>
+            <motion.span
+              id="insights"
+              className="flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 text-[#5C5C5C]"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0, transition: { delay: 0.2 } }}
+              viewport={{ amount: 1 }}
+            >
               <div className="text-[80px] leading-[80px] font-bold">16</div>
               <span className="text-[20px]">Days with logs</span>
-            </span>
-            <span className="flex justify-center items-center flex-shrink-0 flex-col p-4 md:py-8 text-[#5C5C5C]">
+            </motion.span>
+            <motion.span
+              id="insights"
+              className="flex justify-center items-center flex-shrink-0 flex-col p-4 md:py-8 text-[#5C5C5C]"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0, transition: { delay: 0.3 } }}
+              viewport={{ amount: 1 }}
+            >
               <div className="text-[80px] leading-[80px] font-bold">360</div>
               <span className="text-[20px]">Days since it started</span>
-            </span>
+            </motion.span>
           </div>
-        </motion.section>
+        </section>
 
         <section
           id="testimonials"

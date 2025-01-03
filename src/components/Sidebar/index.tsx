@@ -99,19 +99,18 @@ const Sidebar = ({
 
     const newDays: any = getDaysDetailsInMonth(
       newLastMonthLoaded,
-      lastYearLoaded
+      newLastYearLoaded
     );
-
-    
 
     setLastMonthLoaded(newLastMonthLoaded);
     setLastYearLoaded(newLastYearLoaded);
-
+    
     const monthWithPad = `0${newLastMonthLoaded + 1}`.slice(-2);
     const dayWithPad = `0${1}`.slice(-2);
-
+    
     const dateStringStart = `${newLastYearLoaded}-${monthWithPad}-${dayWithPad}`;
     const dateStringEnd = `${newLastYearLoaded}-${monthWithPad}-${dayWithPad}`;
+    
 
     getPreviews(dateStringStart, dateStringEnd, activeTab, {
       forceUpdate: false,
@@ -238,6 +237,8 @@ const Sidebar = ({
         today.getMonth() + 1,
         today.getFullYear()
       );
+
+      console.log('bbb', {currentMonth})
       setDays(currentMonth);
     };
 
