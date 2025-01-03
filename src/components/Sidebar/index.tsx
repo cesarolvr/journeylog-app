@@ -105,11 +105,12 @@ const Sidebar = ({
     setLastMonthLoaded(newLastMonthLoaded);
     setLastYearLoaded(newLastYearLoaded);
     
-    const monthWithPad = `0${newLastMonthLoaded + 1}`.slice(-2);
+    const monthWithPad = `0${newLastMonthLoaded}`.slice(-2);
     const dayWithPad = `0${1}`.slice(-2);
     
     const dateStringStart = `${newLastYearLoaded}-${monthWithPad}-${dayWithPad}`;
-    const dateStringEnd = `${newLastYearLoaded}-${monthWithPad}-${dayWithPad}`;
+    const lastDayOfMonth = new Date(newLastYearLoaded, newLastMonthLoaded, 0).getDate();
+    const dateStringEnd = `${newLastYearLoaded}-${monthWithPad}-${lastDayOfMonth}`;
     
 
     getPreviews(dateStringStart, dateStringEnd, activeTab, {
