@@ -10,6 +10,7 @@ const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "900"] });
 import "./globals.scss";
 import "./editor.scss";
 import Script from "next/script";
+import FacebookPixel from "@/components/Fbpixel";
 
 export default async function RootLayout({
   children,
@@ -47,6 +48,7 @@ export default async function RootLayout({
             </NextThemesProvider>
           </NextUIProvider>
         </SupabaseProvider>
+        <FacebookPixel />
       </body>
     </html>
   );
