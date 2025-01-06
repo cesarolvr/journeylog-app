@@ -196,7 +196,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             }}
             className="text-[40px] max-w-[90%] leading-[40px] md:leading-[65px] md:text-[65px] mb-6 font-black text-white md:mt-[100px] mt-[70px]"
           >
-            Turn your habits into a lifestyle!
+            Turn your habits into a diary!
           </motion.h1>
           <motion.h2
             initial={{ opacity: 0, y: 10 }}

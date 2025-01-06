@@ -38,13 +38,12 @@ const Purpose = () => {
           </h1>
           <p className="text-[16px] md:text-[24px] leading-[25px]  md:leading-[40px] mb-7">
             Journeylog is a steady ally for building better habits and making
-            consistent choices. But let’s be honest: It’s not some magic wand.
-            It’s only a tool, not a shortcut, and we believe that the real power
+            consistent choices. We believe that the real power
             comes from you showing up for yourself every single day.
           </p>
           <br />
           <p className="text-[16px] md:text-[24px] leading-[25px] md:leading-[40px] mb-7">
-            We believe that self-control isn’t just something you’re born with,
+            Self-control isn’t just something you’re born with,
             it’s shaped by your environment too. By making small tweaks, like
             setting up a routine or tracking progress, you create a space where
             healthy choices come naturally, breaking out of autopilot and
@@ -60,17 +59,17 @@ const Purpose = () => {
             healthier, happier choices.{" "}
             <strong className="text-[#fff] font-normal underline">
               Journeylog try to help you keep track of these wins so you can
-              build on them day after day. We strongly believe in consistency instead streak.
+              build on them day after day. We strongly believe in consistency
+              instead streak.
             </strong>
           </p>
           <br />
 
           <p className="text-[16px] md:text-[24px] leading-[25px] md:leading-[40px] mb-12">
-            At its core, Journeylog isn’t here to “fix” anything in your life.
-            It’s here to remind you that meaningful change comes from the small,
-            intentional steps you take every day. Growth isn’t about perfection.
-            It’s about progress, and that starts with you deciding to take
-            consistent action.
+            We are here to remind you that meaningful change comes from
+            the small, intentional steps you take every day. Growth isn’t about
+            perfection. It’s about progress, and that starts with you deciding
+            to take consistent action.
           </p>
           <br />
 
