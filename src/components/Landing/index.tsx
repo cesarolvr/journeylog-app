@@ -298,7 +298,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 1 }}
+            viewport={{ amount: 1, once: true }}
             className="text-[25px] md:text-[30px] md:w-[280px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
           >
             Log your activities through simple notes
@@ -313,7 +313,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 1 }}
+            viewport={{ amount: 1, once: true }}
             className="text-[25px] md:text-[30px] md:w-[250px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
           >
             Or even through to-do and check lists
@@ -324,16 +324,13 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           id="moving"
           className="justify-center items-center inline-flex w-full my-4 md:my-20 flex-col md:flex-row"
         >
-          {/* <h3 className="text-[25px] md:text-[30px] md:w-[250px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
-          </h3> */}
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 1 }}
+            viewport={{ amount: 1, once: true }}
             className="text-[25px] md:text-[30px] md:w-[280px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
           >
             Track the quality of the day's logs and keep moving
-            {/* Log your activities through simple notes */}
           </motion.h3>
           <Image className="mx-12" src={Illustration3} width={358} alt="Logo" />
         </section>
@@ -345,7 +342,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             <motion.h3
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ amount: 1 }}
+              viewport={{ amount: 1, once: true }}
               className="text-[25px] md:text-[30px] mb-10  text-center md:text-left"
             >
               Fail some day? Don't worry. Consistency is the key.
@@ -354,7 +351,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ amount: 1 }}
+              viewport={{ amount: 1, once: true }}
               className="text-[#787878]"
             >
               To know more about the Journeylog's purpose,{" "}
@@ -373,7 +370,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 1 }}
+            viewport={{ amount: 1, once: true }}
             className="text-[25px] md:text-[30px] md:w-[320px] md:flex-shrink-0 md:ml-36 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
           >
             Day by day... <br />
@@ -419,7 +416,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 1 }}
+            viewport={{ amount: 1, once: true }}
             className="text-[25px] md:text-[30px] md:w-[320px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
           >
             And setup reminders to keep you moving
@@ -440,7 +437,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             className="text-[25px] mb-10 md:mb-0 md:text-[30px] mx-12 max-w-[300px] md:text-left"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 1 }}
+            viewport={{ amount: 1, once: true }}
           >
             And get insights about your journey:
           </motion.h3>
@@ -450,7 +447,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               className="flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 pl-0 text-[#fff] ml-7 mr-2"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0, transition: { delay: 0.1 } }}
-              viewport={{ amount: 1 }}
+              viewport={{ amount: 1, once: true }}
             >
               <div className="text-[80px] leading-[80px] font-bold text-[#27DE55]">
                 12
@@ -462,7 +459,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               className="flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 text-[#5C5C5C]"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0, transition: { delay: 0.2 } }}
-              viewport={{ amount: 1 }}
+              viewport={{ amount: 1, once: true }}
             >
               <div className="text-[80px] leading-[80px] font-bold">16</div>
               <span className="text-[20px]">Days with logs</span>
@@ -472,7 +469,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               className="flex justify-center items-center flex-shrink-0 flex-col p-4 md:py-8 text-[#5C5C5C]"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0, transition: { delay: 0.3 } }}
-              viewport={{ amount: 1 }}
+              viewport={{ amount: 1, once: true }}
             >
               <div className="text-[80px] leading-[80px] font-bold">360</div>
               <span className="text-[20px]">Days since it started</span>
