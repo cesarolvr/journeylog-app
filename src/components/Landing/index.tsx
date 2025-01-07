@@ -36,6 +36,7 @@ import Footer from "../Footer";
 import { useEffect, useRef, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useScroll, useTransform } from "framer-motion";
+import FirstIllustration from "../Illustrations/FirstIllustration";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
@@ -303,13 +304,13 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           >
             Log your activities through simple notes
           </motion.h3>
+          {/* <FirstIllustration /> */}
           <Image src={Illustration1} className="mx-12" width={358} alt="Logo" />
         </section>
         <section
           id="check"
           className="justify-center items-center my-4 md:my-20 inline-flex w-full flex-col md:flex-row-reverse"
         >
-          {/* <h3 className="text-[25px] md:text-[30px] md:w-[250px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"></h3> */}
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -346,7 +347,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               className="text-[25px] md:text-[30px] mb-10  text-center md:text-left"
             >
               Fail some day? Don't worry. Consistency is the key.
-              {/* Or even through to-do and check lists */}
+              
             </motion.h3>
             <motion.span
               initial={{ opacity: 0, y: 10 }}
