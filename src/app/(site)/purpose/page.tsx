@@ -15,7 +15,7 @@ export const metadata = {
 const Purpose = () => {
   return (
     <div className="p-6 flex flex-col w-[100svw] h-[100svh] bg-[#171717]">
-      <header className="flex w-[850px] rounded-2xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2 mb-20">
+      <header className="flex w-[850px] rounded-2xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2 mb-10 md:mb-20">
         <Image
           src={LOGO}
           width={150}
@@ -32,17 +32,17 @@ const Purpose = () => {
         </ul>
       </header>
       <div className="w-full max-w-[100%] flex-col auth flex items-center justify-center">
-        <div className="w-[600px] max-w-[95%] text-justify mt-5 md:mt-6 text-[#909090]">
-          <h1 className="md:text-[65px] text-center text-[40px] leading-[40px] font-bold mb-5 md:mb-24 text-[white]">
+        <div className="w-[600px] max-w-[95%] md:text-left md:mt-6 text-[#909090]">
+          <h1 className="md:text-[65px] text-center text-[40px] leading-[40px] font-bold mb-10 md:mb-24 text-[white]">
             Our purpose
           </h1>
-          <p className="text-[16px] md:text-[24px] leading-[25px]  md:leading-[40px] mb-7">
+          <p className="text-[18px] md:text-[24px]  md:leading-[40px] mb-7">
             Journeylog is a steady ally for building better habits and making
             consistent choices. We believe that the real power
             comes from you showing up for yourself every single day.
           </p>
           <br />
-          <p className="text-[16px] md:text-[24px] leading-[25px] md:leading-[40px] mb-7">
+          <p className="text-[18px] md:text-[24px] md:leading-[40px] mb-7">
             Self-control isn’t just something you’re born with,
             it’s shaped by your environment too. By making small tweaks, like
             setting up a routine or tracking progress, you create a space where
@@ -50,7 +50,7 @@ const Purpose = () => {
             overcoming the inertia of sticking to what’s comfortable.
           </p>
           <br />
-          <p className="text-[16px] md:text-[24px] leading-[25px] md:leading-[40px] mb-12">
+          <p className="text-[18px] md:text-[24px] md:leading-[40px] mb-12">
             Think about this: Going for a quick walk after lunch can lead to
             better energy levels, which makes it easier to focus in the
             afternoon. Or cooking a healthy meal one night might inspire you to
@@ -65,7 +65,7 @@ const Purpose = () => {
           </p>
           <br />
 
-          <p className="text-[16px] md:text-[24px] leading-[25px] md:leading-[40px] mb-12">
+          <p className="text-[18px] md:text-[24px] md:leading-[40px] mb-12">
             We are here to remind you that meaningful change comes from
             the small, intentional steps you take every day. Growth isn’t about
             perfection. It’s about progress, and that starts with you deciding
@@ -73,11 +73,11 @@ const Purpose = () => {
           </p>
           <br />
 
-          <p className="text-[16px] md:text-[20px] leading-[25px] md:leading-[40px] mb-6">
+          <p className="text-[16px] md:text-[20px] md:leading-[40px] mb-6">
             We have built Journeylog based on these references:
           </p>
 
-          <ul className="text-[16px] md:text-[20px] md:leading-[35px] mb-12 list-decimal text-left pl-8 text-[#909090]">
+          <ul className="text-[16px] break-words md:text-[20px] md:leading-[35px] mb-12 list-decimal text-left pl-5 md:pl-8 text-[#909090]">
             <li className="mb-8">
               Genetic and Environmental Influences on Self-Control: Assessing
               Self-Control with the ASEBA Self-Control Scale
