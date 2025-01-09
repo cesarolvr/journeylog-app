@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 import { DateTime } from "luxon";
@@ -38,7 +38,6 @@ import ArtboardTabs from "../ArtboardTabs";
 import ArtboardOptions from "../ArtboardOptions";
 import ArtboardInsights from "../ArtboardInsights";
 import { ArrowUpRight, ChevronRight, LogOut, User } from "lucide-react";
-import { useTheme } from "next-themes";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
@@ -253,7 +252,6 @@ const Editor = ({
         false
       );
     }
-    // setIsLoading(false);
   }, 500);
 
   const handleJourneyNameEdit = debounce(async (e: any) => {
@@ -275,14 +273,13 @@ const Editor = ({
 
         return item;
       });
-      // setActiveTab(updatedJourney[0]);
       setJourneyTabs([...updatedTabList]);
     }
   }, 200);
 
   const handleJourneyUpdate = debounce(
     async ({ theme, font, frequency }: any) => {
-      const { error, data: updatedJourney } = await supabaseClient
+      await supabaseClient
         .from("journey")
         .update({ theme: theme || "dark", font: font || "default", frequency })
         .eq("id", activeTab?.id);
@@ -323,9 +320,8 @@ const Editor = ({
     const index = idSelected - 1;
     const activeTab: any =
       journeyTabs.length === 1 ? journeyTabs[0] : journeyTabs[index];
-
-    // setIsLoading(true);
-    setNotification(null);
+    
+      setNotification(null);
 
     const { data: updatedJourney } = await supabaseClient
       .from("journey")
