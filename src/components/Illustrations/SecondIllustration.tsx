@@ -15,7 +15,7 @@ const SecondIllustration = () => {
     { id: 4, text: "make dinner", checked: false },
   ]);
 
-  const notify = () => toast("Wow so easy!");
+  const notify = () => toast("Wow! Today was a perfect day 🎉");
 
   const handleCheck = (e: any, value: any, index: any) => {
     e.preventDefault();

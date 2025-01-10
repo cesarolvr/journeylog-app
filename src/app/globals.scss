@@ -8,7 +8,15 @@
   --nextui-primary-400: 130 64% 53%;
   --nextui-default-50: 0 0 13%;
   --nextui-primary-50: 0 0 9%;
-  --toastify-color-success: #f40 !important;
+}
+
+.Toastify__toast-theme--dark {
+  background: #303030 !important;
+  color: #fff !important;
+}
+
+.Toastify__progress-bar-theme--dark {
+  background: #39d353 !important;
 }
 
 ::-webkit-scrollbar {
