@@ -60,7 +60,7 @@ export default async function RootLayout({
                   pauseOnHover
                   theme="dark"
                   transition={Bounce}
-                  className={`!w-[400px] cursor-pointer !max-w-full left-auto top-8`}
+                  className={`!w-[400px] cursor-pointer !max-w-[100%] px-4 left-auto right-auto md:right-0 top-8`}
                   toastClassName={`${nunito.className} text-[18px] !w-full !rounded-[15px] overflow-hidden`}
                 />
               </>
