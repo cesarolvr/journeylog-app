@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Reenie_Beanie } from "next/font/google";
 import Confetti from "react-confetti";
@@ -8,6 +8,7 @@ const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 
 const SecondIllustration = () => {
   const [isToRunConfetti, setIsToRunConfetti] = useState(false);
+  const [isListBlock, setIsListBlock] = useState(false);
   const [options, setOptions] = useState([
     { id: 1, text: "supermarket", checked: true },
     { id: 2, text: "report to boss", checked: true },
@@ -15,7 +16,7 @@ const SecondIllustration = () => {
     { id: 4, text: "make dinner", checked: false },
   ]);
 
-  const notify = () => toast("Wow! Today was a perfect day 🎉");
+  const notify = () => toast("Mission accomplished for today!  🚀");
 
   const handleCheck = (e: any, value: any, index: any) => {
     e.preventDefault();
@@ -32,8 +33,10 @@ const SecondIllustration = () => {
     if (isEveryChecked) {
       setIsToRunConfetti(true);
       notify();
+      setIsListBlock(true);
     } else {
       setIsToRunConfetti(false);
+      setIsListBlock(false);
     }
   };
 
@@ -44,9 +47,13 @@ const SecondIllustration = () => {
           width={window?.innerWidth}
           height={window?.innerHeight}
           recycle={false}
-          tweenDuration={5000}
+          numberOfPieces={1000}
+          tweenDuration={10000}
           colors={["#27DE54", "#5FDB7D", "#3D6D49", "#fff"]}
-          className="!z-50 !fixed pointer-events-none"
+          className={`!z-50 !fixed pointer-events-none`}
+          onConfettiComplete={(e) => {
+            setIsListBlock(false);
+          }}
         />
       )}
 
@@ -65,15 +72,14 @@ const SecondIllustration = () => {
                 option.checked ? "checked" : "unchecked"
               } ltr`}
               aria-checked={option.checked}
-              onClick={(e) => handleCheck(e, !option.checked, index)}
+              onClick={(e) => {
+                if (isListBlock) return;
+                handleCheck(e, !option.checked, index)
+              }}
             >
               <span>{option.text}</span>
             </li>
           ))}
-          {/* <li role="checkbox" className="!mb-0 editor-listitem editor-listitem-checked ltr" aria-checked="true"><span>supermarket</span></li>
-        <li role="checkbox" className="!mb-0 editor-listitem editor-listitem-checked ltr" aria-checked="true"><span>report to boss</span></li>
-        <li role="checkbox" className="!mb-0 editor-listitem editor-listitem-checked ltr" aria-checked="true"><span>water the fern</span></li>
-        <li role="checkbox" className="!mb-0 editor-listitem editor-listitem-unchecked ltr" aria-checked="false"><span>make dinner</span></li> */}
         </ul>
       </motion.div>
     </>

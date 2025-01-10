@@ -18,6 +18,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  
   return (
     <html
       lang="en"
@@ -59,6 +60,8 @@ export default async function RootLayout({
                   pauseOnHover
                   theme="dark"
                   transition={Bounce}
+                  className={`!w-[400px] cursor-pointer`}
+                  toastClassName={`${nunito.className} text-[18px] !w-full !rounded-[15px] overflow-hidden`}
                 />
               </>
             </NextThemesProvider>
