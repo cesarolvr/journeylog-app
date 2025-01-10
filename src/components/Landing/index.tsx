@@ -37,6 +37,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useScroll, useTransform } from "framer-motion";
 import FirstIllustration from "../Illustrations/FirstIllustration";
+import SecondIllustration from "../Illustrations/SecondIllustration";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
@@ -176,7 +177,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     router.push("/sign-in");
                   }}
                 >
-                  Try now
+                  Try free
                   <ChevronRight className="mr-[-8px] ml-[-5px]" />
                 </Button>
               </>
@@ -274,7 +275,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     router.push("/sign-in");
                   }}
                 >
-                  Try now
+                  Try free
                   <ChevronRight className="mr-[-10px] ml-[-5px]" />
                 </Button>
               </motion.div>
@@ -304,8 +305,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           >
             Log your activities through simple notes
           </motion.h3>
-          {/* <FirstIllustration /> */}
-          <Image src={Illustration1} className="mx-12" width={358} alt="Logo" />
+          <FirstIllustration />
+          {/* <Image src={Illustration1} className="mx-12" width={358} alt="Logo" /> */}
         </section>
         <section
           id="check"
@@ -319,7 +320,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           >
             Or even through to-do and check lists
           </motion.h3>
-          <Image className="mx-12" src={Illustration2} width={358} alt="Logo" />
+          <SecondIllustration />
+          {/* <Image className="mx-12" src={Illustration2} width={358} alt="Logo" /> */}
         </section>
         <section
           id="moving"
@@ -347,7 +349,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               className="text-[25px] md:text-[30px] mb-10  text-center md:text-left"
             >
               Fail some day? Don't worry. Consistency is the key.
-              
             </motion.h3>
             <motion.span
               initial={{ opacity: 0, y: 10 }}
@@ -798,7 +799,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     ? subscription === "habit_creator"
                       ? "Downgrade plan"
                       : "Go to the app"
-                    : "Try now"}
+                    : "Try free"}
                   <ChevronRight className="md:mr-[-20px] shrink-0" />
                 </Button>
               </div>

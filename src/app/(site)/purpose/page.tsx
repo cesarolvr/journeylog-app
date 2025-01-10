@@ -168,7 +168,7 @@ const Purpose = () => {
               className={`font-black inline-flex rounded-3xl justify-center bg-[#ffffff] text-black py-5 px-8`}
               href="/sign-in"
             >
-              Try now
+              Try free
               {/* /sign-in */}
               <ChevronRight className="mr-[-8px]" />
             </Link>
