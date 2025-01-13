@@ -19,13 +19,18 @@ const FirstIllustration = () => {
     if (!typedInstance) {
       const typed = new Typed(refList.current, {
         strings: [
-          `<li className="!mb-0">call mom</li>
-          <li className="!mb-0">homework</li>
-          <li className="!mb-0">workout</li>
-          <li className="!mb-0">daily fruit</li>
-          <li className="!mb-0">drink water</li>`,
+          `<li>call my mom</li>
+          <li>check homework</li>
+          <li>to workout</li>
+          <li>daily fruit</li>
+          <li>2L of water</li>`,
+          `<li>daily journal</li>
+          <li>8 book pages</li>
+          <li>5 min meditation</li>
+          <li>dutch new word</li>
+          <li>act of gratitude</li>`,
         ],
-        typeSpeed: 40,
+        typeSpeed: 100,
         loop: false,
         startDelay: 500,
         showCursor: false,
@@ -41,11 +46,11 @@ const FirstIllustration = () => {
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ amount: 1, once: true }}
-      className={`mx-12 !w-[358px] !h-[400px] bg-[#1b1b1b] editor-container !p-10 !rounded-[50px]`}
+      className={`mx-12 !w-[388px] !h-[450px] bg-[#1b1b1b] editor-container lp !p-10 !rounded-[50px]`}
     >
       <ul
         ref={refList}
-        className={`${reenie.className} text-[50px] leading-[55px] !pl-4`}
+        className={`${reenie.className} text-[45px] h-full leading-[40px] !pl-0`}
       ></ul>
     </motion.div>
   );

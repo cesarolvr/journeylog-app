@@ -323,10 +323,18 @@ h1 {
   padding-left: 0px;
 }
 
-.editor-container ul li {
-  padding-left: 50px;
-  position: relative;
-  margin-bottom: 10px;
+.editor-container {
+  ul li {
+    padding-left: 50px;
+    position: relative;
+    margin-bottom: 10px;
+  }
+  
+  &.lp {
+    ul li {
+      margin: 30px 0;
+    } 
+  }
 }
 
 .editor-container ul li:before {

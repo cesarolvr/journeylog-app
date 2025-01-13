@@ -38,6 +38,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useScroll, useTransform } from "framer-motion";
 import FirstIllustration from "../Illustrations/FirstIllustration";
 import SecondIllustration from "../Illustrations/SecondIllustration";
+import ThirdIllustration from "../Illustrations/ThirdIllustration";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
@@ -335,7 +336,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           >
             Track the quality of the day's logs and keep moving
           </motion.h3>
-          <Image className="mx-12" src={Illustration3} width={358} alt="Logo" />
+          <ThirdIllustration />
+          {/* <Image className="mx-12" src={Illustration3} width={358} alt="Logo" /> */}
         </section>
         <section
           id="fall"
