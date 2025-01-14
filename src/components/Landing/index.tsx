@@ -28,9 +28,18 @@ import {
   CardBody,
   CardHeader,
   CircularProgress,
+  Select,
+  SelectItem,
+  Switch,
   Textarea,
 } from "@nextui-org/react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import {
+  Bell,
+  ChevronDown,
+  ChevronRight,
+  Clock9,
+  MessageCircleQuestion,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 import Footer from "../Footer";
@@ -40,6 +49,7 @@ import { useScroll, useTransform } from "framer-motion";
 import FirstIllustration from "../Illustrations/FirstIllustration";
 import SecondIllustration from "../Illustrations/SecondIllustration";
 import ThirdIllustration from "../Illustrations/ThirdIllustration";
+import { whatTime, where } from "../ArtboardOptions";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
@@ -110,9 +120,10 @@ const Landing = ({ user, subscriptionInfo }: any) => {
   );
 
   const whereText = useRef(null);
+  const personalizeText = useRef(null);
 
   useEffect(() => {
-    const typed = new Typed(whereText.current, {
+    const typedHero = new Typed(whereText.current, {
       strings: ["Whatsapp", "Email", "SMS"],
       typeSpeed: 50,
       loop: true,
@@ -121,8 +132,34 @@ const Landing = ({ user, subscriptionInfo }: any) => {
       startDelay: 500,
     });
 
+    const typedPersonalize = new Typed(personalizeText.current, {
+      strings: [
+        "journeys",
+        "goals",
+        "categories",
+        "notes",
+        `"folders"`,
+        "records",
+        "subjects",
+        "objectives",
+        "milestones",
+        "plans",
+        "schedules",
+        "archives",
+        "topics",
+        "disciplines",
+        "themes",
+      ],
+      typeSpeed: 50,
+      loop: true,
+      backDelay: 3000,
+      backSpeed: 50,
+      startDelay: 500,
+    });
+
     return () => {
-      typed.destroy();
+      typedHero.destroy();
+      typedPersonalize.destroy();
     };
   }, []);
 
@@ -136,14 +173,14 @@ const Landing = ({ user, subscriptionInfo }: any) => {
   const { View, play } = useLottie(options);
 
   const { ref: XMarkRef, inView } = useInView({
-    threshold: 0.5,
+    threshold: 1,
   });
 
   useEffect(() => {
     if (inView) {
       setTimeout(() => {
         play();
-      }, 300);
+      }, 500);
     }
   }, [inView]);
 
@@ -421,12 +458,19 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             Small wins... <br />
             Slow and steady...
           </motion.h3>
-          <Image
+          <motion.div
+            initial={{ opacity: 0, x: 200 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ amount: 0.5, once: true }}
             className="md:mx-12 md:mr-[-200px] max-w-[85%] md:max-w-none"
-            src={Illustration5}
-            width={800}
-            alt="Logo"
-          />
+          >
+            <Image
+              className="w-full"
+              src={Illustration5}
+              width={800}
+              alt="Logo"
+            />
+          </motion.div>
         </section>
         <section
           id="personalize"
@@ -440,22 +484,26 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             className="text-[25px] md:text-[30px] md:w-[270px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
           >
             Personalize your experience and create multiple{" "}
-            <span className="text-[#383838] line-through">goals</span> journeys
+            <br className="hidden md:block" />
+            <span ref={personalizeText} className="text-[#39d353]"></span>
           </motion.h3>
-          <Image
-            className="md:mx-12 md:ml-[-150px] max-w-[85%] md:max-w-none"
-            src={Illustration6}
-            width={800}
-            alt="Logo"
-          />
+          <motion.div
+            initial={{ opacity: 0, x: -200 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ amount: 0.5, once: true }}
+          >
+            <Image
+              className="md:mx-12 md:ml-[-150px] max-w-[85%] md:max-w-none m-auto"
+              src={Illustration6}
+              width={800}
+              alt="Logo"
+            />
+          </motion.div>
         </section>
         <section
           id="day-by-day"
           className="flex justify-center items-center w-full my-4 md:my-20 flex-col md:flex-row"
         >
-          {/* <h3 className="text-[25px] md:text-[30px] md:w-[320px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left">
-            And setup reminders to keep you moving
-          </h3> */}
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -464,12 +512,72 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           >
             And setup reminders to keep you moving
           </motion.h3>
-          <Image
+          <motion.div className="bg-[#1B1B1B] w-[400px] px-11 py-14 rounded-[60px]">
+            <p className="mb-8">Notifications</p>
+            <div className="flex mb-8 items-start justify-between">
+              <div className="flex">
+                <Bell className="flex-shrink-0 stroke-[#A1A1AA]" />
+                <div className="flex flex-col ml-4">
+                  <p className="text-[#aaaaaa]">Reminders</p>
+                  <p className="text-[#525252] text-sm max-w-[180px] mt-1">
+                    Turn on the reminders to be notified about your progress.
+                  </p>
+                </div>
+              </div>
+              <Switch
+                isSelected={true}
+                className="switch"
+                aria-label="Automatic updates"
+                onValueChange={(f) => f}
+              />
+            </div>
+            <div className="flex mb-8 items-start justify-between">
+              <div className="flex">
+                <Clock9 className="flex-shrink-0 stroke-[#A1A1AA]" />
+                <div className="flex flex-col ml-4">
+                  <p className="text-[#aaaaaa]">What time?</p>
+                  <p className="text-[#525252] text-sm max-w-[180px] mt-1 mb-3">
+                    Choose what time you want to be reminded
+                  </p>
+                </div>
+              </div>
+              <Select
+                items={whatTime}
+                disallowEmptySelection={true}
+                defaultSelectedKeys={[`0-key`]}
+                color="default"
+                className="max-w-[100px] select text-[11px]"
+              >
+                {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+              </Select>
+            </div>
+            <div className="flex mb-0 items-start justify-between">
+              <div className="flex">
+                <MessageCircleQuestion className="flex-shrink-0 stroke-[#A1A1AA]" />
+                <div className="flex flex-col ml-4">
+                  <p className="text-[#aaaaaa]">Alert me on</p>
+                  <p className="text-[#525252] text-sm max-w-[180px] mt-1 mb-3">
+                    Choose where you would like to receive notifications.
+                  </p>
+                </div>
+              </div>
+              <Select
+                items={where}
+                disallowEmptySelection={true}
+                defaultSelectedKeys={[`email`]}
+                color="default"
+                className="max-w-[100px] select text-[11px]"
+              >
+                {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+              </Select>
+            </div>
+            {/* <Image
             className="md:mx-12 max-w-[85%] md:max-w-none"
             src={Illustration7}
             width={388}
             alt="Logo"
-          />
+          /> */}
+          </motion.div>
         </section>
         <section
           id="insights"

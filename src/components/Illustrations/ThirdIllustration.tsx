@@ -122,7 +122,7 @@ const ThirdIllustration = () => {
                   style={{
                     fontSize: value > 4 ? "14px" : "12px",
                     color: value > 4 ? "#376831" : "white",
-                    fontWeight: value > 3 ? "bold" : "normal",
+                    fontWeight: value > 0 ? "bold" : "normal",
                   }}
                 >
                   {text}
