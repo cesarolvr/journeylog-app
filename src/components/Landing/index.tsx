@@ -7,13 +7,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Logo from "../../images/logoFull.svg";
-import Illustration1 from "../../images/illustrations/1.svg";
-import Illustration2 from "../../images/illustrations/2.svg";
-import Illustration3 from "../../images/illustrations/3.svg";
 import Illustration4 from "../../images/illustrations/4.svg";
 import Illustration5 from "../../images/illustrations/5.svg";
 import Illustration6 from "../../images/illustrations/6.svg";
 import Illustration7 from "../../images/illustrations/7.svg";
+
+import { useLottie } from "lottie-react";
+import { useInView } from "react-intersection-observer";
+import xmark from "../../images/illustrations/xmark.json";
 
 import Bruno from "../../images/bruno.png";
 import Bia from "../../images/bia.png";
@@ -125,6 +126,27 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     };
   }, []);
 
+  const options = {
+    animationData: xmark,
+    loop: false,
+    speed: 0.3,
+    autoplay: false,
+  };
+
+  const { View, play } = useLottie(options);
+
+  const { ref: XMarkRef, inView } = useInView({
+    threshold: 0.5,
+  });
+
+  useEffect(() => {
+    if (inView) {
+      setTimeout(() => {
+        play();
+      }, 300);
+    }
+  }, [inView]);
+
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
       <motion.header
@@ -208,15 +230,14 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               duration: 0.2,
               delay: 0.1,
             }}
-            className="text-[18px] md:text-[24px] leading-6 md:leading-10 mb-10 text-white max-w-[80%] md:max-w-[600px] font-thin"
+            className="text-[18px] md:text-[24px] leading-6 md:leading-10 mb-10 text-white max-w-[90%] md:max-w-[600px] font-thin"
           >
-            Keep track of your routine until it’s second nature. And we’ll ping
-            you through{" "}
+            Keep track of your routine until it’s second nature. And to keep you
+            on track we’ll ping you through{" "}
             <strong
               className="font-bold text-[#39d353]"
               ref={whereText}
-            ></strong>{" "}
-            to keep you on track
+            ></strong>
           </motion.h2>
           <div className="mb-[150px] flex">
             <motion.div
@@ -365,7 +386,25 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               .
             </motion.span>
           </div>
-          <Image className="mx-12" src={Illustration4} width={358} alt="Logo" />
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ amount: 1, once: true }}
+          >
+            <div
+              ref={XMarkRef}
+              className="w-[258px] m-auto scale-y-75 top-0 right-0 left-0 absolute"
+            >
+              {View}
+            </div>
+            <Image
+              className="md:mx-12"
+              src={Illustration4}
+              width={358}
+              alt="Logo"
+            />
+          </motion.div>
         </section>
         <section
           id="day-by-day"

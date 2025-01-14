@@ -58,6 +58,7 @@
     "framer-motion": "^11.3.2",
     "lexical": "^0.16.1",
     "lodash": "^4.17.21",
+    "lottie-react": "^2.4.0",
     "lucide-react": "^0.408.0",
     "luxon": "^3.4.4",
     "motion": "^11.15.0",
