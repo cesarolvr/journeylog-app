@@ -53,6 +53,7 @@ import { whatTime, where } from "../ArtboardOptions";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
+  const [remindersTurnOn, setRemindersTurnOn] = useState(false);
   const [buttonFormText, setButtonFormText] = useState("Send");
 
   const supabaseClient = useSupabaseClient();
@@ -183,6 +184,39 @@ const Landing = ({ user, subscriptionInfo }: any) => {
       }, 500);
     }
   }, [inView]);
+
+  const { ref: remindersRef, inView: remindersRefInView } = useInView({
+    threshold: 1,
+  });
+
+  const [whatTimeOpened, setWhatTimeOpened] = useState(false);
+  const [alertMeOnOpened, setAlertMeOnOpened] = useState(false);
+  useEffect(() => {
+    if (remindersRefInView) {
+      setTimeout(() => {
+        setRemindersTurnOn(true);
+      }, 500);
+      setTimeout(() => {
+        setWhatTimeOpened(true);
+      }, 2000);
+      setTimeout(() => {
+        setWhatTimeOpened(false);
+      }, 4000);
+
+      setTimeout(() => {
+        setAlertMeOnOpened(true);
+      }, 5000);
+      setTimeout(() => {
+        setAlertMeOnOpened(false);
+      }, 6000);
+    } else {
+      setTimeout(() => {
+        setRemindersTurnOn(false);
+        setWhatTimeOpened(false);
+        setAlertMeOnOpened(false);
+      }, 500);
+    }
+  }, [remindersRefInView]);
 
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
@@ -513,7 +547,9 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             And setup reminders to keep you moving
           </motion.h3>
           <motion.div className="bg-[#1B1B1B] w-[400px] px-11 py-14 rounded-[60px]">
-            <p className="mb-8">Notifications</p>
+            <p ref={remindersRef} className="mb-8">
+              Notifications
+            </p>
             <div className="flex mb-8 items-start justify-between">
               <div className="flex">
                 <Bell className="flex-shrink-0 stroke-[#A1A1AA]" />
@@ -525,7 +561,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 </div>
               </div>
               <Switch
-                isSelected={true}
+                isSelected={remindersTurnOn}
                 className="switch"
                 aria-label="Automatic updates"
                 onValueChange={(f) => f}
@@ -546,6 +582,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 disallowEmptySelection={true}
                 defaultSelectedKeys={[`0-key`]}
                 color="default"
+                isOpen={whatTimeOpened}
                 className="max-w-[100px] select text-[11px]"
               >
                 {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
@@ -565,6 +602,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 items={where}
                 disallowEmptySelection={true}
                 defaultSelectedKeys={[`email`]}
+                isOpen={alertMeOnOpened}
                 color="default"
                 className="max-w-[100px] select text-[11px]"
               >
