@@ -923,7 +923,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 </Button>
               </div>
               <div className="proCard text-left relative overflow-hidden md:mt-[-100px] bg-[#343434] flex items-center justify-center rounded-[28px]">
-                <div className="relative z-50 w-[calc(100%-5px)] h-[calc(100%-5px)] bg-[#272727] p-10 pr-14 m-auto rounded-3xl">
+                <div className="relative z-50 w-[calc(100%-5px)] md:h-[calc(100%-5px)] h-[calc(100%-10px)] bg-[#272727] p-10 pr-14 m-auto rounded-3xl">
                   <div className="absolute top-[15px] right-[15px] bg-[#27DE55] rounded-xl py-2 px-3 text-[black] font-black">
                     {isPro ? "Already subscribed" : "Most popular"}
                   </div>
