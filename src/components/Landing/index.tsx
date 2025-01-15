@@ -1105,9 +1105,12 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             </div>
           </div>
         </section>
-        <section
+        <motion.section
           id="freepass"
           className="items-center text-center mt-20 md:mt-24 md:my-[120px] w-[100%] m-auto flex justify-center"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0, transition: { delay: 0.1 } }}
+          viewport={{ amount: 1, once: true }}
         >
           <div className="border-1 border-[#515151] w-[70%] max-w-[900px] rounded-3xl p-10">
             <h4 className="font-bold text-[25px] text-left mb-4 text-[#ffffff]">
@@ -1129,13 +1132,18 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               </Link>
             </div>
           </div>
-        </section>
+        </motion.section>
         <section
           id="faq"
           className="justify-center items-center text-center mt-20 md:mt-6 md:my-[150px] w-[100%]"
         >
           <h3 className="text-[40px] font-black mb-8">FAQ</h3>
-          <div className="w-[95%] md:max-w-[900px] flex items-center justify-center m-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ amount: 0.3, once: true }}
+            className="w-[95%] md:max-w-[900px] flex items-center justify-center m-auto"
+          >
             <Accordion
               showDivider={false}
               selectionMode="multiple"
@@ -1190,7 +1198,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 option to upgrade.
               </AccordionItem>
             </Accordion>
-          </div>
+          </motion.div>
         </section>
 
         <section id="suggestions" className="text-center my-28">
