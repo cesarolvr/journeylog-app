@@ -1109,13 +1109,13 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           id="freepass"
           className="items-center text-center mt-20 md:mt-24 md:my-[120px] w-[100%] m-auto flex justify-center"
         >
-          <div className="border-1 border-[#515151] w-[70%] rounded-3xl p-10">
+          <div className="border-1 border-[#515151] w-[70%] max-w-[900px] rounded-3xl p-10">
             <h4 className="font-bold text-[25px] text-left mb-4 text-[#ffffff]">
               How about upgrading to{" "}
               <span className="text-[#27DE55]">PRO for life</span>?
             </h4>
-            <div className="flex items-center justify-between text-[#848484]">
-              <p className="text-left max-w-[70%] pr-10">
+            <div className="flex-col md:flex-row md:flex items-center justify-between text-[#848484]">
+              <p className="text-left md:max-w-[70%] pr-10 mb-7 shrink-0 md:mb-0">
                 Share how you built a new habit with Journeylog through photos,
                 videos, logs, or however you like! If our team loves it, you’ll
                 receive a lifetime PRO subscription.
