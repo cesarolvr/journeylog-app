@@ -50,6 +50,7 @@ import FirstIllustration from "../Illustrations/FirstIllustration";
 import SecondIllustration from "../Illustrations/SecondIllustration";
 import ThirdIllustration from "../Illustrations/ThirdIllustration";
 import { whatTime, where } from "../ArtboardOptions";
+import RemindersCard from "../RemindersCard";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
@@ -499,7 +500,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             className="md:mx-12 md:mr-[-200px] max-w-[85%] md:max-w-none"
           >
             <Image
-              className="w-full"
+              className="max-w-[85%] md:max-w-none"
               src={Illustration5}
               width={800}
               alt="Logo"
@@ -534,88 +535,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             />
           </motion.div>
         </section>
-        <section
-          id="day-by-day"
-          className="flex justify-center items-center w-full my-4 md:my-20 flex-col md:flex-row"
-        >
-          <motion.h3
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 1, once: true }}
-            className="text-[25px] md:text-[30px] md:w-[320px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
-          >
-            And setup reminders to keep you moving
-          </motion.h3>
-          <motion.div className="bg-[#1B1B1B] w-[400px] px-11 py-14 rounded-[60px]">
-            <p ref={remindersRef} className="mb-8">
-              Notifications
-            </p>
-            <div className="flex mb-8 items-start justify-between">
-              <div className="flex">
-                <Bell className="flex-shrink-0 stroke-[#A1A1AA]" />
-                <div className="flex flex-col ml-4">
-                  <p className="text-[#aaaaaa]">Reminders</p>
-                  <p className="text-[#525252] text-sm max-w-[180px] mt-1">
-                    Turn on the reminders to be notified about your progress.
-                  </p>
-                </div>
-              </div>
-              <Switch
-                isSelected={remindersTurnOn}
-                className="switch"
-                aria-label="Automatic updates"
-                onValueChange={(f) => f}
-              />
-            </div>
-            <div className="flex mb-8 items-start justify-between">
-              <div className="flex">
-                <Clock9 className="flex-shrink-0 stroke-[#A1A1AA]" />
-                <div className="flex flex-col ml-4">
-                  <p className="text-[#aaaaaa]">What time?</p>
-                  <p className="text-[#525252] text-sm max-w-[180px] mt-1 mb-3">
-                    Choose what time you want to be reminded
-                  </p>
-                </div>
-              </div>
-              <Select
-                items={whatTime}
-                disallowEmptySelection={true}
-                defaultSelectedKeys={[`0-key`]}
-                color="default"
-                isOpen={whatTimeOpened}
-                className="max-w-[100px] select text-[11px]"
-              >
-                {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
-              </Select>
-            </div>
-            <div className="flex mb-0 items-start justify-between">
-              <div className="flex">
-                <MessageCircleQuestion className="flex-shrink-0 stroke-[#A1A1AA]" />
-                <div className="flex flex-col ml-4">
-                  <p className="text-[#aaaaaa]">Alert me on</p>
-                  <p className="text-[#525252] text-sm max-w-[180px] mt-1 mb-3">
-                    Choose where you would like to receive notifications.
-                  </p>
-                </div>
-              </div>
-              <Select
-                items={where}
-                disallowEmptySelection={true}
-                defaultSelectedKeys={[`email`]}
-                isOpen={alertMeOnOpened}
-                color="default"
-                className="max-w-[100px] select text-[11px]"
-              >
-                {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
-              </Select>
-            </div>
-            {/* <Image
-            className="md:mx-12 max-w-[85%] md:max-w-none"
-            src={Illustration7}
-            width={388}
-            alt="Logo"
-          /> */}
-          </motion.div>
+        <section id="day-by-day">
+          <RemindersCard />
         </section>
         <section
           id="insights"
@@ -699,73 +620,80 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               },
             ].map(({ image, nome, rate, occupation, text }, index) => {
               return (
-                <Card
-                  key={index}
-                  className="py-8 px-2 w-[370px] max-w-[80%] md:max-w-none rounded-[40px] bg-[#2C2C2C] md:mx-3 mb-20 overflow-visible"
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ amount: 0.5 }}
+                  className="w-[370px] max-w-[80%] md:max-w-none"
                 >
-                  <CardHeader className="pb-0 pt-2 px-4 flex-col items-center justify-center ">
-                    <Image
-                      src={image}
-                      width={100}
-                      height={100}
-                      alt={nome}
-                      className="mb-4 mt-[-70px]"
-                    />
-                    <p className="text-[18px]">{nome}</p>
-                    <p className="text-default-500 text-[16px] mb-2">
-                      {occupation}
-                    </p>
-                    <svg
-                      width="145"
-                      height="26"
-                      viewBox="0 0 145 26"
-                      className="mb-5"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M42.9315 2.94922L46.1585 9.50223L53.3749 10.5595L48.1532 15.6575L49.3855 22.8595L42.9315 19.4574L36.4774 22.8595L37.7098 15.6575L32.488 10.5595L39.7045 9.50223L42.9315 2.94922Z"
-                        fill="#F6D31E"
-                        stroke="#F6D31E"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                  <Card
+                    key={index}
+                    className="py-8 px-2 rounded-[40px] bg-[#2C2C2C] md:mx-3 mb-20 overflow-visible"
+                  >
+                    <CardHeader className="pb-0 pt-2 px-4 flex-col items-center justify-center ">
+                      <Image
+                        src={image}
+                        width={100}
+                        height={100}
+                        alt={nome}
+                        className="mb-4 mt-[-70px]"
                       />
-                      <path
-                        d="M13.3099 2.94922L16.5369 9.50223L23.7534 10.5595L18.5316 15.6575L19.764 22.8595L13.3099 19.4574L6.85585 22.8595L8.08818 15.6575L2.86646 10.5595L10.0829 9.50223L13.3099 2.94922Z"
-                        fill="#F6D31E"
-                        stroke="#F6D31E"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M72.5528 2.94922L75.7799 9.50223L82.9963 10.5595L77.7746 15.6575L79.0069 22.8595L72.5528 19.4574L66.0988 22.8595L67.3311 15.6575L62.1094 10.5595L69.3258 9.50223L72.5528 2.94922Z"
-                        fill="#F6D31E"
-                        stroke="#F6D31E"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M102.174 2.94922L105.401 9.50223L112.618 10.5595L107.396 15.6575L108.628 22.8595L102.174 19.4574L95.7204 22.8595L96.9527 15.6575L91.731 10.5595L98.9474 9.50223L102.174 2.94922Z"
-                        fill="#F6D31E"
-                        stroke="#F6D31E"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M131.796 2.94922L135.023 9.50223L142.239 10.5595L137.017 15.6575L138.25 22.8595L131.796 19.4574L125.342 22.8595L126.574 15.6575L121.352 10.5595L128.569 9.50223L131.796 2.94922Z"
-                        fill="#F6D31E"
-                        stroke="#F6D31E"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </CardHeader>
-                  <CardBody className="overflow-visible py-1">
-                    <p className="text-center text-[16px] text-[#bdbdbd] leading-7">
-                      "{text}"
-                    </p>
-                  </CardBody>
-                </Card>
+                      <p className="text-[18px]">{nome}</p>
+                      <p className="text-default-500 text-[16px] mb-2">
+                        {occupation}
+                      </p>
+                      <svg
+                        width="145"
+                        height="26"
+                        viewBox="0 0 145 26"
+                        className="mb-5"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M42.9315 2.94922L46.1585 9.50223L53.3749 10.5595L48.1532 15.6575L49.3855 22.8595L42.9315 19.4574L36.4774 22.8595L37.7098 15.6575L32.488 10.5595L39.7045 9.50223L42.9315 2.94922Z"
+                          fill="#F6D31E"
+                          stroke="#F6D31E"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M13.3099 2.94922L16.5369 9.50223L23.7534 10.5595L18.5316 15.6575L19.764 22.8595L13.3099 19.4574L6.85585 22.8595L8.08818 15.6575L2.86646 10.5595L10.0829 9.50223L13.3099 2.94922Z"
+                          fill="#F6D31E"
+                          stroke="#F6D31E"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M72.5528 2.94922L75.7799 9.50223L82.9963 10.5595L77.7746 15.6575L79.0069 22.8595L72.5528 19.4574L66.0988 22.8595L67.3311 15.6575L62.1094 10.5595L69.3258 9.50223L72.5528 2.94922Z"
+                          fill="#F6D31E"
+                          stroke="#F6D31E"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M102.174 2.94922L105.401 9.50223L112.618 10.5595L107.396 15.6575L108.628 22.8595L102.174 19.4574L95.7204 22.8595L96.9527 15.6575L91.731 10.5595L98.9474 9.50223L102.174 2.94922Z"
+                          fill="#F6D31E"
+                          stroke="#F6D31E"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M131.796 2.94922L135.023 9.50223L142.239 10.5595L137.017 15.6575L138.25 22.8595L131.796 19.4574L125.342 22.8595L126.574 15.6575L121.352 10.5595L128.569 9.50223L131.796 2.94922Z"
+                          fill="#F6D31E"
+                          stroke="#F6D31E"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </CardHeader>
+                    <CardBody className="overflow-visible py-1">
+                      <p className="text-center text-[16px] text-[#bdbdbd] leading-7">
+                        "{text}"
+                      </p>
+                    </CardBody>
+                  </Card>
+                </motion.div>
               );
             })}
           </div>
