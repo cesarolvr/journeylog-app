@@ -68,7 +68,7 @@ const RemindersCard = () => {
   return (
     <div
       ref={remindersRef}
-      className="flex cardItemParent justify-center items-center w-[100vw] my-4 md:my-20 flex-col md:flex-row"
+      className="flex cardItemParent justify-center items-center w-[100vw] my-8 md:my-20 flex-col md:flex-row"
     >
       <motion.div
         style={{
@@ -76,9 +76,9 @@ const RemindersCard = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "100vh",
           width: "100vw",
         }}
+        className="flex-col md:flex-row md:w-[100vh]"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
@@ -86,7 +86,7 @@ const RemindersCard = () => {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ amount: 1, once: true }}
-          className="text-[25px] w-[50%] flex justify-end flex-shrink-0 md:text-[30px] p-6 max-w-[70%] md:max-w-none text-center md:text-left"
+          className="text-[25px] w-[100%] md:w-[50%] flex justify-end flex-shrink-0 md:text-[30px] p-6 max-w-[70%] md:max-w-none text-center md:text-left"
         >
           <h3 className="md:w-[300px] md:pr-16">
             And setup reminders to keep you moving
@@ -94,7 +94,6 @@ const RemindersCard = () => {
         </motion.div>
         <motion.div
           style={{
-            width: "50%",
             height: "100%",
             transformStyle: "preserve-3d",
             perspective: 1200,
@@ -105,7 +104,7 @@ const RemindersCard = () => {
             rotateY,
             transition: "transform 0.1s linear" // Add transition for smooth easing
           }}
-          className="flex-shrink-0"
+          className="flex-shrink-0 w-[90%] md:w-[50%]"
           transition={{ velocity: 0 }}
         >
           <motion.div

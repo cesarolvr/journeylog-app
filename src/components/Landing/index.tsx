@@ -496,7 +496,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           <motion.div
             initial={{ opacity: 0, x: 200 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ amount: 0.5, once: true }}
+            viewport={{ amount: 0.1, once: true }}
             className="md:mx-12 md:mr-[-200px] max-w-[85%] md:max-w-none"
           >
             <Image
@@ -525,7 +525,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           <motion.div
             initial={{ opacity: 0, x: -200 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ amount: 0.5, once: true }}
+            viewport={{ amount: 0.1, once: true }}
           >
             <Image
               className="md:mx-12 md:ml-[-150px] max-w-[85%] md:max-w-none m-auto"
@@ -1112,7 +1112,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           whileInView={{ opacity: 1, y: 0, transition: { delay: 0.1 } }}
           viewport={{ amount: 1, once: true }}
         >
-          <div className="border-1 border-[#515151] w-[70%] max-w-[900px] rounded-3xl p-10">
+          <div className="border-1 border-[#515151] w-[85%] md:w-[70%] max-w-[900px] rounded-3xl p-10">
             <h4 className="font-bold text-[25px] text-left mb-4 text-[#ffffff]">
               How about upgrading to{" "}
               <span className="text-[#27DE55]">PRO for life</span>?
