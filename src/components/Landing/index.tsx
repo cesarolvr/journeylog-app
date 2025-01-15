@@ -923,7 +923,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 </Button>
               </div>
               <div className="proCard text-left relative overflow-hidden md:mt-[-100px] bg-[#343434] flex items-center justify-center rounded-[28px]">
-                <div className="relative z-50 w-[calc(100%-10px)] h-[calc(100%-10px)] bg-[#272727] p-10 pr-14 m-auto rounded-3xl">
+                <div className="relative z-50 w-[calc(100%-5px)] h-[calc(100%-5px)] bg-[#272727] p-10 pr-14 m-auto rounded-3xl">
                   <div className="absolute top-[15px] right-[15px] bg-[#27DE55] rounded-xl py-2 px-3 text-[black] font-black">
                     {isPro ? "Already subscribed" : "Most popular"}
                   </div>
@@ -1107,7 +1107,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
         </section>
         <section
           id="freepass"
-          className="items-center text-center mt-20 md:mt-24 md:my-[150px] w-[100%] m-auto flex justify-center"
+          className="items-center text-center mt-20 md:mt-24 md:my-[120px] w-[100%] m-auto flex justify-center"
         >
           <div className="border-1 border-[#515151] w-[70%] rounded-3xl p-10">
             <h4 className="font-bold text-[25px] text-left mb-4 text-[#ffffff]">
@@ -1132,7 +1132,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
         </section>
         <section
           id="faq"
-          className="justify-center items-center text-center mt-20 md:mt-24 md:my-[150px] w-[100%]"
+          className="justify-center items-center text-center mt-20 md:mt-6 md:my-[150px] w-[100%]"
         >
           <h3 className="text-[40px] font-black mb-8">FAQ</h3>
           <div className="w-[95%] md:max-w-[900px] flex items-center justify-center m-auto">
