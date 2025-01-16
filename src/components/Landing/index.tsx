@@ -479,13 +479,13 @@ const Landing = ({ user, subscriptionInfo }: any) => {
         </section>
         <section
           id="day-by-day"
-          className="flex justify-center items-center w-full my-4 md:my-20 flex-col md:flex-row"
+          className="flex justify-center items-center w-full my-4 sm:my-20 flex-col sm:flex-row"
         >
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 1, once: true }}
-            className="text-[25px] md:text-[30px] md:w-[320px] md:flex-shrink-0 md:ml-36 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
+            viewport={{ amount: 0.5, once: true }}
+            className="text-[25px] sm:text-[30px] sm:w-[320px] sm:shrink-0 sm:ml-36 p-6 max-w-[70%] text-center sm:text-left"
           >
             Day by day... <br />
             Baby steps... <br />
@@ -496,10 +496,10 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             initial={{ opacity: 0, x: 200 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ amount: 0.1, once: true }}
-            className="md:mx-12 md:mr-[-200px] w-full max-w-[85%] md:max-w-none"
+            className="sm:mx-12 sm:mr-[-200px] w-full sm:w-[50%] max-w-[85%] sm:max-w-none shrink-0"
           >
             <Image
-              className="w-full"
+              className="sm:max-w-none"
               src={Illustration5}
               width={800}
               alt="Logo"
@@ -508,18 +508,20 @@ const Landing = ({ user, subscriptionInfo }: any) => {
         </section>
         <section
           id="personalize"
-          className="inline-flex justify-center items-center w-full my-4 md:my-20 flex-col md:flex-row-reverse"
+          className="inline-flex justify-center items-center w-full my-4 sm:my-20 flex-col sm:flex-row-reverse"
         >
           <h3></h3>
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 0.5 }}
-            className="text-[25px] md:text-[30px] md:w-[270px] md:mx-12 p-6 max-w-[70%] md:max-w-none text-center md:text-left"
+            viewport={{ amount: 0.5, once: true }}
+            className="text-[25px] sm:text-[30px] sm:w-[30%] sm:mx-12 p-6 max-w-[70%] sm:max-w-none text-center sm:text-left"
           >
-            Personalize your experience and create multiple{" "}
-            <br className="hidden md:block" />
-            <span ref={personalizeText} className="text-[#39d353]"></span>
+            <div className="sm:max-w-[280px]">
+              Personalize your experience and create multiple{" "}
+              <br className="hidden sm:block" />
+              <span ref={personalizeText} className="text-[#39d353]"></span>
+            </div>
           </motion.h3>
           <motion.div
             initial={{ opacity: 0, x: -200 }}
@@ -527,7 +529,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             viewport={{ amount: 0.1, once: true }}
           >
             <Image
-              className="md:mx-12 md:ml-[-150px] max-w-[85%] md:max-w-none m-auto"
+              className="sm:mx-12 sm:ml-[-150px] max-w-[85%] sm:max-w-none m-auto"
               src={Illustration6}
               width={800}
               alt="Logo"
@@ -922,7 +924,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 </Button>
               </div>
               <div className="proCard text-left relative overflow-hidden md:mt-[-100px] bg-[#343434] flex items-center justify-center rounded-[28px]">
-                <div className="relative z-50 w-[calc(100%-5px)] md:h-[calc(100%-5px)] h-[calc(100%-50px)] bg-[#272727] p-10 pr-14 m-auto rounded-3xl">
+                <div className="relative z-50 w-[100%] h-[100%] border-4 border-[rgba(0,0,0,0)] bg-clip-padding md:h-[100%] bg-[#272727] p-10 pr-14 m-auto rounded-[28px]">
                   <div className="absolute top-[15px] right-[15px] bg-[#27DE55] rounded-xl py-2 px-3 text-[black] font-black">
                     {isPro ? "Already subscribed" : "Most popular"}
                   </div>
@@ -1112,18 +1114,18 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           viewport={{ amount: 1, once: true }}
         >
           <div className="border-1 border-[#515151] w-[85%] md:w-[70%] max-w-[900px] rounded-3xl p-10">
-            <h4 className="font-bold text-[25px] text-left mb-4 text-[#ffffff]">
+            <h4 className="font-bold text-[25px] px-16 md:p-0 text-center md:text-left mb-4 text-[#ffffff]">
               How about upgrading to{" "}
-              <span className="text-[#27DE55]">PRO for life</span>?
+              <span className="text-[#27DE55]">PRO for life?</span>
             </h4>
-            <div className="flex-col md:flex-row md:flex items-center justify-between text-[#848484]">
-              <p className="text-left md:max-w-[70%] pr-10 mb-7 shrink-0 md:mb-0">
+            <div className="flex-col md:flex-row md:flex items-center justify-center md:justify-between text-[#848484]">
+              <p className="text-center md:text-left md:max-w-[70%] md:pr-10 mb-7 shrink-0 md:mb-0">
                 Share how you built a new habit with Journeylog through photos,
                 videos, logs, or however you like! If our team loves it, you’ll
                 receive a lifetime PRO subscription.
               </p>
               <Link
-                className="bg-[#fff] text-[16px] shrink-0 flex p-4 rounded-3xl text-[#171717] font-black"
+                className="bg-[#fff] text-[16px] justify-center m-auto shrink-0 flex p-4 rounded-3xl text-[#171717] font-black"
                 href="mailto:contact@cesarolvr.com"
               >
                 Get PRO for life
