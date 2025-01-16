@@ -1114,7 +1114,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           viewport={{ amount: 0.3, once: true }}
         >
           <div className="border-1 border-[#515151] w-[85%] md:w-[70%] max-w-[900px] rounded-3xl p-10">
-            <h4 className="font-bold text-[25px] px-12 md:p-0 text-center md:text-left mb-4 text-[#ffffff]">
+            <h4 className="font-bold text-[25px] px-8 md:p-0 text-center md:text-left mb-4 text-[#ffffff]">
               How about upgrading to{" "}
               <span className="text-[#27DE55]">PRO for life?</span>
             </h4>
