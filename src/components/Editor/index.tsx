@@ -6,6 +6,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DateTime } from "luxon";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
+import * as motion from "motion/react-client";
 
 import { Reenie_Beanie, Nunito_Sans, Cutive_Mono } from "next/font/google";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
@@ -741,11 +742,16 @@ const Editor = ({
             <div className="w-full flex justify-center items-start">
               {!isLoading && (
                 <div className="flex flex-col w-full h-full justify-center md:pl-12">
-                  <h1
+                  <motion.h1
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.2,
+                    }}
                     className={`text-[20px] text-[#fff] mb-[20px] w-400px] max-w-full font-bold`}
                   >
                     Choose:
-                  </h1>
+                  </motion.h1>
                   <div className="w-full flex flex-wrap justify-start items-start max-w-[520px]">
                     {[
                       "🏋🏽 Workout on weekdays",
@@ -762,22 +768,42 @@ const Editor = ({
                       "🧹 Clean the house",
                       "💼 Work on side project",
                       "🛌 Get 8 hours of sleep",
-                    ].map((text) => (
-                      <button
-                      key={text}
-                      className="my-3 mr-2 text-lg bg-[#123718] text-[#fff] hover:bg-[#39d353] border-1 border-[#39d353] hover:text-[#171717] font-bold rounded-2xl py-2 px-6"
-                      onClick={(e) => handleCreateJourney(e, null)}
+                    ].map((text, index) => (
+                      <motion.button
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.1,
+                          delay: index / 15,
+                        }}
+                        key={text}
+                        className="my-3 mr-2 text-lg bg-[#123718] text-[#fff] hover:bg-[#39d353] border-1 border-[#39d353] hover:text-[#171717] font-bold rounded-2xl py-2 px-6"
+                        onClick={(e) => handleCreateJourney(e, null)}
                       >
-                      {text}
-                      </button>
+                        {text}
+                      </motion.button>
                     ))}
                   </div>
-                  <h2
+                  <motion.h2
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.2,
+                      delay: 0,
+                    }}
                     className={`text-[20px] text-[#ffffff] mt-10 mb-[20px] font-bold leading-[40px] w-[400px] max-w-full`}
                   >
                     Or create yours:
-                  </h2>
-                  <div className="flex items-center">
+                  </motion.h2>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.2,
+                      delay: 0.5,
+                    }}
+                    className="flex items-center"
+                  >
                     <input
                       type="email"
                       name="newjourney"
@@ -796,7 +822,7 @@ const Editor = ({
                       Create
                       <ChevronRight className="mr-[-10px]" />
                     </Button>
-                  </div>
+                  </motion.div>
                   <br />
                   <br />
                   <br />
