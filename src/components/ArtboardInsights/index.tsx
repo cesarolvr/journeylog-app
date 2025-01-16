@@ -1,6 +1,7 @@
 "use client";
 
-import { CircularProgress, Select, SelectItem } from "@nextui-org/react";
+import { CircularProgress } from "@nextui-org/react";
+import * as motion from "motion/react-client";
 import classNames from "classnames";
 import { Share, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -512,8 +513,16 @@ const ArtboardInsights = ({
         </div>
 
         <div className="">
-          <ul className="flex justify-start w-full overflow-scroll">
-            <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 pl-0 text-[#fff] ml-7">
+          <ul
+            key={isInsightsOpened}
+            className="flex justify-start w-full overflow-scroll"
+          >
+            <motion.li
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ amount: 0.5, once: true }}
+              className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 pl-0 text-[#fff] ml-7"
+            >
               <div className="text-5xl font-bold">
                 {typeof daysInARow === "number" ? (
                   String(daysInARow).padStart(daysInARow === 0 ? 1 : 2, "0")
@@ -524,8 +533,14 @@ const ArtboardInsights = ({
               <span>
                 {isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} in a row
               </span>
-            </li>
-            <li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]">
+            </motion.li>
+            <motion.li
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ amount: 0.5, once: true }}
+              transition={{ delay: 0.1 }}
+              className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]"
+            >
               <div className="text-5xl font-bold">
                 {typeof daysWithLogs === "number" ? (
                   isNaN(daysWithLogs) ? (
@@ -540,8 +555,14 @@ const ArtboardInsights = ({
               <span>
                 {isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} with logs
               </span>
-            </li>
-            <li className="flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]">
+            </motion.li>
+            <motion.li
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ amount: 0.5, once: true }}
+              transition={{ delay: 0.2 }}
+              className="flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]"
+            >
               <div className="text-5xl font-bold">
                 {frequency ? (
                   isNaN(daysFromTheBeginning) ? (
@@ -557,36 +578,30 @@ const ArtboardInsights = ({
                 {isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} since it
                 started
               </span>
-            </li>
+            </motion.li>
           </ul>
         </div>
         <div className="">
           <div className="flex justify-between mb-6 px-7 items-center">
             <p>Frequency</p>
-            {/* <Select
-              isDisabled={true}
-              items={[
-                {
-                  key: new Date().getFullYear(),
-                  label: new Date().getFullYear(),
-                },
-              ]}
-              placeholder={`${new Date().getFullYear()}`}
-              className="max-w-[100px] text-[18px]"
-            >
-              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
-            </Select> */}
           </div>
           <div className="w-full overflow-scroll pl-7 pr-8 mb-7">
             <div className="flex">
               {isInsightsOpened && !isLoading ? (
                 <>
-                  <div id="cal-heatmap" className="mr-6 flex-shrink-0"></div>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ amount: 0.5, once: true }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <div id="cal-heatmap" className="mr-6 flex-shrink-0"></div>
+                  </motion.div>
                   <div id="weekly-graph" className="mr-6 flex-shrink-0"></div>
                   <div className="w-[50px] h-[270px] flex-shrink-0"></div>
                 </>
               ) : (
-                <div className="flex items-center bg-[#2b2b2b] h-[200px] w-full justify-center rounded-3xl">
+                <div className="flex items-center bg-[#2b2b2b] h-[270px] w-full justify-center rounded-3xl">
                   <CircularProgress aria-label="Loading..." />
                 </div>
               )}
