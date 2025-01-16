@@ -508,7 +508,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
         </section>
         <section
           id="personalize"
-          className="inline-flex justify-center items-center w-full my-4 sm:my-20 flex-col sm:flex-row-reverse"
+          className="inline-flex justify-center items-center w-full my-4 sm:my-20 md:mb-5 flex-col sm:flex-row-reverse"
         >
           <h3></h3>
           <motion.h3
@@ -541,10 +541,9 @@ const Landing = ({ user, subscriptionInfo }: any) => {
         </section>
         <section
           id="insights"
-          className="inline-flex flex-col md:flex-row justify-center items-center text-center w-full my-12 md:my-20"
+          className="inline-flex flex-col md:flex-row justify-center items-center text-center w-full my-12 md:my-20 md:mt-0"
         >
           <motion.h3
-            id="insights"
             className="text-[25px] mb-10 md:mb-0 md:text-[30px] mx-12 max-w-[300px] md:text-left"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -554,7 +553,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           </motion.h3>
           <div className="flex flex-col md:flex-row justify-center items-center">
             <motion.span
-              id="insights"
               className="flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 pl-0 text-[#fff] ml-7 mr-2"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0, transition: { delay: 0.1 } }}
@@ -566,7 +564,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               <span className="text-[20px]">Days in a row</span>
             </motion.span>
             <motion.span
-              id="insights"
               className="flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 text-[#5C5C5C]"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0, transition: { delay: 0.2 } }}
@@ -576,7 +573,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               <span className="text-[20px]">Days with logs</span>
             </motion.span>
             <motion.span
-              id="insights"
               className="flex justify-center items-center flex-shrink-0 flex-col p-4 md:py-8 text-[#5C5C5C]"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0, transition: { delay: 0.3 } }}

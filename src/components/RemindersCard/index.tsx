@@ -68,7 +68,7 @@ const RemindersCard = () => {
   return (
     <div
       ref={remindersRef}
-      className="flex cardItemParent justify-center items-center w-[100vw] my-8 md:my-20 flex-col md:flex-row"
+      className="flex cardItemParent justify-center items-center w-[100vw] my-8 md:my-0 flex-col md:flex-row"
     >
       <motion.div
         style={{
@@ -78,7 +78,7 @@ const RemindersCard = () => {
           alignItems: "center",
           width: "100vw",
         }}
-        className="flex-col md:flex-row md:w-[100vh]"
+        className="flex-col md:flex-row md:w-[100vh] md:h-[100vh]"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
