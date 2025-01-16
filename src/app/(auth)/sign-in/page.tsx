@@ -18,6 +18,8 @@ const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 import "./auth.scss";
 import { ChevronLeft } from "lucide-react";
 
+import * as motion from "motion/react-client";
+
 const SignIn = () => {
   const supabaseClient = useSupabaseClient();
   const { session } = useSessionContext();
@@ -31,15 +33,27 @@ const SignIn = () => {
   }, [session, router]);
 
   return (
-    <div className="p-8 flex justify-center items-center w-[100svw] h-[100svh] bg-[#171717]">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      className="p-8 flex justify-center items-center w-[100svw] h-[100svh] bg-[#171717]"
+    >
       <Link className="fixed top-[30px] left-[30px] flex" href="/">
         <ChevronLeft />
         Home
       </Link>
       <div className="w-[300px] max-w-[80%] auth flex items-center">
-        <h1 className={`text-white ${reenie.className} text-[45px] md:text-[60px] md:mb-3 flex`}>
+        <h1
+          className={`text-white ${reenie.className} text-[45px] md:text-[60px] md:mb-3 flex`}
+        >
           Journeylog
-          <Image src={LOGO} alt="" className="mt-[-30px] md:mt-[-40px] w-[30px] md:w-[60px] ml-3" />
+          <Image
+            src={LOGO}
+            alt=""
+            className="mt-[-30px] md:mt-[-40px] w-[30px] md:w-[60px] ml-3"
+          />
         </h1>
         <Auth
           supabaseClient={supabaseClient}
@@ -82,7 +96,7 @@ const SignIn = () => {
           }}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
