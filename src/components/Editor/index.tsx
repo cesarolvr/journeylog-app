@@ -359,8 +359,6 @@ const Editor = ({
 
     setIsLoading(false);
 
-    console.log({ dateStringStart, dateStringEnd });
-
     getPreviews(dateStringStart, dateStringEnd, activeTab, {
       forceUpdate: true,
     });
