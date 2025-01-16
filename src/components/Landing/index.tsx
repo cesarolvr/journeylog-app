@@ -400,7 +400,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             Log your activities through simple notes
           </motion.h3>
           <FirstIllustration />
-          {/* <Image src={Illustration1} className="mx-12" width={358} alt="Logo" /> */}
         </section>
         <section
           id="check"
@@ -449,7 +448,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ amount: 1, once: true }}
-              className="text-[#787878]"
+              className="text-[#787878] text-center md:text-left inline-block"
             >
               To know more about the Journeylog's purpose,{" "}
               <Link className="text-[#27DE55] underline" href="/purpose">
@@ -471,7 +470,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               {View}
             </div>
             <Image
-              className="md:mx-12"
+              className="max-w-[85%] m-auto"
               src={Illustration4}
               width={358}
               alt="Logo"
@@ -497,10 +496,10 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             initial={{ opacity: 0, x: 200 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ amount: 0.1, once: true }}
-            className="md:mx-12 md:mr-[-200px] max-w-[85%] md:max-w-none"
+            className="md:mx-12 md:mr-[-200px] w-full max-w-[85%] md:max-w-none"
           >
             <Image
-              className="max-w-[85%] md:max-w-none"
+              className="w-full"
               src={Illustration5}
               width={800}
               alt="Logo"
@@ -623,7 +622,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ amount: 0.5, once: false }}
+                  viewport={{ amount: 0.5, once: true }}
                   transition={{
                     duration: 0.2,
                     delay: index / 6,
@@ -923,7 +922,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 </Button>
               </div>
               <div className="proCard text-left relative overflow-hidden md:mt-[-100px] bg-[#343434] flex items-center justify-center rounded-[28px]">
-                <div className="relative z-50 w-[calc(100%-5px)] md:h-[calc(100%-5px)] h-[calc(100%-10px)] bg-[#272727] p-10 pr-14 m-auto rounded-3xl">
+                <div className="relative z-50 w-[calc(100%-5px)] md:h-[calc(100%-5px)] h-[calc(100%-50px)] bg-[#272727] p-10 pr-14 m-auto rounded-3xl">
                   <div className="absolute top-[15px] right-[15px] bg-[#27DE55] rounded-xl py-2 px-3 text-[black] font-black">
                     {isPro ? "Already subscribed" : "Most popular"}
                   </div>

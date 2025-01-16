@@ -88,7 +88,7 @@ const RemindersCard = () => {
           viewport={{ amount: 1, once: true }}
           className="text-[25px] w-[100%] md:w-[50%] flex justify-end flex-shrink-0 md:text-[30px] p-6 max-w-[70%] md:max-w-none text-center md:text-left"
         >
-          <h3 className="md:w-[300px] md:pr-16">
+          <h3 className="md:w-[300px] md:pr-16 mb-4 md:mb-0">
             And setup reminders to keep you moving
           </h3>
         </motion.div>
@@ -102,14 +102,12 @@ const RemindersCard = () => {
             alignItems: "center",
             rotateX,
             rotateY,
-            transition: "transform 0.1s linear" // Add transition for smooth easing
+            transition: "transform 0.1s linear", // Add transition for smooth easing
           }}
           className="flex-shrink-0 w-[90%] md:w-[50%]"
           transition={{ velocity: 0 }}
         >
-          <motion.div
-            className="bg-[#1B1B1B] w-[400px] cardItem px-11 py-14 rounded-[60px]"
-          >
+          <motion.div className="bg-[#1B1B1B] w-[400px] max-w-[90%] cardItem px-7 md:px-11 py-14 m-auto rounded-[60px]">
             <p className="mb-8">Notifications</p>
             <div className="flex mb-8 items-start justify-between">
               <div className="flex">

@@ -46,11 +46,11 @@ const FirstIllustration = () => {
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ amount: 1, once: true }}
-      className={`mx-12 !w-[388px] !h-[450px] bg-[#1b1b1b] editor-container lp !p-10 !rounded-[50px]`}
+      className={`mx-12 !w-[388px] !h-[450px] max-w-[85%] bg-[#1b1b1b] editor-container lp !p-8 md:!p-10 !rounded-[50px]`}
     >
       <ul
         ref={refList}
-        className={`${reenie.className} text-[45px] h-full leading-[40px] !pl-0`}
+        className={`${reenie.className} text-[40px] md:text-[45px] h-full leading-[40px] !pl-0`}
       ></ul>
     </motion.div>
   );

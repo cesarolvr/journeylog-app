@@ -45,7 +45,7 @@ const ThirdIllustration = () => {
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ amount: 1, once: true }}
-      className={`mx-12 !w-[378px] !h-auto bg-[#1b1b1b] !flex !justify-center editor-container !p-8 !rounded-[50px]`}
+      className={`mx-12 !w-[378px] !h-auto max-w-[85%] bg-[#1b1b1b] !flex !justify-center editor-container !p-8 !rounded-[50px]`}
     >
       <motion.h2
         initial={{ opacity: 0 }}

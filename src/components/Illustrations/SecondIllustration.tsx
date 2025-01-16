@@ -61,9 +61,9 @@ const SecondIllustration = () => {
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ amount: 1, once: true }}
-        className={`mx-12 !w-[378px] !h-[400px] bg-[#1b1b1b] !flex !justify-center editor-container !p-5 !rounded-[50px]`}
+        className={`mx-12 !w-[378px] !h-[350px] md:!h-[400px] bg-[#1b1b1b] max-w-[85%] !flex !justify-center editor-container !p-5 !rounded-[50px]`}
       >
-        <ul className={`${reenie.className} text-[50px] leading-[70px] !pl-4`}>
+        <ul className={`${reenie.className} text-[40px] md:text-[50px] leading-[70px] !pl-4`}>
           {options.map((option, index) => (
             <li
               key={option.id}
