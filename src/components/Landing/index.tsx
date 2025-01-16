@@ -10,7 +10,6 @@ import Logo from "../../images/logoFull.svg";
 import Illustration4 from "../../images/illustrations/4.svg";
 import Illustration5 from "../../images/illustrations/5.svg";
 import Illustration6 from "../../images/illustrations/6.svg";
-import Illustration7 from "../../images/illustrations/7.svg";
 
 import { useLottie } from "lottie-react";
 import { useInView } from "react-intersection-observer";
@@ -28,18 +27,9 @@ import {
   CardBody,
   CardHeader,
   CircularProgress,
-  Select,
-  SelectItem,
-  Switch,
   Textarea,
 } from "@nextui-org/react";
-import {
-  Bell,
-  ChevronDown,
-  ChevronRight,
-  Clock9,
-  MessageCircleQuestion,
-} from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 import Footer from "../Footer";
@@ -49,7 +39,6 @@ import { useScroll, useTransform } from "framer-motion";
 import FirstIllustration from "../Illustrations/FirstIllustration";
 import SecondIllustration from "../Illustrations/SecondIllustration";
 import ThirdIllustration from "../Illustrations/ThirdIllustration";
-import { whatTime, where } from "../ArtboardOptions";
 import RemindersCard from "../RemindersCard";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
@@ -105,9 +94,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
   const isPro = subscription === "habit_creator";
 
   const casesRef = useRef(null);
-  const { scrollYProgress, scrollY } = useScroll({
-    // container: casesRef
-  });
+  const { scrollYProgress, scrollY } = useScroll();
 
   const translateFirstLine = useTransform(scrollYProgress, [0, 1], [-800, 500]);
   const translateSecondLine = useTransform(
@@ -192,6 +179,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
 
   const [whatTimeOpened, setWhatTimeOpened] = useState(false);
   const [alertMeOnOpened, setAlertMeOnOpened] = useState(false);
+
   useEffect(() => {
     if (remindersRefInView) {
       setTimeout(() => {

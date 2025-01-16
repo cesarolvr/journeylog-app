@@ -1,10 +1,10 @@
 // Providers
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import NextUIProvider from "@/providers/NextUIProvider";
-import { Nunito_Sans } from "next/font/google";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { Bounce, ToastContainer } from "react-toastify";
 
+import { Nunito_Sans } from "next/font/google";
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "900"] });
 
 // Styles

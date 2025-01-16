@@ -320,8 +320,8 @@ const Editor = ({
     const index = idSelected - 1;
     const activeTab: any =
       journeyTabs.length === 1 ? journeyTabs[0] : journeyTabs[index];
-    
-      setNotification(null);
+
+    setNotification(null);
 
     const { data: updatedJourney } = await supabaseClient
       .from("journey")
@@ -740,77 +740,49 @@ const Editor = ({
           ) : (
             <div className="w-full flex justify-center items-start">
               {!isLoading && (
-                <div className="flex flex-col w-full h-full justify-center md:pl-16">
+                <div className="flex flex-col w-full h-full justify-center md:pl-12">
                   <h1
-                    className={`${font.class} text-[40px] text-[#969696] mb-[20px] leading-[40px] w-[400px] max-w-full`}
+                    className={`text-[20px] text-[#fff] mb-[20px] w-400px] max-w-full font-bold`}
                   >
-                    Start by creating your new habit journey
+                    Choose:
                   </h1>
-                  <p className={`text-[16px] text-[#454545] mb-[10px]`}>
-                    Something like:
-                  </p>
-                  <div className="w-full flex flex-wrap justify-start items-start max-w-[470px]">
-                    <Button
-                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
-                      variant="bordered"
+                  <div className="w-full flex flex-wrap justify-start items-start max-w-[520px]">
+                    {[
+                      "🏋🏽 Workout on weekdays",
+                      "👩🏽‍🦳 Call mom everyday",
+                      "🚰 Drink water",
+                      "🗣️ To learn a new language",
+                      "🧘🏽 Daily meditation",
+                      "🍏 Eat fruits",
+                      "📚 To read consistently",
+                      "🏃‍♂️ Run every morning",
+                      "🎨 Practice drawing",
+                      "🎸 Learn guitar",
+                      "🥗 Eat healthy meals",
+                      "🧹 Clean the house",
+                      "💼 Work on side project",
+                      "🛌 Get 8 hours of sleep",
+                    ].map((text) => (
+                      <button
+                      key={text}
+                      className="my-3 mr-2 text-lg bg-[#123718] text-[#fff] hover:bg-[#39d353] border-1 border-[#39d353] hover:text-[#171717] font-bold rounded-2xl py-2 px-6"
                       onClick={(e) => handleCreateJourney(e, null)}
-                    >
-                      🏋🏽 Workout on weekdays
-                    </Button>
-                    <Button
-                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
-                      variant="bordered"
-                      onClick={(e) => handleCreateJourney(e, null)}
-                    >
-                      👩🏽‍🦳 Call mom everyday
-                    </Button>
-                    <Button
-                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
-                      variant="bordered"
-                      onClick={(e) => handleCreateJourney(e, null)}
-                    >
-                      🚰 Drink water
-                    </Button>
-                    <Button
-                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
-                      variant="bordered"
-                      onClick={(e) => handleCreateJourney(e, null)}
-                    >
-                      🗣️ To learn a new language
-                    </Button>
-                    <Button
-                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
-                      variant="bordered"
-                      onClick={(e) => handleCreateJourney(e, null)}
-                    >
-                      🧘🏽 Daily meditation
-                    </Button>
-                    <Button
-                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
-                      variant="bordered"
-                      onClick={(e) => handleCreateJourney(e, null)}
-                    >
-                      🍏 Eat fruits
-                    </Button>
-                    <Button
-                      className="my-3 mr-2 text-[#6a6a6a] border-[#454545] text-lg"
-                      variant="bordered"
-                      onClick={(e) => handleCreateJourney(e, null)}
-                    >
-                      📚 To read consistently
-                    </Button>
+                      >
+                      {text}
+                      </button>
+                    ))}
                   </div>
-                  <p
-                    className={`text-[16px] text-[#454545] my-[30px] mb-5 mt-2`}
+                  <h2
+                    className={`text-[20px] text-[#ffffff] mt-10 mb-[20px] font-bold leading-[40px] w-[400px] max-w-full`}
                   >
                     Or create yours:
-                  </p>
+                  </h2>
                   <div className="flex items-center">
-                    <Input
+                    <input
                       type="email"
+                      name="newjourney"
                       placeholder="🚀  New Journey"
-                      size="lg"
-                      className="w-[200px] mr-3"
+                      className="mr-3 px-5 outline-none w-[300px] text-[#fff] placeholder:text-[#fff] text-left placeholder:opacity-50 h-[70px] border-2 border-[#fff] rounded-2xl text-[20px]"
                       onChange={handleJourneyName}
                     />
                     <Button
@@ -819,7 +791,7 @@ const Editor = ({
                       onClick={() => {
                         handleCreateJourney(journeyName, "input");
                       }}
-                      className="h-[48px] font-black text-lg bg-[#39D353] border-[#39D353] text-[black] px-6 disabled:bg-[#343434] disabled:text-[#5f5f5f] disabled:border-[#343434]"
+                      className="h-[70px] rounded-2xl font-black text-[20px] bg-[#fff] border-[#fff] text-[black] px-6 disabled:bg-[#626262] disabled:text-[#d0d0d0] disabled:border-[#626262]"
                     >
                       Create
                       <ChevronRight className="mr-[-10px]" />
