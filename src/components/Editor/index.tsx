@@ -777,7 +777,7 @@ const Editor = ({
                           delay: index / 15,
                         }}
                         key={text}
-                        className="my-3 mr-2 text-lg bg-[#123718] text-[#fff] hover:bg-[#39d353] border-1 border-[#39d353] hover:text-[#171717] font-bold rounded-2xl py-2 px-6"
+                        className="my-3 mr-2 text-lg bg-[#484848] text-[#fff] hover:bg-[#39d353] hover:text-[#171717] font-bold rounded-2xl py-2 px-6"
                         onClick={(e) => handleCreateJourney(e, null)}
                       >
                         {text}
@@ -789,7 +789,7 @@ const Editor = ({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
                       duration: 0.2,
-                      delay: 0,
+                      delay: 0.5,
                     }}
                     className={`text-[20px] text-[#ffffff] mt-10 mb-[20px] font-bold leading-[40px] w-[400px] max-w-full`}
                   >
@@ -808,7 +808,7 @@ const Editor = ({
                       type="email"
                       name="newjourney"
                       placeholder="🚀  New Journey"
-                      className="mr-3 px-5 outline-none w-[300px] text-[#fff] placeholder:text-[#fff] text-left placeholder:opacity-50 h-[70px] border-2 border-[#fff] rounded-2xl text-[20px]"
+                      className="mr-3 px-5 outline-none w-[300px] text-[#fff] placeholder:text-[#fff] text-left placeholder:opacity-50 h-[70px] border-2 border-[#39d353] rounded-2xl text-[20px]"
                       onChange={handleJourneyName}
                     />
                     <Button
@@ -817,7 +817,7 @@ const Editor = ({
                       onClick={() => {
                         handleCreateJourney(journeyName, "input");
                       }}
-                      className="h-[70px] rounded-2xl font-black text-[20px] bg-[#fff] border-[#fff] text-[black] px-6 disabled:bg-[#626262] disabled:text-[#d0d0d0] disabled:border-[#626262]"
+                      className="h-[70px] rounded-2xl font-black text-[20px] bg-[#39d353] border-[#39d353] text-[black] px-6 disabled:bg-[#626262] disabled:text-[#d0d0d0] disabled:border-[#626262]"
                     >
                       Create
                       <ChevronRight className="mr-[-10px]" />
