@@ -64,6 +64,8 @@ const Editor = ({
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
     useState(false);
 
+  const [isChangingTabs, setIsChangingTabs]: any = useState(false);
+
   const { subscription } = subscriptionInfo;
   const isPro = subscription === "habit_creator";
 
@@ -322,7 +324,10 @@ const Editor = ({
     const activeTab: any =
       journeyTabs.length === 1 ? journeyTabs[0] : journeyTabs[index];
 
+    setActiveTab(null);
     setNotification(null);
+    setIsChangingTabs(true);
+    setIsReadyToRenderArtboard(false);
 
     const { data: updatedJourney } = await supabaseClient
       .from("journey")
@@ -349,10 +354,12 @@ const Editor = ({
       setActiveLog(res);
     }
 
-    const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
-    const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+    const dateStringEnd = DateTime.now().toUTC().toISODate();
+    const dateStringStart = DateTime.now().minus({ month: 1 }).toUTC().toISODate();
 
     setIsLoading(false);
+
+    console.log({ dateStringStart, dateStringEnd });
 
     getPreviews(dateStringStart, dateStringEnd, activeTab, {
       forceUpdate: true,
@@ -364,6 +371,8 @@ const Editor = ({
       .eq("journey_id", activeTab.id);
 
     setNotification(notification[0]);
+    setIsReadyToRenderArtboard(true);
+    setIsChangingTabs(false);
   };
 
   const handleCreateJourney = debounce(async (e: any, type: any) => {
@@ -719,26 +728,13 @@ const Editor = ({
               />
             )}
           {isReadyToRenderArtboard && journeyTabs && journeyTabs?.length > 0 ? (
-            <>
-              {true ? (
-                <Artboard
-                  id={1}
-                  initialState={activeLog?.content}
-                  setContent={handleContentEdit}
-                  font={font}
-                />
-              ) : (
-                <>
-                  <Artboard
-                    id={2}
-                    initialState={EMPTY_STATE}
-                    setContent={handleContentEdit}
-                    font={font}
-                  />
-                </>
-              )}
-            </>
-          ) : (
+            <Artboard
+              id={1}
+              initialState={activeLog?.content}
+              setContent={handleContentEdit}
+              font={font}
+            />
+          ) : isChangingTabs ? null : (
             <div className="w-full flex justify-center items-start">
               {!isLoading && (
                 <div className="flex flex-col w-full h-full justify-center md:pl-12">

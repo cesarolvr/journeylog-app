@@ -248,7 +248,6 @@ const Sidebar = ({
         today.getFullYear()
       );
 
-      console.log('bbb', {currentMonth})
       setDays(currentMonth);
     };
 
