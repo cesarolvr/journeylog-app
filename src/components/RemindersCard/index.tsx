@@ -142,6 +142,7 @@ const RemindersCard = () => {
                 defaultSelectedKeys={[`0-key`]}
                 color="default"
                 isOpen={whatTimeOpened}
+                autoFocus={false}
                 className="max-w-[100px] select text-[11px]"
               >
                 {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
