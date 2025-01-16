@@ -828,7 +828,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           id="pricing"
           className="justify-center items-center text-center md:w-[80%] m-auto md:px-10"
         >
-          <h3 className="text-[40px] font-black mb-10 md:mb-36">Pricing</h3>
+          <h3 className="text-[40px] font-black mb-6 md:mb-36">Pricing</h3>
           <div className="flex items-center justify-center w-full">
             <div className="cards flex md:bg-[#1B1B1B] rounded-3xl w-full max-w-[900px] p-10 lg:flex-row flex-col-reverse">
               <div className="text-left p-10 pr-14 mb-10 md:mb-0">
@@ -1108,13 +1108,13 @@ const Landing = ({ user, subscriptionInfo }: any) => {
         </section>
         <motion.section
           id="freepass"
-          className="items-center text-center mt-20 md:mt-24 md:my-[120px] w-[100%] m-auto flex justify-center"
+          className="items-center text-center mt-0 md:mt-24 md:my-[120px] w-[100%] m-auto flex justify-center"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0, transition: { delay: 0.1 } }}
-          viewport={{ amount: 1, once: true }}
+          viewport={{ amount: 0.3, once: true }}
         >
           <div className="border-1 border-[#515151] w-[85%] md:w-[70%] max-w-[900px] rounded-3xl p-10">
-            <h4 className="font-bold text-[25px] px-16 md:p-0 text-center md:text-left mb-4 text-[#ffffff]">
+            <h4 className="font-bold text-[25px] px-12 md:p-0 text-center md:text-left mb-4 text-[#ffffff]">
               How about upgrading to{" "}
               <span className="text-[#27DE55]">PRO for life?</span>
             </h4>
