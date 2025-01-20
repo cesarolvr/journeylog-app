@@ -107,7 +107,7 @@ const RemindersCard = () => {
           className="flex-shrink-0 w-[90%] md:w-[50%]"
           transition={{ velocity: 0 }}
         >
-          <motion.div className="bg-[#1B1B1B] w-[400px] max-w-[90%] cardItem px-7 md:px-11 py-14 m-auto md:m-0 rounded-[60px]">
+          <motion.div className="bg-[#1B1B1B] w-[400px] max-w-[90%] cardItem px-7 md:px-11 py-14 m-auto md:m-0 rounded-[40px]">
             <p className="mb-8">Notifications</p>
             <div className="flex mb-8 items-start justify-between">
               <div className="flex">

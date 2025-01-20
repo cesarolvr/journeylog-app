@@ -498,16 +498,15 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           id="personalize"
           className="inline-flex justify-center items-center w-full my-4 sm:my-20 md:mb-5 flex-col sm:flex-row-reverse"
         >
-          <h3></h3>
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ amount: 0.5, once: true }}
-            className="text-[25px] sm:text-[30px] sm:w-[30%] sm:mx-12 p-6 max-w-[70%] sm:max-w-none text-center sm:text-left"
+            className="text-[25px] sm:text-[30px] sm:w-[30%] sm:mx-12 py-6 sm:p-6 max-w-[80%] sm:max-w-none text-center sm:text-left"
           >
-            <div className="sm:max-w-[280px]">
+            <div className="sm:max-w-[280px] mb-4 sm:mb-0">
               Personalize your experience and create multiple{" "}
-              <br className="hidden sm:block" />
+              <br className="md:hidden" />
               <span ref={personalizeText} className="text-[#39d353]"></span>
             </div>
           </motion.h3>
