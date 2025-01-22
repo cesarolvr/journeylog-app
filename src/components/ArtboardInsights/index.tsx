@@ -617,7 +617,10 @@ const ArtboardInsights = ({
           </div>
           {isPro ? (
             <div className="w-full mb-16 px-7 relative">
-              <ul className="flex w-full gap-1 justify-between relative overflow-visible">
+              <ul
+                className="flex w-full gap-1 justify-between relative overflow-visible"
+                key={isInsightsOpened}
+              >
                 {lastDatesFormatted.map(
                   ({ value, date, ...item }: any, index: any) => {
                     const label = isDaily
@@ -640,17 +643,33 @@ const ArtboardInsights = ({
                             <p>{label}</p>
                           )}
                         </span>
-                        <span
-                          className={classNames(
-                            "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full rounded-lg",
-                            {
-                              "opacity-0": !value,
-                              "opacity-25": value && value > 0,
-                              "opacity-50": value && value > 4,
-                              "opacity-75": value && value > 10,
-                            }
-                          )}
-                        ></span>
+                        {value === 0 ? (
+                          <span
+                            className={classNames(
+                              "bg-[#27DE55] absolute w-full bottom-0 opacity-0 left-0 right-0 h-full rounded-lg"
+                            )}
+                          ></span>
+                        ) : (
+                          <motion.span
+                            initial={{ opacity: 0 }}
+                            whileInView={{
+                              opacity: value
+                                ? value > 10
+                                  ? 0.75
+                                  : value > 4
+                                  ? 0.5
+                                  : value > 0
+                                  ? 0.25
+                                  : 0
+                                : 0,
+                            }}
+                            viewport={{ amount: 1, once: true }}
+                            transition={{ delay: (daysWithLogs * index) / 200 }}
+                            className={classNames(
+                              "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full rounded-lg"
+                            )}
+                          ></motion.span>
+                        )}
                       </li>
                     );
                   }
@@ -854,7 +873,7 @@ const ArtboardInsights = ({
             </div>
             <div className="w-full mb-7 relative">
               {isPro ? (
-                <ul className="flex w-full justify-between relative gap-2 px-7">
+                <ul className="flex w-full justify-between relative gap-2 px-7" key={isInsightsOpened}>
                   {lastSevenDaysFormatted.map(({ value, date }, index) => {
                     const dayFormatted = new Date(date as any)?.getDate();
 
@@ -866,19 +885,36 @@ const ArtboardInsights = ({
                         <span className="absolute top-[10px] left-0 right-0 w-full text-center opacity-40">
                           {dayFormatted}
                         </span>
-                        <div
+                        <motion.div
+                          initial={{ height: 0 }}
+                          whileInView={{
+                            height: value
+                              ? value > 15
+                                ? "100%"
+                                : value > 10
+                                ? "75%"
+                                : value > 5
+                                ? "50%"
+                                : value > 0
+                                ? "25%"
+                                : "0%"
+                              : "0%",
+                          }}
+                          viewport={{ amount: 1, once: true }}
+                          transition={{ delay: index / 5 }}
                           className={classNames(
-                            "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 rounded-lg",
-                            {
-                              "h-0": !value,
-                              "h-1/4": value && value > 0,
-                              "h-2/4": value && value > 5,
-                              "h-3/4": value && value > 10,
-                              "h-4/4": value && value > 15,
-                            }
+                            "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 rounded-lg"
                           )}
                         >
-                          <span className="absolute top-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center">
+                          <motion.span
+                            initial={{ opacity: 0 }}
+                            whileInView={{
+                              opacity: 1,
+                            }}
+                            viewport={{ amount: 1, once: true }}
+                            transition={{ delay: index / 5 }}
+                            className="absolute top-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center"
+                          >
                             {value ? (
                               value > 15 ? (
                                 <>🚀</>
@@ -894,8 +930,8 @@ const ArtboardInsights = ({
                             ) : (
                               <div className="mt-[-43px]">👎🏽</div>
                             )}
-                          </span>
-                        </div>
+                          </motion.span>
+                        </motion.div>
                       </li>
                     );
                   })}

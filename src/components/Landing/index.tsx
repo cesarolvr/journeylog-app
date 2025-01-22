@@ -40,6 +40,7 @@ import FirstIllustration from "../Illustrations/FirstIllustration";
 import SecondIllustration from "../Illustrations/SecondIllustration";
 import ThirdIllustration from "../Illustrations/ThirdIllustration";
 import RemindersCard from "../RemindersCard";
+import AnimatedLoader from "../AnimatedLoader";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
@@ -242,7 +243,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 <Button
                   className={`border-[#39D353] text-[#39D353] font-black pr-2 md:max-w-[150px] max-w-[140px]`}
                   variant="bordered"
-                  onClick={(f) => {
+                  onPress={(f) => {
                     router.push("/app");
                   }}
                 >
@@ -256,7 +257,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 <Button
                   className={`bg-[#39D353] font-black text-[black]`}
                   variant="solid"
-                  onClick={(f) => {
+                  onPress={(f) => {
                     router.push("/sign-in");
                   }}
                 >
@@ -312,7 +313,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 className="border-[#39D353] text-[#39D353] font-black"
                 variant="bordered"
                 size="lg"
-                onClick={(f) => {
+                onPress={(f) => {
+
                   router.push("/purpose");
                 }}
               >
@@ -332,7 +334,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   className=" ml-5 bg-[#39D353] text-black font-black"
                   variant="solid"
                   size="lg"
-                  onClick={(f) => {
+                  onPress={(f) => {
                     router.push("/app");
                   }}
                 >
@@ -353,7 +355,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   className=" ml-5 bg-[#39D353] text-black font-black"
                   variant="solid"
                   size="lg"
-                  onClick={(f) => {
+                  onPress={(f) => {
                     router.push("/sign-in");
                   }}
                 >
@@ -506,7 +508,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           >
             <div className="sm:max-w-[280px] mb-4 sm:mb-0">
               Personalize your experience and create multiple{" "}
-              <br className="md:hidden" />
+              <br />
               <span ref={personalizeText} className="text-[#39d353]"></span>
             </div>
           </motion.h3>
@@ -613,9 +615,10 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     delay: index / 6,
                   }}
                   className="w-[370px] max-w-[80%] md:max-w-none"
+                  key={index}
                 >
                   <Card
-                    key={index}
+                  
                     className="py-8 px-2 rounded-[40px] bg-[#2C2C2C] md:mx-3 mb-20 overflow-visible"
                   >
                     <CardHeader className="pb-0 pt-2 px-4 flex-col items-center justify-center ">
@@ -893,7 +896,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   className="bg-white text-[20px] w-full px-16 text-black font-black"
                   variant="solid"
                   size="lg"
-                  onClick={(f) => {
+                  onPress={(f) => {
                     handleChoosePlan(user?.id, "free");
                     // router.push(!!user ? "/app" : "/sign-in");
                   }}
@@ -1067,7 +1070,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     className="bg-[#39D353] text-[20px] w-full px-16 text-black font-black"
                     variant="solid"
                     size="lg"
-                    onClick={() => {
+                    onPress={() => {
                       if (!!user && subscription === "habit_creator") {
                         router.push("/app");
                       } else if (!!user) {
@@ -1205,7 +1208,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               variant="solid"
               isDisabled={isLoading || formContent?.length < 5}
               size="lg"
-              onClick={submitForm}
+              onPress={submitForm}
             >
               {isLoading ? (
                 <CircularProgress

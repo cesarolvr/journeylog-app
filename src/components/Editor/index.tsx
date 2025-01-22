@@ -808,7 +808,7 @@ const Editor = ({
                     <Button
                       isDisabled={!!journeyName ? false : true}
                       variant="bordered"
-                      onClick={() => {
+                      onPress={() => {
                         handleCreateJourney(journeyName, "input");
                       }}
                       className="h-[70px] rounded-2xl font-black text-[20px] bg-[#39d353] border-[#39d353] text-[black] px-6 disabled:bg-[#626262] disabled:text-[#d0d0d0] disabled:border-[#626262]"

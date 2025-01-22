@@ -172,7 +172,7 @@ const ProfileModal = ({
           <Button
             variant="solid"
             className="bg-[white] text-[black] font-black mt-3"
-            onClick={save}
+            onPress={save}
           >
             {isLoading ? (
               <CircularProgress className="mb-2" aria-label="Loading..." />
@@ -238,7 +238,7 @@ const ProfileModal = ({
               )}
 
               {isValidCode && (
-                <Button color="default" onClick={verifyCode} variant="bordered">
+                <Button color="default" onPress={verifyCode} variant="bordered">
                   Confirm code
                 </Button>
               )}
@@ -365,7 +365,7 @@ const ProfileModal = ({
                   className="bg-white opacity-50 text-[20px] w-full px-16 text-black font-black"
                   variant="solid"
                   size="lg"
-                  onClick={() => {
+                  onPress={() => {
                     handleChoosePlan(user?.id, "free");
                   }}
                 >
@@ -509,7 +509,7 @@ const ProfileModal = ({
                   className="bg-[#39D353] text-[20px] w-full px-16 text-black font-black"
                   variant="solid"
                   size="lg"
-                  onClick={() => {
+                  onPress={() => {
                     if (!isPro) {
                       handleChoosePlan(user?.id, "pro");
                     }

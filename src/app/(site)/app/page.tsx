@@ -16,6 +16,7 @@ import ProfileModal from "@/components/ProfileModal";
 import { useDisclosure } from "@nextui-org/react";
 import { debounce } from "lodash";
 import { subscribeAction, unsubscribeAction } from "@/services/stripe";
+import AnimatedLoader from "@/components/AnimatedLoader";
 
 const App = () => {
   const user = useSupaUser();
@@ -89,6 +90,7 @@ const App = () => {
 
   return (
     <main className={`w-[100vw] ${theme}`} suppressHydrationWarning={true}>
+      <AnimatedLoader/>
       <ProfileModal
         isOpen={isOpen}
         defaultPanel={defaultPanel}

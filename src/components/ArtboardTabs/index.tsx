@@ -89,7 +89,7 @@ const ArtboardTabs = ({
       )}
       {journeyTabs.length > 0 && (
         <Button
-          onClick={() => {
+          onPress={() => {
             if (isPro) {
               handleCreateJourney();
             } else {

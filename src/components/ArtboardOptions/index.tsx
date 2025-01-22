@@ -383,7 +383,7 @@ const ArtboardOptions = ({
           <Button
             variant="bordered"
             color="danger"
-            onClick={() => {
+            onPress={() => {
               handleJourneyDeletion(activeTab);
             }}
           >

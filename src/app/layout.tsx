@@ -3,22 +3,22 @@ import SupabaseProvider from "@/providers/SupabaseProvider";
 import NextUIProvider from "@/providers/NextUIProvider";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { Bounce, ToastContainer } from "react-toastify";
-
 import { Nunito_Sans } from "next/font/google";
+import Script from "next/script";
+import FacebookPixel from "@/components/Fbpixel";
+
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "900"] });
 
 // Styles
 import "./globals.scss";
 import "./editor.scss";
-import Script from "next/script";
-import FacebookPixel from "@/components/Fbpixel";
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  
+
   return (
     <html
       lang="en"
@@ -46,24 +46,22 @@ export default async function RootLayout({
         <SupabaseProvider>
           <NextUIProvider>
             <NextThemesProvider attribute="class" defaultTheme="dark">
-              <>
-                {children}
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick={false}
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="dark"
-                  transition={Bounce}
-                  className={`!w-[400px] cursor-pointer !max-w-[100%] px-4 left-auto right-auto md:right-0 top-8`}
-                  toastClassName={`${nunito.className} text-[18px] !w-full !rounded-[15px] overflow-hidden`}
-                />
-              </>
+              {children}
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Bounce}
+                className={`!w-[400px] cursor-pointer !max-w-[100%] px-4 left-auto right-auto md:right-0 top-8`}
+                toastClassName={`${nunito.className} text-[18px] !w-full !rounded-[15px] overflow-hidden`}
+              />
             </NextThemesProvider>
           </NextUIProvider>
         </SupabaseProvider>
