@@ -31,7 +31,7 @@ const ArtboardTabs = ({
   const lastTabs = journeyTabs?.slice(tabLimit);
 
   return (
-    <NavbarItem className="artboard-tabs justify-center flex items-center">
+    <NavbarItem className="artboard-tabs justify-center flex items-center bg-[#171717] rounded-xl">
       {journeyTabs.length > 0 && (
         <Tabs
           aria-label="Journeys"
@@ -101,7 +101,7 @@ const ArtboardTabs = ({
               }
             }
           }}
-          className="button-new-journey w-auto bg-transparent px-0 border-none min-w-0 h-full pl-2"
+          className="button-new-journey w-auto bg-transparent px-0 border-none min-w-0 h-full pl-2 pr-2"
           variant="bordered"
         >
           <Plus />

@@ -874,7 +874,7 @@ const ArtboardInsights = ({
             <div className="w-full mb-7 relative">
               {isPro ? (
                 <ul className="flex w-full justify-between relative gap-2 px-7" key={isInsightsOpened}>
-                  {lastSevenDaysFormatted.map(({ value, date }, index) => {
+                  {lastSevenDaysFormatted.map(({ value, date } : any, index: any) => {
                     const dayFormatted = new Date(date as any)?.getDate();
 
                     return (
@@ -882,7 +882,11 @@ const ArtboardInsights = ({
                         key={index}
                         className={`relative rounded-lg p-[5px] w-full h-[196px] bg-[#3E3E3E] overflow-hidden`}
                       >
-                        <span className="absolute top-[10px] left-0 right-0 w-full text-center opacity-40">
+                        <span className="absolute top-[10px] z-50 left-0 right-0 w-full text-center opacity-40" style={{
+                          color: value > 15 ? "#171717" : 'white',
+                          fontWeight: value > 15 ? "bold" : 'normal',
+                          opacity: value > 15 ? "60%" : '40%'
+                        }}>
                           {dayFormatted}
                         </span>
                         <motion.div
@@ -913,7 +917,7 @@ const ArtboardInsights = ({
                             }}
                             viewport={{ amount: 1, once: true }}
                             transition={{ delay: index / 5 }}
-                            className="absolute top-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center"
+                            className="absolute bottom-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center"
                           >
                             {value ? (
                               value > 15 ? (
@@ -928,7 +932,7 @@ const ArtboardInsights = ({
                                 <>👎🏽</>
                               )
                             ) : (
-                              <div className="mt-[-43px]">👎🏽</div>
+                              <div className="">👎🏽</div>
                             )}
                           </motion.span>
                         </motion.div>
