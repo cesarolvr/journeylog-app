@@ -57,7 +57,7 @@ const AnimatedLoader = () => {
       >
         <Progress
           aria-label="Downloading..."
-          className="w-full rounded-none absolute top-0 left-0 z-[401]"
+          className="w-full rounded-none absolute top-[50px] left-0 z-[401]"
           radius="none"
           color="success"
           showValueLabel={false}

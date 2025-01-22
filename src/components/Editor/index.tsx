@@ -575,6 +575,22 @@ const Editor = ({
 
   return (
     <div className={`w-full h-full editor ${cutive.variable}`}>
+      <div
+        className={classNames(
+          "syncer fixed translate-y-[-50px] w-[40px] h-[40px] transition-transform left-0 right-0 m-auto z-[90] inline-flex justify-center rounded-full",
+          {
+            "active translate-y-[110px]": isLoading,
+          }
+        )}
+      >
+        <CircularProgress
+          size="sm"
+          classNames={{
+            indicator: "stroke-[#39D353]",
+          }}
+          aria-label="Loading..."
+        />
+      </div>
       <ArtboardOptions
         isOptionsOpened={isOptionsOpened}
         setIsOptionsOpened={setIsOptionsOpened}
@@ -646,22 +662,6 @@ const Editor = ({
             />
           </NavbarContent>
           <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">
-            <div
-              className={classNames(
-                "syncer fixed md:relative translate-y-[-80px] transition-transform left-0 right-0 m-auto w-[40px] h-[40px] z-[90] flex justify-center rounded-full",
-                {
-                  "active translate-y-[0px]": isLoading,
-                }
-              )}
-            >
-              <CircularProgress
-                size="sm"
-                classNames={{
-                  indicator: "stroke-[#39D353]",
-                }}
-                aria-label="Loading..."
-              />
-            </div>
             <NavbarItem className="flex justify-center z-[30]">
               <Dropdown>
                 <DropdownTrigger>

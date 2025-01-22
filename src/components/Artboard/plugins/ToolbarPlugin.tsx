@@ -119,7 +119,7 @@ export default function ToolbarPlugin() {
 
   return (
     <div
-      className={`toolbar ${nunito.className} flex mb-1 rounded-xl pr-[10px] align-middle sticky md:top-[115px] top-[100px] z-[9]`}
+      className={`toolbar ${nunito.className} flex mb-1 rounded-xl pr-[10px] align-middle sticky md:top-[115px] top-[110px] z-[9]`}
       ref={toolbarRef}
     >
       <button
