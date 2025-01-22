@@ -18,34 +18,35 @@ const RemindersCard = () => {
     threshold: 0.5,
   });
 
-  const [whatTimeOpened, setWhatTimeOpened] = useState(false);
-  const [alertMeOnOpened, setAlertMeOnOpened] = useState(false);
-  useEffect(() => {
-    if (remindersRefInView) {
-      setTimeout(() => {
-        setRemindersTurnOn(true);
-      }, 500);
-      setTimeout(() => {
-        setWhatTimeOpened(true);
-      }, 2000);
-      setTimeout(() => {
-        setWhatTimeOpened(false);
-      }, 4000);
+  // const [whatTimeOpened, setWhatTimeOpened] = useState(false);
+  // const [alertMeOnOpened, setAlertMeOnOpened] = useState(false);
+  
+  // useEffect(() => {
+  //   if (remindersRefInView) {
+  //     setTimeout(() => {
+  //       setRemindersTurnOn(true);
+  //     }, 500);
+  //     setTimeout(() => {
+  //       setWhatTimeOpened(true);
+  //     }, 2000);
+  //     setTimeout(() => {
+  //       setWhatTimeOpened(false);
+  //     }, 4000);
 
-      setTimeout(() => {
-        setAlertMeOnOpened(true);
-      }, 5000);
-      setTimeout(() => {
-        setAlertMeOnOpened(false);
-      }, 6000);
-    } else {
-      setTimeout(() => {
-        setRemindersTurnOn(false);
-        setWhatTimeOpened(false);
-        setAlertMeOnOpened(false);
-      }, 500);
-    }
-  }, [remindersRefInView]);
+  //     setTimeout(() => {
+  //       setAlertMeOnOpened(true);
+  //     }, 5000);
+  //     setTimeout(() => {
+  //       setAlertMeOnOpened(false);
+  //     }, 6000);
+  //   } else {
+  //     setTimeout(() => {
+  //       setRemindersTurnOn(false);
+  //       setWhatTimeOpened(false);
+  //       setAlertMeOnOpened(false);
+  //     }, 500);
+  //   }
+  // }, [remindersRefInView]);
 
   const cardX = useMotionValue(0);
   const cardY = useMotionValue(0);
@@ -102,7 +103,7 @@ const RemindersCard = () => {
             alignItems: "center",
             rotateX,
             rotateY,
-            transition: "transform 0.1s linear", // Add transition for smooth easing
+            transition: "transform 0.1s linear",
           }}
           className="flex-shrink-0 w-[90%] md:w-[50%]"
           transition={{ velocity: 0 }}
@@ -141,7 +142,7 @@ const RemindersCard = () => {
                 disallowEmptySelection={true}
                 defaultSelectedKeys={[`0-key`]}
                 color="default"
-                isOpen={whatTimeOpened}
+                // isOpen={whatTimeOpened}
                 autoFocus={false}
                 className="max-w-[100px] select text-[11px]"
               >
@@ -162,7 +163,7 @@ const RemindersCard = () => {
                 items={where}
                 disallowEmptySelection={true}
                 defaultSelectedKeys={[`email`]}
-                isOpen={alertMeOnOpened}
+                // isOpen={alertMeOnOpened}
                 color="default"
                 className="max-w-[100px] select text-[11px]"
               >
