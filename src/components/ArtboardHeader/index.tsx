@@ -22,7 +22,7 @@ const ArtboardHeader = ({
   return (
     <div className="artboard-header flex items-center justify-between md:bg-transparent rounded-xl z-[5] sticky top-[53px]">
       <input
-        className="px-1 w-full md:py-2 text-2xl text-ellipsis mt-3 mb-3 bg-[#171717] rounded-xl outline-none max-w-[400px]"
+        className="px-1 w-full md:py-2 text-2xl text-ellipsis mt-3 mb-3 rounded-xl outline-none max-w-[400px]"
         value={journeyName || activeTab?.name || ""}
         onChange={(e) => {
           setJourneyName(e?.target?.value);
@@ -36,7 +36,7 @@ const ArtboardHeader = ({
         }}
       />
       {activeTab ? (
-        <div className="flex editor-options bg-[#171717] rounded-xl">
+        <div className={`flex editor-options rounded-xl `}>
           <div
             className="insights-button cursor-pointer mr-2 flex justify-center items-center border-1 border-[#39D353] rounded-xl p-1 py-2 w-[50px] flex-shrink-0"
             onClick={() => {

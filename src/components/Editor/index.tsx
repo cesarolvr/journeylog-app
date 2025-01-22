@@ -11,7 +11,11 @@ import * as motion from "motion/react-client";
 import { Reenie_Beanie, Nunito_Sans, Cutive_Mono } from "next/font/google";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: "400" });
-const cutive = Cutive_Mono({ subsets: ["latin"], weight: "400" });
+const cutive = Cutive_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-cutive",
+});
 
 import { getLocalTimeZone, today as todayDate } from "@internationalized/date";
 
@@ -355,7 +359,10 @@ const Editor = ({
     }
 
     const dateStringEnd = DateTime.now().toUTC().toISODate();
-    const dateStringStart = DateTime.now().minus({ month: 1 }).toUTC().toISODate();
+    const dateStringStart = DateTime.now()
+      .minus({ month: 1 })
+      .toUTC()
+      .toISODate();
 
     setIsLoading(false);
 
@@ -567,7 +574,7 @@ const Editor = ({
   );
 
   return (
-    <div className="w-full h-full editor">
+    <div className={`w-full h-full editor ${cutive.variable}`}>
       <ArtboardOptions
         isOptionsOpened={isOptionsOpened}
         setIsOptionsOpened={setIsOptionsOpened}

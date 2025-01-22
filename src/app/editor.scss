@@ -5,12 +5,21 @@
   min-height: 100vh;
 }
 
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .dark {
   .editor {
     background-image: linear-gradient(to bottom, #1f1f1f 1px, transparent 1px);
   }
   .editor-container {
-    color: white;
+    color: #bebebe;
+  }
+
+  .editor-options {
+    background-color: #171717;
   }
 
   .toolbar {
@@ -55,6 +64,10 @@
     background-color: #171717;
   }
 
+  .artboard-tabs {
+    background-color: #171717;
+  }
+
   .sidebar {
     background-color: black;
     border-color: #2e2e2e;
@@ -76,6 +89,7 @@
 
   .artboard-header {
     input {
+      background-color: #171717;
       color: white;
     }
   }
@@ -93,8 +107,8 @@
     // background-color: red;
   }
 
-  .bg-content1 {
-    // background-color: red;
+  .artboard-tabs {
+    background-color: #faedc9;
   }
 
   .editor {
@@ -103,6 +117,13 @@
 
   .editor-container {
     color: #171717;
+  }
+
+  .editor-input {
+    code {
+      color: #171717;
+      background-color: #e4d8b4;
+    }
   }
 
   .toolbar {
@@ -249,6 +270,8 @@
   }
 
   .editor-options {
+    background-color: #faedc9;
+
     .insights-button {
       svg {
         stroke: #39d353;
@@ -268,6 +291,7 @@
 
   .artboard-header {
     input {
+      background-color: #faedc9;
       color: #2c2c2c;
     }
   }
@@ -348,6 +372,7 @@ h1 {
   position: absolute;
   left: -8px;
   font-size: 58px;
+  top: 0;
 }
 
 .editor-container ol {
@@ -374,9 +399,11 @@ h1 {
   left: 15px;
 }
 
-.editor-listitem span {
-  width: 100%;
-  display: block;
+.editor-listitem {
+  span {
+    width: 100%;
+    display: block;
+  }
 }
 
 .editor-listitem-checked,
@@ -456,6 +483,38 @@ h1 {
   @media screen and (min-width: 500px) {
     font-size: 60px;
   }
+
+  code {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-cutive);
+    color: #919191;
+    background-color: #000000;
+    font-size: 30px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    display: inline !important;
+  }
+
+  sup {
+    font-size: 30px;
+    top: -15px;
+  }
+
+  sub {
+    font-size: 30px;
+    bottom: -5px;
+  }
+
+  mark {
+    border: 1px dashed;
+    background: none;
+    border-color: #39d353;
+    color: #bebebe;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 0 10px;
+  }
 }
 
 .editor-placeholder {
@@ -488,13 +547,6 @@ h1 {
 
 .editor-text-underlineStrikethrough {
   text-decoration: underline line-through;
-}
-
-.editor-text-code {
-  background-color: rgb(240, 242, 245);
-  padding: 1px 0.25rem;
-  /* font-family: Menlo, Consolas, Monaco, monospace; */
-  font-size: 94%;
 }
 
 .editor-link {
@@ -576,9 +628,9 @@ h1 {
 
 .editor-paragraph {
   margin: 0;
-  margin-bottom: 8px;
+  // margin-bottom: 8px;
   position: relative;
-  line-height: 100%;
+  line-height: 150%;
 }
 
 .editor-paragraph:last-child {
@@ -842,6 +894,20 @@ i.justify-align {
   .editor-input {
     font-size: 25px;
 
+    sup {
+      font-size: 20px;
+      top: -15px;
+    }
+
+    sub {
+      font-size: 20px;
+      bottom: -5px;
+    }
+
+    .editor-paragraph {
+      line-height: 45px;
+    }
+
     @media screen and (min-width: 500px) {
       font-size: 30px;
     }
@@ -882,8 +948,22 @@ i.justify-align {
     margin-bottom: 15px;
   }
 
+  .editor-paragraph {
+    line-height: 55px;
+  }
+
   .editor-input {
     font-size: 25px;
+
+    sup {
+      font-size: 20px;
+      top: -15px;
+    }
+  
+    sub {
+      font-size: 20px;
+      bottom: -5px;
+    }
 
     @media screen and (min-width: 500px) {
       font-size: 30px;
@@ -940,7 +1020,7 @@ i.justify-align {
 }
 
 .cardItem {
-  border: 1px solid #1B1B1B;
+  border: 1px solid #1b1b1b;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 

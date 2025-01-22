@@ -104,14 +104,17 @@ const Sidebar = ({
 
     setLastMonthLoaded(newLastMonthLoaded);
     setLastYearLoaded(newLastYearLoaded);
-    
+
     const monthWithPad = `0${newLastMonthLoaded}`.slice(-2);
     const dayWithPad = `0${1}`.slice(-2);
-    
+
     const dateStringStart = `${newLastYearLoaded}-${monthWithPad}-${dayWithPad}`;
-    const lastDayOfMonth = new Date(newLastYearLoaded, newLastMonthLoaded, 0).getDate();
+    const lastDayOfMonth = new Date(
+      newLastYearLoaded,
+      newLastMonthLoaded,
+      0
+    ).getDate();
     const dateStringEnd = `${newLastYearLoaded}-${monthWithPad}-${lastDayOfMonth}`;
-    
 
     getPreviews(dateStringStart, dateStringEnd, activeTab, {
       forceUpdate: false,
@@ -390,7 +393,9 @@ const Sidebar = ({
                       <div key={key}>
                         {children.map((item: any, keyChildren: any) => {
                           const textContent = item?.children
-                            ? item.children[0]?.text
+                            ? item.children[0]?.children
+                              ? item.children[0]?.children[0]?.text
+                              : item.children[0]?.text
                             : item?.text;
                           return (
                             <li

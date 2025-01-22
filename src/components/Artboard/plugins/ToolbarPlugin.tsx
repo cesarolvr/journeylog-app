@@ -1,6 +1,5 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { mergeRegister } from "@lexical/utils";
-import { Nunito_Sans } from "next/font/google";
 
 import {
   INSERT_ORDERED_LIST_COMMAND,
@@ -8,6 +7,7 @@ import {
   INSERT_CHECK_LIST_COMMAND,
   REMOVE_LIST_COMMAND,
 } from "@lexical/list";
+import { FORMAT_TEXT_COMMAND } from "lexical";
 import {
   $getSelection,
   $isRangeSelection,
@@ -19,7 +19,8 @@ import {
 } from "lexical";
 import { useCallback, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import { Redo, Undo } from "lucide-react";
+import { Bold, CheckSquare, Code, HighlighterIcon, Italic, List, ListOrdered, Redo, Strikethrough, Subscript, Superscript, Underline, Undo } from "lucide-react";
+import { Nunito_Sans } from "next/font/google";
 
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: "400" });
 
@@ -42,10 +43,38 @@ export default function ToolbarPlugin() {
     } else if (listType === "check" && blockType !== "check") {
       editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
       setBlockType("check");
+    } else if (listType === "code" && blockType !== "code") {
+      editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
+      setBlockType("code");
+    } else if (listType === "bold" && blockType !== "bold") {
+      editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
+      setBlockType("bold");
+    } else if (listType === "italic" && blockType !== "italic") {
+      editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
+      setBlockType("italic");
+    } else if (listType === "underline" && blockType !== "underline") {
+      editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
+      setBlockType("underline");
+    } else if (listType === "strikethrough" && blockType !== "strikethrough") {
+      editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
+      setBlockType("strikethrough");
+    } else if (listType === "highlight" && blockType !== "highlight") {
+      editor.dispatchCommand(FORMAT_TEXT_COMMAND, "highlight");
+      setBlockType("highlight");
+    } else if (listType === "subscript" && blockType !== "subscript") {
+      editor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
+      setBlockType("subscript");
+    } else if (listType === "superscript" && blockType !== "superscript") {
+      editor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript");
+      setBlockType("superscript");
     } else {
       editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
       setBlockType("paragraph");
     }
+  };
+
+  const formatText = (formatType: any) => {
+    editor.dispatchCommand(FORMAT_TEXT_COMMAND, formatType);
   };
 
   const $updateToolbar = useCallback(() => {
@@ -90,7 +119,7 @@ export default function ToolbarPlugin() {
 
   return (
     <div
-      className={`toolbar ${nunito.className} flex mb-1 rounded-xl pr-[30px] align-middle sticky md:top-[115px] top-[100px] z-[9]`}
+      className={`toolbar ${nunito.className} flex mb-1 rounded-xl pr-[10px] align-middle sticky md:top-[115px] top-[100px] z-[9]`}
       ref={toolbarRef}
     >
       <button
@@ -119,8 +148,9 @@ export default function ToolbarPlugin() {
           active: blockType === "bullet",
         })}
         onClick={() => formatList("bullet")}
+        aria-label="Bullet List"
       >
-        <span className="text">Bullet List</span>
+        <List />
       </button>
       <button
         disabled={false}
@@ -128,8 +158,9 @@ export default function ToolbarPlugin() {
           active: blockType === "number",
         })}
         onClick={() => formatList("number")}
+        aria-label="Numbered List"
       >
-        <span className="text">Numbered List</span>
+        <ListOrdered />
       </button>
       <button
         disabled={false}
@@ -137,45 +168,92 @@ export default function ToolbarPlugin() {
           active: blockType === "check",
         })}
         onClick={() => formatList("check")}
+        aria-label="Check List"
       >
-        <span className="text">Check List</span>
-      </button>
-      {/* <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
-        }}
-        className="toolbar-item spaced"
-        aria-label="Left Align"
-      >
-        <i className="format left-align" />
+        <CheckSquare />
       </button>
       <button
+        disabled={false}
+        className={classNames("toolbar-item spaced", {
+          active: blockType === "code",
+        })}
         onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
+          formatList("code");
         }}
-        className="toolbar-item spaced"
-        aria-label="Center Align"
+        aria-label="Code"
       >
-        <i className="format center-align" />
+        <Code />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
-        }}
-        className="toolbar-item spaced"
-        aria-label="Right Align"
+        disabled={false}
+        className={classNames("toolbar-item spaced", {
+          active: blockType === "bold",
+        })}
+        onClick={() => formatList("bold")}
+        aria-label="Bold"
       >
-        <i className="format right-align" />
+        <Bold />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
-        }}
-        className="toolbar-item"
-        aria-label="Justify Align"
+        disabled={false}
+        className={classNames("toolbar-item spaced", {
+          active: blockType === "italic",
+        })}
+        onClick={() => formatList("italic")}
+        aria-label="Italic"
       >
-        <i className="format justify-align" />
-      </button>{" "} */}
+        <Italic />
+      </button>
+      <button
+        disabled={false}
+        className={classNames("toolbar-item spaced", {
+          active: blockType === "underline",
+        })}
+        onClick={() => formatList("underline")}
+        aria-label="Underline"
+      >
+        <Underline />
+      </button>
+      <button
+        disabled={false}
+        className={classNames("toolbar-item spaced", {
+          active: blockType === "strikethrough",
+        })}
+        onClick={() => formatList("strikethrough")}
+        aria-label="Strikethrough"
+      >
+        <Strikethrough />
+      </button>
+      <button
+        disabled={false}
+        className={classNames("toolbar-item spaced", {
+          active: blockType === "highlight",
+        })}
+        onClick={() => formatList("highlight")}
+        aria-label="Highlight"
+      >
+        <HighlighterIcon />
+      </button>
+      <button
+        disabled={false}
+        className={classNames("toolbar-item spaced", {
+          active: blockType === "subscript",
+        })}
+        onClick={() => formatList("subscript")}
+        aria-label="Subscript"
+      >
+        <Subscript />
+      </button>
+      <button
+        disabled={false}
+        className={classNames("toolbar-item spaced", {
+          active: blockType === "superscript",
+        })}
+        onClick={() => formatList("superscript")}
+        aria-label="Superscript"
+      >
+        <Superscript />
+      </button>
     </div>
   );
 }
