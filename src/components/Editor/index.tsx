@@ -690,7 +690,7 @@ const Editor = ({
                 <DropdownMenu aria-label="Static Actions">
                   <DropdownItem
                     key="profile"
-                    onClick={() => {
+                    onPress={() => {
                       onOpen();
                       setDefaultPanel("profile");
                     }}
@@ -700,7 +700,7 @@ const Editor = ({
                   </DropdownItem>
                   <DropdownItem
                     key="home"
-                    onClick={() => {
+                    onPress={() => {
                       router.push("/");
                     }}
                     startContent={<ArrowUpRight className="w-[20px]" />}
@@ -710,7 +710,7 @@ const Editor = ({
                   <DropdownItem
                     key="logout"
                     className="text-danger"
-                    onClick={handleLogout}
+                    onPress={handleLogout}
                     startContent={<LogOut className="w-[20px]" />}
                   >
                     Logout
@@ -751,7 +751,7 @@ const Editor = ({
                     transition={{
                       duration: 0.2,
                     }}
-                    className={`text-[20px] text-[#fff] mb-[20px] w-400px] max-w-full font-bold`}
+                    className={`text-[20px] text-[#fff] mb-[20px] w-400px] max-w-full`}
                   >
                     Choose:
                   </motion.h1>
@@ -780,7 +780,7 @@ const Editor = ({
                           delay: index / 15,
                         }}
                         key={text}
-                        className="my-3 mr-2 text-lg bg-[#484848] text-[#fff] hover:bg-[#39d353] hover:text-[#171717] font-bold rounded-2xl py-2 px-6"
+                        className="my-3 mr-2 text-lg bg-[#262626] text-[#fff] hover:bg-[#39d353] hover:text-[#171717] font-bold rounded-2xl py-2 px-6"
                         onClick={(e) => handleCreateJourney(e, null)}
                       >
                         {text}
@@ -794,7 +794,7 @@ const Editor = ({
                       duration: 0.2,
                       delay: 0.5,
                     }}
-                    className={`text-[20px] text-[#ffffff] mt-10 mb-[20px] font-bold leading-[40px] w-[400px] max-w-full`}
+                    className={`text-[20px] text-[#ffffff] mt-10 mb-[20px] leading-[40px] w-[400px] max-w-full`}
                   >
                     Or create yours:
                   </motion.h2>

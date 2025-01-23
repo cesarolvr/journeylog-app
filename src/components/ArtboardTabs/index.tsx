@@ -71,7 +71,7 @@ const ArtboardTabs = ({
                         return (
                           <DropdownItem
                             key={subKey}
-                            onClick={(e) => {
+                            onPress={(e) => {
                               return handleTabSelection(subKey + 1, true);
                             }}
                           >
