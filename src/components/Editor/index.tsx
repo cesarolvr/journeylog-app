@@ -290,6 +290,8 @@ const Editor = ({
         .from("journey")
         .update({ theme: theme || "dark", font: font || "default", frequency })
         .eq("id", activeTab?.id);
+
+      setActiveTab({ ...activeTab, theme, font });
     },
     1000
   );

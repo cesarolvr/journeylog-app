@@ -255,6 +255,9 @@ const ArtboardOptions = ({
               color="default"
               className="max-w-[100px] select text-[11px]"
               onChange={(e) => handleSwitchNotifications(e, "when")}
+              classNames={{
+                value: "!text-[white]"
+              }}
             >
               {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
             </Select>
@@ -302,6 +305,9 @@ const ArtboardOptions = ({
               className="max-w-[100px] select text-[11px]"
               isDisabled={!!notification ? false : true}
               onChange={(e) => handleSwitchNotifications(e, "what")}
+              classNames={{
+                value: "!text-[white]"
+              }}
             >
               {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
             </Select>
@@ -335,6 +341,9 @@ const ArtboardOptions = ({
               className="max-w-[100px] select"
               isDisabled={!!notification ? false : true}
               onChange={(e) => handleSwitchNotifications(e, "where")}
+              classNames={{
+                value: "!text-[white]"
+              }}
             >
               {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
             </Select>
