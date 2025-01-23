@@ -1,6 +1,7 @@
 // Providers
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import NextUIProvider from "@/providers/NextUIProvider";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { Bounce, ToastContainer } from "react-toastify";
 import { Nunito_Sans } from "next/font/google";
@@ -18,7 +19,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html
       lang="en"
@@ -67,6 +67,7 @@ export default async function RootLayout({
         </SupabaseProvider>
         <FacebookPixel />
       </body>
+      <GoogleAnalytics gaId="G-SPDYZC1QPJ" />
     </html>
   );
 }
