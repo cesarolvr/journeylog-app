@@ -744,7 +744,7 @@ const Editor = ({
           ) : isChangingTabs ? null : (
             <div className="w-full flex justify-center items-start">
               {!isLoading && (
-                <div className="flex flex-col w-full h-full justify-center md:pl-12">
+                <div className="flex flex-col w-full h-full justify-center pl-3 md:pl-12">
                   <motion.h1
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -755,7 +755,7 @@ const Editor = ({
                   >
                     Choose:
                   </motion.h1>
-                  <div className="w-full flex flex-wrap justify-start items-start max-w-[520px]">
+                  <div className="w-full flex flex-wrap justify-start items-start max-w-[90%]">
                     {[
                       "🏋🏽 Workout on weekdays",
                       "👩🏽‍🦳 Call mom everyday",
@@ -771,6 +771,20 @@ const Editor = ({
                       "🧹 Clean the house",
                       "💼 Work on side project",
                       "🛌 Get 8 hours of sleep",
+                      "📝 Journal daily",
+                      "🚴‍♂️ Bike to work",
+                      "🧑‍💻 Code daily",
+                      "🎤 Practice singing",
+                      "📅 Plan your week",
+                      "💪 Strength training",
+                      "🧑‍🍳 Cook new recipes",
+                      "🧵 Learn to sew",
+                      "🎾 Play tennis",
+                      "🎥 Watch documentaries",
+                      "🧩 Solve puzzles",
+                      "🏃‍♀️ Go for a walk",
+                      "📖 Study for exams",
+                      "🎹 Practice piano",
                     ].map((text, index) => (
                       <motion.button
                         initial={{ opacity: 0, y: 10 }}
@@ -780,7 +794,7 @@ const Editor = ({
                           delay: index / 15,
                         }}
                         key={text}
-                        className="my-3 mr-2 text-lg bg-[#262626] text-[#fff] hover:bg-[#39d353] hover:text-[#171717] font-bold rounded-2xl py-2 px-6"
+                        className="my-3 mr-2 text-left text-lg bg-[#262626] text-[#fff] hover:bg-[#39d353] hover:text-[#171717] rounded-2xl py-2 px-6"
                         onClick={(e) => handleCreateJourney(e, null)}
                       >
                         {text}

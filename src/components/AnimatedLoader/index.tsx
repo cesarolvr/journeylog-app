@@ -64,8 +64,8 @@ const AnimatedLoader = () => {
           size="md"
           value={progress}
           classNames={{
-            indicator: "bg-[#171717] ease-in-out z-[402] rounded-r-lg",
-            track: "bg-[#27DE55]",
+            indicator: "bg-[#171717] ease-in-out z-[403] rounded-r-lg",
+            track: "bg-[#23ad45] w-full z-[402]",
           }}
         />
       </motion.div>
