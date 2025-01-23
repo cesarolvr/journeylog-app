@@ -1,45 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Reenie_Beanie } from "next/font/google";
-import Confetti from "react-confetti";
-import { toast } from "react-toastify";
 
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
 
 const ThirdIllustration = () => {
-  const [isToRunConfetti, setIsToRunConfetti] = useState(false);
-  const [isListBlock, setIsListBlock] = useState(false);
-  const [options, setOptions] = useState([
-    { id: 1, text: "supermarket", checked: true },
-    { id: 2, text: "report to boss", checked: true },
-    { id: 3, text: "water the fern", checked: true },
-    { id: 4, text: "make dinner", checked: false },
-  ]);
-
-  const notify = () => toast("Mission accomplished for today!  🚀");
-
-  const handleCheck = (e: any, value: any, index: any) => {
-    e.preventDefault();
-    const listItem = e.target.closest("li");
-    listItem.classList.toggle("editor-listitem-checked");
-    listItem.classList.toggle("editor-listitem-unchecked");
-
-    let newOptions = [...options];
-    newOptions[index].checked = value;
-    setOptions(newOptions);
-
-    const isEveryChecked = options.every((item) => item.checked === true);
-
-    if (isEveryChecked) {
-      setIsToRunConfetti(true);
-      notify();
-      setIsListBlock(true);
-    } else {
-      setIsToRunConfetti(false);
-      setIsListBlock(false);
-    }
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}

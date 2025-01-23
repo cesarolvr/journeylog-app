@@ -43,6 +43,8 @@ import ArtboardTabs from "../ArtboardTabs";
 import ArtboardOptions from "../ArtboardOptions";
 import ArtboardInsights from "../ArtboardInsights";
 import { ArrowUpRight, ChevronRight, LogOut, User } from "lucide-react";
+import ReactConfetti from "react-confetti";
+import { toast } from "react-toastify";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
@@ -258,6 +260,11 @@ const Editor = ({
         },
         false
       );
+
+      if (isToCreate) {
+        setIsToRunConfetti(true);
+        toast("Mission accomplished for today!  🚀");
+      }
     }
   }, 500);
 
@@ -575,8 +582,21 @@ const Editor = ({
     dateSelected?.day
   );
 
+  const [isToRunConfetti, setIsToRunConfetti] = useState(false);
+
   return (
     <div className={`w-full h-full editor ${cutive.variable}`}>
+      {isToRunConfetti && (
+        <ReactConfetti
+          width={window?.innerWidth}
+          height={window?.innerHeight}
+          recycle={false}
+          numberOfPieces={1000}
+          tweenDuration={10000}
+          colors={["#27DE54", "#5FDB7D", "#3D6D49", "#fff"]}
+          className={`!z-50 !fixed pointer-events-none`}
+        />
+      )}
       <div
         className={classNames(
           "syncer fixed translate-y-[-50px] w-[40px] h-[40px] transition-transform left-0 right-0 m-auto z-[90] inline-flex justify-center rounded-full",
