@@ -88,8 +88,8 @@ const ArtboardInsights = ({
         reversedList?.sort((prev: any, current: any): any => {
           const currentDate = DateTime.fromJSDate(
             new Date(current?.date)
-          ).toLocal();
-          const prevDate = DateTime.fromJSDate(new Date(prev?.date)).toLocal();
+          ).toUTC();
+          const prevDate = DateTime.fromJSDate(new Date(prev?.date)).toUTC();
 
           const diff: any = currentDate.diff(prevDate, "days")?.toObject();
           const diffInDays = diff?.days * -1;
@@ -105,13 +105,15 @@ const ArtboardInsights = ({
 
           if (isLastItem) {
             const isTodayOrYesterday =
-              prevDate.toISODate() === DateTime.local().toISODate() ||
+              prevDate.toISODate() === DateTime.utc().toISODate() ||
               prevDate.toISODate() ===
-                DateTime.local().minus({ days: 1 }).toISODate();
+                DateTime.utc().minus({ days: 1 }).toISODate();
             if (!isTodayOrYesterday) {
               acc = 0;
             }
           }
+
+          console.log(acc, diffInDays, currentDate.toUTC().toISODate(), prevDate.toUTC().toISODate());
 
           return -1;
         });
