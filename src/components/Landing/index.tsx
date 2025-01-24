@@ -11,6 +11,8 @@ import Illustration4 from "../../images/illustrations/4.svg";
 import Illustration5 from "../../images/illustrations/5.svg";
 import Illustration6 from "../../images/illustrations/6.svg";
 
+import PhoneMockup from "../../../src/images/illustrations/phone.svg";
+
 import { useLottie } from "lottie-react";
 import { useInView } from "react-intersection-observer";
 import xmark from "../../images/illustrations/xmark.json";
@@ -27,6 +29,8 @@ import {
   CardBody,
   CardHeader,
   CircularProgress,
+  Tab,
+  Tabs,
   Textarea,
 } from "@nextui-org/react";
 import { ChevronDown, ChevronRight } from "lucide-react";
@@ -533,6 +537,51 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           <RemindersCard />
         </section>
         <section
+          id="fall"
+          className="inline-flex justify-center items-center w-full my-4 md:mb-48 md:mt-20 flex-col md:flex-row-reverse"
+        >
+          <div className="md:w-[330px] md:mx-12 p-6 max-w-[70%] md:max-w-none">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ amount: 1, once: true }}
+              className="flex justify-center items-center flex-col md:items-start"
+            >
+              <Tabs
+                classNames={{
+                  tabList: "bg-[#303030]",
+                  cursor: "!bg-[#565656]",
+                  tabContent: "!font-black",
+                }}
+                aria-label="Tabs radius"
+                size="lg"
+                radius="full"
+                className="mb-10"
+              >
+                <Tab key="Whatsapp" title="Whatsapp" />
+                <Tab key="SMS" title="SMS" />
+              </Tabs>
+            </motion.div>
+            <motion.h3
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0, transition: { delay: 0.1 } }}
+              viewport={{ amount: 1, once: true }}
+              className="text-[25px] md:text-[30px] mb-10  text-center md:text-left"
+            >
+              The cherry on top: reminders are sent straight to your{" "}
+              <span className="font-black text-[#27DE55]">WhatsApp</span> or
+              <strong className="font-black"> SMS</strong>
+            </motion.h3>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ amount: 0.5, once: true }}
+          >
+            <Image src={PhoneMockup} alt="" className="md:mr-7 mb-10 md:mb-0 px-3" />
+          </motion.div>
+        </section>
+        <section
           id="insights"
           className="inline-flex flex-col md:flex-row justify-center items-center text-center w-full my-12 md:my-20 md:mt-0"
         >
@@ -621,7 +670,10 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   className="w-[370px] max-w-[80%] md:max-w-none"
                   key={index}
                 >
-                  <Card className="py-8 px-2 rounded-[40px] bg-[#2C2C2C] md:mx-3 mb-20 overflow-visible">
+                  <Card
+                    shadow="none"
+                    className="py-8 px-2 rounded-[40px] bg-[#2C2C2C] md:mx-3 mb-20 overflow-visible"
+                  >
                     <CardHeader className="pb-0 pt-2 px-4 flex-col items-center justify-center ">
                       <Image
                         src={image}
@@ -634,50 +686,26 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                       <p className="text-default-500 text-[16px] mb-2">
                         {occupation}
                       </p>
-                      <svg
-                        width="145"
-                        height="26"
-                        viewBox="0 0 145 26"
-                        className="mb-5"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M42.9315 2.94922L46.1585 9.50223L53.3749 10.5595L48.1532 15.6575L49.3855 22.8595L42.9315 19.4574L36.4774 22.8595L37.7098 15.6575L32.488 10.5595L39.7045 9.50223L42.9315 2.94922Z"
-                          fill="#F6D31E"
-                          stroke="#F6D31E"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M13.3099 2.94922L16.5369 9.50223L23.7534 10.5595L18.5316 15.6575L19.764 22.8595L13.3099 19.4574L6.85585 22.8595L8.08818 15.6575L2.86646 10.5595L10.0829 9.50223L13.3099 2.94922Z"
-                          fill="#F6D31E"
-                          stroke="#F6D31E"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M72.5528 2.94922L75.7799 9.50223L82.9963 10.5595L77.7746 15.6575L79.0069 22.8595L72.5528 19.4574L66.0988 22.8595L67.3311 15.6575L62.1094 10.5595L69.3258 9.50223L72.5528 2.94922Z"
-                          fill="#F6D31E"
-                          stroke="#F6D31E"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M102.174 2.94922L105.401 9.50223L112.618 10.5595L107.396 15.6575L108.628 22.8595L102.174 19.4574L95.7204 22.8595L96.9527 15.6575L91.731 10.5595L98.9474 9.50223L102.174 2.94922Z"
-                          fill="#F6D31E"
-                          stroke="#F6D31E"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M131.796 2.94922L135.023 9.50223L142.239 10.5595L137.017 15.6575L138.25 22.8595L131.796 19.4574L125.342 22.8595L126.574 15.6575L121.352 10.5595L128.569 9.50223L131.796 2.94922Z"
-                          fill="#F6D31E"
-                          stroke="#F6D31E"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                      <div className="mb-5 stars flex">
+                        {[...Array(5)].map((_, i) => (
+                          <svg
+                            key={i}
+                            width="29"
+                            height="26"
+                            viewBox="0 0 29 26"
+                            fill={i < rate ? "#F6D31E" : "#171717"}
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="px-1"
+                          >
+                            <path
+                              d="M14.5 0L18.09 9.26H28.18L20.04 15.02L23.63 24.28L14.5 18.52L5.37 24.28L8.96 15.02L0.82 9.26H10.91L14.5 0Z"
+                              stroke={i < rate ? "#F6D31E" : "#171717"}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        ))}
+                      </div>
                     </CardHeader>
                     <CardBody className="overflow-visible py-1">
                       <p className="text-center text-[16px] text-[#bdbdbd] leading-7">
