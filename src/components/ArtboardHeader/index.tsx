@@ -22,7 +22,7 @@ const ArtboardHeader = ({
   return (
     <div className="artboard-header flex items-center justify-between md:bg-transparent rounded-xl z-[5] sticky top-[45px]">
       <input
-        className="px-1 w-full py-2 text-2xl text-ellipsis mt-3 mb-3 rounded-xl outline-none max-w-[280px] md:max-w-[400px]"
+        className="px-1 w-full py-[7px] md:text-2xl text-xl text-ellipsis mt-3 mb-3 rounded-xl outline-none max-w-[250px] md:max-w-[400px]"
         value={journeyName || activeTab?.name || ""}
         onChange={(e) => {
           setJourneyName(e?.target?.value);

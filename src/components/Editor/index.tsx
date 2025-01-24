@@ -667,7 +667,7 @@ const Editor = ({
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
       />
       <div
-        className={`${font.class} daybadge daybadge-${font.code} fixed z-40 cursor-pointer text-[50px] bottom-[30px] right-[30px] p-4 leading-[30px] rounded-3xl text-[#3b3b3b]`}
+        className={`${font.class} daybadge daybadge-${font.code} fixed z-40 cursor-pointer text-[25px] md:text-[50px] bottom-[10px] right-[10px] md:bottom-[30px] md:right-[30px] py-2 px-4 md:p-4 leading-[30px] md:rounded-3xl rounded-xl text-[#3b3b3b]`}
         onClick={() => setIsOpened(!isOpened)}
       >
         {todayNote.toLocaleString("default", { month: "short" })},{" "}
