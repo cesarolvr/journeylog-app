@@ -21,7 +21,7 @@ const AnimatedLoader = () => {
           clearInterval(interval);
           return 100;
         }
-        return prevProgress + 1;
+        return prevProgress + 1.5;
       });
     }, 10); // Ajuste o intervalo conforme necessário
 
@@ -55,19 +55,29 @@ const AnimatedLoader = () => {
         }}
         className="left-0 right-0 bottom-auto top-0 relative bg-[#27DE55] overflow-hidden"
       >
-        <Progress
-          aria-label="Downloading..."
-          className="w-full rounded-none fixed top-[0px] left-0 z-[401]"
-          radius="none"
-          color="success"
-          showValueLabel={false}
-          size="md"
-          value={progress}
-          classNames={{
-            indicator: "bg-[#171717] ease-in-out z-[403] rounded-r-lg",
-            track: "bg-[#23ad45] w-full z-[402]",
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: 0.3,
+            ease: "easeInOut",
+            // delay: ,
           }}
-        />
+        >
+          <Progress
+            aria-label="Downloading..."
+            className="w-full rounded-none fixed top-[0px] left-0 z-[401]"
+            radius="none"
+            color="success"
+            showValueLabel={false}
+            size="md"
+            value={progress}
+            classNames={{
+              indicator: "bg-[#171717] ease-in-out z-[403]",
+              track: "bg-[#23ad45] w-full z-[402]",
+            }}
+          />
+        </motion.div>
       </motion.div>
     </motion.div>
   );
