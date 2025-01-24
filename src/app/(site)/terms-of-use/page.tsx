@@ -17,7 +17,7 @@ export const metadata = {
 const Purpose = () => {
   return (
     <div className="p-6 flex flex-col w-[100svw] h-[100svh] bg-[#171717]">
-      <header className="flex w-[850px] rounded-2xl m-auto justify-between max-w-[90%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2 mb-20">
+      <header className="flex w-[850px] rounded-2xl m-auto justify-between max-w-[95%] mt-8 bg-[#1E1E1E] border-1 border-[#303030] py-4 px-2 md:px-2 mb-20">
         <Image
           src={LOGO}
           width={150}
@@ -25,8 +25,11 @@ const Purpose = () => {
           className="md:ml-4 ml-2 w-[130px] md:w-[150px]"
         />
         <ul className="flex">
-          <li className="md:flex items-center mx-3 hidden">
-            <Link className="flex" href="/">
+        <li className="flex items-center mx-3">
+            <Link
+              className="flex items-center text-[14px] md:text-[16px]"
+              href="/"
+            >
               <ChevronLeft />
               Back to home
             </Link>

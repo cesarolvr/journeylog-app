@@ -73,37 +73,39 @@ const ArtboardInsights = ({
   const isPro = subscription === "habit_creator";
 
   const getDaysInARow = () => {
-    let acc = 0;
-    let accObj = {};
+    let acc = 1;
+    let accObj = isMonthly ? {} : { 0: DateTime.local() };
 
     const reversedList = frequency?.toReversed();
 
-    if (!frequency) return 0;
+    if (!frequency || frequency.length === 0) {
+      acc = 0;
+      return 0;
+    }
 
     if (isDaily) {
       if (reversedList.length > 1) {
         reversedList?.sort((prev: any, current: any): any => {
-          const currentDate = DateTime.fromJSDate(new Date(current?.date));
-          const prevDate = DateTime.fromJSDate(new Date(prev?.date));
+          const currentDate = DateTime.fromJSDate(
+            new Date(current?.date)
+          ).toLocal();
+          const prevDate = DateTime.fromJSDate(new Date(prev?.date)).toLocal();
+
           const diff: any = currentDate.diff(prevDate, "days")?.toObject();
           const diffInDays = diff?.days * -1;
-          const isToday =
-            prev?.date === DateTime.local().toISODate() ||
-            current?.date === DateTime.local().toISODate();
 
-          const isLastItemInARow =
-            reversedList.indexOf(prev) === reversedList.length - 1;
-
-          if (isLastItemInARow) {
+          if (diffInDays === 1) {
             acc++;
+          } else if (diffInDays > 1) {
+            acc = 1;
           }
 
-          if (diffInDays < 2) {
-            acc++;
-          } else {
-            if (isToday) {
-              acc = 1;
-            } else {
+          const isLastItem =
+            reversedList.indexOf(prev) === reversedList.length - 1;
+          if (isLastItem) {
+            const isToday =
+              prevDate.toISODate() === DateTime.local().toISODate();
+            if (!isToday) {
               acc = 0;
             }
           }
@@ -145,6 +147,8 @@ const ArtboardInsights = ({
               accObj[dateBToBeAdded.localWeekNumber] = dateBToBeAdded;
             }
           }
+
+          console.log(accObj);
 
           return -1;
         });
@@ -873,72 +877,80 @@ const ArtboardInsights = ({
             </div>
             <div className="w-full mb-7 relative">
               {isPro ? (
-                <ul className="flex w-full justify-between relative gap-2 px-7" key={isInsightsOpened}>
-                  {lastSevenDaysFormatted.map(({ value, date } : any, index: any) => {
-                    const dayFormatted = new Date(date as any)?.getDate();
+                <ul
+                  className="flex w-full justify-between relative gap-2 px-7"
+                  key={isInsightsOpened}
+                >
+                  {lastSevenDaysFormatted.map(
+                    ({ value, date }: any, index: any) => {
+                      const dayFormatted = new Date(date as any)?.getDate();
 
-                    return (
-                      <li
-                        key={index}
-                        className={`relative rounded-lg p-[5px] w-full h-[196px] bg-[#3E3E3E] overflow-hidden`}
-                      >
-                        <span className="absolute top-[10px] z-50 left-0 right-0 w-full text-center opacity-40" style={{
-                          color: value > 15 ? "#171717" : 'white',
-                          fontWeight: value > 15 ? "bold" : 'normal',
-                          opacity: value > 15 ? "60%" : '40%'
-                        }}>
-                          {dayFormatted}
-                        </span>
-                        <motion.div
-                          initial={{ height: 0 }}
-                          whileInView={{
-                            height: value
-                              ? value > 15
-                                ? "100%"
-                                : value > 10
-                                ? "75%"
-                                : value > 5
-                                ? "50%"
-                                : value > 0
-                                ? "25%"
-                                : "0%"
-                              : "0%",
-                          }}
-                          viewport={{ amount: 1, once: true }}
-                          transition={{ delay: index / 5 }}
-                          className={classNames(
-                            "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 rounded-lg"
-                          )}
+                      return (
+                        <li
+                          key={index}
+                          className={`relative rounded-lg p-[5px] w-full h-[196px] bg-[#3E3E3E] overflow-hidden`}
                         >
-                          <motion.span
-                            initial={{ opacity: 0 }}
+                          <span
+                            className="absolute top-[10px] z-50 left-0 right-0 w-full text-center opacity-40"
+                            style={{
+                              color: value > 15 ? "#171717" : "white",
+                              fontWeight: value > 15 ? "bold" : "normal",
+                              opacity: value > 15 ? "60%" : "40%",
+                            }}
+                          >
+                            {dayFormatted}
+                          </span>
+                          <motion.div
+                            initial={{ height: 0 }}
                             whileInView={{
-                              opacity: 1,
+                              height: value
+                                ? value > 15
+                                  ? "100%"
+                                  : value > 10
+                                  ? "75%"
+                                  : value > 5
+                                  ? "50%"
+                                  : value > 0
+                                  ? "25%"
+                                  : "0%"
+                                : "0%",
                             }}
                             viewport={{ amount: 1, once: true }}
                             transition={{ delay: index / 5 }}
-                            className="absolute bottom-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center"
-                          >
-                            {value ? (
-                              value > 15 ? (
-                                <>🚀</>
-                              ) : value > 10 ? (
-                                <>😮</>
-                              ) : value > 5 ? (
-                                <>👌🏽</>
-                              ) : value > 0 ? (
-                                <>👍🏾</>
-                              ) : (
-                                <>👎🏽</>
-                              )
-                            ) : (
-                              <div className="">👎🏽</div>
+                            className={classNames(
+                              "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 rounded-lg"
                             )}
-                          </motion.span>
-                        </motion.div>
-                      </li>
-                    );
-                  })}
+                          >
+                            <motion.span
+                              initial={{ opacity: 0 }}
+                              whileInView={{
+                                opacity: 1,
+                              }}
+                              viewport={{ amount: 1, once: true }}
+                              transition={{ delay: index / 5 }}
+                              className="absolute bottom-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center"
+                            >
+                              {value ? (
+                                value > 15 ? (
+                                  <>🚀</>
+                                ) : value > 10 ? (
+                                  <>😮</>
+                                ) : value > 5 ? (
+                                  <>👌🏽</>
+                                ) : value > 0 ? (
+                                  <>👍🏾</>
+                                ) : (
+                                  <>👎🏽</>
+                                )
+                              ) : (
+                                <div className="">👎🏽</div>
+                              )}
+                            </motion.span>
+                          </motion.div>
+                        </li>
+                      );
+                    }
+                  )}
                 </ul>
               ) : (
                 <div className="w-full h-[250px] mb-16 px-7 relative flex justify-center items-center">
