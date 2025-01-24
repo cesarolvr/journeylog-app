@@ -124,10 +124,20 @@
       color: #171717;
       background-color: #e4d8b4;
     }
+
+    mark {
+      border: 3px dashed;
+      background: #efe7c8;
+      border-color: #938e79;
+      color: #565242;
+      font-weight: bold;
+      border-radius: 10px;
+      padding: 0 10px;
+    }
   }
 
   .toolbar {
-    background-color: transparent;
+    background-color: #faedc9;
 
     .toolbar-item .text {
       color: #817b65;

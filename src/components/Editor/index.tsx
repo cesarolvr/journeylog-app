@@ -295,10 +295,20 @@ const Editor = ({
     async ({ theme, font, frequency }: any) => {
       await supabaseClient
         .from("journey")
-        .update({ theme: theme || "dark", font: font || "default", frequency })
+        .update({
+          theme: theme || "dark",
+          font: font || "default",
+          frequency: frequency || "daily",
+        })
         .eq("id", activeTab?.id);
 
-      setActiveTab({ ...activeTab, theme, font });
+      // console.log({ frequency, activeTab });
+      setActiveTab({
+        ...activeTab,
+        theme,
+        font,
+        frequency: frequency || activeTab.frequency,
+      });
     },
     1000
   );

@@ -102,10 +102,12 @@ const ArtboardInsights = ({
 
           const isLastItem =
             reversedList.indexOf(prev) === reversedList.length - 1;
+
           if (isLastItem) {
             const isTodayOrYesterday =
               prevDate.toISODate() === DateTime.local().toISODate() ||
-              prevDate.toISODate() === DateTime.local().minus({ days: 1 }).toISODate();
+              prevDate.toISODate() ===
+                DateTime.local().minus({ days: 1 }).toISODate();
             if (!isTodayOrYesterday) {
               acc = 0;
             }
