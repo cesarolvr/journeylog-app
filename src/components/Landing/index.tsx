@@ -41,6 +41,7 @@ import SecondIllustration from "../Illustrations/SecondIllustration";
 import ThirdIllustration from "../Illustrations/ThirdIllustration";
 import RemindersCard from "../RemindersCard";
 import AnimatedLoader from "../AnimatedLoader";
+import { useTheme } from "next-themes";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
@@ -96,6 +97,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
 
   const casesRef = useRef(null);
   const { scrollYProgress, scrollY } = useScroll();
+  const { theme, setTheme } = useTheme();
 
   const translateFirstLine = useTransform(scrollYProgress, [0, 1], [-800, 500]);
   const translateSecondLine = useTransform(
@@ -151,6 +153,10 @@ const Landing = ({ user, subscriptionInfo }: any) => {
       typedHero.destroy();
       typedPersonalize.destroy();
     };
+  }, []);
+
+  useEffect(() => {
+    setTheme("dark");
   }, []);
 
   const options = {
@@ -314,7 +320,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 variant="bordered"
                 size="lg"
                 onPress={(f) => {
-
                   router.push("/purpose");
                 }}
               >
@@ -507,8 +512,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             className="text-[25px] sm:text-[30px] sm:w-[30%] sm:mx-12 py-6 sm:p-6 max-w-[80%] sm:max-w-none text-center sm:text-left"
           >
             <div className="sm:max-w-[280px] mb-4 sm:mb-0">
-              Personalize your experience and create multiple{" "}
-              <br />
+              Personalize your experience and create multiple <br />
               <span ref={personalizeText} className="text-[#39d353]"></span>
             </div>
           </motion.h3>
@@ -617,10 +621,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   className="w-[370px] max-w-[80%] md:max-w-none"
                   key={index}
                 >
-                  <Card
-                  
-                    className="py-8 px-2 rounded-[40px] bg-[#2C2C2C] md:mx-3 mb-20 overflow-visible"
-                  >
+                  <Card className="py-8 px-2 rounded-[40px] bg-[#2C2C2C] md:mx-3 mb-20 overflow-visible">
                     <CardHeader className="pb-0 pt-2 px-4 flex-col items-center justify-center ">
                       <Image
                         src={image}

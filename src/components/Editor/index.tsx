@@ -301,8 +301,7 @@ const Editor = ({
           frequency: frequency || "daily",
         })
         .eq("id", activeTab?.id);
-
-      // console.log({ frequency, activeTab });
+        
       setActiveTab({
         ...activeTab,
         theme,
