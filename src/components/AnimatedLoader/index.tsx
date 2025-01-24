@@ -73,7 +73,7 @@ const AnimatedLoader = () => {
             size="md"
             value={progress}
             classNames={{
-              indicator: "bg-[#171717] ease-in-out z-[403]",
+              indicator: "bg-[#171717] ease-in-out z-[403] will-change-transform",
               track: "bg-[#23ad45] w-full z-[402]",
             }}
           />

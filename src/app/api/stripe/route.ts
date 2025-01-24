@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
   console.log('event', JSON.stringify(event))
 
   if (
-    event.type === "checkout.session.completed" &&
+    (event.type === "checkout.session.completed" || event.type === 'checkout.session.async_payment_succeeded') &&
     event.data.object.payment_status === "paid"
   ) {
     const metadata = event.data.object.metadata;
