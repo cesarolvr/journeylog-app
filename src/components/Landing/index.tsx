@@ -817,7 +817,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
         >
           <h3 className="text-[40px] font-black mb-6 md:mb-36">Pricing</h3>
           <div className="flex items-center justify-center w-full">
-            <div className="cards flex md:bg-[#1B1B1B] rounded-3xl w-full max-w-[900px] p-10 lg:flex-row flex-col-reverse">
+            <div className="cards flex md:bg-[#1B1B1B] rounded-3xl w-full max-w-[900px] p-10 md:pr-5 lg:flex-row flex-col-reverse">
               <div className="text-left p-10 pr-14 mb-10 md:mb-0">
                 <div className="text-[45px] flex relative font-black items-end mb-6">
                   $0
@@ -836,6 +836,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     <svg
                       width="29"
                       height="36"
+                      className="flex-shrink-0"
                       viewBox="0 0 29 36"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -856,6 +857,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     <svg
                       width="29"
                       height="36"
+                      className="flex-shrink-0"
                       viewBox="0 0 29 36"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -876,6 +878,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     <svg
                       width="29"
                       height="36"
+                      className="flex-shrink-0"
                       viewBox="0 0 29 36"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -939,6 +942,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                         width="29"
                         height="36"
                         viewBox="0 0 29 36"
+                        className="flex-shrink-0"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -960,6 +964,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                         width="29"
                         height="36"
                         viewBox="0 0 29 36"
+                        className="flex-shrink-0"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -981,6 +986,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                         width="29"
                         height="36"
                         viewBox="0 0 29 36"
+                        className="flex-shrink-0"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -1004,6 +1010,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                         width="29"
                         height="36"
                         viewBox="0 0 29 36"
+                        className="flex-shrink-0"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -1025,6 +1032,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                         width="29"
                         height="36"
                         viewBox="0 0 29 36"
+                        className="flex-shrink-0"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -1048,6 +1056,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                         width="29"
                         height="36"
                         viewBox="0 0 29 36"
+                        className="flex-shrink-0"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
