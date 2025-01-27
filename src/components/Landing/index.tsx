@@ -220,7 +220,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
 
   const playNotification = () => {
     let audio = new Audio("./sound.mp3");
-    audio.volume = 0.5;
+    audio.volume = 0.2;
     audio.play();
   };
 
@@ -606,7 +606,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   // viewport={{ amount: 1, once: true }}
-                  className="w-[270px] h-[120px] my-auto bg-black bg-opacity-50 top-[-50px] text-white rounded-2xl absolute inset-0 left-[60px]"
+                  className="w-[230px] md:w-[270px] h-[120px] my-auto bg-black bg-opacity-50 top-[-50px] text-white rounded-2xl absolute inset-0 left-[80px] md:left-[60px]"
                 >
                   <div className="py-4 px-5">
                     <div className="flex items-center space-x-2">
@@ -629,7 +629,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                       </h1>
                     </div>
                     <div className="mt-3 text-sm">
-                      <p className="flex items-center">
+                      <p className="flex items-center text-[12px] md:text-[16px]">
                         🚀 You have a habit to reinforce today: 🏋🏽 Workout on
                         weekdays
                       </p>
@@ -649,7 +649,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     transition: { delay: 0.1 },
                   }}
                   exit={{ opacity: 0, scale: 0.8 }}
-                  className="w-[270px] h-[140px] my-auto bg-black bg-opacity-50 top-[-50px] text-white rounded-2xl absolute inset-0 left-[60px]"
+                  className="w-[230px] md:w-[270px] h-[140px] my-auto bg-black bg-opacity-50 top-[-50px] text-white rounded-2xl absolute inset-0 left-[80px] md:left-[60px]"
                 >
                   <div className="py-4 px-5">
                     <div className="flex items-center space-x-2">
@@ -670,7 +670,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                       <h1 className="text-medium font-bold text-[#fff]">SMS</h1>
                     </div>
                     <div className="mt-3 text-sm">
-                      <p className="flex items-center">
+                    <p className="flex items-center text-[12px] md:text-[16px]">
                         Journeylog: 🚀 You have a habit to reinforce today: 🏋🏽
                         Workout on weekdays
                       </p>
