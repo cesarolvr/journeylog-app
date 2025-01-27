@@ -55,6 +55,7 @@
     "clsx": "^2.0.0",
     "dayjs": "^1.11.13",
     "eslint-config-next": "13.5.2",
+    "file-loader": "^6.2.0",
     "framer-motion": "^11.3.2",
     "lexical": "^0.16.1",
     "lodash": "^4.17.21",

@@ -39,17 +39,17 @@ import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 import Footer from "../Footer";
 import { useEffect, useRef, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, useScroll, useTransform } from "framer-motion";
 import FirstIllustration from "../Illustrations/FirstIllustration";
 import SecondIllustration from "../Illustrations/SecondIllustration";
 import ThirdIllustration from "../Illustrations/ThirdIllustration";
 import RemindersCard from "../RemindersCard";
-import AnimatedLoader from "../AnimatedLoader";
 import { useTheme } from "next-themes";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
   const [remindersTurnOn, setRemindersTurnOn] = useState(false);
+  const [isWhatsapp, setIsWhatsapp] = useState(false);
   const [buttonFormText, setButtonFormText] = useState("Send");
 
   const supabaseClient = useSupabaseClient();
@@ -217,6 +217,12 @@ const Landing = ({ user, subscriptionInfo }: any) => {
       }, 500);
     }
   }, [remindersRefInView]);
+
+  const playNotification = () => {
+    let audio = new Audio("./sound.mp3");
+    audio.volume = 0.5;
+    audio.play();
+  };
 
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
@@ -537,10 +543,10 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           <RemindersCard />
         </section>
         <section
-          id="fall"
+          id="cherry"
           className="inline-flex justify-center items-center w-full my-4 md:mb-48 md:mt-20 flex-col md:flex-row-reverse"
         >
-          <div className="md:w-[330px] md:mx-12 p-6 max-w-[70%] md:max-w-none">
+          <div className="md:w-[330px] md:mx-12 p-3 md:p-6 max-w-[80%] md:max-w-none">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -549,7 +555,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             >
               <Tabs
                 classNames={{
-                  tabList: "bg-[#303030]",
+                  tabList: "bg-[#2c2c2c]",
                   cursor: "!bg-[#565656]",
                   tabContent: "!font-black",
                 }}
@@ -557,6 +563,10 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 size="lg"
                 radius="full"
                 className="mb-10"
+                onSelectionChange={(e) => {
+                  setIsWhatsapp(e === "Whatsapp");
+                  playNotification();
+                }}
               >
                 <Tab key="Whatsapp" title="Whatsapp" />
                 <Tab key="SMS" title="SMS" />
@@ -566,7 +576,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0, transition: { delay: 0.1 } }}
               viewport={{ amount: 1, once: true }}
-              className="text-[25px] md:text-[30px] mb-10  text-center md:text-left"
+              className="text-[25px] md:text-[30px] mb-5 md:mb-10 text-center md:text-left"
             >
               The cherry on top: reminders are sent straight to your{" "}
               <span className="font-black text-[#27DE55]">WhatsApp</span> or
@@ -577,8 +587,98 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ amount: 0.5, once: true }}
+            className="relative"
           >
-            <Image src={PhoneMockup} alt="" className="md:mr-7 mb-10 md:mb-0 px-3" />
+            <Image
+              src={PhoneMockup}
+              alt=""
+              className="md:mr-7 mb-10 md:mb-0 px-14 md:px-8"
+            />
+            <AnimatePresence>
+              {isWhatsapp && (
+                <motion.div
+                  key={"modal"}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{
+                    opacity: 1,
+                    scale: 1,
+                    transition: { delay: 0.1 },
+                  }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  // viewport={{ amount: 1, once: true }}
+                  className="w-[270px] h-[120px] my-auto bg-black bg-opacity-50 top-[-50px] text-white rounded-2xl absolute inset-0 left-[60px]"
+                >
+                  <div className="py-4 px-5">
+                    <div className="flex items-center space-x-2">
+                      <div className="bg-[#27DE55] rounded-full p-2">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 8.76845C18 13.6108 14.044 17.5363 9.16288 17.5363C7.61392 17.5363 6.15887 17.1401 4.89223 16.4463L0 18L1.59474 13.2944C0.790622 11.9738 0.327518 10.4231 0.327518 8.76786C0.328105 3.92552 4.28298 0 9.16405 0C14.0445 0.0011739 18 3.92611 18 8.76845ZM9.16229 1.39812C5.06597 1.39812 1.73385 4.70499 1.73385 8.77021C1.73385 10.3831 2.25976 11.8763 3.14899 13.0913L2.22161 15.8283L5.07536 14.9214C6.24926 15.6915 7.65383 16.14 9.16229 16.14C13.2586 16.14 16.5919 12.8337 16.5919 8.76845C16.5931 4.70499 13.2592 1.39812 9.16229 1.39812ZM13.6255 10.7881C13.5703 10.6995 13.4259 10.6455 13.2099 10.5375C12.9945 10.4295 11.928 9.91007 11.7302 9.83963C11.5306 9.76744 11.3862 9.73105 11.2419 9.94646C11.0992 10.1619 10.6837 10.6455 10.5563 10.7899C10.4301 10.9337 10.3039 10.9519 10.0873 10.8457C9.87074 10.7365 9.17227 10.5111 8.34467 9.77918C7.70079 9.20866 7.26586 8.50608 7.14025 8.29067C7.01288 8.07585 7.12734 7.95963 7.23475 7.85281C7.33159 7.75596 7.45133 7.60159 7.55992 7.4754C7.6685 7.35038 7.70431 7.26175 7.7765 7.11794C7.84752 6.97414 7.81172 6.84912 7.75831 6.74054C7.70431 6.63254 7.27173 5.57603 7.09036 5.14579C6.91016 4.71614 6.72997 4.78717 6.60319 4.78717C6.47699 4.78717 6.3326 4.76956 6.18822 4.76956C6.04383 4.76956 5.80905 4.82179 5.61124 5.03721C5.41344 5.25262 4.85349 5.77207 4.85349 6.82975C4.85349 7.88861 5.62885 8.90932 5.73744 9.05253C5.84661 9.19516 7.23651 11.4367 9.43816 12.2972C11.641 13.1571 11.641 12.8701 12.0378 12.8337C12.4357 12.7973 13.3197 12.3142 13.4993 11.813C13.68 11.3094 13.68 10.8779 13.6255 10.7881Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                      <h1 className="text-medium font-bold text-[#fff]">
+                        Journeylog
+                      </h1>
+                    </div>
+                    <div className="mt-3 text-sm">
+                      <p className="flex items-center">
+                        🚀 You have a habit to reinforce today: 🏋🏽 Workout on
+                        weekdays
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {!isWhatsapp && (
+                <motion.div
+                  key={"modal"}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{
+                    opacity: 1,
+                    scale: 1,
+                    transition: { delay: 0.1 },
+                  }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  className="w-[270px] h-[140px] my-auto bg-black bg-opacity-50 top-[-50px] text-white rounded-2xl absolute inset-0 left-[60px]"
+                >
+                  <div className="py-4 px-5">
+                    <div className="flex items-center space-x-2">
+                      <div className="bg-[#128830] rounded-full p-2">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M8.00062 0.277832C3.58942 0.277832 0 3.11119 0 6.59338C0 8.55896 1.14849 10.3835 3.15039 11.5989C3.46104 11.7868 3.67455 12.0989 3.73888 12.4555C3.93632 13.5571 3.67085 14.7175 3.27493 15.7217C4.59573 15.0947 5.95677 14.1317 7.03708 13.207C7.30338 12.9795 7.65873 12.8843 8.00419 12.9081H8.00577C12.4126 12.9081 16 10.0756 16 6.59296C16 3.11119 12.4118 0.277832 8.00062 0.277832Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                      <h1 className="text-medium font-bold text-[#fff]">SMS</h1>
+                    </div>
+                    <div className="mt-3 text-sm">
+                      <p className="flex items-center">
+                        Journeylog: 🚀 You have a habit to reinforce today: 🏋🏽
+                        Workout on weekdays
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         </section>
         <section
@@ -942,7 +1042,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 </Button>
               </div>
               <div className="proCard text-left relative overflow-hidden md:mt-[-100px] bg-[#343434] flex items-center justify-center rounded-[28px]">
-                <div className="relative z-50 w-[100%] h-[100%] border-4 border-[rgba(0,0,0,0)] bg-clip-padding md:h-[100%] bg-[#272727] p-10 pr-14 m-auto rounded-[28px]">
+                <div className="relative z-50 w-[100%] h-[100%] border-4 border-[rgba(0,0,0,0)] bg-clip-padding md:h-[100%] bg-[#272727] p-10 pr-14 pl-8 m-auto rounded-[28px]">
                   <div className="absolute top-[15px] right-[15px] bg-[#27DE55] rounded-xl py-2 px-3 text-[black] font-black">
                     {isPro ? "Already subscribed" : "Most popular"}
                   </div>
