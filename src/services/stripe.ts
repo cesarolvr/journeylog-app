@@ -22,7 +22,6 @@ export const subscribeAction = async ({ userId }: any) => {
       userId,
     },
     mode: "subscription",
-    currency: "usd",
     success_url: `${process.env.NEXT_PUBLIC_URL}/app`,
     cancel_url: `${process.env.NEXT_PUBLIC_URL}`,
   });
