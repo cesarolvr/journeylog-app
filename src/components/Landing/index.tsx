@@ -218,10 +218,16 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     }
   }, [remindersRefInView]);
 
+  const { ref: soundRef, inView: soundInView } = useInView({
+    threshold: 1,
+  });
+
   const playNotification = () => {
     let audio = new Audio("./sound.mp3");
     audio.volume = 0.2;
-    audio.play();
+    if (soundInView) {
+      audio.play();
+    }
   };
 
   return (
@@ -544,6 +550,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
         </section>
         <section
           id="cherry"
+          ref={soundRef}
           className="inline-flex justify-center items-center w-full my-4 md:mb-48 md:mt-20 flex-col md:flex-row-reverse"
         >
           <div className="md:w-[330px] md:mx-12 p-3 md:p-6 max-w-[80%] md:max-w-none">
@@ -670,7 +677,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                       <h1 className="text-medium font-bold text-[#fff]">SMS</h1>
                     </div>
                     <div className="mt-3 text-sm">
-                    <p className="flex items-center text-[12px] md:text-[16px]">
+                      <p className="flex items-center text-[12px] md:text-[16px]">
                         Journeylog: 🚀 You have a habit to reinforce today: 🏋🏽
                         Workout on weekdays
                       </p>
