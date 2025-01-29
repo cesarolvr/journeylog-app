@@ -100,18 +100,10 @@ const Editor = ({
     ?.join(" ");
 
   const getNow = () => DateTime.now().toUTC().toISO();
-  const getCustomDate = () =>
-    DateTime.fromJSDate(new Date())
-      .set({
-        day: dateSelected.day,
-        month: dateSelected.month,
-        year: dateSelected.year,
-      })
-      .toUTC()
-      .toISO();
 
   const getUser = () => user;
-  const getActiveLog = () => activeLog;
+
+  console.log(previewList);
 
   const handleSwitchNotifications = debounce(
     async (isToEnable: any, setup: any) => {
@@ -210,36 +202,42 @@ const Editor = ({
 
   const handleContentEdit = debounce(async (content: any) => {
     const now = getNow();
-    const customDate = getCustomDate();
+    const customDate = DateTime.fromJSDate(new Date())
+      .set({
+        day: dateSelected.day,
+        month: dateSelected.month,
+        year: dateSelected.year,
+      })
+      .toUTC()
 
-    const isToCreate = !getActiveLog();
+    const logId = `log_${getUser()?.id}_${activeTab?.id}_${customDate.toISODate()}`;
 
-    const payloadToSend = (condition: boolean) => {
-      if (condition) {
-        return {
-          created_at: customDate,
-          updated_at: now,
-          type: "",
-          journey_id: activeTab?.id,
-          content,
-          user_id: getUser()?.id,
-        };
-      } else {
-        return {
-          id: getActiveLog()?.id,
-          created_at: getActiveLog()?.created_at,
-          updated_at: now,
-          type: "",
-          journey_id: activeTab?.id,
-          content,
-          user_id: getUser()?.id,
-        };
-      }
-    };
+    // const payloadToSend = (condition: boolean) => {
+    //   if (condition) {
+    //     return {
+    //       created_at: customDate,
+    //       updated_at: now,
+    //       type: "",
+    //       journey_id: activeTab?.id,
+    //       content,
+    //       user_id: getUser()?.id,
+    //     };
+    //   } else {
+    //     return ;
+    //   }
+    // };
 
     const { data, error } = await supabaseClient
       .from("log")
-      .upsert(payloadToSend(isToCreate))
+      .upsert({
+        id: logId,
+        created_at: activeLog ? activeLog?.created_at : customDate.toISO(),
+        updated_at: now,
+        type: "",
+        journey_id: activeTab?.id,
+        content,
+        user_id: getUser()?.id,
+      })
       .select();
 
     if (data && data[0]) {
@@ -260,6 +258,8 @@ const Editor = ({
         },
         false
       );
+
+      const isToCreate = !activeLog;
 
       if (isToCreate) {
         setIsToRunConfetti(true);
@@ -301,7 +301,7 @@ const Editor = ({
           frequency: frequency || "daily",
         })
         .eq("id", activeTab?.id);
-        
+
       setActiveTab({
         ...activeTab,
         theme,
