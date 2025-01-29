@@ -74,7 +74,7 @@ const App = () => {
   const isPro = subscription === "habit_creator";
 
   const handleChoosePlan = async (id: string, plan: string) => {
-    const isPro = plan === "pro";
+    const isPro = plan === "habit_creator";
     if (isPro) {
       const url = await subscribeAction({ userId: id });
 

@@ -26,12 +26,16 @@ export async function POST(request: NextRequest) {
 
   console.log('event', JSON.stringify(event))
 
+  const session = event.data.object as Stripe.Checkout.Session;
+
   if (
     (event.type === "checkout.session.completed" || event.type === 'checkout.session.async_payment_succeeded') &&
-    event.data.object.payment_status === "paid"
+    session.payment_status === "paid"
   ) {
-    const metadata = event.data.object.metadata;
+    const metadata = event?.data?.object?.metadata as Stripe.Metadata
+
     console.log('metadata', metadata)
+
     if (metadata) {
       const resSubscription = await supabaseServerClient
         .from("users")

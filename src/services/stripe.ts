@@ -20,6 +20,7 @@ export const subscribeAction = async ({ userId }: any) => {
     ],
     metadata: {
       userId,
+      teste: '123'
     },
     mode: "subscription",
     success_url: `${process.env.NEXT_PUBLIC_URL}/app`,

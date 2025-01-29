@@ -511,7 +511,7 @@ const ProfileModal = ({
                   size="lg"
                   onPress={() => {
                     if (!isPro) {
-                      handleChoosePlan(user?.id, "pro");
+                      handleChoosePlan(user?.id, "habit_creator");
                     }
                   }}
                 >

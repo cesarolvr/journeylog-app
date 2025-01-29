@@ -59,7 +59,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
   const router = useRouter();
 
   const handleChoosePlan = async (id: string, plan: string) => {
-    const isPro = plan === "pro";
+    const isPro = plan === "habit_creator";
     if (isPro) {
       const url = await subscribeAction({ userId: id });
 
@@ -1212,7 +1212,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                       if (!!user && subscription === "habit_creator") {
                         router.push("/app");
                       } else if (!!user) {
-                        handleChoosePlan(user?.id, "pro");
+                        handleChoosePlan(user?.id, "habit_creator");
                       } else {
                         router.push("/sign-in");
                       }
