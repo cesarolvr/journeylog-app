@@ -224,7 +224,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
 
   const playNotification = () => {
     let audio = new Audio("./sound.mp3");
-    audio.volume = 0.2;
+    audio.volume = 0.1;
     if (soundInView) {
       audio.play();
     }
