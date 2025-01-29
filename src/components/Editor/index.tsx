@@ -103,8 +103,6 @@ const Editor = ({
 
   const getUser = () => user;
 
-  console.log(previewList);
-
   const handleSwitchNotifications = debounce(
     async (isToEnable: any, setup: any) => {
       const isWhen = setup === "when";
@@ -211,21 +209,6 @@ const Editor = ({
       .toUTC()
 
     const logId = `log_${getUser()?.id}_${activeTab?.id}_${customDate.toISODate()}`;
-
-    // const payloadToSend = (condition: boolean) => {
-    //   if (condition) {
-    //     return {
-    //       created_at: customDate,
-    //       updated_at: now,
-    //       type: "",
-    //       journey_id: activeTab?.id,
-    //       content,
-    //       user_id: getUser()?.id,
-    //     };
-    //   } else {
-    //     return ;
-    //   }
-    // };
 
     const { data, error } = await supabaseClient
       .from("log")
