@@ -13,6 +13,12 @@ export async function POST(request: NextRequest) {
 
   const supabaseServerClient = createClient()
 
+  await supabaseServerClient
+    .from("feedback").insert({
+      content: `${JSON.stringify(event)} hahah`,
+    });
+
+
   try {
     event = stripe.webhooks.constructEvent(
       body,
