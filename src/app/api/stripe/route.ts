@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
       console.log('on remove notification =>', resNotification)
     }
-  } else if (event.type === "customer.subscription.updated") {
+  } else if (event.type === "customer.subscription.updated" && event?.data?.object?.cancel_at) {
     const cancelDate = DateTime.fromJSDate(new Date(event?.data?.object?.cancel_at * 1000))
       .toUTC()
       .toISO()
