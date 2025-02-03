@@ -12,7 +12,9 @@ const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "900"] });
 
 // Styles
 import "./globals.scss";
-import "./editor.scss";
+import "./styles/overrides.scss";
+import "./styles/editor.scss";
+import "./styles/themes.scss";
 
 export default async function RootLayout({
   children,

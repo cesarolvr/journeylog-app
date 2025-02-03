@@ -13,8 +13,6 @@ export async function POST(request: NextRequest) {
 
   const supabaseServerClient = createClient()
 
-  console.log('NEXT_PUBLIC_STRIPE_SIGNING_SECRET', process.env.NEXT_PUBLIC_STRIPE_SIGNING_SECRET)
-
   try {
     event = stripe.webhooks.constructEvent(
       body,

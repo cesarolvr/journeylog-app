@@ -9,7 +9,7 @@ module.exports = {
       hmrRefreshes: true,
     },
   },
-  webpack(config, options) {
+  webpack(config) {
     config.module.rules.push({
       test: /\.mp3$/,
       use: {

@@ -28,7 +28,7 @@ const SignIn = () => {
 
   useEffect(() => {
     if (session) {
-      router.push("/");
+      router.push("/app");
     }
   }, [session, router]);
 

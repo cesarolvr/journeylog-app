@@ -1,0 +1,292 @@
+.dark {
+  .editor {
+    background-image: linear-gradient(to bottom, #1f1f1f 1px, transparent 1px);
+  }
+  .editor-container {
+    color: #d7d7d7;
+  }
+
+  .editor-options {
+    background-color: #171717;
+  }
+
+  .toolbar {
+    background-color: #171717;
+
+    .toolbar-item .text {
+      color: #777;
+    }
+
+    .toolbar-item svg {
+      stroke: #777;
+    }
+  }
+
+  .nav-header {
+    background-color: transparent;
+  }
+
+  .tabJourney {
+    .extra {
+      background-color: #222222;
+      color: #777;
+    }
+  }
+
+  .datepicker-wrapper {
+    background-color: black;
+  }
+
+  #tabs {
+    background-color: #171717;
+    > div {
+      border-color: #777;
+    }
+  }
+
+  .daybadge {
+    background-color: #171717;
+  }
+
+  .syncer {
+    background-color: #171717;
+  }
+
+  .artboard-tabs {
+    background-color: #171717;
+  }
+
+  .sidebar {
+    background-color: black;
+    border-color: #2e2e2e;
+  }
+
+  .sidebar-day {
+    background-color: #161616;
+    color: #424242;
+
+    &.featured-day {
+      background-color: #212121;
+      color: #bcbcbc;
+    }
+  }
+
+  .sidebar-note {
+    background-color: black;
+  }
+
+  .artboard-header {
+    input {
+      background-color: #171717;
+      color: white;
+    }
+  }
+
+  .close-sidemenu-button {
+    background: black;
+    border: 1px solid #2e2e2e;
+  }
+}
+
+.light {
+  --nextui-primary: #fff7dc !important;
+
+  .artboard-tabs {
+    background-color: #faedc9;
+  }
+
+  .editor {
+    background-image: linear-gradient(to bottom, #ddd2a9 1px, transparent 1px);
+  }
+
+  .editor-container {
+    color: #171717;
+  }
+
+  .editor-input {
+    code {
+      color: #171717;
+      background-color: #e4d8b4;
+    }
+
+    mark {
+      border: 3px dashed;
+      background: #efe7c8;
+      border-color: #938e79;
+      color: #565242;
+      font-weight: bold;
+      border-radius: 10px;
+      padding: 0 10px;
+    }
+  }
+
+  .toolbar {
+    background-color: #faedc9;
+
+    .toolbar-item .text {
+      color: #817b65;
+    }
+
+    .toolbar-item svg {
+      stroke: #817b65;
+    }
+
+    button.toolbar-item:hover:not([disabled]) {
+      background-color: #f3ebcb;
+    }
+
+    button.toolbar-item.active {
+      background-color: #f3ebcb;
+
+      .text {
+        color: #2c2c2c;
+      }
+    }
+  }
+
+  .sidebar-day {
+    background-color: #f0e5c2;
+    color: #524d37;
+
+    &.featured-day {
+      background-color: #e4d8b4;
+    }
+  }
+
+  ::selection {
+    color: #2c2c2c;
+    background-color: #e2d7b4;
+  }
+
+  .switch {
+    span {
+      background-color: #47474b;
+      span {
+        background-color: #fff;
+      }
+    }
+  }
+
+  .editor-placeholder {
+    color: #c8c1a9;
+  }
+
+  .editor-listitem-checked:before {
+    color: #cbc2a6 !important;
+  }
+
+  .sidebar-note {
+    background-color: #fbf1d2;
+  }
+
+  .nav-header {
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  .tabJourney {
+    > span {
+      background-color: #e3d8b5;
+      box-shadow: none;
+    }
+
+    > div {
+      color: #524d36 !important;
+    }
+
+    .extra {
+      background-color: #ebe2c2;
+    }
+  }
+
+  .avatar {
+    background-color: #e5d8ae;
+    border: none;
+
+    span {
+      color: #524d36;
+    }
+  }
+
+  .button-new-journey {
+    color: #524d36;
+    svg {
+      stroke: #524d36;
+    }
+  }
+
+  #tabs {
+    > div {
+      border-color: #a49b74;
+      border-width: 1px;
+      box-shadow: none;
+      background-color: #fbf1d2;
+    }
+  }
+
+  .daybadge {
+    background-color: #faedc9;
+  }
+
+  .syncer {
+    background-color: #f3ebcb;
+  }
+
+  .sidebar {
+    background-color: #fbf1d2;
+    border-color: #a49b73;
+  }
+
+  .datepicker-wrapper {
+    background-color: #fbf1d2;
+
+    > div > div {
+      border-color: #a49b73;
+      border-width: 1px;
+    }
+
+    button svg {
+      color: #cbc2a6;
+    }
+
+    > div > div > div > div > div {
+      color: #4d4d4d !important;
+    }
+  }
+
+  .close-sidemenu-button {
+    background: #f9eec4;
+    border: 1px solid #a49b73;
+
+    svg {
+      stroke: #4d4d4d;
+    }
+  }
+
+  .editor-options {
+    background-color: #faedc9;
+
+    .insights-button {
+      svg {
+        stroke: #39d353;
+      }
+    }
+
+    .options-button {
+      svg {
+        color: #524d36;
+      }
+
+      &:hover {
+        background-color: #f9eec4;
+      }
+    }
+  }
+
+  .artboard-header {
+    input {
+      background-color: #faedc9;
+      color: #2c2c2c;
+    }
+  }
+}

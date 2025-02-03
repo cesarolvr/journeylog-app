@@ -691,8 +691,6 @@ const Editor = ({
                       ></Avatar>
                     </div>
                   ) : (
-                    // <Badge content="" className="border-1 border-[#39d353]" size="ld">
-                    // </Badge>
                     <Avatar
                       className="text-white cursor-pointer clear-start avatar"
                       name={username}

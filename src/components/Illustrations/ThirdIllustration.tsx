@@ -43,7 +43,7 @@ const ThirdIllustration = () => {
           ];
           const colorIndex = Math.min(value - 1, colorRange.length - 1);
           const backgroundColor = colorRange[colorIndex];
-          const width = `${value * 20}%`; // Calculate width based on value
+          const width = `${value * 20}%`;
           return (
             <div className="flex items-center my-3" key={day}>
               <motion.span

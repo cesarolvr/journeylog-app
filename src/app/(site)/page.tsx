@@ -18,7 +18,7 @@ const Home = () => {
   useEffect(() => {
     if (!!user) {
       const retrieveSubscriptionInfo = async () => {
-        const { data, error } = await supabaseClient
+        const { data } = await supabaseClient
           .from("users")
           .select()
           .eq("id", user?.id);

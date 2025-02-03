@@ -23,7 +23,7 @@ const AnimatedLoader = () => {
         }
         return prevProgress + 1.5;
       });
-    }, 10); // Ajuste o intervalo conforme necessário
+    }, 10);
 
     return () => clearInterval(interval);
   }, []);
@@ -61,7 +61,6 @@ const AnimatedLoader = () => {
           transition={{
             duration: 0.3,
             ease: "easeInOut",
-            // delay: ,
           }}
         >
           <Progress

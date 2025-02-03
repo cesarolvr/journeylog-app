@@ -612,7 +612,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                     transition: { delay: 0.1 },
                   }}
                   exit={{ opacity: 0, scale: 0.8 }}
-                  // viewport={{ amount: 1, once: true }}
                   className="w-[230px] md:w-[270px] h-[120px] my-auto bg-black bg-opacity-50 top-[-50px] text-white rounded-2xl absolute inset-0 left-[80px] md:left-[60px]"
                 >
                   <div className="py-4 px-5">
@@ -1037,7 +1036,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   size="lg"
                   onPress={(f) => {
                     handleChoosePlan(user?.id, "free");
-                    // router.push(!!user ? "/app" : "/sign-in");
                   }}
                 >
                   {!!user

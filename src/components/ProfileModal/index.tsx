@@ -598,13 +598,6 @@ const ProfileModal = ({
                             </span>
                           ),
                         },
-                        // {
-                        //   key: "insights",
-                        //   icon: <LucideBarChart />,
-                        //   text: "Insights",
-                        //   classes: "cursor-not-allowed",
-                        //   blocked: true,
-                        // },
                         {
                           key: "landing",
                           icon: <SquareArrowOutUpRight />,

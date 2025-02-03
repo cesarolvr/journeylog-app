@@ -7,7 +7,7 @@ import { useInView } from "react-intersection-observer";
 import { Select, SelectItem, Switch } from "@nextui-org/react";
 import { Bell, Clock9, MessageCircleQuestion } from "lucide-react";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { whatTime, where } from "../ArtboardOptions";
 import { useMotionValue, useTransform } from "framer-motion";
 
@@ -17,36 +17,6 @@ const RemindersCard = () => {
   const { ref: remindersRef, inView: remindersRefInView } = useInView({
     threshold: 0.5,
   });
-
-  // const [whatTimeOpened, setWhatTimeOpened] = useState(false);
-  // const [alertMeOnOpened, setAlertMeOnOpened] = useState(false);
-  
-  // useEffect(() => {
-  //   if (remindersRefInView) {
-  //     setTimeout(() => {
-  //       setRemindersTurnOn(true);
-  //     }, 500);
-  //     setTimeout(() => {
-  //       setWhatTimeOpened(true);
-  //     }, 2000);
-  //     setTimeout(() => {
-  //       setWhatTimeOpened(false);
-  //     }, 4000);
-
-  //     setTimeout(() => {
-  //       setAlertMeOnOpened(true);
-  //     }, 5000);
-  //     setTimeout(() => {
-  //       setAlertMeOnOpened(false);
-  //     }, 6000);
-  //   } else {
-  //     setTimeout(() => {
-  //       setRemindersTurnOn(false);
-  //       setWhatTimeOpened(false);
-  //       setAlertMeOnOpened(false);
-  //     }, 500);
-  //   }
-  // }, [remindersRefInView]);
 
   const cardX = useMotionValue(0);
   const cardY = useMotionValue(0);
