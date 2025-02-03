@@ -48,7 +48,7 @@ import { useTheme } from "next-themes";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   const [formContent, setFormContent] = useState("");
-  const [remindersTurnOn, setRemindersTurnOn] = useState(false);
+  const [_, setRemindersTurnOn] = useState(false);
   const [isWhatsapp, setIsWhatsapp] = useState(false);
   const [buttonFormText, setButtonFormText] = useState("Send");
 

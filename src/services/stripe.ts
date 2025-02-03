@@ -4,7 +4,7 @@ const key: any = process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY
 const priceIdHabitCreator: any = process.env.NEXT_PUBLIC_STRIPE_PRICE_HABIT_CREATOR_ID
 
 export const stripe = new Stripe(key, {
-  apiVersion: "2024-06-20",
+  apiVersion: "2024-12-18.acacia",
   typescript: true,
 });
 
