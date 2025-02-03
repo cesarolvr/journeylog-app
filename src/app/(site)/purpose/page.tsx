@@ -172,7 +172,6 @@ const Purpose = () => {
               href="/sign-in"
             >
               Try free
-              {/* /sign-in */}
               <ChevronRight className="mr-[-8px]" />
             </Link>
           </div>
