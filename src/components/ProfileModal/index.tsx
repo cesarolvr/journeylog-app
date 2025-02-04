@@ -11,6 +11,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import classNames from "classnames";
 import {
   ChevronRight,
+  CircleHelp,
   CreditCard,
   Handshake,
   LogOut,
@@ -623,6 +624,15 @@ const ProfileModal = ({
                           classes: "",
                           action: () => {
                             router.push("/terms-of-use");
+                          },
+                        },
+                        {
+                          key: "howitworks",
+                          icon: <CircleHelp />,
+                          text: "How it works",
+                          classes: "",
+                          action: () => {
+                            console.log('aaaa')
                           },
                         },
                         {

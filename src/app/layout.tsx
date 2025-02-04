@@ -4,10 +4,11 @@ import NextUIProvider from "@/providers/NextUIProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { Bounce, ToastContainer } from "react-toastify";
-import { Nunito_Sans } from "next/font/google";
-import Script from "next/script";
 import FacebookPixel from "@/components/Fbpixel";
 
+import Script from "next/script";
+
+import { Nunito_Sans } from "next/font/google";
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "900"] });
 
 // Styles
@@ -64,6 +65,7 @@ export default async function RootLayout({
                 className={`!w-[400px] cursor-pointer !max-w-[100%] px-4 left-auto right-auto md:right-0 top-8`}
                 toastClassName={`${nunito.className} text-[18px] !w-full !rounded-[15px] overflow-hidden`}
               />
+             
             </NextThemesProvider>
           </NextUIProvider>
         </SupabaseProvider>

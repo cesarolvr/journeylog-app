@@ -712,7 +712,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               <span className="text-[20px]">Days in a row</span>
             </motion.span>
             <motion.span
-              className="flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 text-[#5C5C5C]"
+              className="dayswithlogs flex justify-center flex-shrink-0 items-center flex-col p-4 md:py-8 text-[#5C5C5C]"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0, transition: { delay: 0.2 } }}
               viewport={{ amount: 1, once: true }}
@@ -721,7 +721,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               <span className="text-[20px]">Days with logs</span>
             </motion.span>
             <motion.span
-              className="flex justify-center items-center flex-shrink-0 flex-col p-4 md:py-8 text-[#5C5C5C]"
+              className="dayssinceitstarted flex justify-center items-center flex-shrink-0 flex-col p-4 md:py-8 text-[#5C5C5C]"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0, transition: { delay: 0.3 } }}
               viewport={{ amount: 1, once: true }}

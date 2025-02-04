@@ -663,7 +663,7 @@ const Editor = ({
         >
           <NavbarContent
             justify="center"
-            className="rounded-2xl md:pr-3 ml-6 md:ml-0"
+            className="journeynav rounded-2xl md:pr-3 ml-6 md:ml-0"
           >
             <ArtboardTabs
               journeyTabs={journeyTabs}
