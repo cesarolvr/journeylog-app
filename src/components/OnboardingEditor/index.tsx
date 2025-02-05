@@ -3,14 +3,18 @@
 import React, { useEffect, useState } from "react";
 import Joyride from "react-joyride";
 
-const Onboarding = ({}: any) => {
+const OnboardingEditor = ({ isInsightsOpened, isOptionsOpened }: any) => {
   const [isToShowJoyride, setIsToShowJoyride] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsToShowJoyride(true);
-    }, 2000);
-  }, []);
+    if (isInsightsOpened || isOptionsOpened) {
+      console.log(isInsightsOpened, isInsightsOpened);
+    } else {
+      // setIsToShowJoyride(true);
+      // setTimeout(() => {
+      // }, 2000);
+    }
+  }, [isInsightsOpened, isOptionsOpened]);
   return (
     <Joyride
       nonce="onboarding-editor"
@@ -126,4 +130,4 @@ const Onboarding = ({}: any) => {
   );
 };
 
-export default Onboarding;
+export default OnboardingEditor;

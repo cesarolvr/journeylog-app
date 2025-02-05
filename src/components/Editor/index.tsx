@@ -45,6 +45,7 @@ import ArtboardInsights from "../ArtboardInsights";
 import { ArrowUpRight, ChevronRight, LogOut, User } from "lucide-react";
 import ReactConfetti from "react-confetti";
 import { toast } from "react-toastify";
+import dynamic from "next/dynamic";
 
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
 
@@ -206,9 +207,11 @@ const Editor = ({
         month: dateSelected.month,
         year: dateSelected.year,
       })
-      .toUTC()
+      .toUTC();
 
-    const logId = `log_${getUser()?.id}_${activeTab?.id}_${customDate.toISODate()}`;
+    const logId = `log_${getUser()?.id}_${
+      activeTab?.id
+    }_${customDate.toISODate()}`;
 
     const { data, error } = await supabaseClient
       .from("log")
@@ -576,8 +579,14 @@ const Editor = ({
 
   const [isToRunConfetti, setIsToRunConfetti] = useState(false);
 
+  const OnboardingComponent = dynamic(
+    () => import("../../components/OnboardingEditor"),
+    { ssr: false }
+  );
+
   return (
     <div className={`w-full h-full editor ${cutive.variable}`}>
+      <OnboardingComponent />
       {isToRunConfetti && (
         <ReactConfetti
           width={window?.innerWidth}

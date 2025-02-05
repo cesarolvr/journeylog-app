@@ -613,12 +613,12 @@ const ArtboardInsights = ({
               </motion.li>
             </ul>
           </div>
-          <div className="frequency">
+          <div className="frequency-item">
             <div className="flex justify-between mb-6 px-7 items-center">
-              <p>Frequency</p>
+              <p className="">Frequency</p>
             </div>
             <div className="w-full overflow-scroll pl-7 pr-8 mb-7">
-              <div className="flex">
+              <div className=" flex">
                 {isInsightsOpened && !isLoading ? (
                   <>
                     <motion.div

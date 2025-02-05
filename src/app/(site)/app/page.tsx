@@ -94,15 +94,10 @@ const App = () => {
     setShowJoyride(true);
   }, []);
 
-  const OnboardingComponent = dynamic(
-    () => import("../../../components/OnboardingEditor"),
-    { ssr: false }
-  );
-
   return (
     <main className={`w-[100vw] ${theme}`} suppressHydrationWarning={true}>
       <AnimatedLoader />
-      <OnboardingComponent />
+      
       <ProfileModal
         isOpen={isOpen}
         defaultPanel={defaultPanel}

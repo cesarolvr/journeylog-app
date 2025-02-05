@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Joyride from "react-joyride";
 
-const OnboardingInsights = ({ isInsightsOpened }: any) => {
+const OnboardingOptions = ({ isInsightsOpened }: any) => {
   const [isToShowOnboarding, setiIsToShowOnboarding] = useState(false);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
   }, [isInsightsOpened]);
   return (
     <Joyride
-      nonce="onboarding-insights"
+      nonce="onboarding-options"
       run={isToShowOnboarding}
       showProgress={true}
       continuous={true}
@@ -49,12 +49,13 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
       steps={[
         {
           disableBeacon: true,
-          target: ".inarow",
+          target: ".theme",
           placement: "bottom",
-          spotlightPadding: 0,
+          spotlightPadding: 15,
           content: (
             <>
-              Here are some metrics that will give you insights about your journey. Days in a row, days with any note filled (whatever it is), and days since your journey started.
+              Here you can choose the theme of your journey. Try clicking on one
+              of the themes to see how it looks.
             </>
           ),
           styles: {
@@ -65,12 +66,14 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
         },
         {
           disableBeacon: true,
-          target: ".frequency-item",
+          target: ".frequency",
           placement: "bottom",
-          spotlightPadding: 10,
+          spotlightPadding: 15,
           content: (
             <>
-              With this chart (similar to Github), you can see the distribution of the days you made the most progress in your journey.
+              Here you define the frequency of this journey. This will determine
+              how often you will receive notifications. It can be daily, weekly,
+              or monthly. This will also define the charts for this journey.
             </>
           ),
           styles: {
@@ -81,12 +84,14 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
         },
         {
           disableBeacon: true,
-          target: ".consistency",
+          target: ".notifications",
           placement: "bottom",
-          spotlightPadding: 10,
+          spotlightPadding: 15,
           content: (
             <>
-              Here is the consistency of your progress over the last 30 days. The shade of the filled bar corresponds to the number of notes you made on a particular day.
+              Here, you can choose how you want to receive notifications about
+              your journey. You can choose to receive them via SMS, Email, or
+              WhatsApp. Available only for PRO users.
             </>
           ),
           styles: {
@@ -97,12 +102,12 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
         },
         {
           disableBeacon: true,
-          target: ".density",
+          target: ".actions",
           placement: "bottom",
-          spotlightPadding: 10,
+          spotlightPadding: 15,
           content: (
             <>
-              It's like the consistency chart above, but focused on the last 7 days and more detailed about the length of the note for that day.
+              Here you can choose the actions you want to take on your journey: Finish the journey, pause, or delete.
             </>
           ),
           styles: {
@@ -116,4 +121,4 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
   );
 };
 
-export default OnboardingInsights;
+export default OnboardingOptions;
