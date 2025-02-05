@@ -748,7 +748,8 @@ const Editor = ({
                       
                       setIsToShowJoyride(true);
                     }}
-                    startContent={<CircleHelp className="w-[20px]" />}
+                    className="text-[#39d353]"
+                    startContent={<CircleHelp className="w-[20px] stroke-[#39d353]" />}
                   >
                     See app tour
                   </DropdownItem>
