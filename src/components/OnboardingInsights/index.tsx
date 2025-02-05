@@ -15,6 +15,9 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
       }, 500);
     }
   }, [isInsightsOpened]);
+
+  const isMobile = window.innerWidth < 768;
+
   return (
     <Joyride
       nonce="onboarding-insights"
@@ -39,7 +42,7 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
           textColor: "#171717",
           zIndex: 1000,
         },
-        tooltip: { borderRadius: 20 },
+        tooltip: { borderRadius: 15 },
         tooltipContent: { fontWeight: "bold" },
         spotlight: { borderRadius: 20 },
         buttonNext: {
@@ -48,7 +51,24 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
           padding: "10px 20px",
           color: "#fff",
         },
-        buttonSkip: { color: "#171717" },
+        buttonBack: {
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          width: isMobile ? '100%' : 'auto',
+          marginBottom: isMobile ? 10 : 0,
+        },
+        buttonSkip: { color: "#171717", marginBottom: isMobile ? 10 : 0, display: "flex", width: isMobile ? '100%' : 'auto', justifyContent: "center", alignItems: "center", textAlign: "center" },  
+        tooltipFooter: isMobile
+          ? {
+              display: "grid",
+              flexDirection: "column",
+              textAlign: "center",
+              alignItems: "center",
+              justifyContent: "center",
+            }
+          : {},
       }}
       showSkipButton={true}
       locale={{
