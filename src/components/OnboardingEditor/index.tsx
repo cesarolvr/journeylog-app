@@ -3,22 +3,41 @@
 import React, { useEffect, useState } from "react";
 import Joyride from "react-joyride";
 
-const OnboardingEditor = ({ isInsightsOpened, isOptionsOpened }: any) => {
-  const [isToShowJoyride, setIsToShowJoyride] = useState(false);
-
+const OnboardingEditor = ({
+  isToShowJoyride,
+  setIsToShowJoyride,
+  isInsightsOpened,
+  isOptionsOpened,
+}: any) => {
   useEffect(() => {
-    if (isInsightsOpened || isOptionsOpened) {
-      console.log(isInsightsOpened, isInsightsOpened);
+    const isOnboardingEditorHidden = localStorage.getItem("isOnboardingEditorHidden");
+
+    if (
+      !isInsightsOpened &&
+      !isOptionsOpened &&
+      isOnboardingEditorHidden !== "true"
+    ) {
+      setTimeout(() => {
+        setIsToShowJoyride(true);
+      }, 2000);
     } else {
-      // setIsToShowJoyride(true);
-      // setTimeout(() => {
-      // }, 2000);
+      setIsToShowJoyride(false);
     }
   }, [isInsightsOpened, isOptionsOpened]);
   return (
     <Joyride
       nonce="onboarding-editor"
       run={isToShowJoyride}
+      callback={(data: any) => {
+        if (data.action === "skip") {
+          localStorage.setItem("isOnboardingEditorHidden", "true");
+        }
+
+
+        if (data.status === "finished") {
+          localStorage.setItem("isOnboardingEditorHidden", "true");
+        }
+      }}
       showProgress={true}
       continuous={true}
       styles={{

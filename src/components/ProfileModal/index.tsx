@@ -131,8 +131,6 @@ const ProfileModal = ({
           })
           .eq("user_id", getUser()?.id);
 
-        console.log("aaaa", data);
-
         setIsInValidCode(false);
         setIsToVerifyCode(false);
       }

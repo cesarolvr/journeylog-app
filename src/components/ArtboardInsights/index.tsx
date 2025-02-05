@@ -114,13 +114,6 @@ const ArtboardInsights = ({
             }
           }
 
-          console.log(
-            acc,
-            diffInDays,
-            currentDate.toUTC().toISODate(),
-            prevDate.toUTC().toISODate()
-          );
-
           return -1;
         });
       } else if (reversedList.length === 1) {

@@ -42,7 +42,13 @@ import ArtboardHeader from "../ArtboardHeader";
 import ArtboardTabs from "../ArtboardTabs";
 import ArtboardOptions from "../ArtboardOptions";
 import ArtboardInsights from "../ArtboardInsights";
-import { ArrowUpRight, ChevronRight, LogOut, User } from "lucide-react";
+import {
+  ArrowUpRight,
+  ChevronRight,
+  CircleHelp,
+  LogOut,
+  User,
+} from "lucide-react";
 import ReactConfetti from "react-confetti";
 import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
@@ -66,6 +72,7 @@ const Editor = ({
   const [forcedActiveTab, setForcedActiveTab]: any = useState(1);
   const [isLoading, setIsLoading]: any = useState(false);
   const [journeyName, setJourneyName]: any = useState("");
+  const [isToShowJoyride, setIsToShowJoyride] = useState(false);
   const [font, setFont]: any = useState({ class: reenie.className, code: 1 });
 
   const [isReadyToRenderArtboard, setIsReadyToRenderArtboard]: any =
@@ -579,14 +586,19 @@ const Editor = ({
 
   const [isToRunConfetti, setIsToRunConfetti] = useState(false);
 
-  const OnboardingComponent = dynamic(
+  const OnboardingEditor = dynamic(
     () => import("../../components/OnboardingEditor"),
     { ssr: false }
   );
 
   return (
     <div className={`w-full h-full editor ${cutive.variable}`}>
-      <OnboardingComponent />
+      <OnboardingEditor
+        isInsightsOpened={isInsightsOpened}
+        isOptionsOpened={isOptionsOpened}
+        isToShowJoyride={isToShowJoyride}
+        setIsToShowJoyride={setIsToShowJoyride}
+      />
       {isToRunConfetti && (
         <ReactConfetti
           width={window?.innerWidth}
@@ -725,6 +737,20 @@ const Editor = ({
                     startContent={<ArrowUpRight className="w-[20px]" />}
                   >
                     Go to landing page
+                  </DropdownItem>
+                  <DropdownItem
+                    key="home"
+                    onPress={() => {
+                      // router.push("/");
+                      localStorage.setItem("isOnboardingEditorHidden", "false");
+                      localStorage.setItem("isOnboardingOptionsHidden", "false");
+                      localStorage.setItem("isOnboardingInsightsHidden", "false");
+                      
+                      setIsToShowJoyride(true);
+                    }}
+                    startContent={<CircleHelp className="w-[20px]" />}
+                  >
+                    See app tour
                   </DropdownItem>
                   <DropdownItem
                     key="logout"

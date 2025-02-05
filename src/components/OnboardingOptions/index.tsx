@@ -6,11 +6,13 @@ import Joyride from "react-joyride";
 const OnboardingOptions = ({ isInsightsOpened }: any) => {
   const [isToShowOnboarding, setiIsToShowOnboarding] = useState(false);
 
+  const isOnboardingOptionsHidden = localStorage.getItem("isOnboardingOptionsHidden");
+
   useEffect(() => {
-    if (isInsightsOpened) {
+    if (isInsightsOpened && isOnboardingOptionsHidden !== "true") {
       setTimeout(() => {
         setiIsToShowOnboarding(true);
-      }, 1000);
+      }, 500);
     }
   }, [isInsightsOpened]);
   return (
@@ -19,6 +21,15 @@ const OnboardingOptions = ({ isInsightsOpened }: any) => {
       run={isToShowOnboarding}
       showProgress={true}
       continuous={true}
+      callback={(data: any) => {
+        if (data.action === "skip") {
+          localStorage.setItem("isOnboardingOptionsHidden", "true");
+        }
+
+        if (data.status === "finished") {
+          localStorage.setItem("isOnboardingOptionsHidden", "true");
+        }
+      }}
       styles={{
         options: {
           arrowColor: "#39d353",
@@ -107,7 +118,8 @@ const OnboardingOptions = ({ isInsightsOpened }: any) => {
           spotlightPadding: 15,
           content: (
             <>
-              Here you can choose the actions you want to take on your journey: Finish the journey, pause, or delete.
+              Here you can choose the actions you want to take on your journey:
+              Finish the journey, pause, or delete.
             </>
           ),
           styles: {

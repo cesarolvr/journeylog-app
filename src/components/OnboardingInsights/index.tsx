@@ -6,11 +6,13 @@ import Joyride from "react-joyride";
 const OnboardingInsights = ({ isInsightsOpened }: any) => {
   const [isToShowOnboarding, setiIsToShowOnboarding] = useState(false);
 
+  const isOnboardingInsightsHidden = localStorage.getItem("isOnboardingInsightsHidden");
+
   useEffect(() => {
-    if (isInsightsOpened) {
+    if (isInsightsOpened && isOnboardingInsightsHidden !== "true") {
       setTimeout(() => {
         setiIsToShowOnboarding(true);
-      }, 1000);
+      }, 500);
     }
   }, [isInsightsOpened]);
   return (
@@ -18,6 +20,15 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
       nonce="onboarding-insights"
       run={isToShowOnboarding}
       showProgress={true}
+      callback={(data: any) => {
+        if (data.action === "skip") {
+          localStorage.setItem("isOnboardingInsightsHidden", "true");
+        }
+
+        if (data.status === "finished") {
+          localStorage.setItem("isOnboardingInsightsHidden", "true");
+        }
+      }}
       continuous={true}
       styles={{
         options: {
