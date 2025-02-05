@@ -513,15 +513,17 @@ const ArtboardInsights = ({
 
         <div
           className={classNames(
-            "content fixed w-[550px] max-w-[83%] h-full bg-[#1E1E1E] border-l-1 py-10 overflow-y-scroll border-[#303030] right-0 top-0 z-[45]",
+            "content fixed w-[550px] max-w-[83%] h-full bg-[#1E1E1E] border-l-1 pb-10 pt-3 overflow-y-scroll border-[#303030] right-0 top-0 z-[45]",
             {
               "right-0": isInsightsOpened,
               "right-[-600px]": !isInsightsOpened,
             }
           )}
         >
-          <div className="flex justify-between px-7">
-            <p className="mb-3">Insights</p>
+          <div className="flex justify-between px-7 pt-4 pb-3 sticky top-[-15px] bg-[#1E1E1E] z-[45]">
+            <p className="text-[#39d353] text-md bg-[#2c2c2c] px-3 py-2 rounded-[15px] border-[1px] border-[#39d353]">
+              {activeTab?.name}
+            </p>
             <Share className="opacity-25 cursor-not-allowed" />
           </div>
 
