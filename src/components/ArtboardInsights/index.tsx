@@ -648,7 +648,7 @@ const ArtboardInsights = ({
             {isPro ? (
               <div className="w-full mb-16 px-7 relative">
                 <ul
-                  className="flex w-full gap-1 justify-between relative overflow-visible"
+                  className="flex w-full gap-[3px] justify-between relative overflow-visible"
                   key={isInsightsOpened}
                 >
                   {lastDatesFormatted.map(
@@ -907,7 +907,7 @@ const ArtboardInsights = ({
               <div className="w-full mb-7 relative">
                 {isPro ? (
                   <ul
-                    className="flex w-full justify-between relative gap-2 px-7"
+                    className="flex w-full justify-between relative gap-[5px] px-7"
                     key={isInsightsOpened}
                   >
                     {lastSevenDaysFormatted.map(
@@ -955,7 +955,7 @@ const ArtboardInsights = ({
                                 whileInView={{
                                   opacity: 1,
                                 }}
-                                viewport={{ amount: 1, once: true }}
+                                viewport={{ amount: 0.1, once: true }}
                                 transition={{ delay: index / 5 }}
                                 className="absolute bottom-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center"
                               >
