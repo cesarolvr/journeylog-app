@@ -57,12 +57,14 @@ const OnboardingOptions = ({ isInsightsOpened }: any) => {
           justifyContent: "center",
           alignItems: "center",
           textAlign: "center",
-          width: isMobile ? '100%' : 'auto',
+          fontStyle: "un",
+          width: isMobile ? "100%" : "auto",
           marginBottom: isMobile ? 10 : 0,
         },
         buttonSkip: {
-          color: "#171717",
-          marginBottom: isMobile ? 10 : 0,
+          color: "#196f27",
+          textDecoration: "underline",
+          marginBottom: isMobile ? 5 : 0,
           display: "flex",
           width: isMobile ? "100%" : "auto",
           justifyContent: "center",
@@ -76,6 +78,7 @@ const OnboardingOptions = ({ isInsightsOpened }: any) => {
               textAlign: "center",
               alignItems: "center",
               justifyContent: "center",
+              marginTop: 0,
             }
           : {},
       }}

@@ -56,10 +56,11 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
           justifyContent: "center",
           alignItems: "center",
           textAlign: "center",
+          fontStyle: "un",
           width: isMobile ? '100%' : 'auto',
           marginBottom: isMobile ? 10 : 0,
         },
-        buttonSkip: { color: "#171717", marginBottom: isMobile ? 10 : 0, display: "flex", width: isMobile ? '100%' : 'auto', justifyContent: "center", alignItems: "center", textAlign: "center" },  
+        buttonSkip: { color: "#196f27", textDecoration: "underline", marginBottom: isMobile ? 5 : 0, display: "flex", width: isMobile ? '100%' : 'auto', justifyContent: "center", alignItems: "center", textAlign: "center" },  
         tooltipFooter: isMobile
           ? {
               display: "grid",
@@ -67,6 +68,7 @@ const OnboardingInsights = ({ isInsightsOpened }: any) => {
               textAlign: "center",
               alignItems: "center",
               justifyContent: "center",
+              marginTop: 0,
             }
           : {},
       }}
