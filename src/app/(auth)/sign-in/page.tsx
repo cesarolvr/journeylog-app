@@ -32,9 +32,9 @@ const SignIn = () => {
     }
   }, [session, router]);
 
-  const redirectUrl = `${process.env.NEXT_PUBLIC_URL}app`
+  // const redirectUrl = `${process.env.NEXT_PUBLIC_URL}app`
 
-  console.log(redirectUrl)
+  // console.log(redirectUrl)
 
   return (
     <div className="p-8 flex justify-center items-center w-[100svw] h-[100svh] bg-[#171717]">
@@ -65,7 +65,7 @@ const SignIn = () => {
           <Auth
             supabaseClient={supabaseClient}
             providers={["google"]}
-            redirectTo={redirectUrl}
+            // redirectTo={redirectUrl}
             localization={{
               variables: {
                 sign_in: {
