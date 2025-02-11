@@ -64,7 +64,7 @@ const AnimatedLoader = () => {
           }}
         >
           <Progress
-            aria-label="Downloading..."
+            aria-label="Loading..."
             className="w-full rounded-none fixed top-[0px] left-0 z-[401]"
             radius="none"
             color="success"
@@ -72,7 +72,7 @@ const AnimatedLoader = () => {
             size="md"
             value={progress}
             classNames={{
-              indicator: "bg-[#171717] ease-in-out z-[403] will-change-transform will-change-width rounded-r-lg",
+              indicator: "bg-[#171717] ease-in-out z-[403] will-change-transform will-change-width",
               track: "bg-[#23ad45] w-full z-[402]",
             }}
           />
