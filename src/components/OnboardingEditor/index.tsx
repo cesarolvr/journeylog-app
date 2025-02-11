@@ -29,6 +29,8 @@ const OnboardingEditor = ({
 
   const isMobile = window.innerWidth < 768;
 
+  const hasJourney = document.querySelector(".journeynav li");
+
   return (
     <Joyride
       nonce="onboarding-editor"
@@ -68,10 +70,19 @@ const OnboardingEditor = ({
           alignItems: "center",
           textAlign: "center",
           fontStyle: "un",
-          width: isMobile ? '100%' : 'auto',
+          width: isMobile ? "100%" : "auto",
           marginBottom: isMobile ? 10 : 0,
         },
-        buttonSkip: { color: "#196f27", textDecoration: "underline", marginBottom: isMobile ? 5 : 0, display: "flex", width: isMobile ? '100%' : 'auto', justifyContent: "center", alignItems: "center", textAlign: "center" },  
+        buttonSkip: {
+          color: "#196f27",
+          textDecoration: "underline",
+          marginBottom: isMobile ? 5 : 0,
+          display: "flex",
+          width: isMobile ? "100%" : "auto",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+        },
         tooltipFooter: isMobile
           ? {
               display: "grid",
@@ -111,13 +122,18 @@ const OnboardingEditor = ({
         },
         {
           disableBeacon: true,
-          target: ".journeynav",
+          target: hasJourney ? ".journeynav" : ".choose",
           spotlightPadding: 10,
-          content: (
+          content: hasJourney ? (
             <>
               Here are the journeys you can create. You can separate them by
               topics, such as: 'Call my mom', 'Study English', 'Exercise',
               'Drink water', etc.
+            </>
+          ) : (
+            <>
+              Here are the journeys you can create. You can separate them by
+              topics, such as the examples below.
             </>
           ),
           styles: {
@@ -128,13 +144,15 @@ const OnboardingEditor = ({
         },
         {
           disableBeacon: true,
-          target: ".editor-paragraph",
+          target: hasJourney ? ".editor-paragraph" : ".customone",
           spotlightPadding: 10,
-          content: (
+          content: hasJourney ? (
             <>
               This is where you write your notes. It can be text, a common list,
               a checklist, code, or any text format you want.
             </>
+          ) : (
+            <>Or you can create your own custom one.</>
           ),
           styles: {
             options: {

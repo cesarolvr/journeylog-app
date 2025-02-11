@@ -686,15 +686,17 @@ const Editor = ({
             justify="center"
             className="journeynav rounded-2xl md:pr-3 ml-6 md:ml-0"
           >
-            <ArtboardTabs
-              journeyTabs={journeyTabs}
-              handleTabSelection={handleTabSelection}
-              handleCreateJourney={handleCreateJourney}
-              forcedActiveTab={forcedActiveTab}
-              isPro={isPro}
-              onOpenModal={onOpen}
-              setDefaultPanel={setDefaultPanel}
-            />
+            {journeyTabs && journeyTabs?.length > 0 && (
+              <ArtboardTabs
+                journeyTabs={journeyTabs}
+                handleTabSelection={handleTabSelection}
+                handleCreateJourney={handleCreateJourney}
+                forcedActiveTab={forcedActiveTab}
+                isPro={isPro}
+                onOpenModal={onOpen}
+                setDefaultPanel={setDefaultPanel}
+              />
+            )}
           </NavbarContent>
           <NavbarContent justify="end" className="rounded-2xl nav-logout px-1">
             <NavbarItem className="flex justify-center z-[30]">
@@ -743,15 +745,23 @@ const Editor = ({
                     onPress={() => {
                       // router.push("/");
                       localStorage.setItem("isOnboardingEditorHidden", "false");
-                      localStorage.setItem("isOnboardingOptionsHidden", "false");
-                      localStorage.setItem("isOnboardingInsightsHidden", "false");
-                      
+                      localStorage.setItem(
+                        "isOnboardingOptionsHidden",
+                        "false"
+                      );
+                      localStorage.setItem(
+                        "isOnboardingInsightsHidden",
+                        "false"
+                      );
+
                       setIsToShowJoyride(true);
                     }}
                     className="text-[#39d353]"
-                    startContent={<CircleHelp className="w-[20px] stroke-[#39d353]" />}
+                    startContent={
+                      <CircleHelp className="w-[20px] stroke-[#39d353]" />
+                    }
                   >
-                    See app tour
+                    View the tour again
                   </DropdownItem>
                   <DropdownItem
                     key="logout"
@@ -790,7 +800,7 @@ const Editor = ({
           ) : isChangingTabs ? null : (
             <div className="w-full flex justify-center items-start">
               {!isLoading && (
-                <div className="flex flex-col w-full h-full justify-center pl-3 md:pl-12">
+                <div className=" flex flex-col w-full h-full justify-center pl-3 md:pl-12">
                   <motion.h1
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -801,7 +811,7 @@ const Editor = ({
                   >
                     Choose:
                   </motion.h1>
-                  <div className="w-full flex flex-wrap justify-start items-start max-w-[90%]">
+                  <div className="choose w-full flex flex-wrap justify-start items-start max-w-[90%]">
                     {[
                       "🏋🏽 Workout on weekdays",
                       "👩🏽‍🦳 Call mom everyday",
@@ -865,7 +875,7 @@ const Editor = ({
                       duration: 0.2,
                       delay: 0.5,
                     }}
-                    className="flex items-center md:flex-row flex-col"
+                    className="customone flex items-center md:flex-row flex-col"
                   >
                     <input
                       type="email"
