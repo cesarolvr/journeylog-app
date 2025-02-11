@@ -2,6 +2,7 @@
 
 // Hooks
 import {
+  useSessionContext,
   useSupabaseClient,
   useUser as useSupaUser,
 } from "@supabase/auth-helpers-react";

@@ -38,7 +38,7 @@ import { useRouter } from "next/navigation";
 import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 import Footer from "../Footer";
 import { useEffect, useRef, useState } from "react";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSessionContext, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { AnimatePresence, useScroll, useTransform } from "framer-motion";
 import FirstIllustration from "../Illustrations/FirstIllustration";
 import SecondIllustration from "../Illustrations/SecondIllustration";
@@ -229,6 +229,15 @@ const Landing = ({ user, subscriptionInfo }: any) => {
       audio.play();
     }
   };
+
+  // const { session } = useSessionContext();
+
+  // useEffect(() => {
+  //   console.log(session)
+  //   if (session) {
+  //     router.push("/app");
+  //   }
+  // }, [session, router]);
 
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
