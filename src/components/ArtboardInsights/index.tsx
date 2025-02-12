@@ -118,8 +118,12 @@ const ArtboardInsights = ({
         });
       } else if (reversedList.length === 1) {
         const isToday = reversedList[0]?.date === DateTime.local().toISODate();
+
+        console.log({ acc, isToday });
         if (isToday) {
           acc = 1;
+        } else {
+          acc = 0;
         }
       }
     } else if (isWeekly) {

@@ -17,7 +17,6 @@ import { useDisclosure } from "@nextui-org/react";
 import { debounce } from "lodash";
 import { subscribeAction, unsubscribeAction } from "@/services/stripe";
 import AnimatedLoader from "@/components/AnimatedLoader";
-import dynamic from "next/dynamic";
 
 const App = () => {
   const user = useSupaUser();
@@ -29,7 +28,10 @@ const App = () => {
   const [subscriptionInfo, setSubscriptionInfo] = useState({});
   const [defaultPanel, setDefaultPanel] = useState("profile");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [showJoyride, setShowJoyride] = useState(true); // State para controlar a visibilidade do Joyride
+  
+  const [_, setShowJoyride] = useState(true);
+  const { subscription, subscription_key }: any = subscriptionInfo;
+  const isPro = subscription === "habit_creator";
 
   useEffect(() => {
     if (!!user) {
@@ -72,9 +74,6 @@ const App = () => {
     router.push("/");
   }, 500);
 
-  const { subscription, subscription_key }: any = subscriptionInfo;
-  const isPro = subscription === "habit_creator";
-
   const handleChoosePlan = async (id: string, plan: string) => {
     const isPro = plan === "habit_creator";
     if (isPro) {
@@ -97,7 +96,6 @@ const App = () => {
   return (
     <main className={`w-[100vw] ${theme}`} suppressHydrationWarning={true}>
       <AnimatedLoader />
-      
       <ProfileModal
         isOpen={isOpen}
         defaultPanel={defaultPanel}
