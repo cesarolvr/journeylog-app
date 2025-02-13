@@ -14,6 +14,7 @@ import CalendarLabel from "cal-heatmap/plugins/CalendarLabel";
 import "cal-heatmap/cal-heatmap.css";
 import { EMPTY_STATE } from "../Editor";
 import dynamic from "next/dynamic";
+import useArtboardInsights from "./hooks";
 
 const ArtboardInsights = ({
   isInsightsOpened,
@@ -22,13 +23,14 @@ const ArtboardInsights = ({
   activeTab,
   isLoading,
   subscriptionInfo,
-  previewList,
   onOpenModal,
   setDefaultPanel,
 }: any) => {
   const [frequency, setFrequency]: any = useState(null);
   const [daysInARow, setDaysInARow]: any = useState(null);
   const [callHeatmap, setCallHeatmap] = useState(null);
+
+  const { getDaysInARow } = useArtboardInsights();
 
   const isWeekly = activeTab?.frequency === "weekly";
   const isDaily = activeTab?.frequency === "daily";
@@ -72,162 +74,6 @@ const ArtboardInsights = ({
 
   const { subscription } = subscriptionInfo;
   const isPro = subscription === "habit_creator";
-
-  // console.log('aaaa')
-
-  const getDaysInARow = () => {
-    let acc = 1;
-    let accObj = isMonthly ? {} : { 0: DateTime.local() };
-
-    const reversedList = frequency?.toReversed();
-
-    if (!frequency || frequency.length === 0) {
-      acc = 0;
-      return 0;
-    }
-
-    if (isDaily) {
-      if (reversedList.length > 1) {
-        reversedList?.forEach((prev: any, index: any): any => {
-          if (index === 0) return 0;
-          const current = reversedList[index - 1];
-
-          const currentDate = DateTime.fromJSDate(
-            new Date(current?.date)
-          ).toUTC();
-          const prevDate = DateTime.fromJSDate(new Date(prev?.date)).toUTC();
-
-          const diff: any = currentDate.diff(prevDate, "days")?.toObject();
-          const diffInDays = diff?.days * -1;
-
-          if (diffInDays === 1) {
-            acc++;
-          } else if (diffInDays > 1) {
-            acc = 1;
-          }
-
-          const isLastItem =
-            reversedList.indexOf(prev) === reversedList.length - 1;
-
-          if (isLastItem) {
-            const isTodayOrYesterday =
-              prevDate.toISODate() === DateTime.local().toISODate() ||
-              prevDate.toISODate() ===
-                DateTime.local().minus({ days: 1 }).toISODate();
-            if (!isTodayOrYesterday) {
-              acc = 0;
-            }
-          }
-
-          return 0;
-        });
-      } else if (reversedList.length === 1) {
-        const isToday = reversedList[0]?.date === DateTime.local().toISODate();
-        if (isToday) {
-          acc = 1;
-        } else {
-          acc = 0;
-        }
-      }
-    } else if (isWeekly) {
-      if (reversedList.length > 1) {
-        reversedList.forEach((prev: any, index: any) => {
-          if (index === 0) return 0;
-          const current = reversedList[index - 1];
-
-          const currentDate = DateTime.fromJSDate(
-            new Date(current?.date)
-          ).toLocal();
-
-          const prevDate = DateTime.fromJSDate(new Date(prev?.date)).toLocal();
-          const diff: any = currentDate.diff(prevDate, "weeks")?.toObject();
-          const diffInWeeks = diff?.weeks * -1;
-          const isToday =
-            DateTime.fromJSDate(new Date(prev?.date)).localWeekNumber ===
-              DateTime.local().localWeekNumber ||
-            DateTime.fromJSDate(new Date(current?.date)).localWeekNumber ===
-              DateTime.local().localWeekNumber;
-          const isLastItemInARow =
-            reversedList.indexOf(prev) === reversedList.length - 1;
-
-          const dateAToAeAdded = DateTime.fromJSDate(new Date(prev?.date));
-          const dateBToBeAdded = DateTime.fromJSDate(new Date(current?.date));
-
-          if (diffInWeeks <= 1) {
-            accObj[dateBToBeAdded.localWeekNumber] = dateBToBeAdded;
-
-            if (isLastItemInARow && isToday) {
-              accObj[dateAToAeAdded.localWeekNumber] = dateAToAeAdded;
-            }
-          } else {
-            if (isToday) {
-              accObj[dateBToBeAdded.localWeekNumber] = dateBToBeAdded;
-            }
-          }
-        });
-      } else {
-        const isToday = reversedList[0]?.date === DateTime.local().toISODate();
-        if (isToday) {
-          accObj[1] = DateTime.local();
-        } else {
-          accObj = [];
-        }
-      }
-    } else if (isMonthly) {
-      if (reversedList.length > 1) {
-        reversedList.forEach((prev, index) => {
-          if (index === 0) return 0;
-          const current = reversedList[index - 1];
-
-          const currentDate = DateTime.fromJSDate(
-            new Date(current?.date)
-          ).toLocal();
-          const prevDate = DateTime.fromJSDate(new Date(prev?.date)).toLocal();
-          const diff: any = currentDate.diff(prevDate, "months")?.toObject();
-
-          const aMonth = DateTime.fromJSDate(new Date(prev?.date)).month;
-          const bMonth = DateTime.fromJSDate(new Date(current?.date)).month;
-          const diffInMonths = Math.abs(aMonth - bMonth);
-
-          const isTodaysMonth =
-            (aMonth === DateTime.local().month &&
-              aMonth === DateTime.local().year) ||
-            (bMonth === DateTime.local().month &&
-              bMonth === DateTime.local().year);
-
-          const isLastItemInARow =
-            reversedList.indexOf(prev) === reversedList.length - 1;
-
-          const dateAToBeAdded = DateTime.fromJSDate(new Date(prev?.date));
-          const dateBToBeAdded = DateTime.fromJSDate(new Date(current?.date));
-
-          if (diffInMonths <= 1) {
-            accObj[dateBToBeAdded.month] = dateBToBeAdded;
-
-            if (isLastItemInARow && isTodaysMonth) {
-              accObj[dateAToBeAdded.month] = dateAToBeAdded;
-            }
-          } else {
-            if (isTodaysMonth) {
-              accObj[dateBToBeAdded.month] = dateBToBeAdded;
-            }
-          }
-
-          return -1;
-        });
-      } else {
-        const isTodaysMonth =
-          reversedList[0]?.date === DateTime.local().toISODate();
-        if (isTodaysMonth) {
-          accObj[1] = DateTime.local();
-        }
-      }
-
-      console.log(acc, accObj);
-    }
-
-    return isDaily ? acc : Object.keys(accObj).length;
-  };
 
   useEffect(() => {
     const triggerGetInsights = async () => {
@@ -336,7 +182,12 @@ const ArtboardInsights = ({
       );
     }
 
-    const days: any = getDaysInARow();
+    const days: any = getDaysInARow({
+      isDaily,
+      isMonthly,
+      isWeekly,
+      frequency,
+    });
 
     typeof days === "number" && setDaysInARow(days);
   }, [frequency]);
