@@ -3,10 +3,32 @@ import { DateTime } from "luxon";
 import { toast } from "react-toastify";
 
 
-const useEditorHandlers = ({ setIsLoading,
+const useEditorHandlers = ({
+  setIsLoading,
   setIsReadyToRenderArtboard,
   setActiveLog,
-  setIsChangingTabs, setPreviewList, activeLog, today, previewList, setForcedActiveTab, setIsToRunConfetti, setIsOptionsOpened, dateSelected, setTheme, setJourneyTabs, journeyTabs, setJourneyName, notification, setDefaultPanel, onOpen, isPro, setActiveTab, setNotification, getUser, activeTab, supabaseClient }: any) => {
+  setIsChangingTabs,
+  setPreviewList,
+  activeLog,
+  today,
+  previewList,
+  setForcedActiveTab,
+  setIsToRunConfetti,
+  setIsOptionsOpened,
+  dateSelected,
+  setTheme,
+  setJourneyTabs,
+  journeyTabs,
+  setJourneyName,
+  notification,
+  setDefaultPanel,
+  onOpen,
+  isPro,
+  setActiveTab,
+  setNotification,
+  getUser,
+  activeTab,
+  supabaseClient }: any) => {
 
   const handleSwitchNotifications = debounce(
     async (isToEnable: any, setup: any) => {

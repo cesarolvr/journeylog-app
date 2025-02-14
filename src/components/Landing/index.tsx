@@ -1,26 +1,19 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import * as motion from "motion/react-client";
 import Typed from "typed.js";
-
 import Image from "next/image";
 import Link from "next/link";
-
-import Logo from "../../images/logoFull.svg";
-import Illustration4 from "../../images/illustrations/4.svg";
-import Illustration5 from "../../images/illustrations/5.svg";
-import Illustration6 from "../../images/illustrations/6.svg";
-
-import PhoneMockup from "../../../src/images/illustrations/phone.svg";
-
 import { useLottie } from "lottie-react";
 import { useInView } from "react-intersection-observer";
-import xmark from "../../images/illustrations/xmark.json";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { subscribeAction, unsubscribeAction } from "@/services/stripe";
+import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 
-import Bruno from "../../images/bruno.png";
-import Bia from "../../images/bia.png";
-import Andre from "../../images/andre.png";
-
+// Libs components
 import {
   Accordion,
   AccordionItem,
@@ -34,30 +27,90 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { subscribeAction, unsubscribeAction } from "@/services/stripe";
+
+// Assets
+import Logo from "../../images/logoFull.svg";
+import Illustration4 from "../../images/illustrations/4.svg";
+import Illustration5 from "../../images/illustrations/5.svg";
+import Illustration6 from "../../images/illustrations/6.svg";
+import PhoneMockup from "../../../src/images/illustrations/phone.svg";
+import xmark from "../../images/illustrations/xmark.json";
+import Bruno from "../../images/bruno.png";
+import Bia from "../../images/bia.png";
+import Andre from "../../images/andre.png";
+
+// Components
 import Footer from "../Footer";
-import { useEffect, useRef, useState } from "react";
-import { useSessionContext, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { AnimatePresence, useScroll, useTransform } from "framer-motion";
+import RemindersCard from "../RemindersCard";
+
+// Illustrations
 import FirstIllustration from "../Illustrations/FirstIllustration";
 import SecondIllustration from "../Illustrations/SecondIllustration";
 import ThirdIllustration from "../Illustrations/ThirdIllustration";
-import RemindersCard from "../RemindersCard";
-import { useTheme } from "next-themes";
+
+// Custom hook
+import useLanding from "./hook";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
-  const [formContent, setFormContent] = useState("");
-  const [_, setRemindersTurnOn] = useState(false);
-  const [isWhatsapp, setIsWhatsapp] = useState(false);
-  const [buttonFormText, setButtonFormText] = useState("Send");
-
-  const supabaseClient = useSupabaseClient();
-
-  const [isLoading, setIsLoading] = useState(false);
-  const { subscription, subscription_key } = subscriptionInfo;
+  // Hooks
   const router = useRouter();
+  const supabaseClient = useSupabaseClient();
+  const { strings, state } = useLanding();
+  const {
+    formContent,
+    setFormContent,
+    isWhatsapp,
+    setIsWhatsapp,
+    buttonFormText,
+    setButtonFormText,
+    isLoading,
+    setIsLoading,
+  } = state;
 
+  // Base props
+  const { subscription, subscription_key } = subscriptionInfo;
+  const isPro = subscription === "habit_creator";
+  const casesRef = useRef(null);
+  const { scrollYProgress, scrollY } = useScroll();
+  const { theme, setTheme } = useTheme();
+  const translateFirstLine = useTransform(scrollYProgress, [0, 1], [-800, 500]);
+  const translateSecondLine = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [500, -100]
+  );
+  const translateThirdLine = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [-1000, 500]
+  );
+  const whereText = useRef(null);
+  const personalizeText = useRef(null);
+
+  const { ref: XMarkRef, inView } = useInView({
+    threshold: 1,
+  });
+
+  const { View, play } = useLottie({
+    animationData: xmark,
+    loop: false,
+    speed: 0.3,
+    autoplay: false,
+  });
+
+  const { ref: soundRef, inView: soundInView } = useInView({
+    threshold: 1,
+  });
+
+  const playNotification = () => {
+    let audio = new Audio("./sound.mp3");
+    audio.volume = 0.1;
+    if (soundInView) {
+      audio.play();
+    }
+  };
+
+  // Handlers
   const handleChoosePlan = async (id: string, plan: string) => {
     const isPro = plan === "habit_creator";
     if (isPro) {
@@ -97,27 +150,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     }
   };
 
-  const isPro = subscription === "habit_creator";
-
-  const casesRef = useRef(null);
-  const { scrollYProgress, scrollY } = useScroll();
-  const { theme, setTheme } = useTheme();
-
-  const translateFirstLine = useTransform(scrollYProgress, [0, 1], [-800, 500]);
-  const translateSecondLine = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [500, -100]
-  );
-  const translateThirdLine = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [-1000, 500]
-  );
-
-  const whereText = useRef(null);
-  const personalizeText = useRef(null);
-
+  // Behaviour
   useEffect(() => {
     const typedHero = new Typed(whereText.current, {
       strings: ["Whatsapp", "Email", "SMS"],
@@ -129,29 +162,15 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     });
 
     const typedPersonalize = new Typed(personalizeText.current, {
-      strings: [
-        "journeys",
-        "goals",
-        "categories",
-        "notes",
-        `"folders"`,
-        "records",
-        "subjects",
-        "objectives",
-        "milestones",
-        "plans",
-        "schedules",
-        "archives",
-        "topics",
-        "disciplines",
-        "themes",
-      ],
+      strings,
       typeSpeed: 50,
       loop: true,
       backDelay: 3000,
       backSpeed: 50,
       startDelay: 500,
     });
+
+    setTheme("dark");
 
     return () => {
       typedHero.destroy();
@@ -160,84 +179,12 @@ const Landing = ({ user, subscriptionInfo }: any) => {
   }, []);
 
   useEffect(() => {
-    setTheme("dark");
-  }, []);
-
-  const options = {
-    animationData: xmark,
-    loop: false,
-    speed: 0.3,
-    autoplay: false,
-  };
-
-  const { View, play } = useLottie(options);
-
-  const { ref: XMarkRef, inView } = useInView({
-    threshold: 1,
-  });
-
-  useEffect(() => {
     if (inView) {
       setTimeout(() => {
         play();
       }, 500);
     }
   }, [inView]);
-
-  const { ref: remindersRef, inView: remindersRefInView } = useInView({
-    threshold: 1,
-  });
-
-  const [whatTimeOpened, setWhatTimeOpened] = useState(false);
-  const [alertMeOnOpened, setAlertMeOnOpened] = useState(false);
-
-  useEffect(() => {
-    if (remindersRefInView) {
-      setTimeout(() => {
-        setRemindersTurnOn(true);
-      }, 500);
-      setTimeout(() => {
-        setWhatTimeOpened(true);
-      }, 2000);
-      setTimeout(() => {
-        setWhatTimeOpened(false);
-      }, 4000);
-
-      setTimeout(() => {
-        setAlertMeOnOpened(true);
-      }, 5000);
-      setTimeout(() => {
-        setAlertMeOnOpened(false);
-      }, 6000);
-    } else {
-      setTimeout(() => {
-        setRemindersTurnOn(false);
-        setWhatTimeOpened(false);
-        setAlertMeOnOpened(false);
-      }, 500);
-    }
-  }, [remindersRefInView]);
-
-  const { ref: soundRef, inView: soundInView } = useInView({
-    threshold: 1,
-  });
-
-  const playNotification = () => {
-    let audio = new Audio("./sound.mp3");
-    audio.volume = 0.1;
-    if (soundInView) {
-      audio.play();
-    }
-  };
-
-  // const { session } = useSessionContext();
-
-  // useEffect(() => {
-  //   console.log(session)
-  //   if (session) {
-  //     router.push("/app");
-  //   }
-  // }, [session, router]);
 
   return (
     <div className="dark text-foreground landing w-[100vw] overflow-hidden">
