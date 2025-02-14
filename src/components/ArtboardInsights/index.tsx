@@ -30,12 +30,19 @@ const ArtboardInsights = ({
   const [daysInARow, setDaysInARow]: any = useState(null);
   const [callHeatmap, setCallHeatmap] = useState(null);
 
-  const { getDaysInARow } = useArtboardInsights();
+  // Base methods
+  const { getDaysInARow, getLastDaysConsistency, getLastDaysDensity } =
+    useArtboardInsights();
+
+  // Base props
+  const { subscription } = subscriptionInfo;
+  const isPro = subscription === "habit_creator";
 
   const isWeekly = activeTab?.frequency === "weekly";
   const isDaily = activeTab?.frequency === "daily";
   const isMonthly = activeTab?.frequency === "monthly";
 
+  // Dates calculations
   const beginning = DateTime.fromISO(
     frequency ? frequency[frequency?.length - 1]?.date : ""
   );
@@ -49,6 +56,10 @@ const ArtboardInsights = ({
   const filteredDaysLogs =
     frequency?.reduce((a: any, v: any) => ({ ...a, [v.date]: v }), {}) || {};
 
+  const currentMonth = new Date().getMonth();
+  const lastDaysDensity = getLastDaysDensity[activeTab?.frequency]?.days || [];
+
+  // Insights pure number props
   const filteredMonthsLogs =
     frequency?.reduce((a: any, v: any) => {
       const keyname = DateTime.fromJSDate(new Date(v.date)).toUTC();
@@ -71,144 +82,6 @@ const ArtboardInsights = ({
     Math.round(
       diffInDays?.values?.[isDaily ? "days" : isMonthly ? "months" : "weeks"]
     ) * -1;
-
-  const { subscription } = subscriptionInfo;
-  const isPro = subscription === "habit_creator";
-
-  useEffect(() => {
-    const triggerGetInsights = async () => {
-      const res = await getInsights(new Date().getFullYear(), activeTab?.id);
-
-      const newRes = res
-        .map((item: any) => {
-          const localDate = DateTime.fromJSDate(new Date(item?.created_at))
-            .toLocal()
-            .toISODate();
-          return {
-            date: localDate,
-            value: Math.round((item?.content?.length || 0) / 150),
-            content: item?.content,
-            empty: item?.content === EMPTY_STATE,
-          };
-        })
-        .filter((item: any) => !item?.empty);
-
-      setFrequency(newRes);
-    };
-    if (isInsightsOpened) {
-      triggerGetInsights();
-    }
-  }, [isInsightsOpened]);
-
-  useEffect(() => {
-    if (!isInsightsOpened && callHeatmap) {
-      callHeatmap.destroy();
-    }
-  }, [isInsightsOpened]);
-
-  const currentMonth = new Date().getMonth();
-
-  useEffect(() => {
-    const element = document.querySelector("#cal-heatmap");
-    if (frequency?.length === 0 && !isInsightsOpened && !callHeatmap) return;
-
-    if (element) {
-      const cal = new CalHeatmap();
-      setCallHeatmap(cal);
-      cal.paint(
-        {
-          data: {
-            source: frequency,
-            type: "json",
-            x: "date",
-            y: "value",
-          },
-          date: {
-            start: new Date(`${new Date().getFullYear()}-01-01`),
-            max: new Date(),
-            end: new Date(),
-            highlight: [new Date()],
-          },
-          range: currentMonth + 1 > 4 ? currentMonth + 1 : 12,
-          theme: "dark",
-          scale: {
-            color: {
-              type: "threshold",
-              range: ["#626262", "#515e54", "#4d6551", "#468A51", "#39D353"],
-              domain: [2, 4, 6, 8, 10],
-            },
-          },
-          domain: {
-            type: "month",
-            gutter: 6,
-            label: { text: "MMM", textAlign: "start", position: "bottom" },
-          },
-          subDomain: {
-            type: "ghDay",
-            radius: 5,
-            width: 27,
-            height: 27,
-            gutter: 6,
-          },
-        },
-        [
-          [
-            Tooltip,
-            {
-              text: function (date: any, value: any, dayjsDate: any) {
-                return (
-                  (value ? value : "No") +
-                  " logs on " +
-                  dayjsDate.format("dddd, MMMM D, YYYY")
-                );
-              },
-            },
-          ],
-          [
-            CalendarLabel,
-            {
-              width: 35,
-              textAlign: "end",
-              text: () => {
-                return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                  (d, i) => d
-                );
-              },
-
-              padding: [0, 10, 0, 0],
-            },
-          ],
-        ]
-      );
-    }
-
-    const days: any = getDaysInARow({
-      isDaily,
-      isMonthly,
-      isWeekly,
-      frequency,
-    });
-
-    typeof days === "number" && setDaysInARow(days);
-  }, [frequency]);
-
-  const getLastDaysConsistency: any = {
-    daily: {
-      days: Array.from(Array(31).keys()),
-      text: "Last 30 days",
-      value: 31,
-    },
-    weekly: {
-      days: Array.from(Array(12).keys()),
-      text: "Last 12 weeks",
-      value: 12,
-    },
-    monthly: {
-      days: Array.from(Array(12).keys()),
-      text: "Last 12 months",
-      value: 12,
-    },
-  };
 
   const lastDaysConsistency =
     getLastDaysConsistency[activeTab?.frequency]?.days || [];
@@ -316,16 +189,6 @@ const ArtboardInsights = ({
     }
   );
 
-  const getLastDaysDensity: any = {
-    daily: {
-      days: Array.from(Array(7).keys()),
-      text: "Last 7 days",
-      value: 31,
-    },
-  };
-
-  const lastDaysDensity = getLastDaysDensity[activeTab?.frequency]?.days || [];
-
   const lastSevenDaysFormatted = lastDaysDensity.map((item, index) => {
     const currentDate = DateTime.fromJSDate(new Date())
       .set({ hour: 0, minute: 0, second: 0 })
@@ -355,10 +218,123 @@ const ArtboardInsights = ({
     ssr: false,
   });
 
+  // Base behaviour
+  useEffect(() => {
+    const triggerGetInsights = async () => {
+      const res = await getInsights(new Date().getFullYear(), activeTab?.id);
+
+      const newRes = res
+        .map((item: any) => {
+          const localDate = DateTime.fromJSDate(new Date(item?.created_at))
+            .toLocal()
+            .toISODate();
+          return {
+            date: localDate,
+            value: Math.round((item?.content?.length || 0) / 150),
+            content: item?.content,
+            empty: item?.content === EMPTY_STATE,
+          };
+        })
+        .filter((item: any) => !item?.empty);
+
+      setFrequency(newRes);
+    };
+    if (isInsightsOpened) {
+      triggerGetInsights();
+    }
+
+    if (!isInsightsOpened && callHeatmap) {
+      callHeatmap.destroy();
+    }
+  }, [isInsightsOpened]);
+
+  useEffect(() => {
+    const element = document.querySelector("#cal-heatmap");
+    if (frequency?.length === 0 && !isInsightsOpened && !callHeatmap) return;
+
+    if (element) {
+      const cal = new CalHeatmap();
+      setCallHeatmap(cal);
+      cal.paint(
+        {
+          data: {
+            source: frequency,
+            type: "json",
+            x: "date",
+            y: "value",
+          },
+          date: {
+            start: new Date(`${new Date().getFullYear()}-01-01`),
+            max: new Date(),
+            end: new Date(),
+            highlight: [new Date()],
+          },
+          range: currentMonth + 1 > 4 ? currentMonth + 1 : 12,
+          theme: "dark",
+          scale: {
+            color: {
+              type: "threshold",
+              range: ["#626262", "#515e54", "#4d6551", "#468A51", "#39D353"],
+              domain: [2, 4, 6, 8, 10],
+            },
+          },
+          domain: {
+            type: "month",
+            gutter: 6,
+            label: { text: "MMM", textAlign: "start", position: "bottom" },
+          },
+          subDomain: {
+            type: "ghDay",
+            radius: 5,
+            width: 27,
+            height: 27,
+            gutter: 6,
+          },
+        },
+        [
+          [
+            Tooltip,
+            {
+              text: function (date: any, value: any, dayjsDate: any) {
+                return (
+                  (value ? value : "No") +
+                  " logs on " +
+                  dayjsDate.format("dddd, MMMM D, YYYY")
+                );
+              },
+            },
+          ],
+          [
+            CalendarLabel,
+            {
+              width: 35,
+              textAlign: "end",
+              text: () => {
+                return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                  (d, i) => d
+                );
+              },
+
+              padding: [0, 10, 0, 0],
+            },
+          ],
+        ]
+      );
+    }
+
+    const days: any = getDaysInARow({
+      isDaily,
+      isMonthly,
+      isWeekly,
+      frequency,
+    });
+
+    typeof days === "number" && setDaysInARow(days);
+  }, [frequency]);
+
   return (
     <>
       <OnboardingInsights isInsightsOpened={isInsightsOpened} />
-
       <div className="relative insights-panel">
         <div
           className={classNames(

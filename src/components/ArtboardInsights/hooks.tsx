@@ -56,7 +56,6 @@ const useArtboardInsights = () => {
         }
       }
     } else if (isWeekly) {
-      
       if (reversedList.length > 1) {
         reversedList.forEach((prev: any, index: any) => {
           if (index === 0) return 0;
@@ -154,8 +153,36 @@ const useArtboardInsights = () => {
     return isDaily ? acc : Object.keys(accObj).length;
   };
 
+  const getLastDaysConsistency: any = {
+    daily: {
+      days: Array.from(Array(31).keys()),
+      text: "Last 30 days",
+      value: 31,
+    },
+    weekly: {
+      days: Array.from(Array(12).keys()),
+      text: "Last 12 weeks",
+      value: 12,
+    },
+    monthly: {
+      days: Array.from(Array(12).keys()),
+      text: "Last 12 months",
+      value: 12,
+    },
+  };
+
+  const getLastDaysDensity: any = {
+    daily: {
+      days: Array.from(Array(7).keys()),
+      text: "Last 7 days",
+      value: 31,
+    },
+  };
+
   return {
     getDaysInARow,
+    getLastDaysConsistency,
+    getLastDaysDensity
   };
 };
 
