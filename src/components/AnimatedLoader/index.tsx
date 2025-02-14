@@ -1,18 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import * as motion from "motion/react-client";
-import { quotes } from "@/services";
 import { Progress } from "@nextui-org/react";
 
+// Services
+import { quotes } from "@/services";
+
 const AnimatedLoader = () => {
+  const [progress, setProgress] = React.useState(0);
   const [randomQuote, setRandomQuote] = React.useState({
     text: "",
     author: "",
   });
-  const [progress, setProgress] = React.useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setRandomQuote(quotes[Math.floor(Math.random() * quotes.length)]);
 
     const interval = setInterval(() => {
@@ -72,7 +74,8 @@ const AnimatedLoader = () => {
             size="md"
             value={progress}
             classNames={{
-              indicator: "bg-[#171717] ease-in-out z-[403] will-change-transform will-change-width",
+              indicator:
+                "bg-[#171717] ease-in-out z-[403] will-change-transform will-change-width",
               track: "bg-[#23ad45] w-full z-[402]",
             }}
           />

@@ -30,7 +30,7 @@ const ArtboardInsights = ({
   const [daysInARow, setDaysInARow]: any = useState(null);
   const [callHeatmap, setCallHeatmap] = useState(null);
 
-  // Base methods
+  // Base methods on custom hook
   const { getDaysInARow, getLastDaysConsistency, getLastDaysDensity } =
     useArtboardInsights();
 

@@ -13,6 +13,7 @@ const ArtboardHeader = ({
 }: any) => {
   const [journeyName, setJourneyName] = useState("");
 
+  // Base behaviour
   useEffect(() => {
     if (activeTab?.name) {
       setJourneyName(activeTab?.name);
