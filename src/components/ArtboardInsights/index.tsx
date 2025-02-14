@@ -14,7 +14,7 @@ import CalendarLabel from "cal-heatmap/plugins/CalendarLabel";
 import "cal-heatmap/cal-heatmap.css";
 import { EMPTY_STATE } from "../Editor";
 import dynamic from "next/dynamic";
-import useArtboardInsights from "./hooks";
+import useArtboardInsights from "./hook";
 
 const ArtboardInsights = ({
   isInsightsOpened,

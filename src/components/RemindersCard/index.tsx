@@ -8,7 +8,7 @@ import { Bell, Clock9, MessageCircleQuestion } from "lucide-react";
 import { useMotionValue, useTransform } from "framer-motion";
 
 // Custom hook
-import useArtboardOptions from "../ArtboardOptions/hooks";
+import useArtboardOptions from "../ArtboardOptions/hook";
 
 const RemindersCard = () => {
   const [remindersTurnOn, _] = useState(false);

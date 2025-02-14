@@ -20,7 +20,7 @@ import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import ExampleTheme from "./plugins/ArtboardTheme";
 
 // Custom hook
-import useArtboard from "./hooks";
+import useArtboard from "./hook";
 
 const Artboard = ({ setContent, initialState, id, font }: any) => {
   // Base methods on custom hook

@@ -16,7 +16,7 @@ import {
 import OnboardingOptions from "../OnboardingOptions";
 
 // Custom hook
-import useArtboardOptions from "./hooks";
+import useArtboardOptions from "./hook";
 
 // Custom fonts
 import { Reenie_Beanie, Nunito_Sans, Cutive_Mono } from "next/font/google";

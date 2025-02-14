@@ -24,10 +24,8 @@ const ArtboardTabs = ({
   isPro,
 }: any) => {
   const isMobile = useMediaQuery("only screen and (max-width: 820px)");
-
   const tabLimit = isMobile ? 1 : 3;
-
-  const firsTabs = journeyTabs?.slice(0, tabLimit);
+  const firstTabs = journeyTabs?.slice(0, tabLimit);
   const lastTabs = journeyTabs?.slice(tabLimit);
 
   return (
@@ -35,7 +33,7 @@ const ArtboardTabs = ({
       {journeyTabs.length > 0 && (
         <Tabs
           aria-label="Journeys"
-          items={firsTabs}
+          items={firstTabs}
           variant="bordered"
           className="relative rounded-xl"
           onSelectionChange={(e) => handleTabSelection(e, false)}
