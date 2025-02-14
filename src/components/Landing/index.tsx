@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as motion from "motion/react-client";
 import Typed from "typed.js";
 import Image from "next/image";
@@ -55,24 +55,24 @@ const Landing = ({ user, subscriptionInfo }: any) => {
   // Hooks
   const router = useRouter();
   const supabaseClient = useSupabaseClient();
-  const { strings, state } = useLanding();
-  const {
-    formContent,
-    setFormContent,
-    isWhatsapp,
-    setIsWhatsapp,
-    buttonFormText,
-    setButtonFormText,
-    isLoading,
-    setIsLoading,
-  } = state;
+  const { strings, state, handlers } = useLanding({
+    subscribeAction,
+    router,
+    unsubscribeAction,
+    subscriptionInfo,
+    supabaseClient,
+  });
+  const { formContent, isWhatsapp, setIsWhatsapp, buttonFormText, isLoading } =
+    state;
+
+  const { handleChoosePlan, handleSuggestionForm, submitForm } = handlers;
 
   // Base props
-  const { subscription, subscription_key } = subscriptionInfo;
+  const { subscription } = subscriptionInfo;
   const isPro = subscription === "habit_creator";
   const casesRef = useRef(null);
-  const { scrollYProgress, scrollY } = useScroll();
-  const { theme, setTheme } = useTheme();
+  const { scrollYProgress } = useScroll();
+  const { setTheme } = useTheme();
   const translateFirstLine = useTransform(scrollYProgress, [0, 1], [-800, 500]);
   const translateSecondLine = useTransform(
     scrollYProgress,
@@ -107,46 +107,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     audio.volume = 0.1;
     if (soundInView) {
       audio.play();
-    }
-  };
-
-  // Handlers
-  const handleChoosePlan = async (id: string, plan: string) => {
-    const isPro = plan === "habit_creator";
-    if (isPro) {
-      const url = await subscribeAction({ userId: id });
-
-      if (url) {
-        router.push(url);
-      } else {
-        console.error("Failed to create subscription");
-      }
-    } else {
-      const res = await unsubscribeAction({ userId: id, subscription_key });
-
-      console.log(res);
-    }
-  };
-
-  const handleSuggestionForm = (value: any) => {
-    const max = 150;
-    const currentLength = value?.length;
-    if (currentLength <= max) {
-      setFormContent(value);
-    }
-  };
-
-  const submitForm = async () => {
-    if (formContent && formContent?.length > 5) {
-      setIsLoading(true);
-
-      await supabaseClient.from("feedback").insert({
-        content: formContent,
-      });
-
-      setIsLoading(false);
-      setButtonFormText("Sent 👍🏾");
-      setFormContent("");
     }
   };
 
