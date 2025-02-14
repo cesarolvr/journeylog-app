@@ -1,18 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import * as motion from "motion/react-client";
-
 import { useInView } from "react-intersection-observer";
-
 import { Select, SelectItem, Switch } from "@nextui-org/react";
 import { Bell, Clock9, MessageCircleQuestion } from "lucide-react";
-
-import { useState } from "react";
-import { whatTime, where } from "../ArtboardOptions";
 import { useMotionValue, useTransform } from "framer-motion";
 
+// Custom hook
+import useArtboardOptions from "../ArtboardOptions/hooks";
+
 const RemindersCard = () => {
-  const [remindersTurnOn, setRemindersTurnOn] = useState(false);
+  const [remindersTurnOn, _] = useState(false);
+
+  const { whatTime, where } = useArtboardOptions();
 
   const { ref: remindersRef, inView: remindersRefInView } = useInView({
     threshold: 0.5,
