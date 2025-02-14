@@ -113,7 +113,6 @@ const RemindersCard = () => {
                 disallowEmptySelection={true}
                 defaultSelectedKeys={[`0-key`]}
                 color="default"
-                // isOpen={whatTimeOpened}
                 autoFocus={false}
                 className="max-w-[100px] select text-[11px]"
               >
@@ -134,7 +133,6 @@ const RemindersCard = () => {
                 items={where}
                 disallowEmptySelection={true}
                 defaultSelectedKeys={[`email`]}
-                // isOpen={alertMeOnOpened}
                 color="default"
                 className="max-w-[100px] select text-[11px]"
               >

@@ -19,6 +19,7 @@ const OnboardingOptions = ({ isInsightsOpened }: any) => {
       }, 500);
     }
   }, [isInsightsOpened]);
+  
   return (
     <Joyride
       nonce="onboarding-options"

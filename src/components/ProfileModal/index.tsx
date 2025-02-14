@@ -1,3 +1,14 @@
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import classNames from "classnames";
+import { DateTime } from "luxon";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import PhoneInput, {
+  isValidPhoneNumber,
+} from "react-phone-number-input";
+
+
+// Components
 import {
   Modal,
   ModalContent,
@@ -7,8 +18,6 @@ import {
   Input,
   CircularProgress,
 } from "@nextui-org/react";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import classNames from "classnames";
 import {
   ChevronRight,
   CircleHelp,
@@ -20,16 +29,9 @@ import {
   SquareArrowOutUpRight,
   User,
 } from "lucide-react";
-import { DateTime } from "luxon";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
 
+// Styles
 import "react-phone-number-input/style.css";
-import PhoneInput, {
-  formatPhoneNumberIntl,
-  isValidPhoneNumber,
-  parsePhoneNumber,
-} from "react-phone-number-input";
 
 const ProfileModal = ({
   isOpen,
@@ -52,9 +54,7 @@ const ProfileModal = ({
   const [isToVerifyPhone, setIsToVerifyPhone] = useState(false);
 
   const supabaseServerClient = useSupabaseClient();
-
   const getUser = () => user;
-
   const shortenedName = userInfo?.full_name
     ?.split(" ")
     ?.slice(0, -1)

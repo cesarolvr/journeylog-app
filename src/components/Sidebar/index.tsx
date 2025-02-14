@@ -1,18 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import classnames from "classnames";
 import { DateTime } from "luxon";
-
 import { useInView } from "react-intersection-observer";
-
 import {
   CalendarDate,
   getLocalTimeZone,
   today as todayDate,
 } from "@internationalized/date";
 
-import React from "react";
 import {
   DatePicker,
   Button,
@@ -20,8 +17,13 @@ import {
   ButtonGroup,
 } from "@nextui-org/react";
 
+// Utils
 import { getDaysDetailsInMonth, isValidDate } from "@/utils";
+
+// Components
 import Quote from "../Quote";
+
+// Styles
 import "./index.scss";
 
 const Sidebar = ({

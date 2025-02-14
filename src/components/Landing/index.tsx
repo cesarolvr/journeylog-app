@@ -94,7 +94,6 @@ const Landing = ({ user, subscriptionInfo }: any) => {
   const { View, play } = useLottie({
     animationData: xmark,
     loop: false,
-    speed: 0.3,
     autoplay: false,
   });
 

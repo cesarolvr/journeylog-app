@@ -1,8 +1,6 @@
 "use client";
 
-const Quote = ({ quality, content }: any) => {
-  // return null;
-
+const Quote = ({ quality }: any) => {
   if (quality === 0) {
     return null;
   } else if (quality > 10) {
