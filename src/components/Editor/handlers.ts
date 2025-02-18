@@ -1,6 +1,7 @@
 import { debounce } from "lodash";
 import { DateTime } from "luxon";
 import { toast } from "react-toastify";
+import { EMPTY_STATE } from ".";
 
 
 const useEditorHandlers = ({
@@ -239,7 +240,47 @@ const useEditorHandlers = ({
   }, 500);
 
   const getNow = () => DateTime.now().toUTC().toISO();
-  const handleContentEdit = debounce(async (content: any) => {
+
+  const handleLogRemotion =  async () => {
+    const customDate = DateTime.fromJSDate(new Date())
+      .set({
+        day: dateSelected.day,
+        month: dateSelected.month,
+        year: dateSelected.year,
+      })
+      .toUTC();
+
+    const logId = `log_${getUser()?.id}_${activeTab?.id
+      }_${customDate.toISODate()}`;
+
+    const { data } = await supabaseClient
+      .from("log")
+      .delete()
+      .eq('id', logId)
+      .select()
+
+    if (data && data[0]) {
+      setActiveLog(null);
+
+      const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
+      const dayWithPad = `0${today?.getDate()}`.slice(-2);
+
+      const dateStringStart = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+      const dateStringEnd = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
+
+      getPreviews(
+        dateStringStart,
+        dateStringEnd,
+        activeTab,
+        {
+          forceUpdate: true,
+        },
+        false
+      );
+    }
+  }
+
+  const handleLogEdit = async ({ content }: any) => {
     const now = getNow();
     const customDate = DateTime.fromJSDate(new Date())
       .set({
@@ -291,6 +332,16 @@ const useEditorHandlers = ({
         toast("Mission accomplished for today!  🚀");
       }
     }
+  }
+
+  const handleContentEdit = debounce(async (content: any) => {
+    const isToDelete = content === EMPTY_STATE
+    if (isToDelete) {
+      handleLogRemotion()
+    } else {
+      handleLogEdit({ content })
+    }
+
   }, 500);
 
   const handleJourneyUpdate = debounce(
@@ -496,6 +547,7 @@ const useEditorHandlers = ({
     getLogs,
     getPreviews,
     handleCreateJourney,
+    getNow,
     getInsights,
     handleContentEdit,
     handleJourneyUpdate

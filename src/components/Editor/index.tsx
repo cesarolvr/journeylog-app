@@ -258,7 +258,6 @@ const Editor = ({
         className={`${font.class} daybadge daybadge-${font.code} fixed z-40 cursor-pointer text-[25px] md:text-[50px] bottom-[10px] right-[10px] md:bottom-[30px] md:right-[30px] leading-[30px] md:rounded-3xl rounded-xl text-[#3b3b3b]`}
         onClick={() => setIsOpened(!isOpened)}
       >
-        {console.log(activeLog?.content)}
         <Dropdown className="bg-[#202020]">
           <DropdownTrigger>
             <Button className="text-[25px] md:text-[35px] py-2 px-4 md:px-4 md:py-7 bg-[#282828] rounded-2xl">
@@ -268,7 +267,11 @@ const Editor = ({
           </DropdownTrigger>
           <DropdownMenu
             aria-label="Dynamic Actions"
-            disabledKeys={activeLog?.content ? ["export", "copy"] : ["export", "copy", "delete"]}
+            disabledKeys={
+              activeLog?.content
+                ? ["export", "copy"]
+                : ["export", "copy", "delete"]
+            }
             items={[
               {
                 icon: <Download />,
