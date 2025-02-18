@@ -550,7 +550,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                       </h1>
                     </div>
                     <div className="mt-3 text-sm">
-                      <p className="flex items-center text-[12px] md:text-[16px]">
+                      <p className="flex items-center text-[12px] md:text-[15px]">
                         🚀 You have a habit to reinforce today: 🏋🏽 Workout on
                         weekdays
                       </p>
@@ -591,7 +591,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                       <h1 className="text-medium font-bold text-[#fff]">SMS</h1>
                     </div>
                     <div className="mt-3 text-sm">
-                      <p className="flex items-center text-[12px] md:text-[16px]">
+                      <p className="flex items-center text-[12px] md:text-[15px]">
                         Journeylog: 🚀 You have a habit to reinforce today: 🏋🏽
                         Workout on weekdays
                       </p>
