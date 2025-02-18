@@ -24,7 +24,10 @@ import {
   ArrowUpRight,
   ChevronRight,
   CircleHelp,
+  Copy,
+  Download,
   LogOut,
+  Trash,
   User,
 } from "lucide-react";
 import ReactConfetti from "react-confetti";
@@ -252,11 +255,52 @@ const Editor = ({
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
       />
       <div
-        className={`${font.class} daybadge daybadge-${font.code} fixed z-40 cursor-pointer text-[25px] md:text-[50px] bottom-[10px] right-[10px] md:bottom-[30px] md:right-[30px] py-2 px-4 md:p-4 leading-[30px] md:rounded-3xl rounded-xl text-[#3b3b3b]`}
+        className={`${font.class} daybadge daybadge-${font.code} fixed z-40 cursor-pointer text-[25px] md:text-[50px] bottom-[10px] right-[10px] md:bottom-[30px] md:right-[30px] leading-[30px] md:rounded-3xl rounded-xl text-[#3b3b3b]`}
         onClick={() => setIsOpened(!isOpened)}
       >
-        {todayNote.toLocaleString("default", { month: "short" })},{" "}
-        {dateSelected?.day}
+        {console.log(activeLog?.content)}
+        <Dropdown className="bg-[#202020]">
+          <DropdownTrigger>
+            <Button className="text-[25px] md:text-[35px] py-2 px-4 md:px-4 md:py-7 bg-[#282828] rounded-2xl">
+              {todayNote.toLocaleString("default", { month: "short" })},{" "}
+              {dateSelected?.day}
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu
+            aria-label="Dynamic Actions"
+            disabledKeys={activeLog?.content ? ["export", "copy"] : ["export", "copy", "delete"]}
+            items={[
+              {
+                icon: <Download />,
+                key: "export",
+                label: "Export log",
+              },
+              {
+                icon: <Copy />,
+                key: "copy",
+                label: "Copy as text",
+              },
+              {
+                icon: <Trash />,
+                key: "delete",
+                label: `Delete log for this day (${dateSelected?.day}/${dateSelected?.month})`,
+              },
+            ]}
+          >
+            {({ key, icon, label }) => (
+              <DropdownItem
+                key={key}
+                className={` ${key === "delete" ? "text-danger" : ""}`}
+                color={key === "delete" ? "danger" : "default"}
+              >
+                <div className="flex items-center my-[3px]">
+                  {icon}
+                  <p className="ml-2">{label}</p>
+                </div>
+              </DropdownItem>
+            )}
+          </DropdownMenu>
+        </Dropdown>
       </div>
       <div className="items-start py-5 px-3 md:pl-[280px] md:py-6 w-full justify-start artboard-parent">
         <Navbar
