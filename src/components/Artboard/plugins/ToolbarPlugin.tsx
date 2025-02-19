@@ -73,9 +73,9 @@ export default function ToolbarPlugin() {
     }
   };
 
-  const formatText = (formatType: any) => {
-    editor.dispatchCommand(FORMAT_TEXT_COMMAND, formatType);
-  };
+  // const formatText = (formatType: any) => {
+  //   editor.dispatchCommand(FORMAT_TEXT_COMMAND, formatType);
+  // };
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();

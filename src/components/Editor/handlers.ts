@@ -241,7 +241,7 @@ const useEditorHandlers = ({
 
   const getNow = () => DateTime.now().toUTC().toISO();
 
-  const handleLogRemotion =  async () => {
+  const handleLogRemotion = async (shouldResetEditor: any) => {
     const customDate = DateTime.fromJSDate(new Date())
       .set({
         day: dateSelected.day,
@@ -262,6 +262,16 @@ const useEditorHandlers = ({
     if (data && data[0]) {
       setActiveLog(null);
 
+      if (shouldResetEditor) {
+        setIsReadyToRenderArtboard(false)
+        setIsChangingTabs(true);
+
+        setTimeout(() => {
+          setIsReadyToRenderArtboard(true)
+          setIsChangingTabs(false);
+        }, 100)
+      }
+
       const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
       const dayWithPad = `0${today?.getDate()}`.slice(-2);
 
@@ -277,6 +287,8 @@ const useEditorHandlers = ({
         },
         false
       );
+
+
     }
   }
 
@@ -329,7 +341,7 @@ const useEditorHandlers = ({
 
       if (isToCreate) {
         setIsToRunConfetti(true);
-        toast("Mission accomplished for today!  🚀");
+        toast(`Mission accomplished this day: (${dateSelected.day}/${dateSelected.month})!  🚀`);
       }
     }
   }
@@ -337,7 +349,9 @@ const useEditorHandlers = ({
   const handleContentEdit = debounce(async (content: any) => {
     const isToDelete = content === EMPTY_STATE
     if (isToDelete) {
-      handleLogRemotion()
+      if (!!activeLog) {
+        handleLogRemotion(false)
+      }
     } else {
       handleLogEdit({ content })
     }
@@ -549,6 +563,7 @@ const useEditorHandlers = ({
     handleCreateJourney,
     getNow,
     getInsights,
+    handleLogRemotion,
     handleContentEdit,
     handleJourneyUpdate
   }

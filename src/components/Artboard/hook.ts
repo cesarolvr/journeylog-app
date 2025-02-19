@@ -6,7 +6,7 @@ const onChange = (
   _: any,
   setContent: Function = (f: any) => f
 ) => {
-  editorState.read(() => {
+  editorState.read((e) => {
     const newStateString = JSON.stringify(editorState.toJSON());
     const currentState = JSON.stringify(prevEditorState.toJSON());
 

@@ -125,6 +125,7 @@ const Editor = ({
     getInsights,
     getPreviews,
     getLogs,
+    handleLogRemotion,
     handleContentEdit,
   } = useEditorHandlers({
     isToRunConfetti,
@@ -286,13 +287,17 @@ const Editor = ({
               {
                 icon: <Trash />,
                 key: "delete",
+                handler: handleLogRemotion,
                 label: `Delete log for this day (${dateSelected?.day}/${dateSelected?.month})`,
               },
             ]}
           >
-            {({ key, icon, label }) => (
+            {({ key, icon, label, handler }) => (
               <DropdownItem
                 key={key}
+                onPress={() => {
+                  handler && handler(true);
+                }}
                 className={` ${key === "delete" ? "text-danger" : ""}`}
                 color={key === "delete" ? "danger" : "default"}
               >
