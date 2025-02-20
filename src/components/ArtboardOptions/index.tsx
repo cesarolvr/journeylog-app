@@ -266,7 +266,6 @@ const ArtboardOptions = ({
                 isSelected={!!notification ? true : false}
                 className="switch"
                 aria-label="Automatic updates"
-                isDisabled={true}
                 onValueChange={(e) =>
                   handleSwitchNotifications({ target: { value: e } }, "turnon")
                 }
