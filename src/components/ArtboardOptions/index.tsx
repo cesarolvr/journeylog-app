@@ -30,12 +30,22 @@ const ArtboardOptions = ({
   handleJourneyDeletion,
   handleJourneyUpdate,
   activeTab,
+  userInfo,
   notification,
   handleSwitchNotifications,
   setFont,
+  onOpenModal,
+  setDefaultPanel,
 }: any) => {
-  const { whatTime, when, where, setTheme, setFontSelected, fontSelected, theme } =
-    useArtboardOptions();
+  const {
+    whatTime,
+    when,
+    where,
+    setTheme,
+    setFontSelected,
+    fontSelected,
+    theme,
+  } = useArtboardOptions();
 
   const nextScheduledDate = notification?.next_sent
     ? DateTime.fromISO(notification?.next_sent).toLocaleString(
@@ -228,24 +238,40 @@ const ArtboardOptions = ({
         </div>
         <div className="notifications">
           <p className="mb-6">Notifications</p>
-          <div className="flex mb-5 items-start justify-between">
+          <div className="flex mb-7 items-start justify-between">
             <div className="flex">
               <Bell className="flex-shrink-0 stroke-[#A1A1AA]" />
               <div className="flex flex-col ml-4">
                 <p className="text-[#aaaaaa]">Reminders</p>
-                <p className="text-[#525252] text-sm max-w-[190px]">
-                  Turn on the reminders to be notified about your progress.
+                <p className="text-[#525252] text-sm max-w-[190px] mb-3">
+                  Turn on the reminders to be notified about your progress. An
+                  phone number configured is required.
                 </p>
+                {!userInfo?.phone ? (
+                  <small
+                    className="cursor-pointer text-[#878787] underline"
+                    onClick={(e) => {
+                      setIsOptionsOpened(false);
+                      onOpenModal();
+                      setDefaultPanel("profile");
+                    }}
+                  >
+                    Add phone
+                  </small>
+                ) : null}
               </div>
             </div>
-            <Switch
-              isSelected={!!notification ? true : false}
-              className="switch"
-              aria-label="Automatic updates"
-              onValueChange={(e) =>
-                handleSwitchNotifications({ target: { value: e } }, "turnon")
-              }
-            />
+            {userInfo?.phone ? (
+              <Switch
+                isSelected={!!notification ? true : false}
+                className="switch"
+                aria-label="Automatic updates"
+                isDisabled={true}
+                onValueChange={(e) =>
+                  handleSwitchNotifications({ target: { value: e } }, "turnon")
+                }
+              />
+            ) : null}
           </div>
         </div>
 

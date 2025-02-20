@@ -221,8 +221,11 @@ const Editor = ({
         handleSwitchNotifications={handleSwitchNotifications}
         setFont={setFont}
         font={font}
+        userInfo={user}
         isLoading={isLoading}
+        onOpenModal={onOpen}
         subscriptionInfo={subscriptionInfo}
+        setDefaultPanel={setDefaultPanel}
       />
       <ArtboardInsights
         setIsInsightsOpened={setIsInsightsOpened}

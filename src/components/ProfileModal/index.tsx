@@ -3,10 +3,7 @@ import classNames from "classnames";
 import { DateTime } from "luxon";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import PhoneInput, {
-  isValidPhoneNumber,
-} from "react-phone-number-input";
-
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 
 // Components
 import {
@@ -183,7 +180,6 @@ const ProfileModal = ({
           <br />
           <br />
           <br />
-
           <PhoneInput
             className="mb-3 w-[400px] max-w-full"
             placeholder="Phone"
@@ -630,7 +626,7 @@ const ProfileModal = ({
                           text: "How it works",
                           classes: "",
                           action: () => {
-                            console.log('aaaa')
+                            console.log("aaaa");
                           },
                         },
                         {

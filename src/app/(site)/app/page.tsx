@@ -112,6 +112,7 @@ const App = () => {
           {...value}
           handleLogout={handleLogout}
           setDefaultPanel={setDefaultPanel}
+          userInfo={user}
           isOpen={isOpen}
           onOpen={onOpen}
           setTheme={setTheme}
