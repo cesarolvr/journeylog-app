@@ -169,12 +169,9 @@ const ProfileModal = ({
             variant="solid"
             className="bg-[white] text-[black] font-black mt-3"
             onPress={save}
+            isLoading={isLoading}
           >
-            {isLoading ? (
-              <CircularProgress className="mb-2" aria-label="Loading..." />
-            ) : (
-              "Save"
-            )}
+            Save
           </Button>
 
           <br />
@@ -184,7 +181,7 @@ const ProfileModal = ({
             className="mb-3 w-[400px] max-w-full"
             placeholder="Phone"
             international
-            value={`+${user.phone}`}
+            value={user.phone ? `+${user.phone}` : ""}
             onChange={(value) => {
               setPhone(value);
               const valueRaw = value?.replace("+", "").trim();
@@ -208,7 +205,6 @@ const ProfileModal = ({
             </p>
           ) : null}
 
-          {/* {true && ( */}
           {isToVerifyCode && (
             <>
               <Input

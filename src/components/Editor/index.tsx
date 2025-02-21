@@ -377,7 +377,7 @@ const Editor = ({
                     Go to landing page
                   </DropdownItem>
                   <DropdownItem
-                    key="home"
+                    key="tour"
                     onPress={() => {
                       // router.push("/");
                       localStorage.setItem("isOnboardingEditorHidden", "false");

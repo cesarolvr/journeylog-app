@@ -25,6 +25,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
+      translate="no"
       className={`${nunito.className} w-full h-full overflow-scroll dark`}
     >
       <title>
