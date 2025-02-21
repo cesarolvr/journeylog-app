@@ -36,6 +36,8 @@ export default async function RootLayout({
         content="Track your habits, goals, and daily routines effortlessly. Stay consistent, gain insights, and get reminders to keep you on track. Start your journey today!"
       />
 
+      <meta name="google" content="notranslate" />
+
       <meta name="theme-color" content="#171717" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta
@@ -66,7 +68,6 @@ export default async function RootLayout({
                 className={`!w-[400px] cursor-pointer !max-w-[100%] px-4 left-auto right-auto md:right-0 top-8`}
                 toastClassName={`${nunito.className} text-[18px] !w-full !rounded-[15px] overflow-hidden`}
               />
-             
             </NextThemesProvider>
           </NextUIProvider>
         </SupabaseProvider>
