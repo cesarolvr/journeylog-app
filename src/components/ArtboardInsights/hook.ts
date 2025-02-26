@@ -100,26 +100,21 @@ const useArtboardInsights = () => {
         }
       }
     } else if (isMonthly) {
+      
       if (reversedList.length > 1) {
-        reversedList.forEach((prev, index) => {
+        reversedList.forEach((prev: any, index: any) => {
           if (index === 0) return 0;
           const current = reversedList[index - 1];
 
-          const currentDate = DateTime.fromJSDate(
-            new Date(current?.date)
-          ).toLocal();
-          const prevDate = DateTime.fromJSDate(new Date(prev?.date)).toLocal();
-          const diff: any = currentDate.diff(prevDate, "months")?.toObject();
-
-          const aMonth = DateTime.fromJSDate(new Date(prev?.date)).month;
-          const bMonth = DateTime.fromJSDate(new Date(current?.date)).month;
-          const diffInMonths = Math.abs(aMonth - bMonth);
+          const aMonth = DateTime.fromJSDate(new Date(prev?.date));
+          const bMonth = DateTime.fromJSDate(new Date(current?.date));
+          const diffInMonths = Math.abs(aMonth.month - bMonth.month);
 
           const isTodaysMonth =
-            (aMonth === DateTime.local().month &&
-              aMonth === DateTime.local().year) ||
-            (bMonth === DateTime.local().month &&
-              bMonth === DateTime.local().year);
+            (aMonth.month === DateTime.local().month &&
+              aMonth.year === DateTime.local().year) ||
+            (bMonth.month === DateTime.local().month &&
+              bMonth.year === DateTime.local().year);
 
           const isLastItemInARow =
             reversedList.indexOf(prev) === reversedList.length - 1;
@@ -138,8 +133,6 @@ const useArtboardInsights = () => {
               accObj[dateBToBeAdded.month] = dateBToBeAdded;
             }
           }
-
-          return -1;
         });
       } else {
         const isTodaysMonth =
