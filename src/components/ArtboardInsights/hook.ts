@@ -100,46 +100,33 @@ const useArtboardInsights = () => {
         }
       }
     } else if (isMonthly) {
-      
+      console.log("isMonthly", reversedList);
       if (reversedList.length > 1) {
-        reversedList.forEach((prev: any, index: any) => {
-          if (index === 0) return 0;
-          const current = reversedList[index - 1];
+        let currentStreak = 1;
+        let lastMonth: DateTime | null = null;
 
-          const aMonth = DateTime.fromJSDate(new Date(prev?.date));
-          const bMonth = DateTime.fromJSDate(new Date(current?.date));
-          const diffInMonths = Math.abs(aMonth.month - bMonth.month);
-
-          const isTodaysMonth =
-            (aMonth.month === DateTime.local().month &&
-              aMonth.year === DateTime.local().year) ||
-            (bMonth.month === DateTime.local().month &&
-              bMonth.year === DateTime.local().year);
-
-          const isLastItemInARow =
-            reversedList.indexOf(prev) === reversedList.length - 1;
-
-          const dateAToBeAdded = DateTime.fromJSDate(new Date(prev?.date));
-          const dateBToBeAdded = DateTime.fromJSDate(new Date(current?.date));
-
-          if (diffInMonths <= 1) {
-            accObj[dateBToBeAdded.month] = dateBToBeAdded;
-
-            if (isLastItemInARow && isTodaysMonth) {
-              accObj[dateAToBeAdded.month] = dateAToBeAdded;
-            }
-          } else {
-            if (isTodaysMonth) {
-              accObj[dateBToBeAdded.month] = dateBToBeAdded;
-            }
-          }
+        const sortedList = [...reversedList].sort((a: any, b: any) => {
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
         });
-      } else {
-        const isTodaysMonth =
-          reversedList[0]?.date === DateTime.local().toISODate();
-        if (isTodaysMonth) {
-          accObj[0] = DateTime.local();
+
+        for (let i = sortedList.length - 1; i > 0; i--) {
+          const currentMonth = DateTime.fromJSDate(new Date(sortedList[i]?.date));
+          const prevMonth = DateTime.fromJSDate(new Date(sortedList[i - 1]?.date));
+          const diffInMonths = (currentMonth.year - prevMonth.year) * 12 + (currentMonth.month - prevMonth.month);
+
+          if (diffInMonths === 1) {
+            currentStreak++;
+          } else {
+            break;
+          }
         }
+
+        return currentStreak;
+      } else if (reversedList.length === 1) {
+        const isTodaysMonth =
+          DateTime.fromJSDate(new Date(reversedList[0]?.date)).month === DateTime.local().month &&
+          DateTime.fromJSDate(new Date(reversedList[0]?.date)).year === DateTime.local().year;
+        return isTodaysMonth ? 1 : 0;
       }
     }
 

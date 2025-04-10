@@ -59,10 +59,10 @@ const App = () => {
 
   useEffect(() => {
     if (isLoading) return;
-    if (!user) {
+    if (!user && !isLoading) {
       router.push("/");
     }
-  }, [isLoading, user]);
+  }, [isLoading, user, router]);
 
   const handleLogout = debounce(async () => {
     const { error } = await supabaseClient.auth.signOut();
