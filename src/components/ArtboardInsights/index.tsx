@@ -465,7 +465,7 @@ const ArtboardInsights = ({
             <div className="flex justify-between mb-6 px-7 items-center">
               <p className="">Frequency</p>
             </div>
-            <div className="w-full overflow-scroll pl-7 pr-8 mb-7">
+            <div className="w-full scrollbar-macos overflow-scroll scrollbar-default pl-7 pr-8 mb-7">
               <div className=" flex">
                 {isInsightsOpened && !isLoading ? (
                   <>

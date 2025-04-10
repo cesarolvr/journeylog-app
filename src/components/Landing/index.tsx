@@ -950,7 +950,9 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                   variant="solid"
                   size="lg"
                   onPress={(f) => {
-                    handleChoosePlan(user?.id, "free");
+                    !!user
+                      ? handleChoosePlan(user?.id, "free")
+                      : router.push("/sign-in");
                   }}
                 >
                   {!!user

@@ -12,12 +12,12 @@
 
 .other h2 {
   font-size: 18px;
-  color: #444;
+  color: var(--text-tertiary);
   margin-bottom: 7px;
 }
 
 .other a {
-  color: #777;
+  color: var(--text-secondary);
   text-decoration: underline;
   font-size: 14px;
 }
@@ -29,7 +29,7 @@
 
 h1 {
   font-size: 24px;
-  color: #333;
+  color: var(--text-tertiary);
 }
 
 .ltr {
@@ -41,7 +41,7 @@ h1 {
 }
 
 .editor-container {
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
   padding-top: 0px;
   padding-left: 0px;
   width: 100%;
@@ -50,7 +50,7 @@ h1 {
   line-height: 20px;
   font-weight: 400;
   text-align: left;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -185,12 +185,12 @@ h1 {
   height: 100%;
   resize: none;
   font-size: 45px;
-  caret-color: rgb(5, 5, 5);
+  caret-color: var(--text-dark);
   position: relative;
   tab-size: 1;
   outline: 0;
   padding: 10px 10px;
-  caret-color: #444;
+  caret-color: var(--text-tertiary);
 
   @media screen and (min-width: 500px) {
     font-size: 60px;
@@ -200,11 +200,11 @@ h1 {
     display: inline-flex;
     align-items: center;
     font-family: var(--font-cutive);
-    color: #919191;
-    background-color: #000000;
+    color: var(--text-secondary);
+    background-color: var(--background-black);
     font-size: 30px;
     padding: 3px 10px;
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
     display: inline !important;
   }
 
@@ -221,10 +221,10 @@ h1 {
   mark {
     border: 1px dashed;
     background: none;
-    border-color: #39d353;
-    color: #bebebe;
+    border-color: var(--accent-primary);
+    color: var(--text-secondary);
     font-weight: bold;
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     padding: 0 10px;
   }
 }

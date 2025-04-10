@@ -2,12 +2,47 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-* {
-  box-sizing: border-box;
+:root {
+  /* Background Colors */
+  --background-dark: #171717;
+  --background-darker: #1e1e1e;
+  --background-black: #000000;
+  --background-light: #fff7dc;
+  --background-light-alt: #faedc9;
+  
+  /* Text Colors */
+  --text-primary: #d7d7d7;
+  --text-secondary: #777;
+  --text-tertiary: #4d4d4d;
+  --text-dark: #171717;
+  --text-light: #fff;
+  
+  /* Border Colors */
+  --border-dark: #2e2e2e;
+  --border-light: #a49b73;
+  
+  /* Accent Colors */
+  --accent-primary: #39d353;
+  --accent-secondary: #2c2c2c;
+  
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 15px;
+  --radius-xl: 20px;
+  --radius-2xl: 30px;
+  --radius-3xl: 40px;
+  --radius-full: 9999px;
+  
+  /* NextUI Variables */
   --nextui-primary: 130 64% 53%;
   --nextui-primary-400: 130 64% 53%;
   --nextui-default-50: 0 0 13%;
   --nextui-primary-50: 0 0 9%;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html {
@@ -15,7 +50,6 @@ html {
   scroll-behavior: smooth;
   height: 100vh;
   overflow: hidden;
-  scroll-behavior: smooth;
   font-family: sans-serif;
   translate: no;
 
@@ -24,12 +58,41 @@ html {
   }
 
   &.dark {
-    background-color: #171717;
+    background-color: var(--background-dark);
   }
 }
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+/* macOS-style scrollbar */
+.scrollbar-macos {
+  scrollbar-width: thin;
+  scrollbar-color: #4d4d4d transparent;
+}
+
+@media screen and (min-width: 768px) {
+  .scrollbar-macos::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    display: block;
+  }
+
+  .scrollbar-macos::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-macos::-webkit-scrollbar-thumb {
+    background-color: #4d4d4d;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  .scrollbar-macos::-webkit-scrollbar-thumb:hover {
+    background-color: #6d6d6d;
+  }
 }
 
 ::selection {

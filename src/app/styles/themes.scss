@@ -3,22 +3,22 @@
     background-image: linear-gradient(to bottom, #1f1f1f 1px, transparent 1px);
   }
   .editor-container {
-    color: #d7d7d7;
+    color: var(--text-primary);
   }
 
   .editor-options {
-    background-color: #171717;
+    background-color: var(--background-dark);
   }
 
   .toolbar {
-    background-color: #171717;
+    background-color: var(--background-dark);
 
     .toolbar-item .text {
-      color: #777;
+      color: var(--text-secondary);
     }
 
     .toolbar-item svg {
-      stroke: #777;
+      stroke: var(--text-secondary);
     }
   }
 
@@ -28,71 +28,71 @@
 
   .tabJourney {
     .extra {
-      background-color: #222222;
-      color: #777;
+      background-color: var(--background-darker);
+      color: var(--text-secondary);
     }
   }
 
   .datepicker-wrapper {
-    background-color: black;
+    background-color: var(--background-black);
   }
 
   #tabs {
-    background-color: #171717;
+    background-color: var(--background-dark);
     > div {
-      border-color: #777;
+      border-color: var(--text-secondary);
     }
   }
 
   .daybadge {
-    background-color: #171717;
+    background-color: var(--background-dark);
   }
 
   .syncer {
-    background-color: #171717;
+    background-color: var(--background-dark);
   }
 
   .artboard-tabs {
-    background-color: #171717;
+    background-color: var(--background-dark);
   }
 
   .sidebar {
-    background-color: black;
-    border-color: #2e2e2e;
+    background-color: var(--background-black);
+    border-color: var(--border-dark);
   }
 
   .sidebar-day {
     background-color: #161616;
-    color: #424242;
+    color: var(--text-tertiary);
 
     &.featured-day {
       background-color: #212121;
-      color: #bcbcbc;
+      color: var(--text-secondary);
     }
   }
 
   .sidebar-note {
-    background-color: black;
+    background-color: var(--background-black);
   }
 
   .artboard-header {
     input {
-      background-color: #171717;
-      color: white;
+      background-color: var(--background-dark);
+      color: var(--text-light);
     }
   }
 
   .close-sidemenu-button {
-    background: black;
-    border: 1px solid #2e2e2e;
+    background: var(--background-black);
+    border: 1px solid var(--border-dark);
   }
 }
 
 .light {
-  --nextui-primary: #fff7dc !important;
+  --nextui-primary: var(--background-light) !important;
 
   .artboard-tabs {
-    background-color: #faedc9;
+    background-color: var(--background-light-alt);
   }
 
   .editor {
@@ -100,12 +100,12 @@
   }
 
   .editor-container {
-    color: #171717;
+    color: var(--text-dark);
   }
 
   .editor-input {
     code {
-      color: #171717;
+      color: var(--text-dark);
       background-color: #e4d8b4;
     }
 
@@ -115,13 +115,13 @@
       border-color: #938e79;
       color: #565242;
       font-weight: bold;
-      border-radius: 10px;
+      border-radius: var(--radius-md);
       padding: 0 10px;
     }
   }
 
   .toolbar {
-    background-color: #faedc9;
+    background-color: var(--background-light-alt);
 
     .toolbar-item .text {
       color: #817b65;
@@ -139,7 +139,7 @@
       background-color: #f3ebcb;
 
       .text {
-        color: #2c2c2c;
+        color: var(--accent-secondary);
       }
     }
   }
