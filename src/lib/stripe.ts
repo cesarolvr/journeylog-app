@@ -1,13 +1,14 @@
 import Stripe from "stripe";
 
-const key = process.env.STRIPE_SECRET_KEY || process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY
+const key: any = process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY
 
 if (!key) {
   throw new Error("STRIPE_SECRET_KEY is not defined");
 }
 
 export const stripe = new Stripe(key, {
-  apiVersion: "2023-10-16" as const,
+  apiVersion: "2024-12-18.acacia",
+  typescript: true,
 });
 
 export const createStripeCustomer = async (email: string): Promise<Stripe.Customer> => {
