@@ -1,75 +1,78 @@
-import { stripe } from "@/services/stripe";
-import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
-import { headers } from "next/headers";
-import { createClient } from '@/utils/supabase/server'
-import { revalidatePath } from "next/cache";
-import { DateTime } from "luxon";
+import { NextResponse } from "next/server";
+import { createClient } from "@/utils/supabase/server";
+import { createStripeCustomer, createStripeSubscription } from "@/lib/stripe";
+import { STRIPE_PRICE_ID } from "@/lib/stripe/types";
+import { cookies } from "next/headers";
 
-export async function POST(request: NextRequest) {
-  const body = await request.text();
-  const signature = headers().get("Stripe-Signature") as string;
-  let event: Stripe.Event;
-
-  const supabaseServerClient = createClient()
-
+export async function POST() {
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.NEXT_PUBLIC_STRIPE_SIGNING_SECRET as string,
-    );
-  } catch (error) {
-    console.error(error);
-    return new NextResponse("webhook error", { status: 400 });
-  }
+    const cookieStore = cookies();
+    const supabase = createClient(cookieStore);
 
-  console.log('event', JSON.stringify(event))
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-  const session = event.data.object as Stripe.Checkout.Session;
-
-  if (
-    (event.type === "checkout.session.completed" || event.type === 'checkout.session.async_payment_succeeded') &&
-    session.payment_status === "paid"
-  ) {
-    const metadata = event?.data?.object?.metadata as Stripe.Metadata
-
-    console.log('metadata', metadata)
-
-    if (metadata) {
-      const resSubscription = await supabaseServerClient
-        .from("users")
-        .update({ subscription: "habit_creator", subscription_record: JSON.stringify(event), subscription_key: event?.data?.object?.subscription })
-        .eq("id", metadata?.userId)
-        .select()
-
-      console.log('on create subscription =>', resSubscription)
-
-      const resNotification = await supabaseServerClient
-        .from("notification")
-        .delete()
-        .eq("user_id", metadata?.userId)
-        .select()
-
-      console.log('on remove notification =>', resNotification)
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: "Unauthorized", message: "You must be logged in." },
+        { status: 401 }
+      );
     }
-  } else if (event.type === "customer.subscription.updated" && event?.data?.object?.cancel_at) {
-    const cancelDate = DateTime.fromJSDate(new Date(event?.data?.object?.cancel_at * 1000))
-      .toUTC()
-      .toISO()
 
-    const res = await supabaseServerClient
-      .from("users")
-      .update({
-        subscription_record: JSON.stringify(event), to_cancel_at: cancelDate
-      })
-      .eq("subscription_key", event?.data?.object?.id)
-      .select()
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("email, stripe_customer_id")
+      .eq("id", user.id)
+      .single();
 
-    console.log('on update subscription', res)
+    if (profileError || !profile) {
+      return NextResponse.json(
+        { error: "Not Found", message: "User profile not found." },
+        { status: 404 }
+      );
+    }
+
+    let customerId = profile.stripe_customer_id;
+
+    if (!customerId) {
+      const customer = await createStripeCustomer(profile.email);
+      customerId = customer.id;
+
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({ stripe_customer_id: customerId })
+        .eq("id", user.id);
+
+      if (updateError) {
+        console.error("Error updating profile:", updateError);
+        return NextResponse.json(
+          { error: "Server Error", message: "Failed to update user profile." },
+          { status: 500 }
+        );
+      }
+    }
+
+    const subscription = await createStripeSubscription(customerId, STRIPE_PRICE_ID);
+
+    if (!subscription.latest_invoice || typeof subscription.latest_invoice === 'string') {
+      throw new Error("Invalid subscription response");
+    }
+
+    const invoice = subscription.latest_invoice as Stripe.Invoice;
+    if (!invoice.payment_intent || typeof invoice.payment_intent === 'string') {
+      throw new Error("Invalid invoice response");
+    }
+
+    const paymentIntent = invoice.payment_intent as Stripe.PaymentIntent;
+
+    return NextResponse.json({
+      subscriptionId: subscription.id,
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return NextResponse.json(
+      { error: "Server Error", message: "Something went wrong." },
+      { status: 500 }
+    );
   }
-
-  revalidatePath("/", "layout");
-
-  return new NextResponse(null, { status: 200 });
 }
