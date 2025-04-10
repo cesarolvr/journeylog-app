@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 
-const key: any = process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY
+const key: any = process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY || process.env.NEXT_PUBLIC_STR
 const priceIdHabitCreator: any = process.env.NEXT_PUBLIC_STRIPE_PRICE_HABIT_CREATOR_ID
 
 export const stripe = new Stripe(key, {

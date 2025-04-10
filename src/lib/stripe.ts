@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 
-const key: any = process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY
+const key: any = process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY || process.env.NEXT_PUBLIC_STR
 
 if (!key) {
   throw new Error("STRIPE_SECRET_KEY is not defined");
