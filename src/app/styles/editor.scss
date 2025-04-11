@@ -1,3 +1,5 @@
+@import "../styles/variables.scss";
+
 .editor {
   background-size: 40px 45px;
   background-position-x: -10px;
@@ -93,7 +95,7 @@ h1 {
   font-family: var(--font-reenie);
   padding-left: 20px;
 
-  @media screen and (min-width: 500px) {
+  @include sm {
     padding-left: 30px;
   }
 }
@@ -192,7 +194,7 @@ h1 {
   padding: 10px 10px;
   caret-color: var(--text-tertiary);
 
-  @media screen and (min-width: 500px) {
+  @include sm {
     font-size: 60px;
   }
 
@@ -609,7 +611,7 @@ i.justify-align {
       line-height: 45px;
     }
 
-    @media screen and (min-width: 500px) {
+    @include sm {
       font-size: 30px;
     }
 
@@ -666,7 +668,7 @@ i.justify-align {
       bottom: -5px;
     }
 
-    @media screen and (min-width: 500px) {
+    @include sm {
       font-size: 30px;
     }
 

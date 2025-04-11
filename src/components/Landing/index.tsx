@@ -33,7 +33,7 @@ import Logo from "../../images/logoFull.svg";
 import Illustration4 from "../../images/illustrations/4.svg";
 import Illustration5 from "../../images/illustrations/5.svg";
 import Illustration6 from "../../images/illustrations/6.svg";
-import PhoneMockup from "../../../src/images/illustrations/phone.svg";
+import PhoneMockup from "../../images/illustrations/phone.svg";
 import xmark from "../../images/illustrations/xmark.json";
 import Bruno from "../../images/bruno.png";
 import Bia from "../../images/bia.png";
@@ -230,8 +230,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             }}
             className="text-[18px] md:text-[24px] leading-6 md:leading-10 mb-10 text-white max-w-[90%] md:max-w-[600px] font-thin"
           >
-            Keep track of your routine until it’s second nature. And to keep you
-            on track we’ll ping you through{" "}
+            Keep track of your routine until it's second nature. And to keep you
+            on track we'll ping you through{" "}
             <strong
               className="font-bold text-[#39d353]"
               ref={whereText}
@@ -753,17 +753,17 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           >
             {[
               {
-                text: `“I'm using Journeylog to not forget to call my mom every day. It's just working 💚”`,
+                text: `"I'm using Journeylog to not forget to call my mom every day. It's just working 💚"`,
                 author: "Jake from Colorado",
                 color: `#397649`,
               },
               {
-                text: `“I log every gym session, and seeing my streak grow has been a huge motivator. I’ve never been this consistent before! 💪🏽”`,
+                text: `"I log every gym session, and seeing my streak grow has been a huge motivator. I've never been this consistent before! 💪🏽"`,
                 author: "Mike from Atlanta",
                 color: `#1F602F`,
               },
               {
-                text: `“I use it to log every glass of water I drink, and it’s honestly helped me stay hydrated. Love the reminders too! 💦”`,
+                text: `"I use it to log every glass of water I drink, and it's honestly helped me stay hydrated. Love the reminders too! 💦"`,
                 author: "Cris from Rio",
                 color: `#35A351`,
               },
@@ -790,17 +790,17 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           >
             {[
               {
-                text: `“JourneyLog keeps me on track with the important but small stuff, like remembering to call my Grandma every week. She loves it, and so do I! 🤰🏼”`,
+                text: `"JourneyLog keeps me on track with the important but small stuff, like remembering to call my Grandma every week. She loves it, and so do I! 🤰🏼"`,
                 author: "Emma from Berlin",
                 color: `#397649`,
               },
               {
-                text: `“I use it to track my tasks and progress on projects. Like a brag document! It’s simple, effective, and has become my secret weapon at work! 🚀”`,
+                text: `"I use it to track my tasks and progress on projects. Like a brag document! It's simple, effective, and has become my secret weapon at work! 🚀"`,
                 author: "Alex from London",
                 color: `#35A351`,
               },
               {
-                text: `Tracking things like skincare routines and taking time to read before bed. It’s great for staying accountable to myself. 🧴”`,
+                text: `Tracking things like skincare routines and taking time to read before bed. It's great for staying accountable to myself. 🧴"`,
                 author: "Olivia from Budapest",
                 color: `#1F602F`,
               },
@@ -827,17 +827,17 @@ const Landing = ({ user, subscriptionInfo }: any) => {
           >
             {[
               {
-                text: `“I log every step of my freelance projects and deadlines. It keeps me on track and stress-free. 📆”`,
+                text: `"I log every step of my freelance projects and deadlines. It keeps me on track and stress-free. 📆"`,
                 author: "Mason from Vancouver",
                 color: `#35A351`,
               },
               {
-                text: `“Using it to plan my hiking trips and track my progress toward summiting all the local peaks. It’s my adventure buddy! ⛰️”`,
+                text: `"Using it to plan my hiking trips and track my progress toward summiting all the local peaks. It's my adventure buddy! ⛰️"`,
                 author: "Ella from Seattle",
                 color: `#397649`,
               },
               {
-                text: `“Using Journeylog as a normal notes tool. I just don't use notifications, it's to much for me 📝”`,
+                text: `"Using Journeylog as a normal notes tool. I just don't use notifications, it's to much for me 📝"`,
                 author: "Ethan from New York",
                 color: `#1F602F`,
               },
@@ -1167,7 +1167,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
             <div className="flex-col md:flex-row md:flex items-center justify-center md:justify-between text-[#848484]">
               <p className="text-center md:text-left md:max-w-[70%] md:pr-10 mb-7 shrink-0 md:mb-0">
                 Share how you built a new habit with Journeylog through photos,
-                videos, logs, or however you like! If our team loves it, you’ll
+                videos, logs, or however you like! If our team loves it, you'll
                 receive a lifetime PRO subscription.
               </p>
               <Link
@@ -1241,7 +1241,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 title="It's free?"
                 className="rounded-[20px] px-8 py-2 text-[30px] mb-5 bg-[#1B1B1B]"
               >
-                Yes, there’s a free plan, but if you want more, there is an
+                Yes, there's a free plan, but if you want more, there is an
                 option to upgrade.
               </AccordionItem>
             </Accordion>

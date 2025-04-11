@@ -1,6 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "./styles/variables.scss";
 
 :root {
   /* Background Colors */
@@ -70,6 +71,29 @@ html {
 .scrollbar-macos {
   scrollbar-width: thin;
   scrollbar-color: #4d4d4d transparent;
+
+  @include md {
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+      display: block;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #4d4d4d;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #6d6d6d;
+    }
+  }
 }
 
 @media screen and (min-width: 768px) {
@@ -123,7 +147,7 @@ a span::selection {
   padding-right: 0;
   padding-left: 30px;
 
-  @media screen and (min-width: 768px) {
+  @include md {
     padding-left: 5px;
   }
 }

@@ -22,6 +22,12 @@
     }
   }
 
+  .switch
+    .group[data-selected="true"]
+    .group-data-\[selected\=true\]\:bg-primary {
+    background-color: #3ad454;
+  }
+
   .nav-header {
     background-color: transparent;
   }
