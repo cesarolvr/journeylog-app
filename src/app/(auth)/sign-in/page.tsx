@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import LOGO from "../../../images/logo.svg";
+import LOGO from "../../../images/logoFull.svg";
 
 import { Reenie_Beanie } from "next/font/google";
 const reenie = Reenie_Beanie({ subsets: ["latin"], weight: "400" });
@@ -45,12 +45,12 @@ const SignIn = () => {
           transition={{ duration: 0.2 }}
           className={`text-white ${reenie.className} text-[45px] md:text-[60px] md:mb-3 flex`}
         >
-          Journeylog
           <Image
             src={LOGO}
             alt=""
-            className="mt-[-30px] md:mt-[-40px] w-[30px] md:w-[60px] ml-3"
+            className="w-[130px] md:w-[260px]"
           />
+          <br />
         </motion.h1>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
