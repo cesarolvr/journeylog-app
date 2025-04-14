@@ -111,30 +111,33 @@ const Landing = ({ user, subscriptionInfo }: any) => {
 
   // Behaviour
   useEffect(() => {
-    const typedHero = new Typed(whereText.current, {
-      strings: ["Whatsapp", "Email", "SMS"],
-      typeSpeed: 50,
-      loop: true,
-      backDelay: 3000,
-      backSpeed: 50,
-      startDelay: 500,
-    });
+    // Only initialize Typed on client side
+    if (typeof window !== 'undefined') {
+      const typedHero = new Typed(whereText.current, {
+        strings: ["Whatsapp", "Email", "SMS"],
+        typeSpeed: 50,
+        loop: true,
+        backDelay: 3000,
+        backSpeed: 50,
+        startDelay: 500,
+      });
 
-    const typedPersonalize = new Typed(personalizeText.current, {
-      strings,
-      typeSpeed: 50,
-      loop: true,
-      backDelay: 3000,
-      backSpeed: 50,
-      startDelay: 500,
-    });
+      const typedPersonalize = new Typed(personalizeText.current, {
+        strings,
+        typeSpeed: 50,
+        loop: true,
+        backDelay: 3000,
+        backSpeed: 50,
+        startDelay: 500,
+      });
 
-    setTheme("dark");
+      setTheme("dark");
 
-    return () => {
-      typedHero.destroy();
-      typedPersonalize.destroy();
-    };
+      return () => {
+        typedHero.destroy();
+        typedPersonalize.destroy();
+      };
+    }
   }, []);
 
   useEffect(() => {
