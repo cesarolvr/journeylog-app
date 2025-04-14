@@ -3,9 +3,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import LOGO from "../../../images/logoFull.svg";
 
-// Styles
-import "./purpose.scss";
-
 export const metadata = {
   title: "Journeylog | Purpose",
   description:

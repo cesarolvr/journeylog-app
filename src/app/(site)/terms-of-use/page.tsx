@@ -3,9 +3,6 @@ import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import LOGO from "../../../images/logoFull.svg";
 
-// Styles
-import "./terms-of-use.scss";
-
 import Footer from "@/components/Footer";
 
 export const metadata = {

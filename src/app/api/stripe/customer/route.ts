@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { createStripeCustomer, createStripeSubscription, cancelStripeSubscription } from "@/lib/stripe";
-import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
   try {
-    const cookieStore = cookies();
-    const supabase = createClient(cookieStore);
+    const supabase = createClient();
 
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
