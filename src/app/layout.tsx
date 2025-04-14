@@ -9,7 +9,12 @@ import FacebookPixel from "@/components/Fbpixel";
 import Script from "next/script";
 
 import { Nunito_Sans } from "next/font/google";
-const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "900"] });
+const nunito = Nunito_Sans({ 
+  subsets: ["latin"], 
+  weight: ["400", "900"],
+  display: "swap",
+  variable: "--font-nunito"
+});
 
 // Styles
 import "./globals.scss";
@@ -26,28 +31,29 @@ export default async function RootLayout({
     <html
       lang="en"
       translate="no"
-      className={`${nunito.className} w-full h-full overflow-scroll dark`}
+      className={`${nunito.variable} w-full h-full overflow-scroll dark`}
+      suppressHydrationWarning
     >
-      <title>
-        Journeylog | Transform Your Habits and Goals into a Consistent Journey
-      </title>
-      <meta
-        name="description"
-        content="Track your habits, goals, and daily routines effortlessly. Stay consistent, gain insights, and get reminders to keep you on track. Start your journey today!"
-      />
-
-      <meta name="google" content="notranslate" />
-
-      <meta name="theme-color" content="#171717" />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta
-        name="apple-mobile-web-app-status-bar-style"
-        content="black-translucent"
-      />
-      <Script
-        src="https://app.termly.io/resource-blocker/e75a858e-67fd-4b97-aace-63f842fce17c?autoBlock=on"
-        type="text/javascript"
-      />
+      <head>
+        <title>
+          Journeylog | Transform Your Habits and Goals into a Consistent Journey
+        </title>
+        <meta
+          name="description"
+          content="Track your habits, goals, and daily routines effortlessly. Stay consistent, gain insights, and get reminders to keep you on track. Start your journey today!"
+        />
+        <meta name="google" content="notranslate" />
+        <meta name="theme-color" content="#171717" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+        <Script
+          src="https://app.termly.io/resource-blocker/e75a858e-67fd-4b97-aace-63f842fce17c?autoBlock=on"
+          type="text/javascript"
+        />
+      </head>
       <body className="min-h-[100svh]">
         <SupabaseProvider>
           <NextUIProvider>

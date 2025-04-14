@@ -770,6 +770,16 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 author: "Cris from Rio",
                 color: `#35A351`,
               },
+              {
+                text: `"As a freelancer, tracking my daily work hours has never been easier. The streak feature keeps me accountable! ⏰"`,
+                author: "Sarah from London",
+                color: `#2D7A3D`,
+              },
+              {
+                text: `"I've been using Journeylog to track my meditation practice. 100 days and counting - it's transformed my routine! 🧘‍♀️"`,
+                author: "Priya from Mumbai",
+                color: `#1E4B2A`,
+              },
             ].map(({ text, author, color }, index) => {
               return (
                 <div
@@ -807,6 +817,16 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 author: "Olivia from Budapest",
                 color: `#1F602F`,
               },
+              {
+                text: `"I've been using Journeylog to track my meditation practice. 100 days and counting - it's transformed my routine! 🧘‍♀️"`,
+                author: "Priya from Mumbai",
+                color: `#1E4B2A`,
+              },
+              {
+                text: `"I log every step of my freelance projects and deadlines. It keeps me on track and stress-free. 📆"`,
+                author: "Mason from Vancouver",
+                color: `#35A351`,
+              },
             ].map(({ text, author, color }, index) => {
               return (
                 <div
@@ -843,6 +863,16 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                 text: `"Using Journeylog as a normal notes tool. I just don't use notifications, it's to much for me 📝"`,
                 author: "Ethan from New York",
                 color: `#1F602F`,
+              },
+              {
+                text: `"I've been using Journeylog to track my meditation practice. 100 days and counting - it's transformed my routine! 🧘‍♀️"`,
+                author: "Priya from Mumbai",
+                color: `#1E4B2A`,
+              },
+              {
+                text: `"Using Journeylog to log my daily water intake. It's been a game-changer for staying hydrated! 💧"`,
+                author: "Cris from Rio",
+                color: `#35A351`,
               },
             ].map(({ text, author, color }, index) => {
               return (

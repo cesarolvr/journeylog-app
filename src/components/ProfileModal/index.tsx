@@ -13,7 +13,6 @@ import {
   Button,
   Avatar,
   Input,
-  CircularProgress,
 } from "@nextui-org/react";
 import {
   ChevronRight,
@@ -641,17 +640,10 @@ const ProfileModal = ({
                           text: "Logout",
                           classes: "text-[#F31260]",
                         },
-                      ].map(
-                        ({
-                          icon,
-                          text,
-                          classes,
-                          children,
-                          action,
-                          key,
-                        }: any) => {
+                      ].map(({ icon, text, classes, children, action, key }) => {
                           return (
                             <li
+                              key={key}
                               onClick={() => {
                                 if (action) {
                                   action();
@@ -674,8 +666,7 @@ const ProfileModal = ({
                               </p>
                             </li>
                           );
-                        }
-                      )}
+                        })}
                     </ul>
                   </div>
                   <div className="w-full min-w-0">{panels[panel]}</div>

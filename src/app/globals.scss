@@ -51,7 +51,7 @@ html {
   scroll-behavior: smooth;
   height: 100vh;
   overflow: hidden;
-  font-family: sans-serif;
+  font-family: var(--font-nunito), sans-serif;
   translate: no;
 
   &.light {
