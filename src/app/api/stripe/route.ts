@@ -1,77 +1,51 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server";
-import { createStripeCustomer, createStripeSubscription } from "@/lib/stripe";
-import { STRIPE_PRICE_ID } from "@/lib/stripe/types";
-import { cookies } from "next/headers";
+import Stripe from "stripe";
 
-export async function POST() {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-01-27.acacia",
+  typescript: true,
+});
+
+export async function POST(req: Request) {
   try {
-    const cookieStore = cookies();
-    const supabase = createClient(cookieStore);
+    const { action, userId, subscription_key } = await req.json();
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (action === "subscribe") {
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price: process.env.NEXT_PUBLIC_STRIPE_PRICE_HABIT_CREATOR_ID,
+            quantity: 1,
+          },
+        ],
+        metadata: {
+          userId,
+        },
+        mode: "subscription",
+        success_url: `${process.env.NEXT_PUBLIC_URL}app`,
+        cancel_url: `${process.env.NEXT_PUBLIC_URL}`,
+      });
 
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: "Unauthorized", message: "You must be logged in." },
-        { status: 401 }
-      );
+      return NextResponse.json({ url: session.url });
     }
 
-    const { data: profile, error: profileError } = await supabase
-      .from("profiles")
-      .select("email, stripe_customer_id")
-      .eq("id", user.id)
-      .single();
+    if (action === "unsubscribe" && subscription_key) {
+      const subscription = await stripe.subscriptions.update(subscription_key, {
+        cancel_at_period_end: true
+      });
 
-    if (profileError || !profile) {
-      return NextResponse.json(
-        { error: "Not Found", message: "User profile not found." },
-        { status: 404 }
-      );
+      return NextResponse.json({ subscription });
     }
 
-    let customerId = profile.stripe_customer_id;
-
-    if (!customerId) {
-      const customer = await createStripeCustomer(profile.email);
-      customerId = customer.id;
-
-      const { error: updateError } = await supabase
-        .from("profiles")
-        .update({ stripe_customer_id: customerId })
-        .eq("id", user.id);
-
-      if (updateError) {
-        console.error("Error updating profile:", updateError);
-        return NextResponse.json(
-          { error: "Server Error", message: "Failed to update user profile." },
-          { status: 500 }
-        );
-      }
-    }
-
-    const subscription = await createStripeSubscription(customerId, STRIPE_PRICE_ID);
-
-    if (!subscription.latest_invoice || typeof subscription.latest_invoice === 'string') {
-      throw new Error("Invalid subscription response");
-    }
-
-    const invoice = subscription.latest_invoice as Stripe.Invoice;
-    if (!invoice.payment_intent || typeof invoice.payment_intent === 'string') {
-      throw new Error("Invalid invoice response");
-    }
-
-    const paymentIntent = invoice.payment_intent as Stripe.PaymentIntent;
-
-    return NextResponse.json({
-      subscriptionId: subscription.id,
-      clientSecret: paymentIntent.client_secret,
-    });
-  } catch (error) {
-    console.error("Error:", error);
     return NextResponse.json(
-      { error: "Server Error", message: "Something went wrong." },
+      { error: "Invalid action" },
+      { status: 400 }
+    );
+  } catch (error) {
+    console.error("Stripe API Error:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }

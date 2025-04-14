@@ -1,38 +1,40 @@
-import Stripe from "stripe";
-
-const key: any = process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY || process.env.NEXT_PUBLIC_STR
-const priceIdHabitCreator: any = process.env.NEXT_PUBLIC_STRIPE_PRICE_HABIT_CREATOR_ID
-
-export const stripe = new Stripe(key, {
-  apiVersion: "2024-12-18.acacia",
-  typescript: true,
-});
-
-
 export const subscribeAction = async ({ userId }: any) => {
-  const { url, ...props } = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    line_items: [
-      {
-        price: priceIdHabitCreator,
-        quantity: 1,
-      },
-    ],
-    metadata: {
-      userId,
+  const response = await fetch('/api/stripe', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-    mode: "subscription",
-    success_url: `${process.env.NEXT_PUBLIC_URL}app`,
-    cancel_url: `${process.env.NEXT_PUBLIC_URL}`,
+    body: JSON.stringify({
+      action: 'subscribe',
+      userId,
+    }),
   });
 
+  if (!response.ok) {
+    throw new Error('Failed to create checkout session');
+  }
+
+  const { url } = await response.json();
   return url;
 };
 
 export const unsubscribeAction = async ({ userId, subscription_key }: any) => {
-  const stripeRes = await stripe.subscriptions.update(subscription_key, {
-    cancel_at_period_end: true
+  const response = await fetch('/api/stripe', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      action: 'unsubscribe',
+      userId,
+      subscription_key,
+    }),
   });
 
-  return stripeRes
+  if (!response.ok) {
+    throw new Error('Failed to update subscription');
+  }
+
+  const { subscription } = await response.json();
+  return subscription;
 };
