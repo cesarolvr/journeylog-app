@@ -1,58 +1,93 @@
 export const createCustomer = async () => {
-  const response = await fetch('/api/stripe/customer', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      action: 'createCustomer',
-    }),
-  });
+  try {
+    const response = await fetch('/api/stripe/customer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action: 'createCustomer',
+      }),
+    });
 
-  if (!response.ok) {
-    throw new Error('Failed to create customer');
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Failed to create customer:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorData
+      });
+      throw new Error(`Failed to create customer: ${errorData.error || response.statusText}`);
+    }
+
+    const { customer } = await response.json();
+    return customer;
+  } catch (error) {
+    console.error('Error in createCustomer:', error);
+    throw error;
   }
-
-  const { customer } = await response.json();
-  return customer;
 };
 
 export const createSubscription = async (priceId: string) => {
-  const response = await fetch('/api/stripe/customer', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      action: 'createSubscription',
-      priceId,
-    }),
-  });
+  try {
+    const response = await fetch('/api/stripe/customer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action: 'createSubscription',
+        priceId,
+      }),
+    });
 
-  if (!response.ok) {
-    throw new Error('Failed to create subscription');
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Failed to create subscription:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorData,
+        priceId
+      });
+      throw new Error(`Failed to create subscription: ${errorData.error || response.statusText}`);
+    }
+
+    const { subscription } = await response.json();
+    return subscription;
+  } catch (error) {
+    console.error('Error in createSubscription:', error);
+    throw error;
   }
-
-  const { subscription } = await response.json();
-  return subscription;
 };
 
 export const cancelSubscription = async (subscriptionId: string) => {
-  const response = await fetch('/api/stripe/customer', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      action: 'cancelSubscription',
-      subscriptionId,
-    }),
-  });
+  try {
+    const response = await fetch('/api/stripe/customer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action: 'cancelSubscription',
+        subscriptionId,
+      }),
+    });
 
-  if (!response.ok) {
-    throw new Error('Failed to cancel subscription');
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Failed to cancel subscription:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorData,
+        subscriptionId
+      });
+      throw new Error(`Failed to cancel subscription: ${errorData.error || response.statusText}`);
+    }
+
+    const { subscription } = await response.json();
+    return subscription;
+  } catch (error) {
+    console.error('Error in cancelSubscription:', error);
+    throw error;
   }
-
-  const { subscription } = await response.json();
-  return subscription;
 }; 
