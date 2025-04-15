@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import classNames from "classnames";
@@ -45,6 +45,9 @@ import ArtboardInsights from "../ArtboardInsights";
 // Custom hook
 import useEditor from "./hooks";
 import useEditorHandlers from "./handlers";
+import { getDaysDetailsInMonth, isValidDate } from "@/utils";
+import { CalendarDate } from "@internationalized/date";
+import { DateTime } from "luxon";
 
 // Static props
 export const EMPTY_STATE = `{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0}],"direction":null,"format":"","indent":0,"type":"root","version":1}}`;
@@ -176,6 +179,54 @@ const Editor = ({
     { ssr: false }
   );
 
+  const customToday = DateTime.now().toUTC().toJSDate();
+
+  const [days, setDays] = useState([]);
+
+  const [lastMonthLoaded, setLastMonthLoaded] = useState(
+    customToday.getMonth() + 1
+  );
+  const [lastYearLoaded, setLastYearLoaded] = useState(
+    customToday.getFullYear()
+  );
+
+  const handleGoToDate = (date: string) => {
+    setIsReadyToRenderArtboard(false);
+    setActiveLog(null);
+    const [day, month, year] = date.split("/").map(Number);
+    
+    const newDate = new CalendarDate(year, month, day);
+
+    if (month !== lastMonthLoaded || year !== lastYearLoaded) {
+      const newDays: any = getDaysDetailsInMonth(month, year);
+      setLastMonthLoaded(month);
+      setLastYearLoaded(year);
+      setDays(newDays);
+    }
+
+    const monthWithPad = `0${month}`.slice(-2);
+    const dayWithPad = `0${day}`.slice(-2);
+    const id = `${year}-${monthWithPad}-${dayWithPad}`;
+
+    setDateSelected(newDate);
+    setSelectedDay(id);
+
+    setTimeout(async () => {
+      const element = document.querySelector(`#day-${id}`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      const res = await getLogs(activeTab.id, id);
+      if (res) {
+        setActiveLog(res);
+      }
+
+      setIsReadyToRenderArtboard(true);
+      setIsInsightsOpened(false);
+    }, 100);
+  };
+
   return (
     <div className={`w-full h-full editor ${cutive.variable}`}>
       <OnboardingEditor
@@ -237,6 +288,8 @@ const Editor = ({
         subscriptionInfo={subscriptionInfo}
         onOpenModal={onOpen}
         setDefaultPanel={setDefaultPanel}
+        handleGoToDate={handleGoToDate}
+       
       />
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
@@ -257,6 +310,12 @@ const Editor = ({
         setIsLoading={setIsLoading}
         setSelectedDay={setSelectedDay}
         setIsReadyToRenderArtboard={setIsReadyToRenderArtboard}
+        days={days}
+        setDays={setDays}
+        lastMonthLoaded={lastMonthLoaded}
+        lastYearLoaded={lastYearLoaded}
+        setLastMonthLoaded={setLastMonthLoaded}
+        setLastYearLoaded={setLastYearLoaded}
       />
       <div
         className={`${font.class} daybadge daybadge-${font.code} fixed z-40 cursor-pointer text-[25px] md:text-[50px] bottom-[10px] right-[10px] md:bottom-[30px] md:right-[30px] leading-[30px] md:rounded-3xl rounded-xl text-[#3b3b3b]`}

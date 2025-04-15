@@ -25,6 +25,7 @@ const ArtboardInsights = ({
   subscriptionInfo,
   onOpenModal,
   setDefaultPanel,
+  handleGoToDate,
 }: any) => {
   const [frequency, setFrequency]: any = useState(null);
   const [daysInARow, setDaysInARow]: any = useState(null);
@@ -320,6 +321,14 @@ const ArtboardInsights = ({
           ],
         ]
       );
+
+      cal.on("click", (date: any, timestamp: any) => {
+        if (handleGoToDate) {
+          handleGoToDate(
+            DateTime.fromMillis(timestamp).toUTC().toFormat("dd/MM/yyyy")
+          );
+        }
+      });
     }
 
     const days: any = getDaysInARow({

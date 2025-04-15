@@ -43,13 +43,19 @@ const Sidebar = ({
   setSelectedDay,
   font,
   setIsReadyToRenderArtboard,
+  lastMonthLoaded,
+  lastYearLoaded,
+  setLastMonthLoaded,
+  setLastYearLoaded,
+  days = [],
+  setDays,
 }: any) => {
-  const [days, setDays] = useState([]);
+  
 
   const today = DateTime.now().toUTC().toJSDate();
 
-  const [lastMonthLoaded, setLastMonthLoaded] = useState(today.getMonth() + 1);
-  const [lastYearLoaded, setLastYearLoaded] = useState(today.getFullYear());
+  // const [lastMonthLoaded, setLastMonthLoaded] = useState(today.getMonth() + 1);
+  // const [lastYearLoaded, setLastYearLoaded] = useState(today.getFullYear());
 
   let now = todayDate(getLocalTimeZone());
 

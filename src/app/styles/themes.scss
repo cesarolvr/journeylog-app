@@ -72,7 +72,8 @@
     color: var(--text-tertiary);
 
     &.featured-day {
-      background-color: #212121;
+      background-color: #272727;
+      border: 1px solid #3ad454;
       color: var(--text-secondary);
     }
   }
