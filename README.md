@@ -8,8 +8,6 @@
   </p>
 
   [![Website](https://img.shields.io/badge/Website-journeylog.app-green?style=for-the-badge&logo=vercel)](https://journeylog.app)
-  [![Twitter](https://img.shields.io/badge/Twitter-@journeylogapp-blue?style=for-the-badge&logo=twitter)](https://twitter.com/journeylogapp)
-  [![Instagram](https://img.shields.io/badge/Instagram-@journeylogapp-purple?style=for-the-badge&logo=instagram)](https://instagram.com/journeylogapp)
 </div>
 
 ## 🌟 About
@@ -115,8 +113,6 @@ Here are some planned improvements for the project:
 
 Suggestions for future improvements:
 - 🌐 Add internationalization support
-- 📱 Improve mobile responsiveness
-- 🎨 Implement a dark/light theme toggle
 - 📊 Add more detailed analytics and insights
 - 🤖 Implement AI-powered habit suggestions
 - 🔄 Add data export/import functionality
@@ -124,8 +120,6 @@ Suggestions for future improvements:
 ## 📱 Connect With Us
 
 - Website: [journeylog.app](https://journeylog.app)
-- Twitter: [@journeylogapp](https://twitter.com/journeylogapp)
-- Instagram: [@journeylogapp](https://instagram.com/journeylogapp)
 
 ## 🛠️ Tech Stack
 
