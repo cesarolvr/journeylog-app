@@ -1295,6 +1295,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               isDisabled={isLoading}
               onValueChange={handleSuggestionForm}
               value={formContent}
+              label="Write some suggestion :)"
             />
             <Button
               className="bg-white text-[20px] px-16 text-black font-black"
@@ -1323,5 +1324,5 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     </div>
   );
 };
-
 export default Landing;
+
