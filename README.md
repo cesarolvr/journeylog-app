@@ -102,6 +102,25 @@ npm run build
 - 🎨 Creative practice tracking
 - And much more!
 
+## 🗺️ Roadmap
+
+Here are some planned improvements for the project:
+
+- 🧪 Add unit tests to ensure code reliability
+- 🧪 Implement end-to-end tests for critical user flows
+- 🔄 Remove duplicate logic and improve code abstraction
+- 🎨 Optimize SVG assets for better performance
+- 🧩 Improve component responsibility separation
+- ✨ Refine microinteractions for better user experience
+
+Suggestions for future improvements:
+- 🌐 Add internationalization support
+- 📱 Improve mobile responsiveness
+- 🎨 Implement a dark/light theme toggle
+- 📊 Add more detailed analytics and insights
+- 🤖 Implement AI-powered habit suggestions
+- 🔄 Add data export/import functionality
+
 ## 📱 Connect With Us
 
 - Website: [journeylog.app](https://journeylog.app)
