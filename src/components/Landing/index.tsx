@@ -50,6 +50,7 @@ import ThirdIllustration from "../Illustrations/ThirdIllustration";
 
 // Custom hook
 import useLanding from "./hook";
+import LottieWrapper from "./LottieWrapper";
 
 const Landing = ({ user, subscriptionInfo }: any) => {
   // Hooks
@@ -91,20 +92,14 @@ const Landing = ({ user, subscriptionInfo }: any) => {
     threshold: 1,
   });
 
-  const { View, play } = useLottie({
-    animationData: xmark,
-    loop: false,
-    autoplay: false,
-  });
-
   const { ref: soundRef, inView: soundInView } = useInView({
     threshold: 1,
   });
 
   const playNotification = () => {
     let audio = new Audio("./sound.mp3");
-    audio.volume = 0.1;
     if (soundInView) {
+      audio.volume = 0.1;
       audio.play();
     }
   };
@@ -143,7 +138,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
   useEffect(() => {
     if (inView) {
       setTimeout(() => {
-        play();
+        // play();
       }, 500);
     }
   }, [inView]);
@@ -396,7 +391,7 @@ const Landing = ({ user, subscriptionInfo }: any) => {
               ref={XMarkRef}
               className="w-[258px] m-auto scale-y-75 top-0 right-0 left-0 absolute"
             >
-              {View}
+              <LottieWrapper animationData={xmark} />
             </div>
             <Image
               className="max-w-[85%] m-auto"
@@ -1068,8 +1063,8 @@ const Landing = ({ user, subscriptionInfo }: any) => {
                       <svg
                         width="29"
                         height="36"
-                        viewBox="0 0 29 36"
                         className="flex-shrink-0"
+                        viewBox="0 0 29 36"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
