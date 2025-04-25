@@ -63,6 +63,7 @@ const Editor = ({
   // Libs hooks
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
+  const [canShowToast, setCanShowToast] = useState(true);
 
   // Custom hook
   const { states, fonts, baseProps } = useEditor({ user });
@@ -157,6 +158,8 @@ const Editor = ({
     getUser,
     activeTab,
     supabaseClient,
+    setCanShowToast,
+    canShowToast
   });
 
   useEffect(() => {
@@ -316,6 +319,7 @@ const Editor = ({
         lastYearLoaded={lastYearLoaded}
         setLastMonthLoaded={setLastMonthLoaded}
         setLastYearLoaded={setLastYearLoaded}
+        setCanShowToast={setCanShowToast}
       />
       <div
         className={`${font.class} daybadge daybadge-${font.code} fixed z-40 cursor-pointer text-[25px] md:text-[50px] bottom-[10px] right-[10px] md:bottom-[30px] md:right-[30px] leading-[30px] md:rounded-3xl rounded-xl text-[#3b3b3b]`}

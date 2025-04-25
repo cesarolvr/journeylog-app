@@ -29,7 +29,10 @@ const useEditorHandlers = ({
   setNotification,
   getUser,
   activeTab,
-  supabaseClient }: any) => {
+  supabaseClient,
+  setCanShowToast,
+  canShowToast
+}: any) => {
 
   const handleSwitchNotifications = debounce(
     async (isToEnable: any, setup: any) => {
@@ -165,6 +168,7 @@ const useEditorHandlers = ({
     setNotification(null);
     setIsChangingTabs(true);
     setIsReadyToRenderArtboard(false);
+    setCanShowToast(true);
 
     const { data: updatedJourney } = await supabaseClient
       .from("journey")
@@ -242,6 +246,7 @@ const useEditorHandlers = ({
   const getNow = () => DateTime.now().toUTC().toISO();
 
   const handleLogRemotion = async (shouldResetEditor: any) => {
+    setCanShowToast(true);
     const customDate = DateTime.fromJSDate(new Date())
       .set({
         day: dateSelected.day,
@@ -341,7 +346,11 @@ const useEditorHandlers = ({
 
       if (isToCreate) {
         setIsToRunConfetti(true);
-        toast(`Mission accomplished this day: (${dateSelected.day}/${dateSelected.month})!  🚀`);
+        console.log('canShowToast', canShowToast, isToCreate);
+        if (canShowToast) {
+          toast(`Mission accomplished for (${dateSelected.day}-${dateSelected.month}-${dateSelected.year})!  🚀`);
+          setCanShowToast(false);
+        }
       }
     }
   }
@@ -402,9 +411,11 @@ const useEditorHandlers = ({
 
   const getLogs = async (journeyId: any, dateString: any) => {
     const start = DateTime.fromISO(dateString)
+
       .set({ hour: 0, minute: 0, second: 0 })
       .toUTC()
       .toISO();
+
     const end = DateTime.fromISO(dateString)
       .set({
         hour: 23,
@@ -565,7 +576,9 @@ const useEditorHandlers = ({
     getInsights,
     handleLogRemotion,
     handleContentEdit,
-    handleJourneyUpdate
+    handleJourneyUpdate,
+    setCanShowToast,
+    canShowToast
   }
 
 }
