@@ -246,7 +246,6 @@ const useEditorHandlers = ({
   const getNow = () => DateTime.now().toUTC().toISO();
 
   const handleLogRemotion = async (shouldResetEditor: any) => {
-    setCanShowToast(true);
     const customDate = DateTime.fromJSDate(new Date())
       .set({
         day: dateSelected.day,
@@ -255,8 +254,7 @@ const useEditorHandlers = ({
       })
       .toUTC();
 
-    const logId = `log_${getUser()?.id}_${activeTab?.id
-      }_${customDate.toISODate()}`;
+    const logId = `log_${getUser()?.id}_${activeTab?.id}_${customDate.toISODate()}`;
 
     const { data } = await supabaseClient
       .from("log")
@@ -293,7 +291,27 @@ const useEditorHandlers = ({
         false
       );
 
+      const formattedDate = DateTime.fromObject({
+        day: dateSelected.day,
+        month: dateSelected.month,
+        year: dateSelected.year
+      }).toFormat('MMMM d, yyyy');
 
+      const logDate = DateTime.fromObject({
+        day: dateSelected.day,
+        month: dateSelected.month,
+        year: dateSelected.year
+      });
+      
+      const isToday = logDate.hasSame(DateTime.fromJSDate(today), 'day');
+      const isYesterday = logDate.hasSame(DateTime.fromJSDate(today).minus({ days: 1 }), 'day');
+      
+      const dateContext = isToday ? 'today' : isYesterday ? 'yesterday' : `on ${formattedDate}`;
+
+      toast(`Log deleted ${dateContext}`, {
+        type: 'error',
+        autoClose: 2000,
+      });
     }
   }
 
@@ -307,8 +325,7 @@ const useEditorHandlers = ({
       })
       .toUTC();
 
-    const logId = `log_${getUser()?.id}_${activeTab?.id
-      }_${customDate.toISODate()}`;
+    const logId = `log_${getUser()?.id}_${activeTab?.id}_${customDate.toISODate()}`;
 
     const { data, error } = await supabaseClient
       .from("log")
@@ -342,15 +359,45 @@ const useEditorHandlers = ({
         false
       );
 
-      const isToCreate = !activeLog;
-
-      if (isToCreate) {
+      const isNewEntry = data[0].created_at === data[0].updated_at;
+      const formattedDate = DateTime.fromObject({
+        day: dateSelected.day,
+        month: dateSelected.month,
+        year: dateSelected.year
+      }).toFormat('MMMM d, yyyy');
+      
+      if (content !== EMPTY_STATE && (isNewEntry || canShowToast)) {
         setIsToRunConfetti(true);
-        console.log('canShowToast', canShowToast, isToCreate);
-        if (canShowToast) {
-          toast(`Mission accomplished for (${dateSelected.day}-${dateSelected.month}-${dateSelected.year})!  🚀`);
-          setCanShowToast(false);
-        }
+        
+        const today = DateTime.now();
+        const logDate = DateTime.fromObject({
+          day: dateSelected.day,
+          month: dateSelected.month,
+          year: dateSelected.year
+        });
+        
+        const isToday = logDate.hasSame(today, 'day');
+        const isYesterday = logDate.hasSame(today.minus({ days: 1 }), 'day');
+        
+        const dateContext = isToday ? 'today' : isYesterday ? 'yesterday' : `on ${formattedDate}`;
+        
+        const messages = [
+          `Great job ${dateContext} 🎉`,
+          `You nailed it ${dateContext} ⭐`,
+          `Amazing work ${dateContext} 🌟`,
+          `Keep it up ${dateContext} 💪`,
+          `Well done ${dateContext} 👏`,
+          `Fantastic work ${dateContext} 🎯`,
+          `You rock ${dateContext} 🤘`,
+          `Bravo ${dateContext} 🎭`,
+          `Excellent work ${dateContext} 🏆`,
+          `Superb job ${dateContext} 🌈`
+        ];
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        toast(randomMessage, {
+          autoClose: 2000
+        });
+        setCanShowToast(false);
       }
     }
   }
