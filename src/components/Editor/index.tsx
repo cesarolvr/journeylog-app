@@ -301,6 +301,7 @@ const Editor = ({
         setIsOpened={setIsOpened}
         isBlocked={journeyTabs && journeyTabs?.length < 1}
         setActiveLog={setActiveLog}
+        activeLog={activeLog}
         setDateSelected={setDateSelected}
         dateSelected={dateSelected}
         getLogs={getLogs}

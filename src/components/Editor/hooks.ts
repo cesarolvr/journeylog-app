@@ -39,6 +39,7 @@ const useEditor = ({ user }: any) => {
   const initialDateSelected = `${today.getFullYear()}-${monthWithPad}-${dayWithPad}`;
   const [selectedDay, setSelectedDay] = useState(initialDateSelected);
   const [isToRunConfetti, setIsToRunConfetti] = useState(false);
+  const [canShowToast, setCanShowToast] = useState(true);
 
 
   // Props
@@ -74,7 +75,8 @@ const useEditor = ({ user }: any) => {
       isInsightsOpened, setIsInsightsOpened,
       notification, setNotification,
       selectedDay, setSelectedDay,
-      isToRunConfetti, setIsToRunConfetti
+      isToRunConfetti, setIsToRunConfetti,
+      canShowToast, setCanShowToast
     },
     fonts: {
       reenie, nunito, cutive

@@ -100,7 +100,6 @@ const useArtboardInsights = () => {
         }
       }
     } else if (isMonthly) {
-      console.log("isMonthly", reversedList);
       if (reversedList.length > 1) {
         let currentStreak = 1;
         let lastMonth: DateTime | null = null;

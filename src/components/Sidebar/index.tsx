@@ -25,10 +25,12 @@ import Quote from "../Quote";
 
 // Styles
 import "./index.scss";
+import { EMPTY_STATE } from "../Editor";
 
 const Sidebar = ({
   isLoading,
   setActiveLog,
+  activeLog,
   isBlocked,
   setIsOpened,
   isOpened,
@@ -49,9 +51,8 @@ const Sidebar = ({
   setLastYearLoaded,
   days = [],
   setDays,
+  setCanShowToast,
 }: any) => {
-  
-
   const today = DateTime.now().toUTC().toJSDate();
 
   // const [lastMonthLoaded, setLastMonthLoaded] = useState(today.getMonth() + 1);
@@ -164,6 +165,12 @@ const Sidebar = ({
       setActiveLog(null);
     }
 
+    if (res?.content) {
+      setCanShowToast(false);
+    } else {
+      setCanShowToast(true);
+    }
+
     setIsReadyToRenderArtboard(true);
     setIsOpened(true);
     setIsLoading(false);
@@ -230,6 +237,12 @@ const Sidebar = ({
       const res = await getLogs(activeTab.id, filter);
       if (res) {
         setActiveLog(res);
+      }
+
+      if (res?.content) {
+        setCanShowToast(false);
+      } else {
+        setCanShowToast(true);
       }
 
       const dateStringStart = `${e?.year}-${monthWithPad}-01`;

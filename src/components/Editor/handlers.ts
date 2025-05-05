@@ -168,7 +168,6 @@ const useEditorHandlers = ({
     setNotification(null);
     setIsChangingTabs(true);
     setIsReadyToRenderArtboard(false);
-    setCanShowToast(true);
 
     const { data: updatedJourney } = await supabaseClient
       .from("journey")
@@ -193,6 +192,12 @@ const useEditorHandlers = ({
 
     if (res) {
       setActiveLog(res);
+    }
+
+    if (res?.content) {
+      setCanShowToast(false);
+    } else {
+      setCanShowToast(true);
     }
 
     const dateStringEnd = DateTime.now().toUTC().toISODate();
@@ -235,6 +240,7 @@ const useEditorHandlers = ({
 
       setJourneyTabs(newTabsToBeRendered);
       setIsOptionsOpened(false);
+      setCanShowToast(true);
 
       if (newTabsToBeRendered && newTabsToBeRendered?.length === 0) {
         setPreviewList([]);
@@ -290,29 +296,48 @@ const useEditorHandlers = ({
         },
         false
       );
-
-      const formattedDate = DateTime.fromObject({
-        day: dateSelected.day,
-        month: dateSelected.month,
-        year: dateSelected.year
-      }).toFormat('MMMM d, yyyy');
-
-      const logDate = DateTime.fromObject({
-        day: dateSelected.day,
-        month: dateSelected.month,
-        year: dateSelected.year
-      });
-      
-      const isToday = logDate.hasSame(DateTime.fromJSDate(today), 'day');
-      const isYesterday = logDate.hasSame(DateTime.fromJSDate(today).minus({ days: 1 }), 'day');
-      
-      const dateContext = isToday ? 'today' : isYesterday ? 'yesterday' : `on ${formattedDate}`;
-
-      toast(`Log deleted ${dateContext}`, {
-        type: 'error',
-        autoClose: 2000,
-      });
     }
+  }
+
+  const showLogSuccessToast = () => {
+    const formattedDate = DateTime.fromObject({
+      day: dateSelected.day,
+      month: dateSelected.month,
+      year: dateSelected.year
+    }).toFormat('MMMM d, yyyy');
+
+    setIsToRunConfetti(true);
+
+    const today = DateTime.now();
+    const logDate = DateTime.fromObject({
+      day: dateSelected.day,
+      month: dateSelected.month,
+      year: dateSelected.year
+    });
+
+    const isToday = logDate.hasSame(today, 'day');
+    const isYesterday = logDate.hasSame(today.minus({ days: 1 }), 'day');
+
+    const dateContext = isToday ? 'today' : isYesterday ? 'yesterday' : `on ${formattedDate}`;
+
+    const messages = [
+      `Great job ${dateContext} 🎉`,
+      `You nailed it ${dateContext} ⭐`,
+      `Amazing work ${dateContext} 🌟`,
+      `Keep it up ${dateContext} 💪`,
+      `Well done ${dateContext} 👏`,
+      `Fantastic work ${dateContext} 🎯`,
+      `You rock ${dateContext} 🤘`,
+      `Bravo ${dateContext} 🎭`,
+      `Excellent work ${dateContext} 🏆`,
+      `Superb job ${dateContext} 🌈`
+    ];
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    toast(randomMessage, {
+      autoClose: 2000,
+      closeOnClick: true,
+    });
+    setCanShowToast(false);
   }
 
   const handleLogEdit = async ({ content }: any) => {
@@ -342,6 +367,7 @@ const useEditorHandlers = ({
 
     if (data && data[0]) {
       setActiveLog(data[0]);
+      setCanShowToast(false);
 
       const monthWithPad = `0${today.getMonth() + 1}`.slice(-2);
       const dayWithPad = `0${today?.getDate()}`.slice(-2);
@@ -359,45 +385,8 @@ const useEditorHandlers = ({
         false
       );
 
-      const isNewEntry = data[0].created_at === data[0].updated_at;
-      const formattedDate = DateTime.fromObject({
-        day: dateSelected.day,
-        month: dateSelected.month,
-        year: dateSelected.year
-      }).toFormat('MMMM d, yyyy');
-      
-      if (content !== EMPTY_STATE && (isNewEntry || canShowToast)) {
-        setIsToRunConfetti(true);
-        
-        const today = DateTime.now();
-        const logDate = DateTime.fromObject({
-          day: dateSelected.day,
-          month: dateSelected.month,
-          year: dateSelected.year
-        });
-        
-        const isToday = logDate.hasSame(today, 'day');
-        const isYesterday = logDate.hasSame(today.minus({ days: 1 }), 'day');
-        
-        const dateContext = isToday ? 'today' : isYesterday ? 'yesterday' : `on ${formattedDate}`;
-        
-        const messages = [
-          `Great job ${dateContext} 🎉`,
-          `You nailed it ${dateContext} ⭐`,
-          `Amazing work ${dateContext} 🌟`,
-          `Keep it up ${dateContext} 💪`,
-          `Well done ${dateContext} 👏`,
-          `Fantastic work ${dateContext} 🎯`,
-          `You rock ${dateContext} 🤘`,
-          `Bravo ${dateContext} 🎭`,
-          `Excellent work ${dateContext} 🏆`,
-          `Superb job ${dateContext} 🌈`
-        ];
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-        toast(randomMessage, {
-          autoClose: 2000
-        });
-        setCanShowToast(false);
+      if (canShowToast) {
+        showLogSuccessToast();
       }
     }
   }

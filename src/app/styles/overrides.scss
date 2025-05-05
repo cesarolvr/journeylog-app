@@ -96,6 +96,21 @@ h2[class*="termly-styles-preferenceTitle-e3b150"] {
   }
 }
 
+.Toastify__toast {
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin-bottom: 10px !important;
+}
+
+.Toastify__close-button {
+  bottom: 0 !important;
+  top: auto !important;
+  height: 50px !important;
+  right: 10px !important;
+}
+
 .Toastify__toast-theme--dark {
   background: #303030 !important;
   color: #fff !important;
