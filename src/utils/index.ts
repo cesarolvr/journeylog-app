@@ -1,4 +1,5 @@
-
+export * from './date';
+export * from './editor';
 
 export const getDaysDetailsInMonth = (month: any, year: any) => {
   // Array com os nomes dos meses

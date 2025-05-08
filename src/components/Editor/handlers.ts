@@ -2,6 +2,7 @@ import { debounce } from "lodash";
 import { DateTime } from "luxon";
 import { toast } from "react-toastify";
 import { EMPTY_STATE } from ".";
+import { getEditorTextContent } from '@/utils';
 
 
 const useEditorHandlers = ({
@@ -598,6 +599,29 @@ const useEditorHandlers = ({
     setIsLoading(false);
   };
 
+  const handleCopyToClipboard = async () => {
+    if (!activeLog?.content) return;
+    
+    try {
+      const editorState = JSON.parse(activeLog.content);
+      const textContent = getEditorTextContent(editorState);
+      
+      await navigator.clipboard.writeText(textContent);
+      
+      // Show success toast or notification
+      setNotification({
+        type: 'success',
+        message: 'Content copied to clipboard!'
+      });
+    } catch (error) {
+      console.error('Failed to copy content:', error);
+      setNotification({
+        type: 'error',
+        message: 'Failed to copy content'
+      });
+    }
+  };
+
   return {
     handleSwitchNotifications,
     handleJourneyName,
@@ -614,7 +638,8 @@ const useEditorHandlers = ({
     handleContentEdit,
     handleJourneyUpdate,
     setCanShowToast,
-    canShowToast
+    canShowToast,
+    handleCopyToClipboard
   }
 
 }

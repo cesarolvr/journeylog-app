@@ -45,7 +45,7 @@ import ArtboardInsights from "../ArtboardInsights";
 // Custom hook
 import useEditor from "./hooks";
 import useEditorHandlers from "./handlers";
-import { getDaysDetailsInMonth, isValidDate } from "@/utils";
+import { getDaysDetailsInMonth, isValidDate, formatNaturalDate } from "@/utils";
 import { CalendarDate } from "@internationalized/date";
 import { DateTime } from "luxon";
 
@@ -131,6 +131,7 @@ const Editor = ({
     getLogs,
     handleLogRemotion,
     handleContentEdit,
+    handleCopyToClipboard,
   } = useEditorHandlers({
     isToRunConfetti,
     setIsToRunConfetti,
@@ -337,7 +338,7 @@ const Editor = ({
             aria-label="Dynamic Actions"
             disabledKeys={
               activeLog?.content
-                ? ["export", "copy"]
+                ? ["export"]
                 : ["export", "copy", "delete"]
             }
             items={[
@@ -350,12 +351,13 @@ const Editor = ({
                 icon: <Copy />,
                 key: "copy",
                 label: "Copy as text",
+                handler: handleCopyToClipboard,
               },
               {
                 icon: <Trash />,
                 key: "delete",
                 handler: handleLogRemotion,
-                label: `Delete log for this day (${dateSelected?.day}/${dateSelected?.month})`,
+                label: `Delete log for ${formatNaturalDate(new Date(dateSelected.year, dateSelected.month - 1, dateSelected.day))}`,
               },
             ]}
           >
@@ -363,7 +365,7 @@ const Editor = ({
               <DropdownItem
                 key={key}
                 onPress={() => {
-                  handler && handler(true);
+                  handler && handler();
                 }}
                 className={` ${key === "delete" ? "text-danger" : ""}`}
                 color={key === "delete" ? "danger" : "default"}
