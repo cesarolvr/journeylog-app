@@ -129,6 +129,83 @@ Suggestions for future improvements:
 - Framer Motion
 - Tailwind CSS
 
+## 📁 Project Structure
+
+```
+journeylog-app/
+├── app/                    # Next.js app directory
+├── components/            # React components
+├── lib/                   # Utility functions and shared code
+├── server/               # Server-side code
+│   ├── db/              # Database related files
+│   │   ├── migrations/  # Database migrations
+│   │   └── README.md    # Database documentation
+│   ├── cron_notification.sql  # Notification cron job
+│   ├── cron_subscription.sql  # Subscription cron job
+│   └── reminder.ts      # Reminder functionality
+└── public/              # Static files
+```
+
+## 🗄️ Database Structure
+
+The database is managed through migrations in the `server/db/migrations` directory. Each migration file is numbered sequentially and contains the changes needed to update the database structure.
+
+### Tables
+
+- **journey**: Stores user's journal journeys
+  - Settings like theme, font, and notification frequency
+  - Each journey belongs to a user
+  - Has RLS policies to ensure users can only access their own journeys
+
+- **log**: Stores individual journal entries
+  - Each log belongs to a journey and a user
+  - Contains content and type (e.g., BULLET)
+  - Has RLS policies to ensure users can only access their own logs
+
+- **notification**: Stores notification settings
+  - Delivery preferences (email/phone)
+  - Tracks last and next notification times
+  - Has RLS policies to ensure users can only access their own notifications
+
+- **feedback**: Stores user feedback
+  - Contains feedback content and optional email
+
+### Security
+
+All tables have Row Level Security (RLS) enabled with appropriate policies to ensure data privacy and security. Users can only access their own data.
+
+### Current Migrations
+
+- `000_initial_schema.sql`: Initial database schema with tables, policies, and triggers
+
+### Database Best Practices
+
+1. Always use `IF NOT EXISTS` when creating tables and objects
+2. Include appropriate indexes for frequently queried columns
+3. Use RLS policies for all tables
+4. Keep migrations idempotent (can be run multiple times safely)
+5. Document any complex queries or database functions
+
+### How to Apply Database Changes
+
+1. Create a new migration file in `server/db/migrations/` with a sequential number prefix
+2. Add your SQL changes to the new file
+3. Apply the changes to your Supabase database using the Supabase dashboard or CLI
+
+## ⚙️ Server Components
+
+### Database Migrations
+
+Located in `server/db/migrations/`:
+- `000_initial_schema.sql`: Initial database schema with tables, policies, and triggers
+
+### Cron Jobs
+
+Located in `server/`:
+- `cron_notification.sql`: Handles notification scheduling
+- `cron_subscription.sql`: Manages subscription status
+- `reminder.ts`: Implements reminder functionality
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. This means you are free to use, modify, and distribute the code, even for commercial purposes, as long as you include the original copyright notice and license.
