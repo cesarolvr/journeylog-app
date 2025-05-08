@@ -631,7 +631,7 @@ const ArtboardInsights = ({
                           ) : (
                             <motion.span
                               initial={{ opacity: 0 }}
-                              whileInView={{
+                              animate={{
                                 opacity: value
                                   ? value > 10
                                     ? 0.75
