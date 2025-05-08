@@ -608,16 +608,27 @@ const useEditorHandlers = ({
       
       await navigator.clipboard.writeText(textContent);
       
-      // Show success toast or notification
-      setNotification({
-        type: 'success',
-        message: 'Content copied to clipboard!'
+      toast.success('Content copied to clipboard!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
       });
     } catch (error) {
       console.error('Failed to copy content:', error);
-      setNotification({
-        type: 'error',
-        message: 'Failed to copy content'
+      toast.error('Failed to copy content', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
       });
     }
   };

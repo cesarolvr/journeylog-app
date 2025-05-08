@@ -338,15 +338,15 @@ const Editor = ({
             aria-label="Dynamic Actions"
             disabledKeys={
               activeLog?.content
-                ? ["export"]
+                ? []
                 : ["export", "copy", "delete"]
             }
             items={[
-              {
-                icon: <Download />,
-                key: "export",
-                label: "Export log",
-              },
+              // {
+              //   icon: <Download />,
+              //   key: "export",
+              //   label: "Export log",
+              // },
               {
                 icon: <Copy />,
                 key: "copy",

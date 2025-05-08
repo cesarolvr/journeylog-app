@@ -395,12 +395,24 @@ const ArtboardInsights = ({
               className="inarow flex justify-start w-full overflow-scroll"
             >
               <motion.li
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ amount: 0.5, once: true }}
+              
                 className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 pl-0 text-[#fff] ml-7"
               >
-                <div className="text-5xl font-bold">
+                <div className="text-5xl font-bold" style={{
+                  color: daysInARow === 0 ? '#5C5C5C' : 
+                         daysInARow === 1 ? '#246b3e' :
+                         daysInARow === 2 ? '#1e7a3d' :
+                         daysInARow === 3 ? '#1a8a3c' :
+                         daysInARow === 4 ? '#169a3b' :
+                         daysInARow === 5 ? '#12aa3a' :
+                         daysInARow === 6 ? '#0eba39' :
+                         daysInARow === 7 ? '#0aca38' :
+                         daysInARow === 8 ? '#06da37' :
+                         daysInARow === 9 ? '#02ea36' :
+                         daysInARow === 10 ? '#27DE55' :
+                         daysInARow <= 30 ? '#39D353' :
+                         '#4BE351'
+                }}>
                   {typeof daysInARow === "number" ? (
                     String(daysInARow).padStart(daysInARow === 0 ? 1 : 2, "0")
                   ) : (
@@ -415,10 +427,7 @@ const ArtboardInsights = ({
                 </span>
               </motion.li>
               <motion.li
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ amount: 0.5, once: true }}
-                transition={{ delay: 0.1 }}
+             
                 className=" flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]"
               >
                 <div className="text-5xl font-bold">
@@ -443,10 +452,7 @@ const ArtboardInsights = ({
                 </span>
               </motion.li>
               <motion.li
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ amount: 0.5, once: true }}
-                transition={{ delay: 0.2 }}
+                
                 className=" flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]"
               >
                 <div className="text-5xl font-bold">
