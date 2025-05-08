@@ -3,9 +3,10 @@
 import { CircularProgress } from "@nextui-org/react";
 import * as motion from "motion/react-client";
 import classNames from "classnames";
-import { Share, X } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { Loader, Share, X } from "lucide-react";
+import React, { useEffect, useState, useRef } from "react";
 import { DateTime } from "luxon";
+import html2canvas from "html2canvas";
 
 import CalHeatmap from "cal-heatmap";
 import Tooltip from "cal-heatmap/plugins/Tooltip";
@@ -30,6 +31,8 @@ const ArtboardInsights = ({
   const [frequency, setFrequency]: any = useState(null);
   const [daysInARow, setDaysInARow]: any = useState(null);
   const [callHeatmap, setCallHeatmap] = useState(null);
+  const [isExporting, setIsExporting] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // Base methods on custom hook
   const { getDaysInARow, getLastDaysConsistency, getLastDaysDensity } =
@@ -341,6 +344,66 @@ const ArtboardInsights = ({
     typeof days === "number" && setDaysInARow(days);
   }, [frequency]);
 
+  const handleExport = async () => {
+    if (!contentRef.current) return;
+
+    setIsExporting(true);
+    try {
+      // Create a temporary container for centering
+      const container = document.createElement('div');
+      container.style.width = '750px';
+      container.style.height = '1050px';
+      container.style.backgroundColor = '#1E1E1E';
+      container.style.display = 'flex';
+      container.style.alignItems = 'center';
+      container.style.justifyContent = 'center';
+      container.style.position = 'absolute';
+      container.style.left = '-9999px';
+      container.style.borderRadius = '24px';
+      container.style.overflow = 'hidden';
+      document.body.appendChild(container);
+
+      // Clone the content and add it to the container
+      const contentClone = contentRef.current.cloneNode(true) as HTMLElement;
+      contentClone.style.width = '550px';
+      contentClone.style.height = 'auto';
+      contentClone.style.position = 'relative';
+      contentClone.style.right = 'auto';
+      contentClone.style.top = 'auto';
+      contentClone.style.borderRadius = '16px';
+      contentClone.style.overflow = 'hidden';
+      contentClone.style.borderLeftColor = '#1e1e1e';
+      container.appendChild(contentClone);
+
+      const style = document.createElement('style');
+      document.head.appendChild(style);
+      style.sheet?.insertRule('body > div:last-child img { display: inline-block; }');
+
+      const canvas = await html2canvas(container, {
+        width: 750,
+        height: 1050,
+        scale: 2, // Higher quality
+        backgroundColor: '#1E1E1E',
+        logging: false,
+      });
+
+      style.remove();
+
+      // Clean up the temporary container
+      document.body.removeChild(container);
+
+      // Create a temporary link to download the image
+      const link = document.createElement('a');
+      link.download = `journeylog-insights-${DateTime.now().toFormat('yyyy-MM-dd')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error('Error exporting image:', error);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <>
       <OnboardingInsights isInsightsOpened={isInsightsOpened} />
@@ -381,12 +444,23 @@ const ArtboardInsights = ({
               "right-[-600px]": !isInsightsOpened,
             }
           )}
+          ref={contentRef}
         >
           <div className="flex justify-between px-7 pt-4 pb-3 sticky top-[-15px] bg-[#1E1E1E] z-[45]">
             <p className="text-[#39d353] text-md bg-[#2c2c2c] px-3 py-2 rounded-[15px] border-[1px] border-[#39d353]">
               {activeTab?.name}
             </p>
-            <Share className="opacity-25 cursor-not-allowed" />
+            <button
+              onClick={handleExport}
+              disabled={isExporting}
+              className="opacity-100 hover:opacity-80 transition-opacity"
+            >
+              {isExporting ? (
+                <Loader className={isExporting ? "animate-spin" : ""} />
+              ) : (
+                <Share />
+              )}
+            </button>
           </div>
 
           <div className="">
@@ -394,25 +468,38 @@ const ArtboardInsights = ({
               key={isInsightsOpened}
               className="inarow flex justify-start w-full overflow-scroll"
             >
-              <motion.li
-              
-                className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 pl-0 text-[#fff] ml-7"
-              >
-                <div className="text-5xl font-bold" style={{
-                  color: daysInARow === 0 ? '#5C5C5C' : 
-                         daysInARow === 1 ? '#246b3e' :
-                         daysInARow === 2 ? '#1e7a3d' :
-                         daysInARow === 3 ? '#1a8a3c' :
-                         daysInARow === 4 ? '#169a3b' :
-                         daysInARow === 5 ? '#12aa3a' :
-                         daysInARow === 6 ? '#0eba39' :
-                         daysInARow === 7 ? '#0aca38' :
-                         daysInARow === 8 ? '#06da37' :
-                         daysInARow === 9 ? '#02ea36' :
-                         daysInARow === 10 ? '#27DE55' :
-                         daysInARow <= 30 ? '#39D353' :
-                         '#4BE351'
-                }}>
+              <motion.li className="flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 pl-0 text-[#fff] ml-7">
+                <div
+                  className="text-5xl font-bold"
+                  style={{
+                    color:
+                      daysInARow === 0
+                        ? "#5C5C5C"
+                        : daysInARow === 1
+                        ? "#246b3e"
+                        : daysInARow === 2
+                        ? "#1e7a3d"
+                        : daysInARow === 3
+                        ? "#1a8a3c"
+                        : daysInARow === 4
+                        ? "#169a3b"
+                        : daysInARow === 5
+                        ? "#12aa3a"
+                        : daysInARow === 6
+                        ? "#0eba39"
+                        : daysInARow === 7
+                        ? "#0aca38"
+                        : daysInARow === 8
+                        ? "#06da37"
+                        : daysInARow === 9
+                        ? "#02ea36"
+                        : daysInARow === 10
+                        ? "#27DE55"
+                        : daysInARow <= 30
+                        ? "#39D353"
+                        : "#4BE351",
+                  }}
+                >
                   {typeof daysInARow === "number" ? (
                     String(daysInARow).padStart(daysInARow === 0 ? 1 : 2, "0")
                   ) : (
@@ -426,10 +513,7 @@ const ArtboardInsights = ({
                   {isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} in a row
                 </span>
               </motion.li>
-              <motion.li
-             
-                className=" flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]"
-              >
+              <motion.li className=" flex justify-center flex-shrink-0 items-center flex-col p-4 py-8 text-[#5C5C5C]">
                 <div className="text-5xl font-bold">
                   {typeof daysWithLogs === "number" ? (
                     isNaN(daysWithLogs) ? (
@@ -451,10 +535,7 @@ const ArtboardInsights = ({
                   {isDaily ? "Days" : isWeekly ? "Weeks" : "Months"} with logs
                 </span>
               </motion.li>
-              <motion.li
-                
-                className=" flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]"
-              >
+              <motion.li className=" flex justify-center items-center flex-shrink-0 flex-col p-4 py-8 text-[#5C5C5C]">
                 <div className="text-5xl font-bold">
                   {frequency ? (
                     isNaN(daysFromTheBeginning) ? (
@@ -563,7 +644,7 @@ const ArtboardInsights = ({
                               }}
                               viewport={{ amount: 1, once: true }}
                               transition={{
-                                delay: (daysWithLogs * index) / 200,
+                                delay: (daysWithLogs * index) / 1000,
                               }}
                               className={classNames(
                                 "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 h-full rounded-lg"
@@ -785,7 +866,7 @@ const ArtboardInsights = ({
                         return (
                           <li
                             key={index}
-                            className={`relative rounded-lg p-[5px] w-full h-[196px] bg-[#3E3E3E] overflow-hidden`}
+                            className={`relative rounded-lg p-[5px] w-full h-[146px] bg-[#3E3E3E] overflow-hidden`}
                           >
                             <span
                               className="absolute top-[10px] z-50 left-0 right-0 w-full text-center opacity-40"
@@ -799,7 +880,7 @@ const ArtboardInsights = ({
                             </span>
                             <motion.div
                               initial={{ height: 0 }}
-                              whileInView={{
+                              animate={{
                                 height: value
                                   ? value > 15
                                     ? "100%"
@@ -812,19 +893,19 @@ const ArtboardInsights = ({
                                     : "0%"
                                   : "0%",
                               }}
-                              viewport={{ amount: 1, once: true }}
-                              transition={{ delay: index / 5 }}
+                              viewport={{ amount: 0.1, once: true }}
+                              transition={{ delay: index / 10 }}
                               className={classNames(
                                 "bg-[#27DE55] absolute w-full bottom-0 left-0 right-0 rounded-lg"
                               )}
                             >
                               <motion.span
                                 initial={{ opacity: 0 }}
-                                whileInView={{
+                                animate={{
                                   opacity: 1,
                                 }}
                                 viewport={{ amount: 0.1, once: true }}
-                                transition={{ delay: index / 5 }}
+                                transition={{ delay: index / 10 }}
                                 className="absolute bottom-[10px] left-0 right-0 m-auto font-black text-[#3E3E3E] w-full text-center"
                               >
                                 {value ? (
