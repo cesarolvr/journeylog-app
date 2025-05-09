@@ -25,7 +25,6 @@ import {
   ChevronRight,
   CircleHelp,
   Copy,
-  Download,
   LogOut,
   Trash,
   User,
@@ -115,6 +114,7 @@ const Editor = ({
   const { username, today, todayNote, getUser } = baseProps;
   const { subscription } = subscriptionInfo;
   const isPro = subscription === "habit_creator";
+  const profilePic = user?.user_metadata?.avatar_url;
 
   // Handlers
   const {
@@ -160,7 +160,7 @@ const Editor = ({
     activeTab,
     supabaseClient,
     setCanShowToast,
-    canShowToast
+    canShowToast,
   });
 
   useEffect(() => {
@@ -198,7 +198,7 @@ const Editor = ({
     setIsReadyToRenderArtboard(false);
     setActiveLog(null);
     const [day, month, year] = date.split("/").map(Number);
-    
+
     const newDate = new CalendarDate(year, month, day);
 
     if (month !== lastMonthLoaded || year !== lastYearLoaded) {
@@ -293,7 +293,6 @@ const Editor = ({
         onOpenModal={onOpen}
         setDefaultPanel={setDefaultPanel}
         handleGoToDate={handleGoToDate}
-       
       />
       <SidebarCloseLayer isOpened={isOpened} setIsOpened={setIsOpened} />
       <Sidebar
@@ -337,16 +336,9 @@ const Editor = ({
           <DropdownMenu
             aria-label="Dynamic Actions"
             disabledKeys={
-              activeLog?.content
-                ? []
-                : ["export", "copy", "delete"]
+              activeLog?.content ? [] : ["export", "copy", "delete"]
             }
             items={[
-              // {
-              //   icon: <Download />,
-              //   key: "export",
-              //   label: "Export log",
-              // },
               {
                 icon: <Copy />,
                 key: "copy",
@@ -357,7 +349,13 @@ const Editor = ({
                 icon: <Trash />,
                 key: "delete",
                 handler: handleLogRemotion,
-                label: `Delete log for ${formatNaturalDate(new Date(dateSelected.year, dateSelected.month - 1, dateSelected.day))}`,
+                label: `Delete log for ${formatNaturalDate(
+                  new Date(
+                    dateSelected.year,
+                    dateSelected.month - 1,
+                    dateSelected.day
+                  )
+                )}`,
               },
             ]}
           >
@@ -413,12 +411,16 @@ const Editor = ({
                         className="text-white cursor-pointer clear-start avatar"
                         name={username}
                         size="md"
+                        src={profilePic}
+                        fallback={username}
                       ></Avatar>
                     </div>
                   ) : (
                     <Avatar
                       className="text-white cursor-pointer clear-start avatar"
+                      src={profilePic}
                       name={username}
+                      fallback={username}
                     />
                   )}
                 </DropdownTrigger>

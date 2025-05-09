@@ -252,7 +252,7 @@ const useEditorHandlers = ({
 
   const getNow = () => DateTime.now().toUTC().toISO();
 
-  const handleLogRemotion = async (shouldResetEditor: any) => {
+  const handleLogRemotion = async (shouldResetEditor: any = false) => {
     const customDate = DateTime.fromJSDate(new Date())
       .set({
         day: dateSelected.day,
