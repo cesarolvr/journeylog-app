@@ -30,7 +30,6 @@ import { EMPTY_STATE } from "../Editor";
 const Sidebar = ({
   isLoading,
   setActiveLog,
-  activeLog,
   isBlocked,
   setIsOpened,
   isOpened,
@@ -52,6 +51,7 @@ const Sidebar = ({
   days = [],
   setDays,
   setCanShowToast,
+  journeyTabs,
 }: any) => {
   const today = DateTime.now().toUTC().toJSDate();
 

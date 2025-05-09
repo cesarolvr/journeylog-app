@@ -27,12 +27,17 @@ const ArtboardInsights = ({
   onOpenModal,
   setDefaultPanel,
   handleGoToDate,
+  journeyTabs,
 }: any) => {
   const [frequency, setFrequency]: any = useState(null);
   const [daysInARow, setDaysInARow]: any = useState(null);
   const [callHeatmap, setCallHeatmap] = useState(null);
   const [isExporting, setIsExporting] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const journeyTitle =
+    journeyTabs?.find((item: any) => item?.id === activeTab?.id)?.name ||
+    activeTab?.name;
 
   // Base methods on custom hook
   const { getDaysInARow, getLastDaysConsistency, getLastDaysDensity } =
@@ -350,40 +355,42 @@ const ArtboardInsights = ({
     setIsExporting(true);
     try {
       // Create a temporary container for centering
-      const container = document.createElement('div');
-      container.style.width = '750px';
-      container.style.height = '1050px';
-      container.style.backgroundColor = '#1E1E1E';
-      container.style.display = 'flex';
-      container.style.alignItems = 'center';
-      container.style.justifyContent = 'center';
-      container.style.position = 'absolute';
-      container.style.left = '-9999px';
-      container.style.borderRadius = '24px';
-      container.style.overflow = 'hidden';
+      const container = document.createElement("div");
+      container.style.width = "750px";
+      container.style.height = "1050px";
+      container.style.backgroundColor = "#1E1E1E";
+      container.style.display = "flex";
+      container.style.alignItems = "center";
+      container.style.justifyContent = "center";
+      container.style.position = "absolute";
+      container.style.left = "-9999px";
+      container.style.borderRadius = "24px";
+      container.style.overflow = "hidden";
       document.body.appendChild(container);
 
       // Clone the content and add it to the container
       const contentClone = contentRef.current.cloneNode(true) as HTMLElement;
-      contentClone.style.width = '550px';
-      contentClone.style.height = 'auto';
-      contentClone.style.position = 'relative';
-      contentClone.style.right = 'auto';
-      contentClone.style.top = 'auto';
-      contentClone.style.borderRadius = '16px';
-      contentClone.style.overflow = 'hidden';
-      contentClone.style.borderLeftColor = '#1e1e1e';
+      contentClone.style.width = "550px";
+      contentClone.style.height = "auto";
+      contentClone.style.position = "relative";
+      contentClone.style.right = "auto";
+      contentClone.style.top = "auto";
+      contentClone.style.borderRadius = "16px";
+      contentClone.style.overflow = "hidden";
+      contentClone.style.borderLeftColor = "#1e1e1e";
       container.appendChild(contentClone);
 
-      const style = document.createElement('style');
+      const style = document.createElement("style");
       document.head.appendChild(style);
-      style.sheet?.insertRule('body > div:last-child img { display: inline-block; }');
+      style.sheet?.insertRule(
+        "body > div:last-child img { display: inline-block; }"
+      );
 
       const canvas = await html2canvas(container, {
         width: 750,
         height: 1050,
         scale: 2, // Higher quality
-        backgroundColor: '#1E1E1E',
+        backgroundColor: "#1E1E1E",
         logging: false,
       });
 
@@ -393,12 +400,14 @@ const ArtboardInsights = ({
       document.body.removeChild(container);
 
       // Create a temporary link to download the image
-      const link = document.createElement('a');
-      link.download = `journeylog-insights-${DateTime.now().toFormat('yyyy-MM-dd')}.png`;
-      link.href = canvas.toDataURL('image/png');
+      const link = document.createElement("a");
+      link.download = `journeylog-insights-${DateTime.now().toFormat(
+        "yyyy-MM-dd"
+      )}.png`;
+      link.href = canvas.toDataURL("image/png");
       link.click();
     } catch (error) {
-      console.error('Error exporting image:', error);
+      console.error("Error exporting image:", error);
     } finally {
       setIsExporting(false);
     }
@@ -448,7 +457,7 @@ const ArtboardInsights = ({
         >
           <div className="flex justify-between px-7 pt-4 pb-3 sticky top-[-15px] bg-[#1E1E1E] z-[45]">
             <p className="text-[#39d353] text-md bg-[#2c2c2c] px-3 py-2 rounded-[15px] border-[1px] border-[#39d353]">
-              {activeTab?.name}
+              {journeyTitle}
             </p>
             <button
               onClick={handleExport}

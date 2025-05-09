@@ -285,6 +285,7 @@ const Editor = ({
       <ArtboardInsights
         setIsInsightsOpened={setIsInsightsOpened}
         isInsightsOpened={isInsightsOpened}
+        journeyTabs={journeyTabs}
         getInsights={getInsights}
         activeTab={activeTab}
         isLoading={isLoading}
