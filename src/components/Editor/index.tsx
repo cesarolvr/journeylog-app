@@ -108,6 +108,8 @@ const Editor = ({
     setSelectedDay,
     isToRunConfetti,
     setIsToRunConfetti,
+    isLoadingData,
+    setIsLoadingData,
   } = states;
 
   // Base props
@@ -161,6 +163,8 @@ const Editor = ({
     supabaseClient,
     setCanShowToast,
     canShowToast,
+    setIsLoadingData,
+    isLoadingData,
   });
 
   useEffect(() => {
@@ -555,7 +559,7 @@ const Editor = ({
                           delay: index / 15,
                         }}
                         key={text}
-                        className="my-3 mr-2 text-left text-sm md:text-lg bg-[#262626] text-[#fff] hover:bg-[#39d353] hover:text-[#171717] rounded-xl py-2 px-3 md:px-6"
+                        className="my-3 mr-2 text-left text-sm md:text-lg bg-[#262626] text-[#fff] hover:bg-[#39d353] hover:text-[#171717] hover:!scale-105 rounded-xl py-2 px-3 md:px-6 transition-all duration-200"
                         onClick={(e) => handleCreateJourney(e, null)}
                       >
                         {text}
@@ -586,7 +590,7 @@ const Editor = ({
                       type="email"
                       name="newjourney"
                       placeholder="🚀  New Journey"
-                      className="mr-3 px-5 w-full mb-4 outline-none md:w-[300px] text-[#fff] placeholder:text-[#fff] text-left placeholder:opacity-50 h-[70px] border-2 border-[#39d353] rounded-2xl text-[20px]"
+                      className="mr-3 px-5 w-full outline-none md:w-[300px] text-[#fff] placeholder:text-[#fff] text-left placeholder:opacity-50 h-[70px] border-2 border-[#39d353] rounded-2xl text-[20px]"
                       onChange={handleJourneyName}
                     />
                     <Button

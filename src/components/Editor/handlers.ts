@@ -32,7 +32,9 @@ const useEditorHandlers = ({
   activeTab,
   supabaseClient,
   setCanShowToast,
-  canShowToast
+  canShowToast,
+  setIsLoadingData,
+  isLoadingData
 }: any) => {
 
   const handleSwitchNotifications = debounce(
@@ -161,6 +163,8 @@ const useEditorHandlers = ({
     idSelected: any,
     isToReorderList: boolean
   ) => {
+    if (isLoadingData) return;
+    setIsLoadingData(true);
     const index = idSelected - 1;
     const activeTab: any =
       journeyTabs.length === 1 ? journeyTabs[0] : journeyTabs[index];
@@ -221,6 +225,7 @@ const useEditorHandlers = ({
     setNotification(notification[0]);
     setIsReadyToRenderArtboard(true);
     setIsChangingTabs(false);
+    setIsLoadingData(false);
   };
 
   const handleJourneyDeletion = debounce(async ({ id }: any) => {
@@ -248,7 +253,7 @@ const useEditorHandlers = ({
         setTheme("dark");
       }
     }
-  }, 500);
+  }, 100);
 
   const getNow = () => DateTime.now().toUTC().toISO();
 
@@ -342,6 +347,10 @@ const useEditorHandlers = ({
   }
 
   const handleLogEdit = async ({ content }: any) => {
+    console.log('handleLogEdit', isLoadingData);
+    if (isLoadingData) return;
+    setIsLoadingData(true);
+    
     const now = getNow();
     const customDate = DateTime.fromJSDate(new Date())
       .set({
@@ -367,6 +376,30 @@ const useEditorHandlers = ({
       .select();
 
     if (data && data[0]) {
+      // AQUI PRO DIA 8 DE MAIO PARA A JORNADA NEW journey, ESTA VOLTANDO 
+    //   [
+    //     {
+    //         "id": "log_4fb1d8b2-8e10-446a-9862-f5c42b643836_5afba32d-bf6a-4dcb-96ff-3c6f9500252e_2025-05-05",
+    //         "created_at": "2025-05-08T20:31:01.322+00:00",
+    //         "updated_at": "2025-05-09T20:31:03.224+00:00",
+    //         "type": "",
+    //         "content": "{\"root\":{\"children\":[{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"fgdbvf\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1,\"textFormat\":0}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}",
+    //         "journey_id": "5afba32d-bf6a-4dcb-96ff-3c6f9500252e",
+    //         "user_id": "4fb1d8b2-8e10-446a-9862-f5c42b643836"
+    //     },
+    //     {
+    //         "id": "log_4fb1d8b2-8e10-446a-9862-f5c42b643836_5afba32d-bf6a-4dcb-96ff-3c6f9500252e_2025-05-08",
+    //         "created_at": "2025-05-08T20:31:01.322+00:00",
+    //         "updated_at": "2025-05-09T21:11:06.601+00:00",
+    //         "type": "",
+    //         "content": "{\"root\":{\"children\":[{\"children\":[{\"detail\":0,\"format\":0,\"mode\":\"normal\",\"style\":\"\",\"text\":\"fgdbvf\",\"type\":\"text\",\"version\":1}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"paragraph\",\"version\":1,\"textFormat\":0}],\"direction\":\"ltr\",\"format\":\"\",\"indent\":0,\"type\":\"root\",\"version\":1}}",
+    //         "journey_id": "5afba32d-bf6a-4dcb-96ff-3c6f9500252e",
+    //         "user_id": "4fb1d8b2-8e10-446a-9862-f5c42b643836"
+    //     }
+    // ]
+    // DEVE TER CRIADO COM CODIGO DO DIA 05 PQ CLIQUEI RAPIDO NO DIA 8
+    // OU FILTRAR O LOGO BATENDO PELO ID DAQUELE OU EVITAR CRIAR ERRADO
+
       setActiveLog(data[0]);
       setCanShowToast(false);
 
@@ -389,6 +422,9 @@ const useEditorHandlers = ({
       if (canShowToast) {
         showLogSuccessToast();
       }
+
+      setIsLoadingData(false);
+
     }
   }
 
@@ -402,10 +438,12 @@ const useEditorHandlers = ({
       handleLogEdit({ content })
     }
 
-  }, 500);
+  }, 280);
 
   const handleJourneyUpdate = debounce(
     async ({ theme, font, frequency }: any) => {
+      if (isLoadingData) return;
+      setIsLoadingData(true);
       await supabaseClient
         .from("journey")
         .update({
@@ -421,11 +459,15 @@ const useEditorHandlers = ({
         font,
         frequency: frequency || activeTab.frequency,
       });
+
+      setIsLoadingData(false);
     },
-    1000
+    280
   );
 
   const handleCreateJourney = debounce(async (e: any, type: any) => {
+    if (isLoadingData) return;
+    setIsLoadingData(true);
     const journeyTitle = type === "input" ? e : e?.target?.textContent;
     await supabaseClient.from("journey").insert({
       name: journeyTitle || "🏆 New journey",
@@ -444,7 +486,9 @@ const useEditorHandlers = ({
         setJourneyTabs([...data]);
       }, 100);
     }
-  }, 500);
+
+    setIsLoadingData(false);
+  }, 280);
 
   const getLogs = async (journeyId: any, dateString: any) => {
     const start = DateTime.fromISO(dateString)
@@ -601,13 +645,13 @@ const useEditorHandlers = ({
 
   const handleCopyToClipboard = async () => {
     if (!activeLog?.content) return;
-    
+
     try {
       const editorState = JSON.parse(activeLog.content);
       const textContent = getEditorTextContent(editorState);
-      
+
       await navigator.clipboard.writeText(textContent);
-      
+
       toast.success('Content copied to clipboard!', {
         position: "top-right",
         autoClose: 2000,

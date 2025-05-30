@@ -40,7 +40,7 @@ const useEditor = ({ user }: any) => {
   const [selectedDay, setSelectedDay] = useState(initialDateSelected);
   const [isToRunConfetti, setIsToRunConfetti] = useState(false);
   const [canShowToast, setCanShowToast] = useState(true);
-
+  const [isLoadingData, setIsLoadingData] = useState(false);
 
   // Props
   const username = user?.user_metadata?.full_name
@@ -76,7 +76,8 @@ const useEditor = ({ user }: any) => {
       notification, setNotification,
       selectedDay, setSelectedDay,
       isToRunConfetti, setIsToRunConfetti,
-      canShowToast, setCanShowToast
+      canShowToast, setCanShowToast,
+      isLoadingData, setIsLoadingData
     },
     fonts: {
       reenie, nunito, cutive
