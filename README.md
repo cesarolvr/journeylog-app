@@ -7,11 +7,8 @@
     <strong>Turn your habits into a diary!</strong>
   </p>
 
-  <!-- TODO: Replace with your YouTube video ID after uploading -->
-  <video width="100%" controls>
-    <source src="https://github.com/cesarolvr/journeylog-app/raw/main/journeylog-product.mov" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+ https://github.com/user-attachments/assets/c3375c8b-09b6-4c7d-ad2c-da3a36a254fa
+
 
   [![Website](https://img.shields.io/badge/Website-journeylog.app-green?style=for-the-badge&logo=vercel)](https://journeylog.app)
 </div>
