@@ -7,6 +7,11 @@
     <strong>Turn your habits into a diary!</strong>
   </p>
 
+  <video width="100%" controls>
+    <source src="/journeylog-product.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
   [![Website](https://img.shields.io/badge/Website-journeylog.app-green?style=for-the-badge&logo=vercel)](https://journeylog.app)
 </div>
 
