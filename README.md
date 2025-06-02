@@ -9,7 +9,7 @@
 
   <!-- TODO: Replace with your YouTube video ID after uploading -->
   <video width="100%" controls>
-    <source src="https://github.com/cesarolvr/journeylog-app/raw/refs/heads/main/journeylog-product.mov" type="video/mp4">
+    <source src="https://github.com/cesarolvr/journeylog-app/raw/main/journeylog-product.mov" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
